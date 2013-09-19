@@ -1,628 +1,1733 @@
 {
   "_id": "Participant Survey-es",
-  "required": false,
   "collection": "question",
-  "type": "group",
   "questions": [
     {
-      "_id": 232,
-      "label": "¿Dónde nació?",
+      "_id": 98,
+      "label": "9. ¿Dónde naciste?",
+      "radio-options": "República Dominicana, Haití, Otro",
       "repeatable": false,
       "required": false,
-      "type": "radio",
-      "radio-options": "República Dominicana, Haití, Otro"
+      "type": "radio"
     },
     {
-      "_id": 622,
-      "label": "Dónde nació - otro",
+      "_id": 100,
+      "label": "9. Dónde naciste - otro",
       "repeatable": false,
       "required": false,
-      "type": "text",
-      "skip_logic": "ResultOfQuestion('Dóndenació') isnt 'Otro'"
+      "skip_logic": "ResultOfQuestion('Dóndenaciste') isnt 'Otro'",
+      "type": "text"
     },
     {
-      "_id": 1121,
-      "label": "¿Tienes un acta de nacimiento dominicana?",
+      "_id": 99,
+      "label": "10. ¿Tienes un acta de nacimiento dominicana?",
+      "radio-options": "Sí, No",
       "repeatable": false,
       "required": false,
-      "radio": "Sí, No"
+      "type": "radio"
     },
     {
-      "_id": 1521,
-      "label": "¿Tienes cedula?",
+      "_id": 101,
+      "label": "¿Tienes cédula?",
+      "radio-options": "Sí, No",
       "repeatable": false,
       "required": false,
-      "type": "radio",
-      "radio-options": "Sí, No"
+      "skip_logic": "",
+      "type": "radio"
     },
     {
-      "_id": 2521,
-      "label": "¿Cuál es tu número de cedula?",
+      "_id": 101,
+      "label": "¿Cuál es tu número de cédula?",
       "repeatable": false,
       "required": false,
-      "type": "text",
-      "skip_logic": "ResultOfQuestion('Tienescedula') isnt 'No'"
+      "skip_logic": "ResultOfQuestion('Tienescédula') isnt 'Sí'",
+      "type": "text"
     },
-    {
-      "_id": 2732,
-      "label": "¿Cuál es tu idioma principal?",
+    { 
+      "_id": 102,
+      "label": "11. ¿Cuál es tu idioma principal?",
+      "radio-options": "Español, Creole, Otro",
       "repeatable": false,
       "required": false,
-      "type": "radio",
-      "radio-options": "Español, Creole, Otro"
+      "type": "radio"
     },
     {
-      "_id": 622322,
-      "label": "Idioma principal - otro",
+      "_id": 103,
+      "label": "11. Idioma principal - Otro",
       "repeatable": false,
       "required": false,
-      "type": "text",
-      "skip_logic": "ResultOfQuestion('Cuálestuidiomaprincipal') isnt 'Otro'"
+      "skip_logic": "ResultOfQuestion('11Cuálestuidiomaprincipal') isnt 'Otro'",
+      "type": "text"
     },
     {
-      "_id": 857,
-      "label": "¿Cuál es tu estado civil?",
+      "_id": 104,
+      "label": "12. ¿Cuál es tu estado civil?",
+      "radio-options": "Soltero(a), Unión Libre, Casado(a), Divorciado(a), Viudo(a)",
       "repeatable": false,
       "required": false,
-      "type": "radio",
-      "radio-options": "Soltero(a), Unión Libre, Casado(a), Divorciado(a), Viudo(a)"
+      "type": "radio"
     },
     {
-      "_id": 8557,
-      "label": "¿Tienes hijos?",
+      "_id": 105,
+      "label": "13. ¿Tienes hijos?",
+      "radio-options": "Sí,No",
       "repeatable": false,
       "required": false,
-      "type": "radio",
-      "radio-options": "Sí,No"
+      "type": "radio"
     },
     {
-      "_id": 85857,
+      "_id": 106,
       "label": "Hijos",
-      "repeatable": false,
-      "required": false,
-      "type": "group",
-      "skip_logic": "ResultOfQuestion('Tieneshijos') isnt 'No'",
       "questions": [
         {
-          "id": 22282,
+          "_id": 107,
           "label": "Fecha de nacimiento",
-          "type": "date",
           "repeatable": false,
-          "required": false
+          "required": false,
+          "type": "date"
         },
         {
-          "id": 5945,
+          "_id": 108,
           "label": "Sexo",
-          "type": "radio",
+          "radio-options": "M,F",
           "repeatable": false,
           "required": false,
-          "radio-options": "M,F"
+          "type": "radio"
         },
         {
-          "id": 6324,
+          "_id": 109,
           "label": "¿Usted y el/la niño/a vive en la misma casa?",
-          "type": "radio",
+          "radio-options": "Sí,No",
           "repeatable": false,
           "required": false,
-          "radio-options": "Sí,No"
+          "type": "radio"
         },
         {
-          "id": 3811,
+          "_id": 110,
           "label": "¿Este niño tiene un acta de nacimiento dominicana?",
-          "type": "radio",
+          "radio-options": "Sí,No",
           "repeatable": false,
           "required": false,
-          "radio-options": "Sí,No"
+          "type": "radio"
         }
-      ]
+      ],
+      "repeatable": true,
+      "required": false,
+      "skip_logic": "ResultOfQuestion('13Tieneshijos') isnt 'Sí'",
+      "type": "group"
     },
     {
-      "_id": 29327,
+      "_id": 107,
       "label": "Educacaión",
       "repeatable": false,
       "required": false,
-      "type": "label",
-      "skip_logic": "ResultOfQuestion('Tieneunadireccióndecorreoelectronico') isnt 'Sí'"
+      "type": "label"
     },
     {
-      "_id": 68457,
-      "label": "¿Sabes leer y escribir?",
+      "_id": 111,
+      "label": "14. ¿Sabes leer y escribir?",
+      "radio-options": "Sí,No",
       "repeatable": false,
       "required": false,
-      "type": "radio",
-      "radio-options": "Sí,No"
+      "type": "radio"
     },
     {
-      "_id": 2128341,
-      "label": "¿Cuál es el nivel educativo más alto que has aprobado?",
+      "_id": 112,
+      "label": "15. ¿Cuál es el nivel educativo más alto que has aprobado?",
+      "radio-options": "Básica, Bachillerato,Universitario,Post grado",
       "repeatable": false,
       "required": false,
-      "type": "radio",
-      "radio-options": "Primaria Bachillerato,Universitario,Post grado",
-      "skip_logic": "ResultOfQuestion('Sabesleeryescribir') isnt 'No'"
+      "skip_logic": "ResultOfQuestion('14Sabesleeryescribir') isnt 'Sí'",
+      "type": "radio"
     },
     {
-      "_id": 2185421,
-      "label": "¿Estas actualmente asistiendo a una escuela o universidad?",
+      "_id": 113,
+      "label": "16. ¿Estas actualmente asistiendo a una escuela o universidad?",
+      "radio-options": "Sí, No",
       "repeatable": false,
       "required": false,
-      "type": "radio",
-      "radio-options": "Sí, No"
+      "skip_logic": "ResultOfQuestion('14Sabesleeryescribir') isnt 'Sí'",
+      "type": "radio"
     },
     {
-      "_id": 215421,
+      "_id": 114,
       "label": "¿Cuál es el nombre de tu escuela o universidad?",
       "repeatable": false,
       "required": false,
-      "type": "text",
-      "skip_logic": "ResultOfQuestion('Estasactualmenteasistiendoaunaescuelaouniversidad') isnt 'No'"
+      "skip_logic": "ResultOfQuestion('16Estasactualmenteasistiendoaunaescuelaouniversidad') isnt 'Sí'",
+      "type": "text"
     },
     {
-      "_id": 212221,
+      "_id": 115,
       "label": "¿Qué grado estas cursando actualmente?",
       "repeatable": false,
       "required": false,
-      "type": "text",
-      "skip_logic": "ResultOfQuestion('Estasactualmenteasistiendoaunaescuelaouniversidad') isnt 'No'"
+      "skip_logic": "ResultOfQuestion('16Estasactualmenteasistiendoaunaescuelaouniversidad') isnt 'Sí'",
+      "type": "text"
     },
     {
-      "_id": 218921,
+      "_id": 116,
       "label": "¿Cuál nivel?",
-      "repeatable": false,
-      "required": false,
-      "type": "radio",
       "radio-options": "Primaria,Bachillerato,Más avanzado",
-      "skip_logic": "ResultOfQuestion('Estasactualmenteasistiendoaunaescuelaouniversidad') isnt 'No'"
-    },
-    {
-      "_id": 212901,
-      "label": "¿En qué tanda estas? ",
       "repeatable": false,
       "required": false,
-      "type": "radio",
+      "skip_logic": "ResultOfQuestion('16Estasactualmenteasistiendoaunaescuelaouniversidad') isnt 'Sí'",
+      "type": "radio"
+    },
+    {
+      "_id": 117,
+      "label": "¿En qué tanda asistes? ",
       "radio-options": "Mañana,Tarde,Noche",
-      "skip_logic": "ResultOfQuestion('Estasactualmenteasistiendoaunaescuelaouniversidad') isnt 'No'"
+      "repeatable": false,
+      "required": false,
+      "skip_logic": "ResultOfQuestion('16Estasactualmenteasistiendoaunaescuelaouniversidad') isnt 'Sí'",
+      "type": "radio"
     },
     {
-      "_id": 212921,
-      "label": "¿Estas actualmente asistiendo a alguno de estos programas?",
+      "_id": 118,
+      "label": "17. ¿Estas actualmente asistiendo a alguno de estos programas?",
+      "questions": [
+        {
+          "_id": 119,
+          "label": "Alfabetización de jóvenes y adultos",
+          "radio-options": "Sí, No",
+          "repeatable": false,
+          "required": false,
+          "type": "radio"
+        },
+        {
+          "_id": 120,
+          "label": "¿Cómo se llama el programa en que estas?",
+          "repeatable": false,
+          "required": false,
+          "skip_logic": "ResultOfQuestion('Alfabetizacióndejóvenesyadultos') isnt 'Sí'",
+          "type": "text"
+        },
+        {
+          "_id": 121,
+          "label": "PREPARA",
+          "radio-options": "Sí, No",
+          "repeatable": false,
+          "required": false,
+          "type": "radio"
+        },
+        {
+          "_id": 122,
+          "label": "PREPARA -   ¿Cuál es el grado más alto que ha completado?",
+          "repeatable": false,
+          "required": false,
+          "skip_logic": "ResultOfQuestion('PREPARA') isnt 'Sí'",
+          "type": "text"
+        },
+        {
+          "_id": 123,
+          "label": "EBA",
+          "radio-options": "Sí, No",
+          "repeatable": false,
+          "required": false,
+          "type": "radio"
+        },
+        {
+          "_id": 124,
+          "label": "EBA - ¿Cuál es el grado más alto que ha completado?",
+          "repeatable": false,
+          "required": false,
+          "skip_logic": "ResultOfQuestion('EBA') isnt 'Sí'",
+          "type": "text"
+        },
+        {
+          "_id": 125,
+          "label": "No estoy inscrito en ninguno de estos",
+          "radio-options": "Sí, No",
+          "repeatable": false,
+          "required": false,
+          "type": "radio"
+        }
+      ],
+      "repeatable": false,
+      "required": false,
+      "type": "group"
+    },
+    {
+      "_id": 126,
+      "label": "18. ¿Has repetido un curso en la escuela?",
+      "radio-options": "Sí, No",
+      "repeatable": false,
+      "required": false,
+      "type": "radio"
+    },
+    {
+      "_id": 127,
+      "label": "18A ¿Cuál(es) curso(s)?",
+      "repeatable": false,
+      "required": false,
+      "skip_logic": "ResultOfQuestion('180Hasrepetidouncursoenlaescuela') isnt 'Sí'",
+      "type": "text"
+    },
+    {
+      "_id": 128,
+      "label": "19. En el último año, ¿cuántas veces has faltado a la escuela por un día completo sin excusa (ejemplo: por enfermedad o vacaciones)?",
+      "radio-options": "0, 1 o 2, 3 a 10, Más de 10",
+      "repeatable": false,
+      "required": false,
+      "type": "radio"
+    },
+    {
+      "_id": 129,
+      "label": "20. En los últimos 12 meses, ¿has sido suspendido/a de la escuela?",
+      "radio-options": "Sí, No",
+      "repeatable": false,
+      "required": false,
+      "type": "radio"
+    },
+    {
+      "_id": 130,
+      "label": "21. ¿Has completado algún curso técnico?",
+      "radio-options": "Sí, No",
+      "repeatable": false,
+      "required": false,
+      "type": "radio"
+    },
+    {
+      "_id": 131,
+      "label": "21A. ¿Cuál(es) curso(s)?",
+      "repeatable": false,
+      "required": false,
+      "skip_logic": "ResultOfQuestion('Hascompletadoalgúncursotécnico') isnt 'No'",
+      "type": "text"
+    },
+    {
+      "_id": 132,
+      "label": "22. Actualmente te dedicas a",
+      "radio-options": "Estudiar y trabajar, Solo estudiar, Solo trabajar, No estudio y no trabajo",
+      "repeatable": false,
+      "required": false,
+      "type": "radio"
+    },
+    {
+      "_id": 133,
+      "label": "23. ¿Ha sido suspendido/a de la escuela?",
+      "radio-options": "Sí, No",
+      "repeatable": false,
+      "required": false,
+      "type": "radio"
+    },
+    {
+      "_id": 134,
+      "hint": "Marca todo lo que corresponda",
+      "label": "24. Con respecto a tu educación ¿qué te gustaría lograr en el futuro?",
       "repeatable": false,
       "required": false,
       "type": "label"
     },
     {
-      "_id": 216621,
-      "label": "Alfabetización de jóvenes y adultos",
-      "repeatable": false,
-      "required": false,
-      "type": "radio",
-      "radio-options": "Sí, No"
-    },
-    {
-      "_id": 213121,
-      "label": "¿Cómo se llama el programa en que estas?",
-      "repeatable": false,
-      "required": false,
-      "type": "text",
-      "skip_logic": "ResultOfQuestion('Alfabetizacióndejóvenesyadultos') isnt 'No'"
-    },
-    {
-      "_id": 2122271,
-      "label": "PREPARA",
-      "repeatable": false,
-      "required": false,
-      "type": "radio",
-      "radio-options": "Sí, No"
-    },
-    {
-      "_id": 7672121,
-      "label": "¿Cuál es el nivel más alto que ha completado?",
-      "repeatable": false,
-      "required": false,
-      "type": "text",
-      "skip_logic": "ResultOfQuestion('PREPARA') isnt 'No'"
-    },
-    {
-      "_id": 872121,
-      "label": "EBA",
-      "repeatable": false,
-      "required": false,
-      "type": "radio",
-      "radio-options": "Sí, No"
-    },
-    {
-      "_id": 298121,
-      "label": "¿Cuál es el nivel más alto que ha completado?",
-      "repeatable": false,
-      "required": false,
-      "type": "text",
-      "skip_logic": "ResultOfQuestion('EBA') isnt 'No'"
-    },
-    {
-      "_id": 632345134,
-      "label": "No estoy inscrito en ninguno de estos",
-      "repeatable": false,
-      "required": false,
-      "type": "radio",
-      "radio-options": "Sí, No"
-    },
-    {
-      "_id": 43613463,
-      "label": "¿Has repetido un curso en la escuela?",
-      "repeatable": false,
-      "required": false,
-      "type": "radio",
-      "radio-options": "Sí, No"
-    },
-    {
-      "_id": 234234234,
-      "label": "¿cuál (es) grado(s)?",
-      "repeatable": false,
-      "required": false,
-      "type": "text",
-      "skip_logic": "ResultOfQuestion('Hasrepetidouncursoenlaescuela') isnt 'No'"
-    },
-    {
-      "_id": 754656456,
-      "label": "En el último año, ¿cuántas veces has faltado a la escuela por un día completo sin excusa (p. ej., enfermedad o vacaciones)?",
-      "repeatable": false,
-      "required": false,
-      "type": "radio",
-      "radio-options": "0, 1 o 2, 3 a 10, Más de 10"
-    },
-    {
-      "_id": 867856747,
-      "label": "En los últimos 12 meses, ¿has sido suspendido de la escuela?",
-      "repeatable": false,
-      "required": false,
-      "type": "radio",
-      "radio-options": "Sí, No"
-    },
-    {
-      "_id": 213213121,
-      "label": "¿Has completado algún curso técnico?",
-      "repeatable": false,
-      "required": false,
-      "type": "radio",
-      "radio-options": "Sí, No"
-    },
-    {
-      "_id": 67898233,
-      "label": "¿Cuáles cursos tecnicos?",
-      "repeatable": false,
-      "required": false,
-      "type": "text",
-      "skip_logic": "ResultOfQuestion('Hascompletadoalgúncursotécnico') isnt 'No'"
-    },
-    {
-      "_id": 6534564526,
-      "label": "Actualmente te dedicas a",
-      "repeatable": false,
-      "required": false,
-      "type": "radio",
-      "radio-options": "Estudiar y trabajar, Solo estudiar, Solo trabajar, No estudio y no trabajo"
-    },
-    {
-      "_id": 56245625,
-      "label": "¿Ha sido suspendido de la escuela?",
-      "repeatable": false,
-      "required": false,
-      "type": "radio",
-      "radio-options": "Sí, No"
-    },
-    {
-      "_id": 85345,
-      "label": "Con respecto a tu educación ¿qué te gustaría lograr en el futuro? Marque todo lo que corresponda.",
-      "repeatable": false,
-      "required": false,
-      "type": "label"
-    },
-    {
-      "_id": 456286,
+      "_id": 135,
       "label": "Me gustaría leer mejor.",
       "repeatable": false,
       "required": false,
       "type": "checkbox"
     },
     {
-      "_id": 56756,
+      "_id": 136,
       "label": "Me gustaría mejorar en matemáticas.",
       "repeatable": false,
       "required": false,
       "type": "checkbox"
     },
     {
-      "_id": 53417,
+      "_id": 137,
       "label": "Me gustaría mejorar en ciencias.",
       "repeatable": false,
       "required": false,
       "type": "checkbox"
     },
     {
-      "_id": 9876564,
+      "_id": 138,
       "label": "Me gustaría estar en la escuela.",
       "repeatable": false,
       "required": false,
       "type": "checkbox"
     },
     {
-      "_id": 4234,
+      "_id": 139,
       "label": "Me gustaría hablar mejor el español.",
       "repeatable": false,
       "required": false,
       "type": "checkbox"
     },
     {
-      "_id": 123431,
+      "_id": 140,
       "label": "Me gustaría hablar el inglés mejor.",
       "repeatable": false,
       "required": false,
       "type": "checkbox"
     },
     {
-      "_id": 219821,
+      "_id": 141,
       "label": "Me gustaría saber más acerca de empleos.",
       "repeatable": false,
       "required": false,
       "type": "checkbox"
     },
     {
-      "_id": 2156121,
+      "_id": 142,
       "label": "Me gustaría terminar la primaria.",
       "repeatable": false,
       "required": false,
       "type": "checkbox"
     },
     {
-      "_id": 282121,
+      "_id": 143,
       "label": "Me gustaría terminar el bachillerato.",
       "repeatable": false,
       "required": false,
       "type": "checkbox"
     },
     {
-      "_id": 234121,
+      "_id": 144,
       "label": "Me gustaría ir a la Universidad.",
       "repeatable": false,
       "required": false,
       "type": "checkbox"
     },
     {
-      "_id": 2876121,
+      "_id": 145,
       "label": "Me gustaría llevarme mejor con mis maestros.",
       "repeatable": false,
       "required": false,
       "type": "checkbox"
     },
     {
-      "_id": 54372121,
+      "_id": 146,
       "label": "Me gustaría sentirme más seguro en la escuela.",
       "repeatable": false,
       "required": false,
       "type": "checkbox"
     },
     {
-      "_id": 6342121,
+      "_id": 147,
       "label": "Me gustaría mejorar mis calificaciones.",
       "repeatable": false,
       "required": false,
       "type": "checkbox"
     },
     {
-      "_id": 52372121,
+      "_id": 148,
       "label": "No tengo ninguna meta.",
       "repeatable": false,
       "required": false,
       "type": "checkbox"
     },
     {
-      "_id": 6542121,
-      "label": "Otra meta",
+      "_id": 149,
+      "label": "Otras metas",
       "repeatable": false,
       "required": false,
       "type": "text"
     },
     {
-      "_id": 2152821,
+      "_id": 150,
       "label": "Pensando en como ves tu futuro, marca en la casilla según la probabilidad que crees que tienes de que.",
       "repeatable": false,
       "required": false,
       "type": "label"
     },
     {
-      "_id": 7272121,
+      "_id": 151,
       "label": "¿Terminarás el nivel primario?",
+      "radio-options": "Muy poco posible, Poco posible, Más o menos posible, Posible, Muy posible",
       "repeatable": false,
       "required": false,
-      "type": "radio",
-      "radio-options": "Muy poco probable, Poco probable, Más o menos probable, Probable, Muy probable"
+      "type": "radio"
     },
     {
-      "_id": 9982121,
+      "_id": 152,
       "label": "¿Terminarás el bachillerato?",
+      "radio-options": "Muy poco posible, Poco posible, Más o menos posible, Posible, Muy posible",
       "repeatable": false,
       "required": false,
-      "type": "radio",
-      "radio-options": "Muy poco probable, Poco probable, Más o menos probable, Probable, Muy probable"
+      "type": "radio"
     },
     {
-      "_id": 6452121,
-      "label": "¿Iras a la universidad?",
+      "_id": 153,
+      "label": "Irás a la universidad?",
+      "radio-options": "Muy poco posible, Poco posible, Más o menos posible, Posible, Muy posible",
       "repeatable": false,
       "required": false,
-      "type": "radio",
-      "radio-options": "Muy poco probable, Poco probable, Más o menos probable, Probable, Muy probable"
+      "type": "radio"
     },
     {
-      "_id": 6542121,
+      "_id": 154,
       "label": "¿Tendrás un trabajo?",
+      "radio-options": "Muy poco posible, Poco posible, Más o menos posible, Posible, Muy posible",
       "repeatable": false,
       "required": false,
-      "type": "radio",
-      "radio-options": "Muy poco probable, Poco probable, Más o menos probable, Probable, Muy probable"
+      "type": "radio"
     },
     {
-      "_id": 4562121,
+      "_id": 155,
       "label": "¿Tendrás un trabajo que paga bien?",
+      "radio-options": "Muy poco posible, Poco posible, Más o menos posible, Posible, Muy posible",
       "repeatable": false,
       "required": false,
-      "type": "radio",
-      "radio-options": "Muy poco probable, Poco probable, Más o menos probable, Probable, Muy probable"
+      "type": "radio"
     },
     {
-      "_id": 3632121,
+      "_id": 156,
       "label": "¿Tendrás un trabajo que te gusta?",
+      "radio-options": "Muy poco posible, Poco posible, Más o menos posible, Posible, Muy posible",
       "repeatable": false,
       "required": false,
-      "type": "radio",
-      "radio-options": "Muy poco probable, Poco probable, Más o menos probable, Probable, Muy probable"
+      "type": "radio"
     },
     {
-      "_id": 86532121,
+      "_id": 157,
       "label": "¿Tendrás un hogar propio?",
+      "radio-options": "Muy poco posible, Poco posible, Más o menos posible, Posible, Muy posible",
       "repeatable": false,
       "required": false,
-      "type": "radio",
-      "radio-options": "Muy poco probable, Poco probable, Más o menos probable, Probable, Muy probable"
+      "type": "radio"
     },
     {
-      "_id": 7772121,
+      "_id": 158,
       "label": "¿Tendrás una vida familiar feliz?",
+      "radio-options": "Muy poco posible, Poco posible, Más o menos posible, Posible, Muy posible",
       "repeatable": false,
       "required": false,
-      "type": "radio",
-      "radio-options": "Muy poco probable, Poco probable, Más o menos probable, Probable, Muy probable"
+      "type": "radio"
     },
     {
-      "_id": 322121,
+      "_id": 159,
       "label": "¿Tu vida resultará mejor que la de tus padres?",
+      "radio-options": "Muy poco posible, Poco posible, Más o menos posible, Posible, Muy posible",
       "repeatable": false,
       "required": false,
-      "type": "radio",
-      "radio-options": "Muy poco probable, Poco probable, Más o menos probable, Probable, Muy probable"
+      "type": "radio"
     },
     {
-      "_id": 5382121,
+      "_id": 160,
       "label": "¿Tus hijos tendrán una vida mejor que la tuya?",
+      "radio-options": "Muy poco posible, Poco posible, Más o menos posible, Posible, Muy posible",
       "repeatable": false,
       "required": false,
-      "type": "radio",
-      "radio-options": "Muy poco probable, Poco probable, Más o menos probable, Probable, Muy probable"
+      "type": "radio"
     },
     {
-      "_id": 8652121,
+      "_id": 161,
       "label": "¿Serás respetado en tu comunidad?",
+      "radio-options": "Muy poco posible, Poco posible, Más o menos posible, Posible, Muy posible",
       "repeatable": false,
       "required": false,
-      "type": "radio",
-      "radio-options": "Muy poco probable, Poco probable, Más o menos probable, Probable, Muy probable"
+      "type": "radio"
     },
     {
-      "_id": 182121,
+      "_id": 162,
       "label": "¿Tendrás un buen estado de salud?",
+      "radio-options": "Muy poco posible, Poco posible, Más o menos posible, Posible, Muy posible",
       "repeatable": false,
       "required": false,
-      "type": "radio",
-      "radio-options": "Muy poco probable, Poco probable, Más o menos probable, Probable, Muy probable"
+      "type": "radio"
     },
     {
-      "_id": 21434321,
+      "_id": 163,
       "label": "¿Podrás vivir en cualquier lugar que desees de este país?",
+      "radio-options": "Muy poco posible, Poco posible, Más o menos posible, Posible, Muy posible",
       "repeatable": false,
       "required": false,
-      "type": "radio",
-      "radio-options": "Muy poco probable, Poco probable, Más o menos probable, Probable, Muy probable"
+      "type": "radio"
     },
     {
-      "_id": 2125331,
+      "_id": 164,
       "label": "¿Tú y tu familia vivirán en una comunidad sin violencia?",
+      "radio-options": "Muy poco posible, Poco posible, Más o menos posible, Posible, Muy posible",
       "repeatable": false,
       "required": false,
-      "type": "radio",
-      "radio-options": "Muy poco probable, Poco probable, Más o menos probable, Probable, Muy probable"
+      "type": "radio"
     },
     {
-      "_id": 222,
-      "duplicate-check": true,
-      "label": "¿Has realizado alguna vez un trabajo por paga o ganancia?",
+      "_id": 1651,
+      "label": "Experiencia Laboral",
       "repeatable": false,
-      "required": true,
+      "required": false,
+      "type": "label"
+    },
+    {
+      "_id": 165,
+      "label": "26. ¿Has realizado alguna vez un trabajo por paga o ganancia?",
+      "radio-options": "Sí, No",
+      "repeatable": false,
+      "required": false,
+      "type": "radio"
+    },
+    {
+      "_id": 166,
+      "label": "27. Durante la última semana, ¿realizaste algún trabajo por paga o ganancia?",
+      "radio-options": "Sí, No",
+      "repeatable": false,
+      "required": false,
+      "skip_logic": "ResultOfQuestion('26Hasrealizadoalgunavezuntrabajoporpagaoganancia') isnt 'Sí'",
+      "type": "radio"
+    },
+    {
+      "_id": 167,
+      "label": "27.1 Describe lo que haces en el trabajo actual: ",
+      "repeatable": false,
+      "required": false,
+      "skip_logic": "ResultOfQuestion('27Durantelaúltimasemanarealizastealgúntrabajoporpagaoganancia') isnt 'Sí'",
       "type": "text"
     },
     {
-      "_id": 222,
-      "duplicate-check": true,
-      "label": "Durante la última semana, ¿realizaste algún trabajo por paga o ganancia? ",
+      "_id": 168,
+      "label": "28. ¿Cuándo comenzaste en el trabajo actual? ",
+      "questions": [
+        {
+          "_id": 168,
+          "autocomplete-options": "enero,febrero,marzo,abril,mayo,junio,julio,agosto,septiembre,octubre,noviembre,diciembre",
+          "label": "Mes",
+          "repeatable": false,
+          "required": false,
+          "type": "autocomplete from list"
+        },
+        {
+          "_id": 168,
+          "label": "Año",
+          "repeatable": false,
+          "required": false,
+          "type": "number",
+          "validation": "return \"Año debe ser 4 digitos.\" if value.toString().length != 4"
+        }
+      ],
       "repeatable": false,
-      "required": true,
+      "required": false,
+      "skip_logic": "ResultOfQuestion('26Hasrealizadoalgunavezuntrabajoporpagaoganancia') isnt 'Sí'",
+      "type": "group"
+    },
+    {
+      "_id": 169,
+      "label": "29. ¿En qué lugar realizas este trabajo?",
+      "radio-options": "En mi casa,En la casa del jefe/patrón,En la calle,Maquiladora/fabrica,Colmado/Tienda/Mercado/Kiosco/Almacén,Plantación/rancho/jardín,Sitio de construcción,Sitio de cantera/una mina,Otros",
+      "repeatable": false,
+      "required": false,
+      "skip_logic": "ResultOfQuestion('26Hasrealizadoalgunavezuntrabajoporpagaoganancia') isnt 'Sí'",
+      "type": "radio"
+    },
+    {
+      "_id": 1691,
+      "label": "29. ¿En qué lugar? - Otros",
+      "repeatable": false,
+      "required": false,
+      "skip_logic": "ResultOfQuestion('29Enquélugarrealizasestetrabajo') isnt 'Otros'",
       "type": "text"
     },
     {
-      "_id": 222,
-      "duplicate-check": true,
-      "label": "1 Describe lo que haces en el trabajo actual: ",
+      "_id": 170,
+      "label": "30. ¿Cuántas horas trabajas en un día?",
       "repeatable": false,
-      "required": true,
+      "required": false,
+      "skip_logic": "ResultOfQuestion('26Hasrealizadoalgunavezuntrabajoporpagaoganancia') isnt 'Sí'",
+      "type": "number"
+    },
+    {
+      "_id": 171,
+      "label": "31. ¿Cuántos días trabajas en una semana?",
+      "repeatable": false,
+      "required": false,
+      "skip_logic": "ResultOfQuestion('26Hasrealizadoalgunavezuntrabajoporpagaoganancia') isnt 'Sí'",
+      "type": "number"
+    },
+    {
+      "_id": 172,
+      "label": "32. En promedio, ¿cuánto ganas en una semana?",
+      "repeatable": false,
+      "required": false,
+      "skip_logic": "ResultOfQuestion('26Hasrealizadoalgunavezuntrabajoporpagaoganancia') isnt 'Sí'",
       "type": "text"
     },
     {
-      "_id": 222,
-      "duplicate-check": true,
-      "label": "¿Cuándo comenzaste en el trabajo actual? ",
+      "_id": 173,
+      "label": "33. ¿En este trabajo tú eres...?",
+      "radio-options": "Empleado con salario, Jefe, Ayudante familiar, Ayudante general, Por cuenta propia, Otro",
       "repeatable": false,
-      "required": true,
+      "required": false,
+      "skip_logic": "ResultOfQuestion('26Hasrealizadoalgunavezuntrabajoporpagaoganancia') isnt 'Sí'",
+      "type": "radio"
+    },
+    {
+      "_id": 174,
+      "label": "33. Otro - Tú eres...",
+      "repeatable": false,
+      "required": false,
+      "skip_logic": "ResultOfQuestion('Enestetrabajotúeres') isnt 'Otro'",
       "type": "text"
     },
     {
-      "_id": 222,
-      "duplicate-check": true,
-      "label": "¿En qué lugar realizas este trabajo?",
+      "_id": 175,
+      "label": "34. Actualmente, ¿realizas algún trabajo en el que no se te paga o no recibes ganancia?",
+      "radio-options": "Sí, No",
       "repeatable": false,
-      "required": true,
-      "type": "text"
+      "required": false,
+      "type": "radio"
     },
     {
-      "_id": 222,
-      "duplicate-check": true,
-      "label": "¿Cuántas horas trabajas  en un día?",
-      "repeatable": false,
-      "required": true,
-      "type": "text"
-    },
-    {
-      "_id": 222,
-      "duplicate-check": true,
-      "label": "En promedio, ¿cuánto ganas en una semana?",
-      "repeatable": false,
-      "required": true,
-      "type": "text"
-    },
-    {
-      "_id": 222,
-      "duplicate-check": true,
-      "label": "En promedio, ¿cuánto ganas en una semana?",
-      "repeatable": false,
-      "required": true,
-      "type": "text"
-    },
-    {
-      "_id": 222,
-      "duplicate-check": true,
-      "label": "Actualmente, realizas algún trabajo en el que no se te paga o no recibes ganancia?",
-      "repeatable": false,
-      "required": true,
-      "type": "text"
-    },
-    {
-      "_id": 222,
-      "duplicate-check": true,
+      "_id": 176,
       "label": "Describe lo que haces en este trabajo",
       "repeatable": false,
-      "required": true,
+      "required": false,
+      "skip_logic": "ResultOfQuestion('34Actualmenterealizasalgúntrabajoenelquenosetepagaonorecibesganancia') isnt 'Sí'",
       "type": "text"
     },
     {
-      "_id": 446,
+      "_id": 168,
+      "label": "35. ¿Cuándo comenzaste a trabajar en este trabajo?",
+      "questions": [
+        {
+          "_id": 168,
+          "autocomplete-options": "enero,febrero,marzo,abril,mayo,junio,julio,agosto,septiembre,octubre,noviembre,diciembre",
+          "label": "Mes",
+          "repeatable": false,
+          "required": false,
+          "type": "autocomplete from list"
+        },
+        {
+          "_id": 168,
+          "label": "Año",
+          "repeatable": false,
+          "required": false,
+          "type": "number",
+          "validation": "return \"Año debe ser 4 digitos.\" if value.toString().length != 4"
+        }
+      ],
+      "repeatable": false,
+      "required": false,
+      "skip_logic": "ResultOfQuestion('34Actualmenterealizasalgúntrabajoenelquenosetepagaonorecibesganancia') isnt 'Sí'",
+      "type": "group"
+    },
+    {
+      "_id": 179,
+      "label": "36. ¿En qué lugar realizas este trabajo?",
+      "radio-options": "En mi casa,En la casa del jefe/patrón,En la calle,Maquiladora/fabrica,Colmado/Tienda/Mercado/Kiosco/Almacén, Plantación/rancho/jardín,Sitio de construcción,Sitio de cantera/una mina, Otros",
+      "repeatable": false,
+      "required": false,
+      "skip_logic": "ResultOfQuestion('34Actualmenterealizasalgúntrabajoenelquenosetepagaonorecibesganancia') isnt 'Sí'",
+      "type": "radio"
+    },
+    {
+      "_id": 180,
+      "label": "36. ¿En qué lugar realizas este trabajo? - Otros",
+      "repeatable": false,
+      "required": false,
+      "skip_logic": "ResultOfQuestion('Enquélugarrealizasestetrabajo') isnt 'Otros'",
+      "type": "text"
+    },
+    {
+      "_id": 181,
+      "label": "37. ¿Cuántas horas trabajas en un día?",
+      "repeatable": false,
+      "required": false,
+      "skip_logic": "ResultOfQuestion('34Actualmenterealizasalgúntrabajoenelquenosetepagaonorecibesganancia') isnt 'Sí'",
+      "type": "number"
+    },
+    {
+      "_id": 182,
+      "label": "38. ¿Cuántos días trabajas en una semana?",
+      "repeatable": false,
+      "required": false,
+      "skip_logic": "ResultOfQuestion('34Actualmenterealizasalgúntrabajoenelquenosetepagaonorecibesganancia') isnt 'Sí'",
+      "type": "number"
+    },
+    {
+      "_id": 183,
+      "label": "39. ¿En este trabajo tú eres...?",
+      "radio-options": "Empleado sin salario, Jefe, Ayudante familiar, Ayudante general, Por cuenta propia, Otro",
+      "repeatable": false,
+      "required": false,
+      "skip_logic": "ResultOfQuestion('34Actualmenterealizasalgúntrabajoenelquenosetepagaonorecibesganancia') isnt 'Sí'",
+      "type": "radio-options"
+    },
+    {
+      "_id": 184,
+      "label": "39. ¿En este trabajo tú eres...? - Otro",
+      "repeatable": false,
+      "required": false,
+      "skip_logic": "ResultOfQuestion('39Enestetrabajotúeres') isnt 'Otro'",
+      "type": "text"
+    },
+    {
+      "_id": 185,
+      "label": "40. ¿Has buscado un nuevo o mejor empleo en el último mes?",
+      "radio-options": "Sí, No",
+      "repeatable": false,
+      "required": false,
+      "type": "radio"
+    },
+    {
+      "_id": 186,
+      "label": "41. ¿Has obtenido un empleo nuevo o mejor en el último mes?",
+      "radio-options": "Sí, No",
+      "repeatable": false,
+      "required": false,
+      "type": "radio"
+    },
+    {
+      "_id": 187,
+      "hint": "(ejemplo: Juventud y Empleo, Programa de Parcelas)",
+      "label": "42. ¿Has participado en algún programa de desarrollo de empleo?",
+      "radio-options": "Sí, No",
+      "repeatable": false,
+      "required": false,
+      "type": "radio"
+    },
+    {
+      "_id": 188,
+      "label": "Seguridad Personal",
+      "repeatable": false,
+      "required": false,
+      "type": "label"
+    },
+    {
+      "_id": 189,
+      "label": "43. ¿Con que frecuencia te preocupa ser víctima de la delincuencia en tu barrio?",
+      "radio-options": "Muy a menudo, Algo a menudo, Rara vez, Nunca, No Sé",
+      "repeatable": false,
+      "required": false,
+      "type": "radio"
+    },
+    {
+      "_id": 190,
+      "label": "44. ¿Con que frecuencia te preocupa ser víctima de la delincuencia en tu escuela o universidad?",
+      "radio-options": "Muy a menudo, Algo a menudo, Rara vez, Nunca, No Sé",
+      "repeatable": false,
+      "required": false,
+      "type": "radio"
+    },
+    {
+      "_id": 191,
+      "hint": "En una puntuación de 1 al 10, donde 1 es NINGUN IMPACTO Y 10 es TOTAL IMPACTO.",
+      "label": "45. ¿En qué medida tu vida ha sido afectada por la delincuencia?",
+      "repeatable": false,
+      "required": false,
+      "type": "number",
+      "validation": "return \"El numero debe ser de 1 al 10.\" if 1 <= parseInt(value) <= 10"
+    },
+    {
+      "_id": 192,
+      "label": "46. En tu opinión, ¿la delincuencia es un problema grave en tu barrio?",
+      "radio-options": "Sí, No",
+      "repeatable": false,
+      "required": false,
+      "type": "radio"
+    },
+    {
+      "_id": 193,
+      "label": "47. ¿Te preocupa la presencia de pandillas en tu barrio?",
+      "radio-options": "Muy a menudo, Algo a menudo, Rara vez, Nunca, No Sé",
+      "repeatable": false,
+      "required": false,
+      "type": "radio"
+    },
+    {
+      "_id": 194,
+      "label": "48. La preocupación por la delincuencia o crimen, ¿te impide realizar las cosas que deseas hacer en tu barrio?",
+      "radio-options": "Muy a menudo, Algo a menudo, Rara vez, Nunca, No Sé",
+      "repeatable": false,
+      "required": false,
+      "type": "radio"
+    },
+    {
+      "_id": 195,
+      "label": "49. ¿Has tenido alguna vez una o varias de las siguientes experiencias con la policía?",
+      "questions": [
+        {
+          "_id": 196,
+          "label": "Un policía me amenazó verbalmente.",
+          "radio-options": "Sí, No",
+          "repeatable": false,
+          "required": false,
+          "type": "radio"
+        },
+        {
+          "_id": 197,
+          "label": "Un policía me cobró dinero sin justificación.",
+          "radio-options": "Sí, No",
+          "repeatable": false,
+          "required": false,
+          "type": "radio"
+        },
+        {
+          "_id": 198,
+          "label": "Un policía tomó algo que pertenecía a mí.",
+          "radio-options": "Sí, No",
+          "repeatable": false,
+          "required": false,
+          "type": "radio"
+        },
+        {
+          "_id": 199,
+          "label": "Un policía me maltrató físicamente.",
+          "radio-options": "Sí, No",
+          "repeatable": false,
+          "required": false,
+          "type": "radio"
+        },
+        {
+          "_id": 200,
+          "label": "Un policía me acosó sexualmente.",
+          "radio-options": "Sí, No",
+          "repeatable": false,
+          "required": false,
+          "type": "radio"
+        }
+      ],
+      "repeatable": false,
+      "required": false,
+      "type": "group"
+    },
+    {
+      "_id": 201,
+      "hint": "Y recuerda que: tus respuestas son confidenciales y con esto queremos dar mejores servicios para proteger a los jóvenes.",
+      "label": "A partir de aquí, quisiéramos conocer acerca de tus experiencias personales en el hogar, en la escuela y en tu barrio con la delincuencia y crimen. También conocer qué opinas sobre la salud sexual y consumo de drogas. ",
+      "repeatable": false,
+      "required": false,
+      "type": "label"
+    },
+    {
+      "_id": 202,
+      "label": "50. ¿Has sido transportado en una patrulla policial por una redada o por sospecha de la policía hacia ti?",
+      "radio-options": "Sí, No",
+      "repeatable": false,
+      "required": false,
+      "type": "radio"
+    },
+    {
+      "_id": 203,
+      "label": "51. ¿Has sido detenido por la policía por cualquier motivo?",
+      "radio-options": "Sí, No",
+      "repeatable": false,
+      "required": false,
+      "type": "radio"
+    },
+    {
+      "_id": 204,
+      "label": "51A. ¿Sucedió esto en los últimos 12 meses?",
+      "radio-options": "Sí, No",
+      "repeatable": false,
+      "required": false,
+      "skip_logic": "ResultOfQuestion('51Hassidodetenidoporlapolicíaporcualquiermotivo') isnt 'Sí'",
+      "type": "radio"
+    },
+    {
+      "_id": 205,
+      "label": "52. ¿Has sido detenido por la Policía acusado de cometer algún delito?",
+      "radio-options": "Sí, No",
+      "repeatable": false,
+      "required": false,
+      "type": "radio"
+    },
+    {
+      "_id": 206,
+      "label": "52A. ¿Sucedió esto en los últimos 12 meses?",
+      "radio-options": "Sí, No",
+      "repeatable": false,
+      "required": false,
+      "skip_logic": "ResultOfQuestion('52HassidodetenidoporlaPolicíaacusadodecometeralgúndelito') isnt 'Sí'",
+      "type": "radio"
+    },
+    {
+      "_id": 207,
+      "label": "53. Alguno de tus amigos ¿ha sido detenido alguna vez por la Policía?",
+      "radio-options": "Sí, No",
+      "repeatable": false,
+      "required": false,
+      "type": "radio"
+    },
+    {
+      "_id": 208,
+      "label": "53A. ¿Sucedió esto en los últimos 12 meses?",
+      "radio-options": "Sí, No",
+      "repeatable": false,
+      "required": false,
+      "skip_logic": "ResultOfQuestion('53AlgunodetusamigoshasidodetenidoalgunavezporlaPolicía') isnt 'Sí'",
+      "type": "radio"
+    },
+    {
+      "_id": 209,
+      "label": "54. En los últimos 12 meses, ¿has tomado algo de una tienda sin pagar por ella?",
+      "radio-options": "Sí, No",
+      "repeatable": false,
+      "required": false,
+      "type": "radio"
+    },
+    {
+      "_id": 210,
+      "label": "55. En los últimos 12 meses, ¿has participado en alguna pelea o riña?",
+      "radio-options": "Sí, No",
+      "repeatable": false,
+      "required": false,
+      "type": "radio"
+    },
+    {
+      "_id": 211,
+      "label": "56. En los últimos 12 meses, ¿has llevado un cuchillo, puñal o machete?",
+      "radio-options": "Sí, No",
+      "repeatable": false,
+      "required": false,
+      "type": "radio"
+    },
+    {
+      "_id": 212,
+      "label": "56A. ¿En cuál(es) lugar(es) pasó?",
+      "radio-options": "Casa, Escuela, Barrio",
+      "repeatable": false,
+      "required": false,
+      "skip_logic": "ResultOfQuestion('56Enlosúltimos12meseshasllevadouncuchillo,puñalomachete') isnt 'Sí'",
+      "type": "radio"
+    },
+    {
+      "_id": 213,
+      "label": "57. En los últimos 12 meses, ¿has llevado un arma de fuego?",
+      "radio-options": "Sí, No",
+      "repeatable": false,
+      "required": false,
+      "type": "radio"
+    },
+    {
+      "_id": 214,
+      "label": "57A. Si la respuesta es afirmativa, en cuál(es) lugar(es) pasó",
+      "radio-options": "Casa, Escuela, Barrio",
+      "repeatable": false,
+      "required": false,
+      "skip_logic": "ResultOfQuestion('57Enlosúltimos12meseshasllevadounarmadefuego') isnt 'Sí'",
+      "type": "radio"
+    },
+    {
+      "_id": 215,
+      "label": "58. En los últimos 12 meses, ¿has visto a alguien que estaba siendo apuñalado, cortado o baleado?",
+      "radio-options": "Sí, No",
+      "repeatable": false,
+      "required": false,
+      "type": "radio"
+    },
+    {
+      "_id": 216,
+      "label": "58A. ¿En cuál(es) lugar(es) pasó?",
+      "radio-options": "Casa, Escuela, Barrio",
+      "repeatable": false,
+      "required": false,
+      "skip_logic": "ResultOfQuestion('58Enlosúltimos12meseshasvistoaalguienqueestabasiendoapuñaladocortadoobaleado') isnt 'Sí'",
+      "type": "radio"
+    },
+    {
+      "_id": 2161,
+      "label": "59. En los últimos 12 meses, ¿alguien te ha amenazado con un cuchillo o una pistola?",
+      "radio-options": "Sí, No",
+      "repeatable": false,
+      "required": false,
+      "type": "radio"
+    },
+    {
+      "_id": 2162,
+      "label": "59A. ¿En cuál(es) lugar(es) pasó?",
+      "radio-options": "Casa, Escuela, Barrio",
+      "repeatable": false,
+      "required": false,
+      "skip_logic": "ResultOfQuestion('59Enlosúltimos12mesesalguientehaamenazadoconuncuchilloounapistola') isnt 'Sí'",
+      "type": "radio"
+    },
+    {
+      "_id": 217,
+      "label": "60. En los últimos 12 meses, ¿alguien te ha cortado o apuñalado tan gravemente que tuviste que ir a un médico?",
+      "radio-options": "Sí, No",
+      "repeatable": false,
+      "required": false,
+      "type": "radio"
+    },
+    {
+      "_id": 218,
+      "label": "60A. Si la respuesta es afirmativa, en cuál(es) lugar(es) pasó",
+      "radio-options": "Casa, Escuela, Barrio",
+      "repeatable": false,
+      "required": false,
+      "skip_logic": "ResultOfQuestion('60Enlosúltimos12mesesalguientehacortadooapuñaladotangravementequetuvistequeiraunmédico') isnt 'Sí'",
+      "type": "radio"
+    },
+    {
+      "_id": 219,
+      "label": "61. En los últimos 12 meses, ¿alguien te ha disparado con un arma de fuego?",
+      "radio-options": "Sí, No",
+      "repeatable": false,
+      "required": false,
+      "type": "radio"
+    },
+    {
+      "_id": 220,
+      "label": "61A. ¿En cuál(es) lugar(es) pasó?",
+      "radio-options": "Casa, Escuela, Barrio",
+      "repeatable": false,
+      "required": false,
+      "skip_logic": "ResultOfQuestion('61Enlosúltimos12mesesalguientehadisparadoconunarmadefuego') isnt 'Sí'",
+      "type": "radio"
+    },
+    {
+      "_id": 221,
+      "label": "62. En los últimos 12 meses ¿has amenazado a alguien con cortarle, apuñalarle o dispararle?",
+      "radio-options": "Sí, No",
+      "repeatable": false,
+      "required": false,
+      "type": "radio"
+    },
+    {
+      "_id": 222,
+      "label": "62A. ¿En cuál(es) lugar(es) pasó?",
+      "radio-options": "Casa, Escuela, Barrio",
+      "repeatable": false,
+      "required": false,
+      "skip_logic": "ResultOfQuestion('62Enlosúltimos12meseshasamenazadoaalguienconcortarleapuñalarleodispararle') isnt 'Sí'",
+      "type": "radio"
+    },
+    {
+      "_id": 223,
+      "label": "63. En los últimos 12 meses, ¿has amenazado a alguien con un cuchillo o arma?",
+      "radio-options": "Sí, No",
+      "repeatable": false,
+      "required": false,
+      "type": "radio"
+    },
+    {
+      "_id": 224,
+      "label": "63A. ¿En cuál(es) lugar(es) pasó?",
+      "radio-options": "Casa, Escuela, Barrio",
+      "repeatable": false,
+      "required": false,
+      "skip_logic": "ResultOfQuestion('63Enlosúltimos12meseshasamenazadoaalguienconuncuchillooarma') isnt 'Sí'",
+      "type": "radio"
+    },
+    {
+      "_id": 225,
+      "label": "64. En los últimos 12 meses, ¿has cortado o apuñalado a alguien?",
+      "radio-options": "Sí, No",
+      "repeatable": false,
+      "required": false,
+      "type": "radio"
+    },
+    {
+      "_id": 226,
+      "label": "64A. ¿En cuál(es) lugar(es) pasó?",
+      "radio-options": "Casa, Escuela, Barrio",
+      "repeatable": false,
+      "required": false,
+      "skip_logic": "ResultOfQuestion('64Enlosúltimos12meseshascortadooapuñaladoaalguien') isnt 'Sí'",
+      "type": "radio"
+    },
+    {
+      "_id": 227,
+      "label": "65. En los últimos 12 meses, ¿le has disparado a alguien?",
+      "radio-options": "Sí, No",
+      "repeatable": false,
+      "required": false,
+      "type": "radio"
+    },
+    {
+      "_id": 228,
+      "label": "65A. ¿En cuál(es) lugar(es) pasó?",
+      "radio-options": "Casa, Escuela, Barrio",
+      "repeatable": false,
+      "required": false,
+      "skip_logic": "ResultOfQuestion('65Enlosúltimos12meseslehasdisparadoaalguien') isnt 'Sí'",
+      "type": "radio"
+    },
+    {
+      "_id": 229,
+      "label": "66. En los últimos 12 meses, ¿has tenido algún amigo o miembro de tu familia que le han disparado, cortado o apuñalado?",
+      "radio-options": "Sí, No",
+      "repeatable": false,
+      "required": false,
+      "type": "radio"
+    },
+    {
+      "_id": 230,
+      "label": "67. ¿Has dañado o destruido a propósito artículos que no te pertenecen?",
+      "radio-options": "Sí, No",
+      "repeatable": false,
+      "required": false,
+      "type": "radio"
+    },
+    {
+      "_id": 231,
+      "label": "68. ¿Alguna vez has sido atacado o robado? ",
+      "radio-options": "Sí, No",
+      "repeatable": false,
+      "required": false,
+      "type": "radio"
+    },
+    {
+      "_id": 232,
+      "label": "69. ¿Alguna vez has atacado o robado a alguien?",
+      "radio-options": "Sí, No",
+      "repeatable": false,
+      "required": false,
+      "type": "radio"
+    },
+    {
+      "_id": 233,
+      "label": "70. ¿Alguna vez has sido secuestrado?",
+      "radio-options": "Sí, No",
+      "repeatable": false,
+      "required": false,
+      "type": "radio"
+    },
+    {
+      "_id": 234,
+      "label": "71. ¿Alguna vez has secuestrado a alguien?",
+      "radio-options": "Sí, No",
+      "repeatable": false,
+      "required": false,
+      "type": "radio"
+    },
+    {
+      "_id": 235,
+      "label": "72. ¿Alguna vez has robado algo de una tienda o algo que no te pertenecía que tenía un valor menor de RD$200?",
+      "radio-options": "Sí, No",
+      "repeatable": false,
+      "required": false,
+      "type": "radio"
+    },
+    {
+      "_id": 236,
+      "label": "73. ¿Alguna vez ha robado algo de una tienda o algo que no te pertenecía que tenía un valor mayor de RD$200 (incluyendo carros)?",
+      "radio-options": "Sí, No",
+      "repeatable": false,
+      "required": false,
+      "type": "radio"
+    },
+    {
+      "_id": 237,
+      "label": "74. ¿Alguna vez has vendido o ayudado a vender drogas?",
+      "radio-options": "Sí, No",
+      "repeatable": false,
+      "required": false,
+      "type": "radio"
+    },
+    {
+      "_id": 238,
+      "label": "75. ¿Has estado involucrado en una pandilla?",
+      "radio-options": "Sí, No",
+      "repeatable": false,
+      "required": false,
+      "type": "radio"
+    },
+    {
+      "_id": 239,
+      "label": "75A. ¿Actualmente, estás involucrado en una pandilla?",
+      "radio-options": "Sí, No",
+      "repeatable": false,
+      "required": false,
+      "skip_logic": "ResultOfQuestion('75Hasestadoinvolucradoenunapandilla') isnt 'Sí'",
+      "type": "radio"
+    },
+    {
+      "_id": 240,
+      "label": "76. ¿Compartes tiempo o te relacionas con miembros de una pandilla?",
+      "radio-options": "Sí, No",
+      "repeatable": false,
+      "required": false,
+      "type": "radio"
+    },
+    {
+      "_id": 241,
+      "label": "¿En cuál(es) lugar(es) pasó?",
+      "radio-options": "Casa, Escuela, Barrio",
+      "repeatable": false,
+      "required": false,
+      "skip_logic": "ResultOfQuestion('76Compartestiempooterelacionasconmiembrosdeunapandilla') isnt 'Sí'",
+      "type": "radio"
+    },
+    {
+      "_id": 242,
+      "hint": "Y recuerda que: tus respuestas son confidenciales y con esto queremos dar mejores servicios para proteger a los jóvenes.",
+      "label": "A partir de aquí, quisiéramos conocer acerca de tus experiencias personales en el hogar, en la escuela y en tu barrio con la delincuencia y crimen. También conocer qué opinas sobre la salud sexual y consumo de drogas. ",
+      "repeatable": false,
+      "required": false,
+      "type": "label"
+    },
+    {
+      "_id": 243,
+      "label": "Uso de Sustancias",
+      "repeatable": false,
+      "required": false,
+      "type": "label"
+    },
+    {
+      "_id": 244,
+      "label": "77. En los últimos 12 meses, ¿has  hablado o compartido con alguien borracho o que estaba drogado?",
+      "radio-options": "Sí, No",
+      "repeatable": false,
+      "required": false,
+      "type": "radio"
+    },
+    {
+      "_id": 245,
+      "label": "78. ¿Alguna vez has tomado una bebida alcohólica – una copa/vaso entero, no sólo un sorbo-?",
+      "radio-options": "Sí, No",
+      "repeatable": false,
+      "required": false,
+      "type": "radio"
+    },
+    {
+      "_id": 246,
+      "label": "78A. En los últimos 12 meses, ¿has consumido alcohol?",
+      "radio-options": "Sí, No",
+      "repeatable": false,
+      "required": false,
+      "skip_logic": "ResultOfQuestion('78Algunavezhastomadounabebidaalcohólicaunacopavasoenteronosólounsorbo') isnt 'Sí'",
+      "type": "radio"
+    },
+    {
+      "_id": 247,
+      "label": "78B. En los últimos 12 meses, ¿has tomado cinco vasos/copas o más de bebidas alcohólicas en el mismo día?",
+      "radio-options": "Sí, No",
+      "repeatable": false,
+      "required": false,
+      "skip_logic": "ResultOfQuestion('78Algunavezhastomadounabebidaalcohólicaunacopavasoenteronosólounsorbo') isnt 'Sí'",
+      "type": "radio"
+    },
+    {
+      "_id": 248,
+      "label": "79. ¿Has probado alguna vez cualquiera de estas drogas: marihuana, cocaína,  heroína, pastillas, crack, cemento o cualquier otra cosa para drogarse?",
+      "radio-options": "Sí, No",
+      "repeatable": false,
+      "required": false,
+      "type": "radio"
+    },
+    {
+      "_id": 249,
+      "label": "80. ¿Has usado en alguna ocasión una aguja para inyectarte droga?",
+      "radio-options": "Sí, No",
+      "repeatable": false,
+      "required": false,
+      "skip_logic": "ResultOfQuestion('79Hasprobadoalgunavezcualquieradeestasdrogasmarihuanacocaínaheroínapastillascrackcementoocualquierotracosaparadrogarse') isnt 'Sí'",
+      "type": "radio"
+    },
+    {
+      "_id": 250,
+      "label": "81. Marca el nombre de las drogas que hayas probado en algún momento",
+      "questions": [
+        {
+          "_id": 251,
+          "label": "81A. Marihuana",
+          "repeatable": false,
+          "required": false,
+          "type": "checkbox"
+        },
+        {
+          "_id": 252,
+          "label": "81B. Crack",
+          "repeatable": false,
+          "required": false,
+          "type": "checkbox"
+        },
+        {
+          "_id": 253,
+          "label": "81C. Cocaína en polvo",
+          "repeatable": false,
+          "required": false,
+          "type": "checkbox"
+        },
+        {
+          "_id": 254,
+          "label": "81D. Heroína",
+          "repeatable": false,
+          "required": false,
+          "type": "checkbox"
+        },
+        {
+          "_id": 255,
+          "label": "81E. Metanfetamina o cristal",
+          "repeatable": false,
+          "required": false,
+          "type": "checkbox"
+        },
+        {
+          "_id": 256,
+          "label": "81F. Éxtasis/MDMA",
+          "repeatable": false,
+          "required": false,
+          "type": "checkbox"
+        },
+        {
+          "_id": 257,
+          "label": "81G. Inhalantes como pegamento, cemento, pintura, spray",
+          "repeatable": false,
+          "required": false,
+          "type": "checkbox"
+        },
+        {
+          "_id": 258,
+          "label": "81H. Otra",
+          "repeatable": false,
+          "required": false,
+          "type": "checkbox"
+        },
+        {
+          "_id": 259,
+          "label": "81H. Otra droga",
+          "repeatable": false,
+          "required": false,
+          "type": "text"
+        }
+      ],
+      "repeatable": false,
+      "required": false,
+      "skip_logic": "ResultOfQuestion('79Hasprobadoalgunavezcualquieradeestasdrogasmarihuanacocaínaheroínapastillascrackcementoocualquierotracosaparadrogarse') isnt 'Sí'",
+      "type": "group"
+    },
+    {
+      "_id": 260,
+      "label": "82. Marca el nombre de las drogas que hayas probado en los últimos 12 meses",
+      "questions": [
+        {
+          "_id": 261,
+          "label": "82A. Marihuana",
+          "repeatable": false,
+          "required": false,
+          "type": "checkbox"
+        },
+        {
+          "_id": 262,
+          "label": "82B. Crack",
+          "repeatable": false,
+          "required": false,
+          "type": "checkbox"
+        },
+        {
+          "_id": 263,
+          "label": "82C. Cocaína en polvo",
+          "repeatable": false,
+          "required": false,
+          "type": "checkbox"
+        },
+        {
+          "_id": 264,
+          "label": "82D. Heroína",
+          "repeatable": false,
+          "required": false,
+          "type": "checkbox"
+        },
+        {
+          "_id": 265,
+          "label": "82E. Metanfetamina o cristal",
+          "repeatable": false,
+          "required": false,
+          "type": "checkbox"
+        },
+        {
+          "_id": 266,
+          "label": "82F. Éxtasis/MDMA",
+          "repeatable": false,
+          "required": false,
+          "type": "checkbox"
+        },
+        {
+          "_id": 267,
+          "label": "82G. Inhalantes como pegamento, cemento, pintura, spray",
+          "repeatable": false,
+          "required": false,
+          "type": "checkbox"
+        },
+        {
+          "_id": 268,
+          "label": "82H. Otra",
+          "repeatable": false,
+          "required": false,
+          "type": "checkbox"
+        },
+        {
+          "_id": 269,
+          "label": "82H. Otra droga",
+          "repeatable": false,
+          "required": false,
+          "type": "text"
+        }
+      ],
+      "repeatable": false,
+      "required": false,
+      "skip_logic": "ResultOfQuestion('79Hasprobadoalgunavezcualquieradeestasdrogasmarihuanacocaínaheroínapastillascrackcementoocualquierotracosaparadrogarse') isnt 'Sí'",
+      "type": "group"
+    },
+    {
+      "_id": 270,
+      "label": "83. En caso de que hayas probado alguna droga, lee cada nombre y dinos ¿qué edad tenías la primera vez que la probaste?",
+      "questions": [
+        {
+          "_id": 271,
+          "label": "83A. Marihuana",
+          "repeatable": false,
+          "required": false,
+          "type": "number"
+        },
+        {
+          "_id": 272,
+          "label": "83B.Crack",
+          "repeatable": false,
+          "required": false,
+          "type": "number"
+        },
+        {
+          "_id": 273,
+          "label": "83C.Cocaína en polvo",
+          "repeatable": false,
+          "required": false,
+          "type": "number"
+        },
+        {
+          "_id": 274,
+          "label": "83D.Heroína",
+          "repeatable": false,
+          "required": false,
+          "type": "number"
+        },
+        {
+          "_id": 275,
+          "label": "83E.Metanfetamina o cristal",
+          "repeatable": false,
+          "required": false,
+          "type": "number"
+        },
+        {
+          "_id": 276,
+          "label": "83F.Éxtasis/MDMA",
+          "repeatable": false,
+          "required": false,
+          "type": "number"
+        },
+        {
+          "_id": 277,
+          "label": "83G.Inhalantes como pegamento, cemento, pintura, spray",
+          "repeatable": false,
+          "required": false,
+          "type": "number"
+        },
+        {
+          "_id": 278,
+          "label": "83H.Otra",
+          "repeatable": false,
+          "required": false,
+          "type": "number"
+        },
+        {
+          "_id": 279,
+          "label": "83H. Otra droga",
+          "repeatable": false,
+          "required": false,
+          "type": "number"
+        }
+      ],
+      "repeatable": false,
+      "required": false,
+      "skip_logic": "ResultOfQuestion('79Hasprobadoalgunavezcualquieradeestasdrogasmarihuanacocaínaheroínapastillascrackcementoocualquierotracosaparadrogarse') isnt 'Sí'",
+      "type": "group"
+    },
+    {
+      "_id": 280,
+      "label": "Actividad Sexual",
+      "repeatable": false,
+      "required": false,
+      "type": "label"
+    },
+    {
+      "_id": 281,
+      "label": "84. ¿Alguna vez has tenido relaciones sexuales?",
+      "radio-options": "Sí, No",
+      "repeatable": false,
+      "required": false,
+      "type": "radio"
+    },
+    {
+      "_id": 282,
+      "label": "85. ¿Qué edad tenías la primera vez que tuviste relaciones sexuales?",
+      "repeatable": false,
+      "required": false,
+      "skip_logic": "ResultOfQuestion('84Algunavezhastenidorelacionessexuales') isnt 'Sí'",
+      "type": "number"
+    },
+    {
+      "_id": 283,
+      "label": "86. ¿Con quiénes has tenido relaciones sexuales?",
+      "radio-options": "Sólo hombres, Sólo mujeres, Hombres y mujeres, Hombres y mujeres juntos",
+      "repeatable": false,
+      "required": false,
+      "skip_logic": "ResultOfQuestion('84Algunavezhastenidorelacionessexuales') isnt 'Sí'",
+      "type": "radio"
+    },
+    {
+      "_id": 284,
+      "label": "87. ¿Con cuántas personas diferentes has tenido relaciones sexuales en los últimos 12 meses?",
+      "radio-options": "1, 2 a 4, 5 a 7, 8 a 10, 11 a 13, 13 o más personas",
+      "repeatable": false,
+      "required": false,
+      "skip_logic": "ResultOfQuestion('84Algunavezhastenidorelacionessexuales') isnt 'Sí'",
+      "type": "radio"
+    },
+    {
+      "_id": 285,
+      "label": "88. La última vez que tuviste relaciones sexuales, ¿tu o tu compañero/a utilizó un condón?",
+      "radio-options": "Si, No",
+      "repeatable": false,
+      "required": false,
+      "skip_logic": "ResultOfQuestion('84Algunavezhastenidorelacionessexuales') isnt 'Sí'",
+      "type": "radio"
+    },
+    {
+      "_id": 286,
+      "label": "89. La última vez que tuviste relaciones sexuales, ¿cuál método usaste o tu compañero/a para prevenir el embarazo? Seleccione sólo una opción.",
+      "radio-options": "No utilicé ningún método para prevenir el embarazo,Condón,Condón femenino,Píldora anticonceptiva,Ritmo (mantener relaciones en días no fértiles o cuando no hay ovulación),Retiro (detener la penetración antes de eyacular),Mela (mujeres lactando),DIU (como Mirena o Paragard),Inyección (como Depo-Provera) un parche (Ortho Evra) o un anillo (como NuvaRing),Implante o norplant (como Implanon o Nexplanon),Esterilización femenina,Esterilización masculina,No sé/Inseguro,Otro",
+      "repeatable": false,
+      "required": false,
+      "skip_logic": "ResultOfQuestion('84Algunavezhastenidorelacionessexuales') isnt 'Sí'",
+      "type": "radio"
+    },
+    {
+      "_id": 287,
+      "label": "89. Otro",
+      "repeatable": false,
+      "required": false,
+      "skip_logic": "ResultOfQuestion('89LaúltimavezquetuvisterelacionessexualescuálmétodousasteotucompañeroaparaprevenirelembarazoSeleccionesólounaopción') isnt 'Otro'",
+      "type": "text"
+    },
+    {
+      "_id": 288,
+      "label": "90. ¿Alguna vez alguien te ha obligado a tener relaciones sexuales?",
+      "radio-options": "Sí, No",
+      "repeatable": false,
+      "required": false,
+      "skip_logic": "ResultOfQuestion('84Algunavezhastenidorelacionessexuales') isnt 'Sí'",
+      "type": "radio"
+    },
+    {
+      "_id": 289,
+      "label": "91. ¿Alguna vez has tenido relaciones sexuales por dinero, bienes (celulares, vivienda, etc.) o servicios (protección, comida, etc.)",
+      "radio-options": "Sí, No",
+      "repeatable": false,
+      "required": false,
+      "type": "radio"
+    },
+    {
+      "_id": 290,
+      "label": "91A. Si la respuesta es afirmativa, ¿Cuándo fue la última vez?",
+      "radio-options": "La semana pasada, En los últimos 6 meses, En los últimos 12 meses",
+      "repeatable": false,
+      "required": false,
+      "skip_logic": "ResultOfQuestion('91Algunavezhastenidorelacionessexualespordinerobienescelularesviviendaetcoserviciosproteccióncomidaetc')",
+      "type": "radio"
+    },
+    {
+      "_id": 291,
+      "label": "92. Si quisieras comprar un condón, ¿crees que podrías encontrarlo?",
+      "radio-options": "Sí, No",
+      "repeatable": false,
+      "required": false,
+      "type": "radio"
+    },
+    {
+      "_id": 292,
+      "label": "93. Si quisieras tener sexo, ¿crees que serías capaz de convencer a tu pareja que use un condón en caso que él/ella no quiera?",
+      "radio-options": "Sí, No",
+      "repeatable": false,
+      "required": false,
+      "type": "radio"
+    },
+    {
+      "_id": 293,
+      "label": "94. ¿Te sientes capaz de tener una conversación abierta y honesta sobre sexo con sus padres?",
+      "radio-options": "Sí, No",
+      "repeatable": false,
+      "required": false,
+      "type": "radio"
+    },
+    {
+      "_id": 294,
+      "label": "95. ¿Alguna vez has tenido una conversación abierta y honesta sobre sexo con tus padres?",
+      "radio-options": "Sí, No",
+      "repeatable": false,
+      "required": false,
+      "type": "radio"
+    },
+    {
+      "_id": 295,
+      "label": "96. ¿Alguna vez te han enseñado acerca de las Infecciones de transmisión sexual?",
+      "radio-options": "Sí, No",
+      "repeatable": false,
+      "required": false,
+      "type": "radio"
+    },
+    {
+      "_id": 296,
+      "label": "96A. ¿Dónde has recibido información de las Infecciones de Transmisión Sexual?",
+      "radio-options": "Escuela, Padre o Madre, Promotor de Salud Amigos, Internet, Otro",
+      "repeatable": false,
+      "required": false,
+      "skip_logic": "ResultOfQuestion('96AlgunaveztehanenseñadoacercadelasInfeccionesdetransmisiónsexual') isnt 'Sí'",
+      "type": "radio"
+    },
+    {
+      "_id": 297,
+      "label": "96A. Otro",
+      "repeatable": false,
+      "required": false,
+      "skip_logic": "ResultOfQuestion('96ADóndehasrecibidoinformacióndelasInfeccionesdeTransmisiónSexual') isnt 'Otro'",
+      "type": "text"
+    },
+    {
+      "_id": 297,
+      "label": "97. ¿Alguna vez le han enseñado acerca de prevención de embarazo?",
+      "radio-options": "Sí, No",
+      "repeatable": false,
+      "required": false,
+      "type": "radio"
+    },
+    {
+      "_id": 298,
+      "label": "97A. ¿Dónde has recibido información de prevención de embarazo?",
+      "radio-options": "Escuela, Padre o Madre, Promotor de Salud Amigos, Internet, Otro",
+      "repeatable": false,
+      "required": false,
+      "skip_logic": "ResultOfQuestion('97Algunavezlehan enseñadoacercadeprevencióndeembarazo') isnt 'Sí'",
+      "type": "radio"
+    },
+    {
+      "_id": 2981,
+      "label": "97A. Otro",
+      "repeatable": false,
+      "required": false,
+      "skip_logic": "ResultOfQuestion('97ADóndehasrecibidoinformacióndeprevencióndeembarazo') isnt 'Otro'",
+      "type": "text"
+    },
+    {
+      "_id": 299,
+      "label": "98. ¿Alguna vez le han enseñado acerca la infección por VIH/Sida?",
+      "radio-options": "Sí, No",
+      "repeatable": false,
+      "required": false,
+      "type": "radio"
+    },
+    {
+      "_id": 300,
+      "label": "98A. ¿Dónde has recibido información de VIH/Sida?",
+      "radio-options": "Escuela, Padre o Madre, Promotor de Salud Amigos, Internet, Otro",
+      "repeatable": false,
+      "required": false,
+      "skip_logic": "ResultOfQuestion('98AlgunavezlehanenseñadoacercalainfecciónporVIHSida') isnt 'Sí'",
+      "type": "radio"
+    },
+    {
+      "_id": 3001,
+      "label": "97A. Otro",
+      "repeatable": false,
+      "required": false,
+      "skip_logic": "ResultOfQuestion('98ADóndehasrecibidoinformacióndeVIHSida') isnt 'Otro'",
+      "type": "text"
+    },
+    {
+      "_id": 301,
       "action_on_questions_loaded": "",
       "label": "complete",
       "radio-options": true,
@@ -631,5 +1736,7 @@
       "type": "checkbox",
       "validation": ""
     }
-  ]
+  ],
+  "required": false,
+  "type": "group"
 }
