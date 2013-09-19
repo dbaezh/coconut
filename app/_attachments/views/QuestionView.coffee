@@ -516,7 +516,7 @@ class QuestionView extends Backbone.View
       " if isRepeatable
 
       if isRepeatable
-        name        = name + "[0]"
+        name        = question.safeLabel() + "[0]"
         question_id = question.get("id") + "-0"
       else
         name        = question.safeLabel()
@@ -530,7 +530,7 @@ class QuestionView extends Backbone.View
 
       if question.questions().length isnt 0
 
-        name = "#{groupId}.#{name}" if groupId?
+        name = "#{groupId}.#{name}" if groupId? && groupId isnt Coconut.questionView.model.id
 
         newGroupId = question_id
         newGroupId = newGroupId + "[0]" if isRepeatable

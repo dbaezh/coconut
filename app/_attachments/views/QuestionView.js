@@ -589,7 +589,7 @@ QuestionView = (function(_super) {
         repeatable = "        <button class='repeat'>+</button>      ";
       }
       if (isRepeatable) {
-        name = name + "[0]";
+        name = question.safeLabel() + "[0]";
         question_id = question.get("id") + "-0";
       } else {
         name = question.safeLabel();
@@ -599,7 +599,7 @@ QuestionView = (function(_super) {
         bare: true
       }) : '';
       if (question.questions().length !== 0) {
-        if (groupId != null) {
+        if ((groupId != null) && groupId !== Coconut.questionView.model.id) {
           name = "" + groupId + "." + name;
         }
         newGroupId = question_id;
