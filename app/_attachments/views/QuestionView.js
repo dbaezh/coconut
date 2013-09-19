@@ -436,6 +436,9 @@ QuestionView = (function(_super) {
       name = $target.attr("name");
       $div = window.questionCache[name];
     }
+    if ($div.hasClass("checkbox")) {
+      return;
+    }
     $oldNext = $div;
     this.$next = $div.next(".question");
     if (this.$next.length === 0) {

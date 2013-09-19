@@ -383,11 +383,12 @@ class QuestionView extends Backbone.View
       name = $target.attr("name")
       $div = window.questionCache[name]
 
+    return if $div.hasClass "checkbox"
+
     $oldNext = $div
     @$next = $div.next(".question")
 
     if @$next.length is 0 # if nothing, check parents
-
       $parentsMaybe = $oldNext.parent().next(".question")
       if $parentsMaybe.length isnt 0
         @$next = $parentsMaybe
