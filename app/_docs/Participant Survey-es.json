@@ -786,7 +786,7 @@
     },
     {
       "_id": 189,
-      "label": "43. ¿Con que frecuencia te preocupa ser víctima de la delincuencia en tu barrio?",
+      "label": "43. ¿Con qué frecuencia te preocupa ser víctima de la delincuencia en tu barrio?",
       "radio-options": "Muy a menudo, Algo a menudo, Rara vez, Nunca, No Sé",
       "repeatable": false,
       "required": false,
@@ -794,7 +794,7 @@
     },
     {
       "_id": 190,
-      "label": "44. ¿Con que frecuencia te preocupa ser víctima de la delincuencia en tu escuela o universidad?",
+      "label": "44. ¿Con qué frecuencia te preocupa ser víctima de la delincuencia en tu escuela o universidad?",
       "radio-options": "Muy a menudo, Algo a menudo, Rara vez, Nunca, No Sé",
       "repeatable": false,
       "required": false,
