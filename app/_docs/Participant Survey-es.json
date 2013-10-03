@@ -427,7 +427,7 @@
     },
     {
       "_id": 150,
-      "label": "Pensando en como ves tu futuro, marca en la casilla según la probabilidad que crees que tienes de que.",
+      "label": "25. Pensando en como ves tu futuro, marca en la casilla según la probabilidad que crees que tienes de que.",
       "repeatable": false,
       "required": false,
       "type": "label"
@@ -450,7 +450,7 @@
     },
     {
       "_id": 153,
-      "label": "Irás a la universidad?",
+      "label": "¿Irás a la universidad?",
       "radio-options": "Muy poco posible, Poco posible, Más o menos posible, Posible, Muy posible",
       "repeatable": false,
       "required": false,
