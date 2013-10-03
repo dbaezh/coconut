@@ -293,7 +293,7 @@
       "label": "21A. ¿Cuál(es) curso(s)?",
       "repeatable": false,
       "required": false,
-      "skip_logic": "ResultOfQuestion('Hascompletadoalgúncursotécnico') isnt 'No'",
+      "skip_logic": "ResultOfQuestion('21Hascompletadoalgúncursotécnico') isnt 'Sí'",     
       "type": "text"
     },
     {
