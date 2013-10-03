@@ -263,10 +263,10 @@ class QuestionView extends Backbone.View
 
   duplicateUpdate: ( event ) =>
     event.stopImmediatePropagation()
-    index = parseInt($(event.target).attr("data-index"))
-    js2form($('#question-view').get(0), window.Coconut.duplicates[index])
-    $("#duplicates").empty()
     if confirm "Reemplazar corriente información con esta?"
+      index = parseInt($(event.target).attr("data-index"))
+      js2form($('#question-view').get(0), window.Coconut.duplicates[index])
+      $("#duplicates").empty()
 
   duplicateAbort: (event) =>
     event.stopImmediatePropagation()

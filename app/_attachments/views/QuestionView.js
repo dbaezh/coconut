@@ -289,10 +289,11 @@ QuestionView = (function(_super) {
     var index;
 
     event.stopImmediatePropagation();
-    index = parseInt($(event.target).attr("data-index"));
-    js2form($('#question-view').get(0), window.Coconut.duplicates[index]);
-    $("#duplicates").empty();
-    return alert("Por favor, continua actualizar.");
+    if (confirm("Reemplazar corriente información con esta?")) {
+      index = parseInt($(event.target).attr("data-index"));
+      js2form($('#question-view').get(0), window.Coconut.duplicates[index]);
+      return $("#duplicates").empty();
+    }
   };
 
   QuestionView.prototype.duplicateAbort = function(event) {
