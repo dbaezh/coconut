@@ -10,8 +10,13 @@ class QuestionView extends Backbone.View
     "click #question-view a:contains(Get current location)" : "getLocation"
     "click .next_error"   : "runValidate"
     "click .validate_one" : "onValidateOne"
+    "click .duplicate_update" : "duplicateUpdate"
+    "click .duplicate_abort" : "duplicateAbort"
+    "click .duplicate_none" : "duplicateNone"
 
   initialize: (options) =>
+    #window.onbeforeunload = ->
+    #  return 'Are you sure you want to quit?'
     (@[key] = value for key, value of options)
     Coconut.resultCollection ?= new ResultCollection()
     @autoscrollTimer = 0
@@ -20,7 +25,6 @@ class QuestionView extends Backbone.View
   render: =>
 
     window.skipLogicCache = {}
-
 
     questionsName = "<h1>#{@model.id}</h1>" unless "module" is Coconut.config.local.get("mode")
 
@@ -59,7 +63,7 @@ class QuestionView extends Backbone.View
       if question.actionOnQuestionsLoaded() isnt ""
         CoffeeScript.eval question.actionOnQuestionsLoaded()
 
-    js2form($('#question-view').get(0), @result.toJSON())
+    #js2form($('#question-view').get(0), @result.toJSON())
 
     # Trigger a change event for each of the questions that contain skip logic in their actionOnChange code
     @triggerChangeIn skipperList
@@ -102,6 +106,15 @@ class QuestionView extends Backbone.View
 
     @updateHeightDoc()
 
+    @addUuid()
+
+  addUuid: ->
+    if window.questionCache['uuid']
+      c = new C32()
+      c.getRandom(8)
+      c.addChecksum()
+      window.questionCache['uuid'].find("input").val c.value
+
   triggerChangeIn: ( names ) ->
 
     for name in names
@@ -127,6 +140,8 @@ class QuestionView extends Backbone.View
   runValidate: -> @validateAll()
 
   onChange: (event) =>
+    event.stopImmediatePropagation()
+
     $target = $(event.target)
 
     #
@@ -134,9 +149,9 @@ class QuestionView extends Backbone.View
     #
     eventStamp = $target.attr("id")
 
-    return if eventStamp == @oldStamp and (new Date()).getTime() < @throttleTime + 1000
+    return if eventStamp == @oldStamp and (new Date()).getTime() < (@throttleTime||0) + 1000
 
-    @throttleTime = (new Date()).getTime()
+    Coconut.questionView.throttleTime = (new Date()).getTime()
     @oldStamp     = eventStamp
 
     targetName = $target.attr("name")
@@ -173,17 +188,17 @@ class QuestionView extends Backbone.View
     @autoscroll(event) if wasValid and not messageVisible
 
     surveyName = window.Coconut.questionView.model.id
-    @checkForDuplicates() if surveyName is "Participant Registration-es" and targetName in window.duplicateLabels
+    @duplicateCheck() if surveyName is "Participant Registration-es" and targetName in window.duplicateLabels
 
-
-  checkForDuplicates: ->
-
+  duplicateCheck: (event) ->
     count = 0
+
+    window.Coconut.duplicates = []
 
     for label in window.duplicateLabels
       count++ if window.getValueCache[label]?()
 
-    spacePattern = new RegExp(" ", "g") 
+    spacePattern = new RegExp(" ", "g")
 
     family    = (window.getValueCache['Apellido']()        || '').toLowerCase().replace(spacePattern, '')
     names     = (window.getValueCache['Nombre']()          || '').toLowerCase().replace(spacePattern, '')
@@ -193,34 +208,72 @@ class QuestionView extends Backbone.View
     key = [family, names, community, sexo].join(":")
 
     return if ~key.indexOf("::")
+
+    window.Coconut.duplicateKeys = {}
+
+
     $.couch.db("coconut").view "coconut/duplicateCheck", 
       keys: [key]
       success: (data) ->
+
+        ignoredKeys = "_rev _id question collection".split(" ")
 
         return if data.rows.length is 0
 
         $("#content").append "<div id='duplicates'></div>" if $("#duplicates").length is 0
 
-        alert "Possible duplicates detected"
+        alert "Duplicados posibles detectado"
 
-        html = "<br><br><h1>Possible duplicates</h1>
-          <table>
+        html = "<br><br>
+          <h1>Duplicados posibles</h1>
         "
 
-        for row in data.rows
-          html += "<tr>"
+        for row, i in data.rows
+
+          window.Coconut.duplicateKeys[row.key] = true
+          window.Coconut.duplicates[i] = row.value
+
+          html += "
+            <h2>Posibilidad #{i+1}</h2>
+            <table style='font-size: 1.4em;'>
+              <tr>
+          "
           for key, value of row.value
-            html += "<tr><th>#{key}</th><td>#{value}</td></tr>"
-          
-          html += "</tr>"
+            html += "<tr><th style='text-align:left;'>#{key}</th><td>#{value}</td></tr>" if value? and not ~ignoredKeys.indexOf(key)
 
+          html += "
+              </tr>
+              <tr>
+                <td colspan='2' style='font-size:1.5em; padding:1em;'>
+                  Si esta persona es una duplicada,<br>
+                  <button class='duplicate_update' data-index='#{i}'>Usar esta informaci&oacute;n y actualizar</button><br>
+                  <button class='duplicate_abort' data-index='#{i}'>Abortar corriente impreso</button>
+                </td>
+              </tr>
+            </table>
+          "
 
-        html += "</table>"
-
+        html += "
+          <button class='duplicate_none'>No hay duplicados. Clarar.</button>
+        "
 
         $("#duplicates").html html
 
         $("#duplicates").scrollTo()
+
+  duplicateUpdate: ( event ) =>
+    event.stopImmediatePropagation()
+    index = parseInt($(event.target).attr("data-index"))
+    js2form($('#question-view').get(0), window.Coconut.duplicates[index])
+    $("#duplicates").empty()
+    if confirm "Reemplazar corriente información con esta?"
+
+  duplicateAbort: (event) =>
+    event.stopImmediatePropagation()
+    window.location.reload() if confirm("¿Está seguro?\n\nEste acción caminará un impreso nuevo.")
+
+  duplicateNone: =>
+    $("#duplicates").empty()
 
   onValidateOne: (event) -> 
     $target = $(event.target)
@@ -232,6 +285,8 @@ class QuestionView extends Backbone.View
       button : "<button type='button' data-name='#{name}' class='validate_one'>Revisar</button>"
 
   validateAll: () ->
+
+    $button = $("[name=complete]")
 
     isValid = true
 
@@ -247,8 +302,15 @@ class QuestionView extends Backbone.View
 
     @completeButton isValid
 
+    # find the complete button
+    completeButtonModel = _(Coconut.questionView.model.get("questions")).filter((a) -> a.get("label") == "complete" )[0]
 
-    $("[name=complete]").scrollTo() if isValid
+    if isValid and onComplete = completeButtonModel.has("onComplete")
+      if onComplete.type is "redirect" and onComplete.route
+        Coconut.router.navigate onComplete.route, true
+
+
+    $button.scrollTo() if isValid
 
     return isValid
 
@@ -397,18 +459,19 @@ class QuestionView extends Backbone.View
     count = 0
 
     if not @$next.is(":visible")
+
       while (not @$next.is(":visible")) or @$next.length isnt 0
         count++
         $oldNext = $(@$next)
         @$next = @$next.next(".question")
-        break if count > 50
+        break if count > 100
         # if run out, check parents
         if @$next.length is 0
           $parentsMaybe = $oldNext.parent().next(".question")
           if $parentsMaybe.length isnt 0
             @$next = $parentsMaybe
 
-    if @$next.is(":visible")
+    else
       $(window).on( "scroll", => $(window).off("scroll"); clearTimeout @autoscrollTimer; )
       @autoscrollTimer = setTimeout(
         => 
@@ -456,6 +519,7 @@ class QuestionView extends Backbone.View
 
       try
         result = eval(skipLogicCode)
+
       catch error
         if error == "invisible reference"
           result = true
@@ -468,6 +532,7 @@ class QuestionView extends Backbone.View
         $question[0].style.display = "none"
       else
         $question[0].style.display = ""
+
 
 
   # We throttle to limit how fast save can be repeatedly called
@@ -549,22 +614,31 @@ class QuestionView extends Backbone.View
 
           #{repeatable || ''}
 
-          "
+        "
       else
         html += "
-          <div
-            class='question #{question.type()}'
-
-            data-question-name='#{name}'
-            data-question-id='#{question_id}'
-            data-action_on_change='#{_.escape(question.actionOnChange())}'
-
-            #{validation || ''}
-            #{warning    || ''}
-            data-required='#{question.required()}'
-          >
           #{
-          "<label type='#{question.type()}' for='#{question_id}'>#{labelHeader[0]}#{question.label()}#{labelHeader[1]} <span></span></label>" unless ~(question.type().indexOf('hidden'))
+            unless question.type() is "hidden"
+              "<div
+                class='question #{question.type()}'
+
+                data-question-name='#{name}'
+                data-question-id='#{question_id}'
+                data-action_on_change='#{_.escape(question.actionOnChange())}'
+
+                #{validation || ''}
+                #{warning    || ''}
+                data-required='#{question.required()}'
+              >"
+            else
+              ""
+          }
+
+          #{
+          unless ~(question.type().indexOf('hidden'))
+            "<label type='#{question.type()}' for='#{question_id}'>#{labelHeader[0]}#{question.label()}#{labelHeader[1]} <span></span></label>" 
+          else
+            ""
           }
           #{"<p class='grey'>#{question.hint()}</p>"}
           <div class='message'></div>
@@ -608,7 +682,7 @@ class QuestionView extends Backbone.View
                 else
                   "
                     <br>
-                    <input type='date' name='#{name}' id='#{question_id}-#{index}' class='ui-input-text' value='#{_.escape(option)}'/>
+                    <input type='date' name='#{name}' id='#{question_id}' class='ui-input-text' value='#{_.escape(option)}'/>
                   "
               when "checkbox"
                 if @readonly
@@ -646,12 +720,22 @@ class QuestionView extends Backbone.View
 
               when "image"
                 "<img style='#{question.get "image-style"}' src='#{question.get "image-path"}'/>"
+              when "hidden"
+                unless @readonly
+                  "<input type='hidden' name='#{name}' id='#{question_id}'>"
+                else
+                  "<input name='#{name}' type='text' id='#{question_id}' value='#{_.escape(question.value())}'>"
               when "label"
                 ""
               else
                 "<input name='#{name}' id='#{question_id}' type='#{question.type()}' value='#{question.value()}'></input>"
           }
-          </div>
+          #{
+            unless question.type() is "hidden"
+              "</div>"
+            else
+              ""
+          }
           #{repeatable || ''}
         "
 
@@ -760,11 +844,43 @@ window.SkipTheseWhen = ( argQuestions, result ) ->
 
 window.ResultOfQuestion = ( name ) -> return window.getValueCache[name]?() || null
 
+class C32
+
+  @ENCODE_MAP : {"o":"0","O":"0","0":"0","i":"1","I":"1","l":"1","1":"1","2":"2","3":"3","4":"4","5":"5","6":"6","7":"7","8":"8","9":"9","a":"A","A":"A","B":"B","c":"C","C":"C","d":"D","D":"D","e":"E","E":"E","f":"F","F":"F","g":"G","G":"G","h":"H","H":"H","j":"J","J":"J","k":"K","K":"K","m":"M","M":"M","n":"N","N":"N","p":"P","P":"P","q":"Q","Q":"Q","r":"R","R":"R","s":"S","S":"S","t":"T","T":"T","v":"V","V":"V","w":"W","W":"W","x":"X","X":"X","y":"Y","Y":"Y","z":"Z","Z":"Z"}
+  @POOL : "0123456789ABCDEFGHJKMNPQRSTVWXYZ".split("")
+  @POOL_MAP : {"0":0,"1":1,"2":2,"3":3,"4":4,"5":5,"6":6,"7":7,"8":8,"9":9,"A":10,"B":11,"C":12,"D":13,"E":14,"F":15,"G":16,"H":17,"J":18,"K":19,"M":20,"N":21,"P":22,"Q":23,"R":24,"S":25,"T":26,"V":27,"W":28,"X":29,"Y":30,"Z":31}
+  @CHECKSUM_POOL : "0123456789ABCDEFGHJKMNPQRSTVWZYZ*~$=U".split("")
+
+  constructor: ->
+    @value = "0"
+
+  parseInt: ( unclean = "" ) =>
+    @value = (C32.ENCODE_MAP[c] for c in unclean).join("")
+
+  toTen: ( value = @value ) =>
+    _(C32.POOL_MAP[n] * Math.pow(32,value.length-(i+1)) for n, i in value).reduce((a,b)->a+b)
+
+  addChecksum: =>
+    checksum = @calcChecksum()
+    @value = @value + checksum
+
+  calcChecksum: ( ten = @toTen() ) =>
+    C32.CHECKSUM_POOL[ten % 37]
+
+  isValid: ( value = @value ) =>
+    return value.substr(-1,1) == @calcChecksum(@toTen(value.substring(0, value.length-1)))
+
+  getRandom: ( length = 0 ) =>
+    @value = ( $(C32.POOL).getRandom() for i in [0..length-1] ).join("")
+
 
 
 # jquery helpers
 
 ( ($) -> 
+
+  $.fn.getRandom = () -> 
+    this[Math.floor(Math.random() * this.length)]
 
   $.fn.scrollTo = (speed = 500, callback) ->
     try
