@@ -2,7 +2,7 @@
 (function(doc) {
   var community, family, key, names, sexo, spacePattern;
 
-  if (doc.collection === "result") {
+  if (doc.collection === "result" && doc.complete) {
     if (!((doc['Apellido'] != null) && doc['Nombre'] && doc['BarrioComunidad'] && doc['Sexo'])) {
       return;
     }
