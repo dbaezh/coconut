@@ -649,8 +649,7 @@
       "label": "33. ¿En este trabajo tú eres...?",
       "radio-options": "Empleado con salario, Jefe, Ayudante familiar, Ayudante general, Por cuenta propia, Otro",
       "repeatable": false,
-      "required": false,
-      "skip_logic": "ResultOfQuestion('26Hasrealizadoalgunavezuntrabajoporpagaoganancia') isnt 'Sí'",
+      "required": false,      
       "type": "radio"
     },
     {
@@ -667,6 +666,7 @@
       "radio-options": "Sí, No",
       "repeatable": false,
       "required": false,
+      "skip_logic": "ResultOfQuestion('26Hasrealizadoalgunavezuntrabajoporpagaoganancia') isnt 'Sí'",
       "type": "radio"
     },
     {
@@ -1605,7 +1605,7 @@
     },
     {
       "_id": 289,
-      "label": "91. ¿Alguna vez has tenido relaciones sexuales por dinero, bienes (celulares, vivienda, etc.) o servicios (protección, comida, etc.)",
+      "label": "91. ¿Alguna vez has tenido relaciones sexuales por dinero, bienes (celulares, vivienda, etc.) o servicios (protección, comida, etc.)?",
       "radio-options": "Sí, No",
       "repeatable": false,
       "required": false,
