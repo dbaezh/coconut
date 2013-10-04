@@ -980,7 +980,7 @@
       "radio-options": "Casa, Escuela, Barrio",
       "repeatable": false,
       "required": false,
-      "skip_logic": "ResultOfQuestion('56Enlosúltimos12meseshasllevadouncuchillo,puñalomachete') isnt 'Sí'",
+      "skip_logic": "ResultOfQuestion('56Enlosúltimos12meseshasllevadouncuchillopuñalomachete') isnt 'Sí'",
       "type": "radio"
     },
     {
