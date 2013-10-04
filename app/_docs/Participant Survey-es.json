@@ -28,7 +28,7 @@
     },
     {
       "_id": 101,
-      "label": "¿Tienes cédula?",
+      "label": "10.1 ¿Tienes cédula?",
       "radio-options": "Sí, No",
       "repeatable": false,
       "required": false,
@@ -37,7 +37,7 @@
     },
     {
       "_id": 101,
-      "label": "¿Cuál es tu número de cédula?",
+      "label": "10.2 ¿Cuál es tu número de cédula?",
       "repeatable": false,
       "required": false,
       "skip_logic": "ResultOfQuestion('Tienescédula') isnt 'Sí'",
@@ -151,7 +151,7 @@
     },
     {
       "_id": 114,
-      "label": "¿Cuál es el nombre de tu escuela o universidad?",
+      "label": "16A. ¿Cuál es el nombre de tu escuela o universidad?",
       "repeatable": false,
       "required": false,
       "skip_logic": "ResultOfQuestion('16Estasactualmenteasistiendoaunaescuelaouniversidad') isnt 'Sí'",
@@ -159,7 +159,7 @@
     },
     {
       "_id": 115,
-      "label": "¿Qué grado estas cursando actualmente?",
+      "label": "16B. ¿Qué grado estas cursando actualmente?",
       "repeatable": false,
       "required": false,
       "skip_logic": "ResultOfQuestion('16Estasactualmenteasistiendoaunaescuelaouniversidad') isnt 'Sí'",
@@ -167,7 +167,7 @@
     },
     {
       "_id": 116,
-      "label": "¿Cuál nivel?",
+      "label": "16B.1 ¿Cuál nivel?",
       "radio-options": "Primaria,Bachillerato,Más avanzado",
       "repeatable": false,
       "required": false,
@@ -176,7 +176,7 @@
     },
     {
       "_id": 117,
-      "label": "¿En qué tanda asistes? ",
+      "label": "16C. ¿En qué tanda asistes? ",
       "radio-options": "Mañana,Tarde,Noche",
       "repeatable": false,
       "required": false,
@@ -261,7 +261,7 @@
       "label": "18A ¿Cuál(es) curso(s)?",
       "repeatable": false,
       "required": false,
-      "skip_logic": "ResultOfQuestion('180Hasrepetidouncursoenlaescuela') isnt 'Sí'",
+      "skip_logic": "ResultOfQuestion('18Hasrepetidouncursoenlaescuela') isnt 'Sí'",
       "type": "text"
     },
     {
@@ -671,7 +671,7 @@
     },
     {
       "_id": 176,
-      "label": "Describe lo que haces en este trabajo",
+      "label": "34A. Describe lo que haces en este trabajo",
       "repeatable": false,
       "required": false,
       "skip_logic": "ResultOfQuestion('34Actualmenterealizasalgúntrabajoenelquenosetepagaonorecibesganancia') isnt 'Sí'",
@@ -840,7 +840,7 @@
       "questions": [
         {
           "_id": 196,
-          "label": "Un policía me amenazó verbalmente.",
+          "label": "49A. Un policía me amenazó verbalmente.",
           "radio-options": "Sí, No",
           "repeatable": false,
           "required": false,
@@ -848,7 +848,7 @@
         },
         {
           "_id": 197,
-          "label": "Un policía me cobró dinero sin justificación.",
+          "label": "49B. Un policía me cobró dinero sin justificación.",
           "radio-options": "Sí, No",
           "repeatable": false,
           "required": false,
@@ -856,7 +856,7 @@
         },
         {
           "_id": 198,
-          "label": "Un policía tomó algo que pertenecía a mí.",
+          "label": "49C. Un policía tomó algo que pertenecía a mí.",
           "radio-options": "Sí, No",
           "repeatable": false,
           "required": false,
@@ -864,7 +864,7 @@
         },
         {
           "_id": 199,
-          "label": "Un policía me maltrató físicamente.",
+          "label": "49D. Un policía me maltrató físicamente.",
           "radio-options": "Sí, No",
           "repeatable": false,
           "required": false,
@@ -872,7 +872,7 @@
         },
         {
           "_id": 200,
-          "label": "Un policía me acosó sexualmente.",
+          "label": "49E. Un policía me acosó sexualmente.",
           "radio-options": "Sí, No",
           "repeatable": false,
           "required": false,
@@ -1235,7 +1235,7 @@
     },
     {
       "_id": 241,
-      "label": "¿En cuál(es) lugar(es) pasó?",
+      "label": "76A. ¿En cuál(es) lugar(es) pasó?",
       "radio-options": "Casa, Escuela, Barrio",
       "repeatable": false,
       "required": false,
@@ -1721,7 +1721,7 @@
     },
     {
       "_id": 3001,
-      "label": "97A. Otro",
+      "label": "98A. Otro",
       "repeatable": false,
       "required": false,
       "skip_logic": "ResultOfQuestion('98ADóndehasrecibidoinformacióndeVIHSida') isnt 'Otro'",
