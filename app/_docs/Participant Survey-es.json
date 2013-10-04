@@ -657,7 +657,7 @@
       "label": "33. Otro - Tú eres...",
       "repeatable": false,
       "required": false,
-      "skip_logic": "ResultOfQuestion('Enestetrabajotúeres') isnt 'Otro'",
+      "skip_logic": "ResultOfQuestion('33Enestetrabajotúeres') isnt 'Otro'",
       "type": "text"
     },
     {
