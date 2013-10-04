@@ -32,15 +32,15 @@
       "radio-options": "Sí, No",
       "repeatable": false,
       "required": false,
-      "skip_logic": "",
+      "skip_logic": "ResultOfQuestion('10Tienesunactadenacimientodominicana') isnt 'Sí'",
       "type": "radio"
     },
     {
       "_id": 101,
       "label": "10.2 ¿Cuál es tu número de cédula?",
       "repeatable": false,
-      "required": false,
-      "skip_logic": "ResultOfQuestion('Tienescédula') isnt 'Sí'",
+      "required": false,   
+      "skip_logic": "ResultOfQuestion('101Tienescédula') isnt 'Sí'",
       "type": "text"
     },
     { 
