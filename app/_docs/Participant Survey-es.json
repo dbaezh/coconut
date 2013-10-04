@@ -1241,15 +1241,7 @@
       "required": false,
       "skip_logic": "ResultOfQuestion('76Compartestiempooterelacionasconmiembrosdeunapandilla') isnt 'Sí'",
       "type": "radio"
-    },
-    {
-      "_id": 242,
-      "hint": "Y recuerda que: tus respuestas son confidenciales y con esto queremos dar mejores servicios para proteger a los jóvenes.",
-      "label": "A partir de aquí, quisiéramos conocer acerca de tus experiencias personales en el hogar, en la escuela y en tu barrio con la delincuencia y crimen. También conocer qué opinas sobre la salud sexual y consumo de drogas. ",
-      "repeatable": false,
-      "required": false,
-      "type": "label"
-    },
+    },    
     {
       "_id": 243,
       "label": "Uso de Sustancias",
