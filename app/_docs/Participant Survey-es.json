@@ -666,7 +666,8 @@
       "label": "34. Actualmente, ¿realizas algún trabajo en el que no se te paga o no recibes ganancia?",
       "radio-options": "Sí, No",
       "repeatable": false,
-      "required": false,     
+      "required": false,  
+      "skip_logic": "ResultOfQuestion('26Hasrealizadoalgunavezuntrabajoporpagaoganancia') isnt 'No' and  ResultOfQuestion('27Durantelaúltimasemanarealizastealgúntrabajoporpagaoganancia') isnt 'No'",
       "type": "radio"
     },
     {
