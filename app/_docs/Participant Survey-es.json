@@ -584,14 +584,14 @@
         {
           "_id": 168,
           "autocomplete-options": "enero,febrero,marzo,abril,mayo,junio,julio,agosto,septiembre,octubre,noviembre,diciembre",
-          "label": "Mes",
+          "label": "28. Mes",
           "repeatable": false,
           "required": false,
           "type": "autocomplete from list"
         },
         {
           "_id": 168,
-          "label": "Año",
+          "label": "28. Año",
           "repeatable": false,
           "required": false,
           "type": "number",
