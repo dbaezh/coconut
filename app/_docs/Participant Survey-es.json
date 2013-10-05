@@ -600,7 +600,7 @@
       ],
       "repeatable": false,
       "required": false,
-      "skip_logic": "ResultOfQuestion('26Hasrealizadoalgunavezuntrabajoporpagaoganancia') isnt 'Sí'",
+      "skip_logic": "ResultOfQuestion('26Hasrealizadoalgunavezuntrabajoporpagaoganancia') isnt 'Sí' or ResultOfQuestion('27Durantelaúltimasemanarealizastealgúntrabajoporpagaoganancia') isnt 'Sí'",
       "type": "group"
     },
     {
@@ -609,7 +609,7 @@
       "radio-options": "En mi casa,En la casa del jefe/patrón,En la calle,Maquiladora/fabrica,Colmado/Tienda/Mercado/Kiosco/Almacén,Plantación/rancho/jardín,Sitio de construcción,Sitio de cantera/una mina,Otros",
       "repeatable": false,
       "required": false,
-      "skip_logic": "ResultOfQuestion('26Hasrealizadoalgunavezuntrabajoporpagaoganancia') isnt 'Sí'",
+      "skip_logic": "ResultOfQuestion('26Hasrealizadoalgunavezuntrabajoporpagaoganancia') isnt 'Sí' or ResultOfQuestion('27Durantelaúltimasemanarealizastealgúntrabajoporpagaoganancia') isnt 'Sí'",
       "type": "radio"
     },
     {
@@ -625,7 +625,7 @@
       "label": "30. ¿Cuántas horas trabajas en un día?",
       "repeatable": false,
       "required": false,
-      "skip_logic": "ResultOfQuestion('26Hasrealizadoalgunavezuntrabajoporpagaoganancia') isnt 'Sí'",
+      "skip_logic": "ResultOfQuestion('26Hasrealizadoalgunavezuntrabajoporpagaoganancia') isnt 'Sí' or ResultOfQuestion('27Durantelaúltimasemanarealizastealgúntrabajoporpagaoganancia') isnt 'Sí'",
       "type": "number"
     },
     {
@@ -633,7 +633,7 @@
       "label": "31. ¿Cuántos días trabajas en una semana?",
       "repeatable": false,
       "required": false,
-      "skip_logic": "ResultOfQuestion('26Hasrealizadoalgunavezuntrabajoporpagaoganancia') isnt 'Sí'",
+      "skip_logic": "ResultOfQuestion('26Hasrealizadoalgunavezuntrabajoporpagaoganancia') isnt 'Sí' or ResultOfQuestion('27Durantelaúltimasemanarealizastealgúntrabajoporpagaoganancia') isnt 'Sí'",
       "type": "number"
     },
     {
@@ -641,7 +641,7 @@
       "label": "32. En promedio, ¿cuánto ganas en una semana?",
       "repeatable": false,
       "required": false,
-      "skip_logic": "ResultOfQuestion('26Hasrealizadoalgunavezuntrabajoporpagaoganancia') isnt 'Sí'",
+      "skip_logic": "ResultOfQuestion('26Hasrealizadoalgunavezuntrabajoporpagaoganancia') isnt 'Sí' or ResultOfQuestion('27Durantelaúltimasemanarealizastealgúntrabajoporpagaoganancia') isnt 'Sí'",
       "type": "text"
     },
     {
@@ -650,7 +650,7 @@
       "radio-options": "Empleado con salario, Jefe, Ayudante familiar, Ayudante general, Por cuenta propia, Otro",
       "repeatable": false,
       "required": false, 
-      "skip_logic": "ResultOfQuestion('26Hasrealizadoalgunavezuntrabajoporpagaoganancia') isnt 'Sí'",
+      "skip_logic": "ResultOfQuestion('26Hasrealizadoalgunavezuntrabajoporpagaoganancia') isnt 'Sí' or ResultOfQuestion('27Durantelaúltimasemanarealizastealgúntrabajoporpagaoganancia') isnt 'Sí'",
       "type": "radio"
     },
     {
@@ -667,7 +667,6 @@
       "radio-options": "Sí, No",
       "repeatable": false,
       "required": false,  
-      "skip_logic": "ResultOfQuestion('26Hasrealizadoalgunavezuntrabajoporpagaoganancia') isnt 'No' and  ResultOfQuestion('27Durantelaúltimasemanarealizastealgúntrabajoporpagaoganancia') isnt 'No'",
       "type": "radio"
     },
     {
@@ -685,14 +684,14 @@
         {
           "_id": 168,
           "autocomplete-options": "enero,febrero,marzo,abril,mayo,junio,julio,agosto,septiembre,octubre,noviembre,diciembre",
-          "label": "Mes",
+          "label": "35. Mes",
           "repeatable": false,
           "required": false,
           "type": "autocomplete from list"
         },
         {
           "_id": 168,
-          "label": "Año",
+          "label": "35. Año",
           "repeatable": false,
           "required": false,
           "type": "number",
