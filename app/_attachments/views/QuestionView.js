@@ -34,7 +34,8 @@ QuestionView = (function(_super) {
     "click .validate_one": "onValidateOne",
     "click .duplicate_update": "duplicateUpdate",
     "click .duplicate_abort": "duplicateAbort",
-    "click .duplicate_none": "duplicateNone"
+    "click .duplicate_none": "duplicateNone",
+    "click .remove_repeat": "removeRepeat"
   };
 
   QuestionView.prototype.initialize = function(options) {
@@ -265,7 +266,6 @@ QuestionView = (function(_super) {
         }
       }
       todo = [[$province, provinces], [$city, cities], [$hood, hoods]];
-      console.log(todo);
       return $(todo).each(function(index, data) {
         var element, list;
 
@@ -681,7 +681,7 @@ QuestionView = (function(_super) {
     }
   };
 
-  QuestionView.prototype.toHTMLForm = function(questions, groupId) {
+  QuestionView.prototype.toHTMLForm = function(questions, groupId, isRepeatedGroup) {
     var html,
       _this = this;
 
@@ -693,7 +693,7 @@ QuestionView = (function(_super) {
     }
     html = '';
     _(questions).each(function(question) {
-      var groupTitle, index, isRepeatable, labelHeader, name, newGroupId, option, options, question_id, repeatable, validation, warning;
+      var groupTitle, index, isRepeatable, labelHeader, name, option, options, question_id, repeatable, validation, warning;
 
       labelHeader = question.type() === "label" ? ["<h2>", "</h2>"] : ["", ""];
       if (question.has('warning')) {
@@ -706,7 +706,7 @@ QuestionView = (function(_super) {
       if (isRepeatable) {
         repeatable = "        <button class='repeat'>+</button>      ";
       }
-      if (isRepeatable) {
+      if (isRepeatable || isRepeatedGroup) {
         name = question.safeLabel() + "[0]";
         question_id = question.get("id") + "-0";
       } else {
@@ -717,17 +717,10 @@ QuestionView = (function(_super) {
         bare: true
       }) : '';
       if (question.questions().length !== 0) {
-        if ((groupId != null) && groupId !== Coconut.questionView.model.id) {
-          name = "" + groupId + "." + name;
-        }
-        newGroupId = question_id;
-        if (isRepeatable) {
-          newGroupId = newGroupId + "[0]";
-        }
         if (question.label() !== '' && question.label() !== question.get("_id")) {
-          groupTitle = "<h1>" + (question.label()) + "</h1>";
+          groupTitle = "<h1>" + (question.label()) + " <span class='title_index'></span></h1>";
         }
-        return html += "          <div             data-group-id='" + question_id + "'            data-question-name='" + name + "'            data-question-id='" + question_id + "'            class='question group'>            " + (groupTitle || '') + "            " + (_this.toHTMLForm(question.questions(), newGroupId)) + "          </div>          " + (repeatable || '') + "        ";
+        return html += "          <div             data-group-id='" + question_id + "'            data-question-name='" + name + "'            data-question-id='" + question_id + "'            class='question group'>            " + (groupTitle || '') + "            " + (_this.toHTMLForm(question.questions(), question_id, isRepeatable)) + "          </div>          " + (repeatable || '') + "        ";
       } else {
         return html += "          " + (question.type() !== "hidden" ? "<div                class='question " + (question.type()) + "'                data-question-name='" + name + "'                data-question-id='" + question_id + "'                data-action_on_change='" + (_.escape(question.actionOnChange())) + "'                " + (validation || '') + "                " + (warning || '') + "                data-required='" + (question.required()) + "'              >" : "") + "          " + (!~(question.type().indexOf('hidden')) ? "<label type='" + (question.type()) + "' for='" + question_id + "'>" + labelHeader[0] + (question.label()) + labelHeader[1] + " <span></span></label>" : "") + "          " + ("<p class='grey'>" + (question.hint()) + "</p>") + "          <div class='message'></div>          " + ((function() {
           var _i, _len, _ref1;
@@ -865,27 +858,47 @@ QuestionView = (function(_super) {
     });
   };
 
-  QuestionView.prototype.repeat = _.throttle(function() {
-    var $button, inputElement, name, newIndex, newQuestion, questionId, regex, _i, _len, _ref1;
+  QuestionView.prototype.repeat = function(event) {
+    var $button, $input, inputElement, name, newIndex, newName, newQuestion, questionId, regex, _i, _len, _ref1;
 
+    event.stopImmediatePropagation();
     $button = $(event.target);
     newQuestion = $button.prev(".question").clone();
-    questionId = newQuestion.attr("data-group-id") || '';
+    questionId = newQuestion.attr("data-question-name") || '';
     _ref1 = newQuestion.find("input");
     for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
       inputElement = _ref1[_i];
-      inputElement = $(inputElement);
-      name = inputElement.attr("name");
-      regex = new RegExp("" + questionId + "\\[(\\d)\\]");
+      $input = $(inputElement);
+      name = $input.attr("name");
+      regex = new RegExp("\\[(\\d)\\]");
       newIndex = parseInt(_.last(name.match(regex))) + 1;
-      inputElement.attr("name", name.replace(regex, "" + questionId + "[" + newIndex + "]"));
+      newName = name.replace(regex, "[" + newIndex + "]");
+      $input.attr("name", newName);
+      window.testing = $input;
     }
-    $button.after(newQuestion.add($button.clone()));
+    newQuestion.find("h1 span").html(newIndex + 1000);
+    if (newQuestion.find(".remove_repeat").length === 0) {
+      newQuestion.append("<button class='remove_repeat'>Borrar</button><br>");
+    }
+    $button.after(newQuestion);
+    newQuestion.after($button.clone());
     $button.remove();
     return Coconut.questionView.updateCache();
-  }, 1000, {
-    trailing: false
-  });
+  };
+
+  QuestionView.prototype.removeRepeat = function(event) {
+    var $parent, i;
+
+    $parent = $(event.target).parent();
+    i = 0;
+    while (!$parent.hasClass("group")) {
+      if (i++ > 50) {
+        break;
+      }
+      $parent = $parent.parent();
+    }
+    return $parent.remove();
+  };
 
   QuestionView.prototype.getLocation = function(event) {
     var question_id,
