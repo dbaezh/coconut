@@ -848,7 +848,7 @@ class QuestionView extends Backbone.View
       window.testing = $input
 
     
-    newQuestion.find("h1 span").html(newIndex+1000)
+    newQuestion.find("h1 span").html(newIndex+1)
     newQuestion.append("<button class='remove_repeat'>Borrar</button><br>") if newQuestion.find(".remove_repeat").length == 0
 
     $button.after(newQuestion)

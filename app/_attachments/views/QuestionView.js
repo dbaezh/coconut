@@ -876,7 +876,7 @@ QuestionView = (function(_super) {
       $input.attr("name", newName);
       window.testing = $input;
     }
-    newQuestion.find("h1 span").html(newIndex + 1000);
+    newQuestion.find("h1 span").html(newIndex + 1);
     if (newQuestion.find(".remove_repeat").length === 0) {
       newQuestion.append("<button class='remove_repeat'>Borrar</button><br>");
     }
