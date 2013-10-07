@@ -69,11 +69,7 @@ class QuestionView extends Backbone.View
     # Trigger a change event for each of the questions that contain skip logic in their actionOnChange code
     @triggerChangeIn skipperList
 
-    @$el.find("input[type=text],input[type=number],input[type='autocomplete from previous entries'],input[type='autocomplete from list']").textinput()
-    @$el.find('input[type=radio],input[type=checkbox]').checkboxradio()
-    @$el.find('ul').listview()
-    @$el.find('select').selectmenu()
-    @$el.find('a').button()
+    @jQueryUIze(@$el)
     #@$el.find('input[type=date]').datebox
     #  mode: "calbox"
     #  dateFormat: "%d-%m-%Y"
@@ -111,6 +107,13 @@ class QuestionView extends Backbone.View
 
     surveyName = window.Coconut.questionView.model.id
     @updateLocations() if surveyName is "Participant Registration-es"
+
+  jQueryUIze: ( $obj ) ->
+    $obj.find("input[type=text],input[type=number],input[type='autocomplete from previous entries'],input[type='autocomplete from list']").textinput()
+    $obj.find('input[type=radio],input[type=checkbox]').checkboxradio()
+    $obj.find('ul').listview()
+    $obj.find('select').selectmenu()
+    $obj.find('a').button()
 
   addUuid: ->
     if window.questionCache['uuid']
@@ -603,16 +606,20 @@ class QuestionView extends Backbone.View
     if $('[name=complete]').prop("checked") isnt value
       $('[name=complete]').click()
 
-  toHTMLForm: (questions = @model, groupId, isRepeatedGroup) ->
+  toHTMLForm: (questions = @model, groupId, isRepeatedGroup, index) ->
     # Need this because we have recursion later
     questions = [questions] unless questions.length?
+    unless index?
+      index = 0
+    else
+      titleIndex = "<span class='title_index'>#{index+1}</span>"
     
     html = ''
 
     _(questions).each (question) =>
 
       labelHeader = if question.type() is "label"
-         ["<h2>","</h2>"]
+        ["<h2>","</h2>"]
       else
         ["", ""]
 
@@ -627,13 +634,13 @@ class QuestionView extends Backbone.View
 
       isRepeatable = question.repeatable()
 
-      repeatable = "
+      repeatButton = "
         <button class='repeat'>+</button>
       " if isRepeatable
 
       if isRepeatable || isRepeatedGroup
-        name        = question.safeLabel() + "[0]"
-        question_id = question.get("id") + "-0"
+        name        = question.safeLabel() + "[#{index}]"
+        question_id = question.get("id") + "-#{index}"
       else
         name        = question.safeLabel()
         question_id = question.get("id")
@@ -646,7 +653,7 @@ class QuestionView extends Backbone.View
 
       if question.questions().length isnt 0
 
-        groupTitle = "<h1>#{question.label()} <span class='title_index'></span></h1>" if question.label() isnt '' and question.label() isnt question.get("_id")
+        groupTitle = "<h1>#{question.label()} #{titleIndex || ''}</h1>" if question.label() isnt '' and question.label() isnt question.get("_id")
 
         html += "
           <div 
@@ -655,10 +662,10 @@ class QuestionView extends Backbone.View
             data-question-id='#{question_id}'
             class='question group'>
             #{(groupTitle) || ''}
-            #{@toHTMLForm(question.questions(), question_id, isRepeatable)}
+            #{@toHTMLForm(question.questions(), question_id, isRepeatable, index)}
           </div>
 
-          #{repeatable || ''}
+          #{repeatButton || ''}
 
         "
       else
@@ -782,7 +789,7 @@ class QuestionView extends Backbone.View
             else
               ""
           }
-          #{repeatable || ''}
+          #{repeatButton || ''}
         "
 
     return html
@@ -791,6 +798,7 @@ class QuestionView extends Backbone.View
     window.questionCache = {}
     window.getValueCache = {}
     window.$questions = $(".question")
+
 
     for question in window.$questions
       name = question.getAttribute("data-question-name")
@@ -830,32 +838,36 @@ class QuestionView extends Backbone.View
 
     event.stopImmediatePropagation()
 
-    $button = $(event.target)
-    newQuestion = $button.prev(".question").clone()
-    questionId = newQuestion.attr("data-question-name") || ''
-    # Fix the indexes
+    $button   = $(event.target)
+    $question = $button.prev(".question")
 
-    for inputElement in newQuestion.find("input")
+    idSplit = $question.attr("data-question-id").split("-")
 
-      $input = $(inputElement)
-      name   = $input.attr("name")
+    id      = parseInt(_(idSplit).first())
+    index   = parseInt(_(idSplit).last())
 
-      regex       = new RegExp("\\[(\\d)\\]")
-      newIndex    = parseInt(_.last(name.match(regex))) + 1
-      newName     = name.replace(regex,"[#{newIndex}]")
+    question = _(Coconut.questionView.model.questions()).where({"id":id})[0]
 
-      $input.attr("name", newName)
-      window.testing = $input
+    groupId = ''
+    isRepeatedGroup = true
 
-    
-    newQuestion.find("h1 span").html(newIndex+1)
-    newQuestion.append("<button class='remove_repeat'>Borrar</button><br>") if newQuestion.find(".remove_repeat").length == 0
+    # render html and make a dom fragment
+    $el = $(@toHTMLForm(question, groupId, isRepeatedGroup, index + 1))
 
-    $button.after(newQuestion)
-    newQuestion.after($button.clone())
+    # add dom fragment after question being duplicated
+    $question.after($el)
+
+    # add delete button
+    $el.find(".question").last().append("<button class='remove_repeat'>Borrar</button><br>") if $el.find(".remove_repeat").length == 0
+
+    # call jquery on new section
+    @jQueryUIze($el)
+
+    # remove duplicate button
     $button.remove()
 
     Coconut.questionView.updateCache()
+
 
   removeRepeat: (event) ->
     $parent = $(event.target).parent()

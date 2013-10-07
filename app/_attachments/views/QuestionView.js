@@ -86,11 +86,7 @@ QuestionView = (function(_super) {
       }
     });
     this.triggerChangeIn(skipperList);
-    this.$el.find("input[type=text],input[type=number],input[type='autocomplete from previous entries'],input[type='autocomplete from list']").textinput();
-    this.$el.find('input[type=radio],input[type=checkbox]').checkboxradio();
-    this.$el.find('ul').listview();
-    this.$el.find('select').selectmenu();
-    this.$el.find('a').button();
+    this.jQueryUIze(this.$el);
     _.each($("input[type='autocomplete from list'],input[type='autocomplete from previous entries']"), function(element) {
       var minLength, source;
 
@@ -121,6 +117,14 @@ QuestionView = (function(_super) {
     if (surveyName === "Participant Registration-es") {
       return this.updateLocations();
     }
+  };
+
+  QuestionView.prototype.jQueryUIze = function($obj) {
+    $obj.find("input[type=text],input[type=number],input[type='autocomplete from previous entries'],input[type='autocomplete from list']").textinput();
+    $obj.find('input[type=radio],input[type=checkbox]').checkboxradio();
+    $obj.find('ul').listview();
+    $obj.find('select').selectmenu();
+    return $obj.find('a').button();
   };
 
   QuestionView.prototype.addUuid = function() {
@@ -681,8 +685,8 @@ QuestionView = (function(_super) {
     }
   };
 
-  QuestionView.prototype.toHTMLForm = function(questions, groupId, isRepeatedGroup) {
-    var html,
+  QuestionView.prototype.toHTMLForm = function(questions, groupId, isRepeatedGroup, index) {
+    var html, titleIndex,
       _this = this;
 
     if (questions == null) {
@@ -691,9 +695,14 @@ QuestionView = (function(_super) {
     if (questions.length == null) {
       questions = [questions];
     }
+    if (index == null) {
+      index = 0;
+    } else {
+      titleIndex = "<span class='title_index'>" + (index + 1) + "</span>";
+    }
     html = '';
     _(questions).each(function(question) {
-      var groupTitle, index, isRepeatable, labelHeader, name, option, options, question_id, repeatable, validation, warning;
+      var groupTitle, isRepeatable, labelHeader, name, option, options, question_id, repeatButton, validation, warning;
 
       labelHeader = question.type() === "label" ? ["<h2>", "</h2>"] : ["", ""];
       if (question.has('warning')) {
@@ -704,11 +713,11 @@ QuestionView = (function(_super) {
       }
       isRepeatable = question.repeatable();
       if (isRepeatable) {
-        repeatable = "        <button class='repeat'>+</button>      ";
+        repeatButton = "        <button class='repeat'>+</button>      ";
       }
       if (isRepeatable || isRepeatedGroup) {
-        name = question.safeLabel() + "[0]";
-        question_id = question.get("id") + "-0";
+        name = question.safeLabel() + ("[" + index + "]");
+        question_id = question.get("id") + ("-" + index);
       } else {
         name = question.safeLabel();
         question_id = question.get("id");
@@ -718,9 +727,9 @@ QuestionView = (function(_super) {
       }) : '';
       if (question.questions().length !== 0) {
         if (question.label() !== '' && question.label() !== question.get("_id")) {
-          groupTitle = "<h1>" + (question.label()) + " <span class='title_index'></span></h1>";
+          groupTitle = "<h1>" + (question.label()) + " " + (titleIndex || '') + "</h1>";
         }
-        return html += "          <div             data-group-id='" + question_id + "'            data-question-name='" + name + "'            data-question-id='" + question_id + "'            class='question group'>            " + (groupTitle || '') + "            " + (_this.toHTMLForm(question.questions(), question_id, isRepeatable)) + "          </div>          " + (repeatable || '') + "        ";
+        return html += "          <div             data-group-id='" + question_id + "'            data-question-name='" + name + "'            data-question-id='" + question_id + "'            class='question group'>            " + (groupTitle || '') + "            " + (_this.toHTMLForm(question.questions(), question_id, isRepeatable, index)) + "          </div>          " + (repeatButton || '') + "        ";
       } else {
         return html += "          " + (question.type() !== "hidden" ? "<div                class='question " + (question.type()) + "'                data-question-name='" + name + "'                data-question-id='" + question_id + "'                data-action_on_change='" + (_.escape(question.actionOnChange())) + "'                " + (validation || '') + "                " + (warning || '') + "                data-required='" + (question.required()) + "'              >" : "") + "          " + (!~(question.type().indexOf('hidden')) ? "<label type='" + (question.type()) + "' for='" + question_id + "'>" + labelHeader[0] + (question.label()) + labelHeader[1] + " <span></span></label>" : "") + "          " + ("<p class='grey'>" + (question.hint()) + "</p>") + "          <div class='message'></div>          " + ((function() {
           var _i, _len, _ref1;
@@ -788,7 +797,7 @@ QuestionView = (function(_super) {
             default:
               return "<input name='" + name + "' id='" + question_id + "' type='" + (question.type()) + "' value='" + (question.value()) + "'></input>";
           }
-        }).call(_this)) + "          " + (question.type() !== "hidden" ? "</div>" : "") + "          " + (repeatable || '') + "        ";
+        }).call(_this)) + "          " + (question.type() !== "hidden" ? "</div>" : "") + "          " + (repeatButton || '') + "        ";
       }
     });
     return html;
@@ -859,29 +868,25 @@ QuestionView = (function(_super) {
   };
 
   QuestionView.prototype.repeat = function(event) {
-    var $button, $input, inputElement, name, newIndex, newName, newQuestion, questionId, regex, _i, _len, _ref1;
+    var $button, $el, $question, groupId, id, idSplit, index, isRepeatedGroup, question;
 
     event.stopImmediatePropagation();
     $button = $(event.target);
-    newQuestion = $button.prev(".question").clone();
-    questionId = newQuestion.attr("data-question-name") || '';
-    _ref1 = newQuestion.find("input");
-    for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
-      inputElement = _ref1[_i];
-      $input = $(inputElement);
-      name = $input.attr("name");
-      regex = new RegExp("\\[(\\d)\\]");
-      newIndex = parseInt(_.last(name.match(regex))) + 1;
-      newName = name.replace(regex, "[" + newIndex + "]");
-      $input.attr("name", newName);
-      window.testing = $input;
+    $question = $button.prev(".question");
+    idSplit = $question.attr("data-question-id").split("-");
+    id = parseInt(_(idSplit).first());
+    index = parseInt(_(idSplit).last());
+    question = _(Coconut.questionView.model.questions()).where({
+      "id": id
+    })[0];
+    groupId = '';
+    isRepeatedGroup = true;
+    $el = $(this.toHTMLForm(question, groupId, isRepeatedGroup, index + 1));
+    $question.after($el);
+    if ($el.find(".remove_repeat").length === 0) {
+      $el.find(".question").last().append("<button class='remove_repeat'>Borrar</button><br>");
     }
-    newQuestion.find("h1 span").html(newIndex + 1);
-    if (newQuestion.find(".remove_repeat").length === 0) {
-      newQuestion.append("<button class='remove_repeat'>Borrar</button><br>");
-    }
-    $button.after(newQuestion);
-    newQuestion.after($button.clone());
+    this.jQueryUIze($el);
     $button.remove();
     return Coconut.questionView.updateCache();
   };
