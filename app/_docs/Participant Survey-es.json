@@ -10,6 +10,7 @@
       "required": false,
       "type": "radio"
     },
+
     {
       "_id": 100,
       "label": "9. Dónde naciste - otro",

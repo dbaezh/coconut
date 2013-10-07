@@ -13,6 +13,7 @@ class QuestionView extends Backbone.View
     "click .duplicate_update" : "duplicateUpdate"
     "click .duplicate_abort" : "duplicateAbort"
     "click .duplicate_none" : "duplicateNone"
+    "click .remove_repeat" : "removeRepeat"
 
   initialize: (options) =>
     #window.onbeforeunload = ->
@@ -226,8 +227,7 @@ class QuestionView extends Backbone.View
         [$hood, hoods]
       ]
 
-      console.log todo
-
+      # update autofill options
       $(todo).each (index, data) ->
         element = data[0]
         list    = data[1]
@@ -603,7 +603,7 @@ class QuestionView extends Backbone.View
     if $('[name=complete]').prop("checked") isnt value
       $('[name=complete]').click()
 
-  toHTMLForm: (questions = @model, groupId) ->
+  toHTMLForm: (questions = @model, groupId, isRepeatedGroup) ->
     # Need this because we have recursion later
     questions = [questions] unless questions.length?
     
@@ -631,7 +631,7 @@ class QuestionView extends Backbone.View
         <button class='repeat'>+</button>
       " if isRepeatable
 
-      if isRepeatable
+      if isRepeatable || isRepeatedGroup
         name        = question.safeLabel() + "[0]"
         question_id = question.get("id") + "-0"
       else
@@ -646,12 +646,7 @@ class QuestionView extends Backbone.View
 
       if question.questions().length isnt 0
 
-        name = "#{groupId}.#{name}" if groupId? && groupId isnt Coconut.questionView.model.id
-
-        newGroupId = question_id
-        newGroupId = newGroupId + "[0]" if isRepeatable
-
-        groupTitle = "<h1>#{question.label()}</h1>" if question.label() isnt '' and question.label() isnt question.get("_id")
+        groupTitle = "<h1>#{question.label()} <span class='title_index'></span></h1>" if question.label() isnt '' and question.label() isnt question.get("_id")
 
         html += "
           <div 
@@ -660,7 +655,7 @@ class QuestionView extends Backbone.View
             data-question-id='#{question_id}'
             class='question group'>
             #{(groupTitle) || ''}
-            #{@toHTMLForm(question.questions(), newGroupId)}
+            #{@toHTMLForm(question.questions(), question_id, isRepeatable)}
           </div>
 
           #{repeatable || ''}
@@ -831,29 +826,46 @@ class QuestionView extends Backbone.View
     Coconut.resultCollection.any (result) =>
       @result.get(@key) == result.get(@key) and result.get('question') == question
 
-  repeat: _.throttle( ->
+  repeat: (event) ->
 
-      $button = $(event.target)
-      newQuestion = $button.prev(".question").clone()
-      questionId = newQuestion.attr("data-group-id") || ''
-      # Fix the indexes
+    event.stopImmediatePropagation()
 
-      for inputElement in newQuestion.find("input")
+    $button = $(event.target)
+    newQuestion = $button.prev(".question").clone()
+    questionId = newQuestion.attr("data-question-name") || ''
+    # Fix the indexes
 
-        inputElement = $(inputElement)
-        name         = inputElement.attr("name")
+    for inputElement in newQuestion.find("input")
 
-        regex        = new RegExp("#{questionId}\\[(\\d)\\]")
-        newIndex     = parseInt(_.last(name.match(regex))) + 1
+      $input = $(inputElement)
+      name   = $input.attr("name")
 
-        inputElement.attr("name", name.replace(regex,"#{questionId}[#{newIndex}]"))
+      regex       = new RegExp("\\[(\\d)\\]")
+      newIndex    = parseInt(_.last(name.match(regex))) + 1
+      newName     = name.replace(regex,"[#{newIndex}]")
 
-      $button.after(newQuestion.add($button.clone()))
-      $button.remove()
+      $input.attr("name", newName)
+      window.testing = $input
 
-      Coconut.questionView.updateCache()
+    
+    newQuestion.find("h1 span").html(newIndex+1)
+    newQuestion.append("<button class='remove_repeat'>Borrar</button><br>") if newQuestion.find(".remove_repeat").length == 0
 
-    , 1000, trailing: false )
+    $button.after(newQuestion)
+    newQuestion.after($button.clone())
+    $button.remove()
+
+    Coconut.questionView.updateCache()
+
+  removeRepeat: (event) ->
+    $parent = $(event.target).parent()
+    i = 0
+    while not $parent.hasClass("group")
+      break if i++ > 50
+      $parent = $parent.parent()
+
+    $parent.remove()
+
 
   getLocation: (event) ->
     question_id = $(event.target).closest("[data-question-id]").attr("data-question-id")
