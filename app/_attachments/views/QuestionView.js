@@ -189,16 +189,10 @@ QuestionView = (function(_super) {
   };
 
   QuestionView.prototype.onChange = function(event) {
-    var $target, e, eventStamp, messageVisible, surveyName, targetName, warningShowing, wasValid;
+    var $target, e, messageVisible, surveyName, targetName, warningShowing, wasValid;
 
     event.stopImmediatePropagation();
     $target = $(event.target);
-    eventStamp = $target.attr("id");
-    if (eventStamp === this.oldStamp && (new Date()).getTime() < (this.throttleTime || 0) + 1000) {
-      return;
-    }
-    Coconut.questionView.throttleTime = (new Date()).getTime();
-    this.oldStamp = eventStamp;
     targetName = $target.attr("name");
     if (targetName === "complete") {
       if (this.changedComplete) {

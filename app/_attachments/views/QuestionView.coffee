@@ -153,16 +153,6 @@ class QuestionView extends Backbone.View
 
     $target = $(event.target)
 
-    #
-    # Don't duplicate events unless 1 second later
-    #
-    eventStamp = $target.attr("id")
-
-    return if eventStamp == @oldStamp and (new Date()).getTime() < (@throttleTime||0) + 1000
-
-    Coconut.questionView.throttleTime = (new Date()).getTime()
-    @oldStamp     = eventStamp
-
     targetName = $target.attr("name")
 
     if targetName == "complete"
@@ -583,6 +573,10 @@ class QuestionView extends Backbone.View
           name = ((/function (.{1,})\(/).exec(error.constructor.toString())[1])
           message = error.message
           alert "Skip logic error in question #{$question.attr('data-question-id')}\n\n#{name}\n\n#{message}"
+
+
+
+
 
       if result
         $question[0].style.display = "none"
