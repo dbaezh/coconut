@@ -178,7 +178,7 @@
     {
       "_id": 117,
       "label": "16C. ¿En qué tanda asistes? ",
-      "radio-options": "Mañana,Tarde,Noche, No responde",
+      "radio-options": "Mañana,Tarde,Mañana y Tarde,Noche, No responde",
       "repeatable": false,
       "required": false,
       "skip_logic": "ResultOfQuestion('16Estasactualmenteasistiendoaunaescuelaouniversidad') isnt 'Sí'",
