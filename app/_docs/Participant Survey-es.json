@@ -1631,7 +1631,7 @@
       "radio-options": "La semana pasada, En los últimos 6 meses, En los últimos 12 meses,No responde",
       "repeatable": false,
       "required": false,
-      "skip_logic": "ResultOfQuestion('91Algunavezhastenidorelacionessexualespordinerobienescelularesviviendaetcoserviciosproteccióncomidaetc')",
+      "skip_logic": "ResultOfQuestion('91Algunavezhastenidorelacionessexualespordinerobienescelularesviviendaetcoserviciosproteccióncomidaetc') isnt 'Sí'",
       "type": "radio"
     },
     {
@@ -1705,7 +1705,7 @@
       "radio-options": "Escuela, Padre o Madre, Promotor de Salud Amigos, Internet,No responde, Otro",
       "repeatable": false,
       "required": false,
-      "skip_logic": "ResultOfQuestion('97Algunavezlehan enseñadoacercadeprevencióndeembarazo') isnt 'Sí'",
+      "skip_logic": "ResultOfQuestion('97Algunavezlehanenseñadoacercadeprevencióndeembarazo') isnt 'Sí'",
       "type": "radio"
     },
     {
