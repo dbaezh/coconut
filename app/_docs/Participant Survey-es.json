@@ -695,7 +695,8 @@
           "label": "35. Mes",
           "repeatable": false,
           "required": false,
-          "type": "autocomplete from list"
+          "type": "autocomplete from list",
+	   "validation": "return \"Mes debe ser de 1 al 12.\" if parseInt(value) < 1 || parseInt(value) > 12 "
         },
         {
           "_id": 168,
@@ -703,7 +704,7 @@
           "repeatable": false,
           "required": false,
           "type": "number",
-          "validation": "return \"Año debe ser 4 digitos.\" if value.toString().length != 4"
+          "validation": "return \"Año debe ser 4 digitos.\" if value.toString().length != 4 || parseInt(value) < 1"
         }
       ],
       "repeatable": false,
@@ -1477,63 +1478,72 @@
           "label": "83A. Marihuana",
           "repeatable": false,
           "required": false,
-          "type": "number"
+          "type": "number",
+	   "validation": "return \"Mes debe ser de 1 al 35.\" if parseInt(value) < 1 || parseInt(value) > 35 "
         },
         {
           "_id": 272,
           "label": "83B.Crack",
           "repeatable": false,
           "required": false,
-          "type": "number"
+          "type": "number",
+	   "validation": "return \"Mes debe ser de 1 al 35.\" if parseInt(value) < 1 || parseInt(value) > 35 "
         },
         {
           "_id": 273,
           "label": "83C.Cocaína en polvo",
           "repeatable": false,
           "required": false,
-          "type": "number"
+          "type": "number",
+	   "validation": "return \"Mes debe ser de 1 al 35.\" if parseInt(value) < 1 || parseInt(value) > 35 "
         },
         {
           "_id": 274,
           "label": "83D.Heroína",
           "repeatable": false,
           "required": false,
-          "type": "number"
+          "type": "number",
+	   "validation": "return \"Mes debe ser de 1 al 35.\" if parseInt(value) < 1 || parseInt(value) > 35 "
         },
         {
           "_id": 275,
           "label": "83E.Metanfetamina o cristal",
           "repeatable": false,
           "required": false,
-          "type": "number"
+          "type": "number",
+	   "validation": "return \"Mes debe ser de 1 al 35.\" if parseInt(value) < 1 || parseInt(value) > 35 "
         },
         {
           "_id": 276,
           "label": "83F.Éxtasis/MDMA",
           "repeatable": false,
           "required": false,
-          "type": "number"
+          "type": "number",
+	   "validation": "return \"Mes debe ser de 1 al 35.\" if parseInt(value) < 1 || parseInt(value) > 35 "
         },
         {
           "_id": 277,
           "label": "83G.Inhalantes como pegamento, cemento, pintura, spray",
           "repeatable": false,
           "required": false,
-          "type": "number"
+          "type": "number",
+	   "validation": "return \"Mes debe ser de 1 al 35.\" if parseInt(value) < 1 || parseInt(value) > 35 "
         },
         {
           "_id": 278,
           "label": "83H.Otra",
           "repeatable": false,
           "required": false,
-          "type": "number"
+          "type": "number",
+	   "validation": "return \"Mes debe ser de 1 al 35.\" if parseInt(value) < 1 || parseInt(value) > 35 "
         },
         {
           "_id": 279,
           "label": "83H. Otra droga",
           "repeatable": false,
           "required": false,
-          "type": "number"
+          "type": "number",
+	   "validation": "return \"Mes debe ser de 1 al 35.\" if parseInt(value) < 1 || parseInt(value) > 35 "
         }
       ],
       "repeatable": false,
@@ -1562,7 +1572,8 @@
       "repeatable": false,
       "required": false,
       "skip_logic": "ResultOfQuestion('84Algunavezhastenidorelacionessexuales') isnt 'Sí'",
-      "type": "number"
+      "type": "number",
+       "validation": "return \"Mes debe ser de 1 al 35.\" if parseInt(value) < 1 || parseInt(value) > 35 "
     },
     {
       "_id": 283,
