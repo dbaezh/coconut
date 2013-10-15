@@ -1755,7 +1755,7 @@
     {
       "_id": 301,
       "action_on_questions_loaded": "",
-      "label": "complete",
+      "label": "Completado",
       "radio-options": true,
       "repeatable": false,
       "required": false,
