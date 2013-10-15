@@ -78,14 +78,13 @@
       "_id": 111,
       "label": "Fecha de nacimiento",
       "questions": [
-        {
+       {
           "_id": 112,
-          "label": "Año",
+          "label": "Día",
           "repeatable": false,
           "required": false,
           "type": "number",
-          "validation": "return \"Año debe ser 4 digitos.\" if value.toString().length != 4",
-          "warning" : "min = moment().year()-26;max = moment().year(); valid = min <= parseInt(value) <= max; return \"Advertencia, el año normalmente es entre #{moment().year()-26} y #{moment().year()}\" unless valid"
+          "validation": "return \"Dia debe ser de 1 al 31.\" if parseInt(value) < 1 || parseInt(value) > 31 "
         },
         {
           "_id": 113,
@@ -93,20 +92,29 @@
           "label": "Mes",
           "repeatable": false,
           "required": false,
-          "type": "autocomplete from list"
-        },
-        {
+          "type": "autocomplete from list"	   
+        },        
+	{
           "_id": 114,
-          "label": "Día",
+          "label": "Año",
           "repeatable": false,
           "required": false,
           "type": "number",
-          "validation" : "m = moment(\"#{ResultOfQuestion('Día')} #{ResultOfQuestion('Mes')} #{ResultOfQuestion('Año')}\", \"DD MMM YYYY\",\"es\"); return \"El año, mes y día debe ser una fecha valida.\" unless m.isValid() "
+	  "validation": "return \"Año debe ser 4 digitos.\" if value.toString().length != 4 || parseInt(value) < 1",
+          "warning" : "min = moment().year()-26;max = moment().year(); valid = min <= parseInt(value) <= max; return \"Advertencia, el año normalmente es entre #{moment().year()-26} y #{moment().year()}\" unless valid"
         }
       ],
       "repeatable": false,
       "required": false,
       "type": "group"
+    },
+    {
+      "_id": 120,
+      "label": "Sexo",
+      "radio-options": "M,F",
+      "repeatable": false,
+      "required": true,
+      "type": "radio"
     },
     {
       "_id": 115,
@@ -150,15 +158,7 @@
         }
       ],
       "type": "group"
-    },
-    {
-      "_id": 120,
-      "label": "Sexo",
-      "radio-options": "M,F",
-      "repeatable": false,
-      "required": true,
-      "type": "radio"
-    },
+    },    
     {
       "_id": 121,
       "label": "¿Tiene una dirección de correo electrónico?",

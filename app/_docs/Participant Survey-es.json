@@ -1479,7 +1479,7 @@
           "repeatable": false,
           "required": false,
           "type": "number",
-	   "validation": "return \"Mes debe ser de 1 al 35.\" if parseInt(value) < 1 || parseInt(value) > 35 "
+	   "validation": "return \"El numero debe ser de 1 al 35.\" if parseInt(value) < 1 || parseInt(value) > 35 "
         },
         {
           "_id": 272,
@@ -1487,7 +1487,7 @@
           "repeatable": false,
           "required": false,
           "type": "number",
-	   "validation": "return \"Mes debe ser de 1 al 35.\" if parseInt(value) < 1 || parseInt(value) > 35 "
+	   "validation": "return \"El numero debe ser de 1 al 35.\" if parseInt(value) < 1 || parseInt(value) > 35 "
         },
         {
           "_id": 273,
@@ -1495,7 +1495,7 @@
           "repeatable": false,
           "required": false,
           "type": "number",
-	   "validation": "return \"Mes debe ser de 1 al 35.\" if parseInt(value) < 1 || parseInt(value) > 35 "
+	   "validation": "return \"El numero debe ser de 1 al 35.\" if parseInt(value) < 1 || parseInt(value) > 35 "
         },
         {
           "_id": 274,
@@ -1503,7 +1503,7 @@
           "repeatable": false,
           "required": false,
           "type": "number",
-	   "validation": "return \"Mes debe ser de 1 al 35.\" if parseInt(value) < 1 || parseInt(value) > 35 "
+	   "validation": "return \"El numero debe ser de 1 al 35.\" if parseInt(value) < 1 || parseInt(value) > 35 "
         },
         {
           "_id": 275,
@@ -1511,7 +1511,7 @@
           "repeatable": false,
           "required": false,
           "type": "number",
-	   "validation": "return \"Mes debe ser de 1 al 35.\" if parseInt(value) < 1 || parseInt(value) > 35 "
+	   "validation": "return \"El numero debe ser de 1 al 35.\" if parseInt(value) < 1 || parseInt(value) > 35 "
         },
         {
           "_id": 276,
@@ -1519,7 +1519,7 @@
           "repeatable": false,
           "required": false,
           "type": "number",
-	   "validation": "return \"Mes debe ser de 1 al 35.\" if parseInt(value) < 1 || parseInt(value) > 35 "
+	   "validation": "return \"El numero debe ser de 1 al 35.\" if parseInt(value) < 1 || parseInt(value) > 35 "
         },
         {
           "_id": 277,
@@ -1527,7 +1527,7 @@
           "repeatable": false,
           "required": false,
           "type": "number",
-	   "validation": "return \"Mes debe ser de 1 al 35.\" if parseInt(value) < 1 || parseInt(value) > 35 "
+	   "validation": "return \"El numero debe ser de 1 al 35.\" if parseInt(value) < 1 || parseInt(value) > 35 "
         },
         {
           "_id": 278,
@@ -1535,7 +1535,7 @@
           "repeatable": false,
           "required": false,
           "type": "number",
-	   "validation": "return \"Mes debe ser de 1 al 35.\" if parseInt(value) < 1 || parseInt(value) > 35 "
+	   "validation": "return \"El numero debe ser de 1 al 35.\" if parseInt(value) < 1 || parseInt(value) > 35 "
         },
         {
           "_id": 279,
@@ -1543,7 +1543,7 @@
           "repeatable": false,
           "required": false,
           "type": "number",
-	   "validation": "return \"Mes debe ser de 1 al 35.\" if parseInt(value) < 1 || parseInt(value) > 35 "
+	   "validation": "return \"El numero debe ser de 1 al 35.\" if parseInt(value) < 1 || parseInt(value) > 35 "
         }
       ],
       "repeatable": false,
