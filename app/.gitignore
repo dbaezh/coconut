@@ -1,6 +1,6 @@
-.couchapprc
-.DS_Store
-.couchappignore
+\.couchapprc
+\.DS_Store
+\.couchappignore
 *.swp
 *.map
 
