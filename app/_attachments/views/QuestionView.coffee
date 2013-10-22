@@ -11,7 +11,7 @@ class QuestionView extends Backbone.View
     "click .next_error"   : "runValidate"
     "click .validate_one" : "onValidateOne"
     "click .duplicate_update" : "duplicateUpdate"
-    "click .duplicate_abort" : "duplicateAbort"
+    "click .duplicate_abordt" : "duplicateAbort"
     "click .duplicate_none" : "duplicateNone"
     "click .remove_repeat" : "removeRepeat"
 
@@ -155,7 +155,7 @@ class QuestionView extends Backbone.View
 
     targetName = $target.attr("name")
 
-    if targetName == "complete"
+    if targetName == "Completado"
       if @changedComplete
         @changedComplete = false
         return
@@ -332,7 +332,7 @@ class QuestionView extends Backbone.View
 
   validateAll: () ->
 
-    $button = $("[name=complete]")
+    $button = $("[name=Completado]")
 
     isValid = true
 
@@ -349,7 +349,7 @@ class QuestionView extends Backbone.View
     @completeButton isValid
 
     # find the complete button
-    completeButtonModel = _(Coconut.questionView.model.get("questions")).filter((a) -> a.get("label") == "complete" )[0]
+    completeButtonModel = _(Coconut.questionView.model.get("questions")).filter((a) -> a.get("label") == "Completado" )[0]
 
     if isValid and onComplete = completeButtonModel.has("onComplete")
       if onComplete.type is "redirect" and onComplete.route
@@ -371,7 +371,7 @@ class QuestionView extends Backbone.View
     $question = window.questionCache[key]
     $message  = $question.find(".message")
 
-    return '' if key is 'complete'
+    return '' if key is 'Completado'
 
     try
       message = @isValid(key)
@@ -574,10 +574,6 @@ class QuestionView extends Backbone.View
           message = error.message
           alert "Skip logic error in question #{$question.attr('data-question-id')}\n\n#{name}\n\n#{message}"
 
-
-
-
-
       if result
         $question[0].style.display = "none"
       else
@@ -599,8 +595,8 @@ class QuestionView extends Backbone.View
 
   completeButton: ( value ) ->
     @changedComplete = true
-    if $('[name=complete]').prop("checked") isnt value
-      $('[name=complete]').click()
+    if $('[name=Completado]').prop("checked") isnt value
+      $('[name=Completado]').click()
 
   toHTMLForm: (questions = @model, groupId, isRepeatedGroup, index) ->
     # Need this because we have recursion later
@@ -799,7 +795,7 @@ class QuestionView extends Backbone.View
 
     for question in window.$questions
       name = question.getAttribute("data-question-name")
-      continue if name is "complete"
+      continue if name is "Completado"
       continue if name is Coconut.questionView.model.safeLabel()
       continue if ~question.getAttribute('class').indexOf("group")
       if name? and name isnt ""

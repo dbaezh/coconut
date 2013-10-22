@@ -1,5 +1,5 @@
 (doc) ->
-  if doc.collection is "result" and doc.complete
+  if doc.collection is "result" and doc.Completado
 
     return unless doc['Apellido']? and doc['Nombre'] and doc['BarrioComunidad'] and doc['Sexo']
 
