@@ -406,6 +406,9 @@ QuestionView = (function(_super) {
     if (key === 'Completado') {
       return '';
     }
+    if (~$question.hasClass("group")) {
+      return '';
+    }
     try {
       message = this.isValid(key);
     } catch (_error) {
@@ -790,9 +793,6 @@ QuestionView = (function(_super) {
         continue;
       }
       if (name === Coconut.questionView.model.safeLabel()) {
-        continue;
-      }
-      if (~question.getAttribute('class').indexOf("group")) {
         continue;
       }
       if ((name != null) && name !== "") {

@@ -379,6 +379,7 @@ class QuestionView extends Backbone.View
     $message  = $question.find(".message")
 
     return '' if key is 'Completado'
+    return '' if ~$question.hasClass("group")
 
     try
       message = @isValid(key)
@@ -804,7 +805,6 @@ class QuestionView extends Backbone.View
       name = question.getAttribute("data-question-name")
       continue if name is "Completado"
       continue if name is Coconut.questionView.model.safeLabel()
-      continue if ~question.getAttribute('class').indexOf("group")
       if name? and name isnt ""
         accessorFunction = {}
         window.questionCache[name] = $(question)
