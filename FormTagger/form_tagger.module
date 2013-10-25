@@ -1,0 +1,32 @@
+<?php
+/*
+ * This is all very hard coded, please bear with me.
+ * 
+ * This code assumes the following:
+ *   1) There is a program node creation form called "program_node_form"
+ *   2) The user has a field machine name "field_user_provider"
+ *   2.1) That field is a taxonomy term reference and we can get the tid
+ *   3) The program node has a field machine name "field_program_provider"
+ *
+ * What it does is take the user's provider and attach it to the program.
+ */
+
+function form_tagger_form_alter( &$form, &$form_state, $form_id ) {
+  global $user;
+
+  //echo $form_id;
+  switch ( $form_id ) {
+    case "program_node_form":
+
+      $user_data = user_load($user->uid);
+      $provider = $user_data->field_user_provider;
+      $provider_tid = $provider['und'][0]['tid'];
+
+      $form['field_program_provider']['und']['#default_value'][0] = $provider_tid;
+      $form['field_program_provider']['#type'] = "hidden";
+
+      break;
+
+  }
+
+} // END of form_tagger_form_alter
