@@ -49,7 +49,7 @@
         {
           "_id": 110,
           "autocomplete-options": "",
-          "label": "Provencia",
+          "label": "Provincia",
           "repeatable": false,
           "required": true,
           "type": "autocomplete from list"
@@ -100,8 +100,7 @@
           "repeatable": false,
           "required": false,
           "type": "number",
-	  "validation": "return \"Año debe ser 4 digitos.\" if value.toString().length != 4 || parseInt(value) < 1",
-          "warning" : "min = moment().year()-26;max = moment().year(); valid = min <= parseInt(value) <= max; return \"Advertencia, el año normalmente es entre #{moment().year()-26} y #{moment().year()}\" unless valid"
+	  "validation": "min = moment().year()-28;max = moment().year(); valid = min <= parseInt(value) <= max; return \"Advertencia, el año normalmente es entre #{moment().year()-26} y #{moment().year()}\" unless valid"
         }
       ],
       "repeatable": false,

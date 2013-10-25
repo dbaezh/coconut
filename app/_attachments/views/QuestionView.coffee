@@ -372,7 +372,7 @@ class QuestionView extends Backbone.View
 
     key          = options.key          || ''
     autoscroll   = options.autoscroll   || false
-    button       = options.button       || "<button type='button' class='next_error'>Next Error</button>"
+    button       = options.button       || "<button type='button' class='next_error'>Siguiente Error</button>"
     leaveMessage = options.leaveMessage || false
 
     $question = window.questionCache[key]
@@ -452,7 +452,7 @@ class QuestionView extends Backbone.View
     # "" = true
     return "" if question.find("input").length != 0 and (type == "checkbox" or type == "radio")
 
-    result.push "'#{labelText}' is required." if required and ( value is "" or value is null )
+    result.push "'#{labelText}' se requiere." if required and ( value is "" or value is null )
 
     if validation? && validation isnt ""
 

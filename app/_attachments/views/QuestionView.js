@@ -399,7 +399,7 @@ QuestionView = (function(_super) {
     var $message, $question, autoscroll, button, e, key, leaveMessage, message, warning;
     key = options.key || '';
     autoscroll = options.autoscroll || false;
-    button = options.button || "<button type='button' class='next_error'>Next Error</button>";
+    button = options.button || "<button type='button' class='next_error'>Siguiente Error</button>";
     leaveMessage = options.leaveMessage || false;
     $question = window.questionCache[key];
     $message = $question.find(".message");
@@ -470,7 +470,7 @@ QuestionView = (function(_super) {
       return "";
     }
     if (required && (value === "" || value === null)) {
-      result.push("'" + labelText + "' is required.");
+      result.push("'" + labelText + "' se requiere.");
     }
     if ((validation != null) && validation !== "") {
       try {
