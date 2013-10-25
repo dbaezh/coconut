@@ -23,12 +23,13 @@ function coconut_help( $path, $arg )
 }
 
 
-
-
 /**
-* Implements hook_block_info().
-*/
+ * Implements hook_block_info().
+ *
+ * Basically this just queries CouchDB to see what 'question' documents it has.
+ */
 function coconut_block_info() {
+
   global $base_url;
   $blocks = array();
 
@@ -52,9 +53,13 @@ function coconut_block_info() {
   }
 
   return $blocks;
-}
+
+} // END of coconut_block_info
 
 
+/*
+ * 
+ */
 
 function coconut_block_view( $delta = '' )
 {
@@ -62,7 +67,32 @@ function coconut_block_view( $delta = '' )
   global $user, $base_url;
   $block = array();
   $path = current_path();
+
+
+  /*
+   * Get some data to throw in
+   */
+
+  // User name, easy
   $user_name = isset($user->name) ? $user->name : '';
+
+  // Get provider taxonomy term's ID
+  $user_data = user_load($user->uid);
+  $provider = $user_data->field_provider;
+  $provider_tid = $provider['und'][0]['tid'];
+
+  // get the name of that taxonomy term, just for human readability
+  $taxonomy_term = taxonomy_term_load($provider_tid);
+  $taxonomy_name = $taxonomy_term->name;
+
+   // Put it all together
+  $a_user_parameters = array(
+    "user_name={$user_name}",
+    "provider_tid={$provider_tid}",
+    "provider_name={$taxonomy_name}"
+  );
+  $s_user_parameters = join("&", $a_user_parameters);
+
 
   /*
    * Send request to couch
@@ -75,7 +105,7 @@ function coconut_block_view( $delta = '' )
     )
   );
   $couch_response = drupal_http_request( $req_url, $req_options );
-  
+
   /*
    * Parse response
    */
@@ -83,7 +113,6 @@ function coconut_block_view( $delta = '' )
   $surveys = array();
   $rows = drupal_json_decode( $couch_response->data )['rows'];
   foreach ( $rows as $one_row ) array_push( $surveys, $one_row['id'] );
-
 
 
   /*
@@ -110,7 +139,7 @@ function coconut_block_view( $delta = '' )
   };
   //window.resizerCheck();
 </script>
-<iframe id='coconut_iframe' width='100%' height='600px' src='$base_url:5984/coconut/_design/coconut/index.html#new/result/$delta/user_name={$user_name}&test=yes'></iframe>";
+<iframe id='coconut_iframe' width='100%' height='600px' src='$base_url:5984/coconut/_design/coconut/index.html#new/result/$delta/{$s_user_parameters}'></iframe>";
       $block['content'] = $html;
     }
   } else
@@ -123,4 +152,4 @@ function coconut_block_view( $delta = '' )
 
   return $block;
 
-}
+} // END of coconut_block_view
