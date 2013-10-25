@@ -361,7 +361,7 @@ QuestionView = (function(_super) {
   };
 
   QuestionView.prototype.validateAll = function() {
-    var $button, completeButtonModel, isValid, key, onComplete, questionIsntValid, _i, _len, _ref1;
+    var $button, completeButtonModel, hasOnComplete, isValid, key, onComplete, questionIsntValid, _i, _len, _ref1;
     $button = $("[name=Completado]");
     isValid = true;
     _ref1 = window.keyCache;
@@ -380,8 +380,12 @@ QuestionView = (function(_super) {
     completeButtonModel = _(Coconut.questionView.model.get("questions")).filter(function(a) {
       return a.get("label") === "Completado";
     })[0];
-    if (isValid && (onComplete = completeButtonModel.has("onComplete"))) {
-      if (onComplete.type === "redirect" && onComplete.route) {
+    hasOnComplete = completeButtonModel.has("onComplete");
+    if (hasOnComplete) {
+      onComplete = completeButtonModel.get("onComplete");
+    }
+    if (isValid && hasOnComplete) {
+      if (onComplete.type === "redirect" && (onComplete.route != null)) {
         Coconut.router.navigate(onComplete.route, true);
       }
     }

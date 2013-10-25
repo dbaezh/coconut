@@ -351,9 +351,16 @@ class QuestionView extends Backbone.View
     # find the complete button
     completeButtonModel = _(Coconut.questionView.model.get("questions")).filter((a) -> a.get("label") == "Completado" )[0]
 
-    if isValid and onComplete = completeButtonModel.has("onComplete")
-      if onComplete.type is "redirect" and onComplete.route
+    hasOnComplete = completeButtonModel.has("onComplete")
+
+    onComplete = completeButtonModel.get("onComplete") if hasOnComplete
+
+    if isValid and hasOnComplete
+
+      if onComplete.type is "redirect" and onComplete.route?
+
         Coconut.router.navigate onComplete.route, true
+
 
 
     $button.scrollTo() if isValid
