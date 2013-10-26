@@ -30,11 +30,10 @@ function coconut_help( $path, $arg )
  */
 function coconut_block_info() {
 
-  global $base_url;
   $blocks = array();
 
   // request to couch to get documents of type question
-  $req_url = "$base_url:5984/coconut/_design/coconut/_view/byCollection?key=\"question\"";
+  $req_url = "http://localhost:5984/coconut/_design/coconut/_view/byCollection?key=\"question\"";
   $req_options = array(
     'headers' => array(
       'Content-Type' => 'application/json'
@@ -98,7 +97,7 @@ function coconut_block_view( $delta = '' )
    * Send request to couch
    * ask for docs of type questions
    */
-  $req_url = "$base_url:5984/coconut/_design/coconut/_view/byCollection?key=\"question\"";
+  $req_url = "http://localhost:5984/coconut/_design/coconut/_view/byCollection?key=\"question\"";
   $req_options = array(
     'headers' => array(
       'Content-Type' => 'application/json'
@@ -124,21 +123,6 @@ function coconut_block_view( $delta = '' )
     if ( user_access('access content') )
     {
       $html = "
-<script>
-  window.resizeIFrame = function (height) { 
-    document.getElementById('coconut_iframe').style.height = '' + parseInt(height) + 'px';
-  }
-  window.resizerWait = 1000;
-  window.resizerCheck = function() { 
-    jQuery.ajax({
-      'url'      : '$base_url:5984/coconut/$delta-height', 
-      'dataType' : 'jsonp', 
-      'success'  : function( data ) { window.resizerWait = 0; window.resizeIFrame(data.height); }, 
-      'complete' : function() { if (window.resizerWait !== 0) { window.resizerWait *= 1.5; setTimeout(window.resizerCheck, window.resizerWait);}   }
-    }); 
-  };
-  //window.resizerCheck();
-</script>
 <iframe id='coconut_iframe' width='100%' height='600px' src='$base_url:5984/coconut/_design/coconut/index.html#new/result/$delta/{$s_user_parameters}'></iframe>";
       $block['content'] = $html;
     }
