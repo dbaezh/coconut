@@ -59,17 +59,17 @@ QuestionView = (function(_super) {
     if ("module" !== Coconut.config.local.get("mode")) {
       questionsName = "<h1>" + this.model.id + "</h1>";
     }
-    if (false) {
-      standard_value_table = "      <table class='standard_values'>      " + (((function() {
+    if ('module' === Coconut.config.local.get('mode')) {
+      standard_value_table = "      " + (((function() {
         var _ref1, _results;
         _ref1 = this.standard_values;
         _results = [];
         for (key in _ref1) {
           value = _ref1[key];
-          _results.push("<tr>        <td>" + key + "</td><td>" + value + "</td>      </tr>");
+          _results.push("<input type='hidden' name='" + key + "' value='" + value + "'>");
         }
         return _results;
-      }).call(this)).join('')) + "      </table>";
+      }).call(this)).join('')) + "      ";
     }
     this.$el.html("      " + (standard_value_table || '') + "      <div style='position:fixed; right:5px; color:white; background-color: #333; padding:20px; display:none; z-index:10: font-size:1.5em !important;' id='messageText'>        Saving...      </div>      " + (questionsName || '') + "      <div id='question-view'>          " + (this.toHTMLForm(this.model)) + "      </div>    ");
     this.updateCache();
