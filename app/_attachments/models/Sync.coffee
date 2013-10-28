@@ -107,7 +107,7 @@ class Sync extends Backbone.Model
 
 
   sendAndGetFromCloud: (options) =>
-
+    return
     @log "Checking for internet. (Is #{Coconut.config.cloud_url()} is reachable?) Please wait."
     $.ajax
       # This requires a CORS enabled server to work

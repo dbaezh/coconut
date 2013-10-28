@@ -170,6 +170,7 @@ Sync = (function(_super) {
 
   Sync.prototype.sendAndGetFromCloud = function(options) {
     var _this = this;
+    return;
     this.log("Checking for internet. (Is " + (Coconut.config.cloud_url()) + " is reachable?) Please wait.");
     return $.ajax({
       url: Coconut.config.cloud_url(),
@@ -325,3 +326,5 @@ Sync = (function(_super) {
   return Sync;
 
 })(Backbone.Model);
+
+//# sourceMappingURL=Sync.map

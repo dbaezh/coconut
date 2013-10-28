@@ -60,6 +60,7 @@ class MenuView extends Backbone.View
     @updateVersion()
 
   checkReplicationStatus: =>
+    return
     $.couch.login
       name: Coconut.config.get "local_couchdb_admin_username"
       password: Coconut.config.get "local_couchdb_admin_password"
