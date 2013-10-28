@@ -273,6 +273,7 @@ class Router extends Backbone.Router
           result          : new Result standard_values
           model           : question
         Coconut.questionView.render()
+        
 
 
   editResult: (result_id) ->

@@ -26,7 +26,22 @@ body.module
   }
 
 
+.onComplete p 
+{
+  font-size: 2em;
+}
 
+.onComplete button 
+{
+  font-size: 2em;
+}
+
+.onComplete a,
+.onComplete a:visited
+{
+  text-decoration: none;
+  color: black;
+}
 
 #question-view label, #question-view .ui-input-text {
   font-size: 1.7em;

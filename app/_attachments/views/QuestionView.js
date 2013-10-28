@@ -23,7 +23,7 @@ QuestionView = (function(_super) {
     return _ref;
   }
 
-  QuestionView.prototype.el = '#content';
+  QuestionView.prototype.el = "#content";
 
   QuestionView.prototype.events = {
     "change #question-view input": "onChange",
@@ -112,8 +112,9 @@ QuestionView = (function(_super) {
     this.addUuid();
     surveyName = window.Coconut.questionView.model.id;
     if (surveyName === "Participant Registration-es") {
-      return this.updateLocations();
+      this.updateLocations();
     }
+    return this.trigger("rendered");
   };
 
   QuestionView.prototype.jQueryUIze = function($obj) {
@@ -181,11 +182,13 @@ QuestionView = (function(_super) {
   };
 
   QuestionView.prototype.onChange = function(event) {
-    var $target, e, messageVisible, surveyName, targetName, warningShowing, wasValid;
+    var $target, e, geographyRelevant, messageVisible, surveyName, targetName, warningShowing, wasValid;
+    event.stopPropagation();
     event.stopImmediatePropagation();
     $target = $(event.target);
     targetName = $target.attr("name");
     if (targetName === "Completado") {
+      console.log("handling complete button onChange");
       if (this.changedComplete) {
         this.changedComplete = false;
         return;
@@ -219,12 +222,14 @@ QuestionView = (function(_super) {
     if (surveyName === "Participant Registration-es" && __indexOf.call(window.duplicateLabels, targetName) >= 0) {
       this.duplicateCheck();
     }
-    if (surveyName === "Participant Registration-es") {
+    geographyRelevant = ["Provincia", "Municipio", "BarrioComunidad"].indexOf(targetName) !== -1;
+    if (surveyName === "Participant Registration-es" && geographyRelevant) {
       return this.updateLocations();
     }
   };
 
   QuestionView.prototype.updateLocations = function() {
+    console.log("updating locations");
     return _.delay(function() {
       var $city, $hood, $province, CITY, HOOD, PROVINCE, cities, geography, hoods, location, provinces, todo, _i, _len;
       PROVINCE = 0;
@@ -242,12 +247,12 @@ QuestionView = (function(_super) {
         if (!~provinces.indexOf(location[PROVINCE])) {
           provinces.push(location[PROVINCE]);
         }
-        if ($province.val() === location[PROVINCE]) {
+        if ($province.val().toLowerCase() === location[PROVINCE].toLowerCase()) {
           if (!~cities.indexOf(location[CITY])) {
             cities.push(location[CITY]);
           }
         }
-        if ($city.val() === location[CITY]) {
+        if ($city.val().toLowerCase() === location[CITY].toLowerCase()) {
           if (!~hoods.indexOf(location[HOOD])) {
             hoods.push(location[HOOD]);
           }
@@ -258,6 +263,8 @@ QuestionView = (function(_super) {
         var element, list;
         element = data[0];
         list = data[1];
+        console.log(element);
+        console.log(list);
         return element.autocomplete({
           source: list,
           minLength: 1,
@@ -361,7 +368,7 @@ QuestionView = (function(_super) {
   };
 
   QuestionView.prototype.validateAll = function() {
-    var $button, completeButtonModel, hasOnComplete, isValid, key, onComplete, questionIsntValid, _i, _len, _ref1;
+    var $button, aPassed, completeButtonModel, hasOnComplete, html, isValid, key, link, onClick, onComplete, questionIsntValid, sPassed, _i, _j, _k, _len, _len1, _len2, _ref1, _ref2, _ref3;
     $button = $("[name=Completado]");
     isValid = true;
     _ref1 = window.keyCache;
@@ -376,6 +383,7 @@ QuestionView = (function(_super) {
         isValid = false;
       }
     }
+    console.log("I am telling the complete button that we are valid " + isValid);
     this.completeButton(isValid);
     completeButtonModel = _(Coconut.questionView.model.get("questions")).filter(function(a) {
       return a.get("label") === "Completado";
@@ -384,9 +392,40 @@ QuestionView = (function(_super) {
     if (hasOnComplete) {
       onComplete = completeButtonModel.get("onComplete");
     }
-    if (isValid && hasOnComplete) {
-      if (onComplete.type === "redirect" && (onComplete.route != null)) {
-        Coconut.router.navigate(onComplete.route, true);
+    if (hasOnComplete) {
+      console.log("onComplete");
+      console.log(onComplete);
+      switch (onComplete.type) {
+        case "redirect":
+          if (onComplete.route != null) {
+            Coconut.router.navigate(onComplete.route, true);
+          }
+          break;
+        case "choice":
+          if ((onComplete.message != null) && (onComplete.links != null)) {
+            html = "<p>" + onComplete.message + "</p>";
+            _ref2 = onComplete.links;
+            for (_j = 0, _len1 = _ref2.length; _j < _len1; _j++) {
+              link = _ref2[_j];
+              if (link.pass != null) {
+                aPassed = [];
+                _ref3 = link.pass;
+                for (_k = 0, _len2 = _ref3.length; _k < _len2; _k++) {
+                  key = _ref3[_k];
+                  aPassed.push("" + key + "=" + (window.getValueCache[key]()));
+                }
+                sPassed = "/" + aPassed.join("&");
+              }
+              onClick = '';
+              if ((link.pass == null) && ~window.location.href.indexOf(link.route)) {
+                onClick = 'onClick=\"document.location.reload();\"';
+              }
+              html += "<button><a href='#" + link.route + (sPassed || '') + "' " + onClick + ">" + link.label + "</a></button>";
+            }
+            if ($(".onComplete").length === 0) {
+              $button.after("<div class='onComplete'>" + html + "</div>");
+            }
+          }
       }
     }
     if (isValid) {
@@ -406,7 +445,7 @@ QuestionView = (function(_super) {
     if (key === 'Completado') {
       return '';
     }
-    if (~$question.hasClass("group")) {
+    if ($question.hasClass("group")) {
       return '';
     }
     try {
@@ -657,6 +696,7 @@ QuestionView = (function(_super) {
   });
 
   QuestionView.prototype.completeButton = function(value) {
+    console.log("complete button util: " + value);
     this.changedComplete = true;
     if ($('[name=Completado]').prop("checked") !== value) {
       return $('[name=Completado]').click();
@@ -709,7 +749,7 @@ QuestionView = (function(_super) {
         }
         return html += "          <div             data-group-id='" + question_id + "'            data-question-name='" + name + "'            data-question-id='" + question_id + "'            class='question group'>            " + (groupTitle || '') + "            " + (_this.toHTMLForm(question.questions(), question_id, isRepeatable, index)) + "          </div>          " + (repeatButton || '') + "        ";
       } else {
-        return html += "          " + (question.type() !== "hidden" ? "<div                class='question " + (question.type()) + "'                data-question-name='" + name + "'                data-question-id='" + question_id + "'                data-action_on_change='" + (_.escape(question.actionOnChange())) + "'                " + (validation || '') + "                " + (warning || '') + "                data-required='" + (question.required()) + "'              >" : "") + "          " + (!~(question.type().indexOf('hidden')) ? "<label type='" + (question.type()) + "' for='" + question_id + "'>" + labelHeader[0] + (question.label()) + labelHeader[1] + " <span></span></label>" : "") + "          " + ("<p class='grey'>" + (question.hint()) + "</p>") + "          <div class='message'></div>          " + ((function() {
+        return html += "          <div            " + ((question.type() === 'hidden' ? "style='display:none;'" : void 0) || '') + "            class='question " + (question.type()) + "'            data-question-name='" + name + "'            data-question-id='" + question_id + "'            data-action_on_change='" + (_.escape(question.actionOnChange())) + "'            " + (validation || '') + "            " + (warning || '') + "            data-required='" + (question.required()) + "'          >          " + (question.type() !== 'hidden' ? "<label type='" + (question.type()) + "' for='" + question_id + "'>" + labelHeader[0] + (question.label()) + labelHeader[1] + " <span></span></label>" : "") + "          " + ("<p class='grey'>" + (question.hint()) + "</p>") + "          <div class='message'></div>          " + ((function() {
           var _i, _len, _ref1;
           switch (question.type()) {
             case "textarea":
@@ -774,7 +814,7 @@ QuestionView = (function(_super) {
             default:
               return "<input name='" + name + "' id='" + question_id + "' type='" + (question.type()) + "' value='" + (question.value()) + "'></input>";
           }
-        }).call(_this)) + "          " + (question.type() !== "hidden" ? "</div>" : "") + "          " + (repeatButton || '') + "        ";
+        }).call(_this)) + "          </div>          " + (repeatButton || '') + "        ";
       }
     });
     return html;
@@ -812,11 +852,19 @@ QuestionView = (function(_super) {
                 };
               })(name, $qC);
             } else {
-              (function(inputs) {
-                return accessorFunction = function() {
-                  return inputs.safeVal();
-                };
-              })(inputs);
+              if (type === "hidden") {
+                (function(inputs) {
+                  return accessorFunction = function() {
+                    return inputs.val();
+                  };
+                })(inputs);
+              } else {
+                (function(inputs) {
+                  return accessorFunction = function() {
+                    return inputs.safeVal();
+                  };
+                })(inputs);
+              }
             }
           } else {
             (function(name, $qC) {

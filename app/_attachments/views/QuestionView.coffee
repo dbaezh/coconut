@@ -1,6 +1,6 @@
 class QuestionView extends Backbone.View
 
-  el: '#content'
+  el : "#content"
 
   events:
     "change #question-view input"    : "onChange"
@@ -105,6 +105,8 @@ class QuestionView extends Backbone.View
     surveyName = window.Coconut.questionView.model.id
     @updateLocations() if surveyName is "Participant Registration-es"
 
+    @trigger "rendered"
+
   jQueryUIze: ( $obj ) ->
     $obj.find("input[type=text],input[type=number],input[type='autocomplete from previous entries'],input[type='autocomplete from list']").textinput()
     $obj.find('input[type=radio],input[type=checkbox]').checkboxradio()
@@ -145,14 +147,15 @@ class QuestionView extends Backbone.View
 
   onChange: (event) =>
 
+    event.stopPropagation()
     event.stopImmediatePropagation()
-
 
     $target = $(event.target)
 
     targetName = $target.attr("name")
 
     if targetName == "Completado"
+      console.log "handling complete button onChange"
       if @changedComplete
         @changedComplete = false
         return
@@ -185,10 +188,14 @@ class QuestionView extends Backbone.View
 
     surveyName = window.Coconut.questionView.model.id
     @duplicateCheck() if surveyName is "Participant Registration-es" and targetName in window.duplicateLabels
-    @updateLocations() if surveyName is "Participant Registration-es"
+    geographyRelevant = ["Provincia","Municipio","BarrioComunidad"].indexOf(targetName) != -1
+    @updateLocations() if surveyName is "Participant Registration-es" and geographyRelevant
+    
+
 
 
   updateLocations: ->
+    console.log  "updating locations"
     _.delay( ->
 
       PROVINCE = 0
@@ -208,9 +215,9 @@ class QuestionView extends Backbone.View
       # make appropriate lists
       for location in geography
         provinces.push(location[PROVINCE]) unless ~provinces.indexOf(location[PROVINCE])
-        if $province.val() is location[PROVINCE]
+        if $province.val().toLowerCase() is location[PROVINCE].toLowerCase()
           cities.push(location[CITY])unless ~cities.indexOf(location[CITY])
-        if $city.val() is location[CITY]
+        if $city.val().toLowerCase() is location[CITY].toLowerCase()
           hoods.push(location[HOOD])unless ~hoods.indexOf(location[HOOD])
 
       todo = [
@@ -223,6 +230,8 @@ class QuestionView extends Backbone.View
       $(todo).each (index, data) ->
         element = data[0]
         list    = data[1]
+        console.log element
+        console.log list
         element.autocomplete
           source: list
           minLength: 1
@@ -343,6 +352,7 @@ class QuestionView extends Backbone.View
       if isValid and questionIsntValid
         isValid = false
 
+    console.log "I am telling the complete button that we are valid #{isValid}"
     @completeButton isValid
 
     # find the complete button
@@ -352,12 +362,35 @@ class QuestionView extends Backbone.View
 
     onComplete = completeButtonModel.get("onComplete") if hasOnComplete
 
-    if isValid and hasOnComplete
+    if hasOnComplete #and isValid
+      console.log "onComplete"
+      console.log onComplete
+      switch onComplete.type
+        when "redirect"
+          # requirement for redirect
+          if onComplete.route? 
+            Coconut.router.navigate onComplete.route, true
+        when "choice"
+          # requirements for choice
+          if onComplete.message? and onComplete.links?
+            html = "<p>#{onComplete.message}</p>"
+            for link in onComplete.links
+              
+              # pass any varaibles needed
+              if link.pass?
+                aPassed = []
+                for key in link.pass
+                  aPassed.push "#{key}=#{window.getValueCache[key]()}"
+                sPassed = "/"+aPassed.join("&")
 
-      if onComplete.type is "redirect" and onComplete.route?
+              # handle going to the same route
+              onClick = ''
+              if not link.pass? and ~window.location.href.indexOf(link.route)
+                onClick = 'onClick=\"document.location.reload();\"'
+              
 
-        Coconut.router.navigate onComplete.route, true
-
+              html += "<button><a href='##{link.route}#{sPassed || ''}' #{onClick}>#{link.label}</a></button>"
+            $button.after("<div class='onComplete'>#{html}</div>") unless $(".onComplete").length != 0
 
 
     $button.scrollTo() if isValid
@@ -376,7 +409,7 @@ class QuestionView extends Backbone.View
     $message  = $question.find(".message")
 
     return '' if key is 'Completado'
-    return '' if ~$question.hasClass("group")
+    return '' if $question.hasClass("group")
 
     try
       message = @isValid(key)
@@ -599,6 +632,7 @@ class QuestionView extends Backbone.View
     , 1000, trailing: false )
 
   completeButton: ( value ) ->
+    console.log "complete button util: #{value}"
     @changedComplete = true
     if $('[name=Completado]').prop("checked") isnt value
       $('[name=Completado]').click()
@@ -620,7 +654,6 @@ class QuestionView extends Backbone.View
         ["<h2>","</h2>"]
       else
         ["", ""]
-
 
       warning = "
         data-warning='#{_.escape(question.warning())}'
@@ -668,25 +701,21 @@ class QuestionView extends Backbone.View
         "
       else
         html += "
-          #{
-            unless question.type() is "hidden"
-              "<div
-                class='question #{question.type()}'
+          <div
+            #{("style='display:none;'" if question.type() is 'hidden') || ''}
+            class='question #{question.type()}'
 
-                data-question-name='#{name}'
-                data-question-id='#{question_id}'
-                data-action_on_change='#{_.escape(question.actionOnChange())}'
+            data-question-name='#{name}'
+            data-question-id='#{question_id}'
+            data-action_on_change='#{_.escape(question.actionOnChange())}'
 
-                #{validation || ''}
-                #{warning    || ''}
-                data-required='#{question.required()}'
-              >"
-            else
-              ""
-          }
+            #{validation || ''}
+            #{warning    || ''}
+            data-required='#{question.required()}'
+          >
 
           #{
-          unless ~(question.type().indexOf('hidden'))
+          unless question.type() is 'hidden'
             "<label type='#{question.type()}' for='#{question_id}'>#{labelHeader[0]}#{question.label()}#{labelHeader[1]} <span></span></label>" 
           else
             ""
@@ -781,12 +810,7 @@ class QuestionView extends Backbone.View
               else
                 "<input name='#{name}' id='#{question_id}' type='#{question.type()}' value='#{question.value()}'></input>"
           }
-          #{
-            unless question.type() is "hidden"
-              "</div>"
-            else
-              ""
-          }
+          </div>
           #{repeatButton || ''}
         "
 
@@ -817,7 +841,10 @@ class QuestionView extends Backbone.View
             if isCheckable
               do (name, $qC) -> accessorFunction = -> $("input:checked", $qC).safeVal()
             else
-              do (inputs) -> accessorFunction = -> inputs.safeVal()
+              if type is "hidden"
+                do (inputs) -> accessorFunction = -> inputs.val()
+              else
+                do (inputs) -> accessorFunction = -> inputs.safeVal()
           else # inputs is 0
             do (name, $qC) -> accessorFunction = -> $(".textarea[name='#{name}']", $qC).safeVal()
 

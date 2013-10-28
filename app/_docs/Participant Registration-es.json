@@ -225,8 +225,19 @@
       "action_on_questions_loaded": "",
       "label": "Completado",
       "onComplete" : {
-        "type" : "redirect",
-        "route" : "new/result/Participant Registration-es"
+        "type" : "choice",
+        "message" : "Gracias, el impresso está completado. ¿Qué quiere hacer proxima?",
+        "links" : [
+          {
+            "label" : "Comenzar nuevo impresso",
+            "route" : "new/result/Participant Registration-es"
+          },
+          {
+            "label" : "Continuar al Encuesta de Participante",
+            "route" : "new/result/Participant Survey-es",
+            "pass" : ["uuid"]
+          }
+        ]
         },
       "radio-options": true,
       "repeatable": false,
