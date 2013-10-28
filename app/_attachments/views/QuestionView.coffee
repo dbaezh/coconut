@@ -155,7 +155,6 @@ class QuestionView extends Backbone.View
     targetName = $target.attr("name")
 
     if targetName == "Completado"
-      console.log "handling complete button onChange"
       if @changedComplete
         @changedComplete = false
         return
@@ -174,7 +173,9 @@ class QuestionView extends Backbone.View
           autoscroll: false
           button: "<button type='button' data-name='#{targetName}' class='validate_one'>Revisar</button>"
 
-    @save()
+    _.delay =>
+      @save()
+    , 500
 
     @updateSkipLogic()
     @actionOnChange(event)
@@ -195,7 +196,6 @@ class QuestionView extends Backbone.View
 
 
   updateLocations: ->
-    console.log  "updating locations"
     _.delay( ->
 
       PROVINCE = 0
@@ -230,8 +230,6 @@ class QuestionView extends Backbone.View
       $(todo).each (index, data) ->
         element = data[0]
         list    = data[1]
-        console.log element
-        console.log list
         element.autocomplete
           source: list
           minLength: 1
@@ -262,7 +260,6 @@ class QuestionView extends Backbone.View
     return if ~key.indexOf("::")
 
     window.Coconut.duplicateKeys = {}
-
 
     $.couch.db("coconut").view "coconut/duplicateCheck", 
       keys: [key]
@@ -317,6 +314,7 @@ class QuestionView extends Backbone.View
     event.stopImmediatePropagation()
     if confirm "Reemplazar corriente información con esta?"
       index = parseInt($(event.target).attr("data-index"))
+      questionCache['uuid'].find("input").val(window.Coconut.duplicates[index]['uuid'])
       js2form($('#question-view').get(0), window.Coconut.duplicates[index])
       $("#duplicates").empty()
 
@@ -352,7 +350,6 @@ class QuestionView extends Backbone.View
       if isValid and questionIsntValid
         isValid = false
 
-    console.log "I am telling the complete button that we are valid #{isValid}"
     @completeButton isValid
 
     # find the complete button
@@ -362,9 +359,7 @@ class QuestionView extends Backbone.View
 
     onComplete = completeButtonModel.get("onComplete") if hasOnComplete
 
-    if hasOnComplete #and isValid
-      console.log "onComplete"
-      console.log onComplete
+    if hasOnComplete and isValid
       switch onComplete.type
         when "redirect"
           # requirement for redirect
@@ -391,7 +386,7 @@ class QuestionView extends Backbone.View
 
               html += "<button><a href='##{link.route}#{sPassed || ''}' #{onClick}>#{link.label}</a></button>"
             $button.after("<div class='onComplete'>#{html}</div>") unless $(".onComplete").length != 0
-
+            $(".onComplete").scrollTo()
 
     $button.scrollTo() if isValid
 
@@ -632,10 +627,10 @@ class QuestionView extends Backbone.View
     , 1000, trailing: false )
 
   completeButton: ( value ) ->
-    console.log "complete button util: #{value}"
     @changedComplete = true
     if $('[name=Completado]').prop("checked") isnt value
       $('[name=Completado]').click()
+      @save()
 
   toHTMLForm: (questions = @model, groupId, isRepeatedGroup, index) ->
     # Need this because we have recursion later

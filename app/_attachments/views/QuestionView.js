@@ -182,13 +182,13 @@ QuestionView = (function(_super) {
   };
 
   QuestionView.prototype.onChange = function(event) {
-    var $target, e, geographyRelevant, messageVisible, surveyName, targetName, warningShowing, wasValid;
+    var $target, e, geographyRelevant, messageVisible, surveyName, targetName, warningShowing, wasValid,
+      _this = this;
     event.stopPropagation();
     event.stopImmediatePropagation();
     $target = $(event.target);
     targetName = $target.attr("name");
     if (targetName === "Completado") {
-      console.log("handling complete button onChange");
       if (this.changedComplete) {
         this.changedComplete = false;
         return;
@@ -206,7 +206,9 @@ QuestionView = (function(_super) {
         });
       }
     }
-    this.save();
+    _.delay(function() {
+      return _this.save();
+    }, 500);
     this.updateSkipLogic();
     this.actionOnChange(event);
     try {
@@ -229,7 +231,6 @@ QuestionView = (function(_super) {
   };
 
   QuestionView.prototype.updateLocations = function() {
-    console.log("updating locations");
     return _.delay(function() {
       var $city, $hood, $province, CITY, HOOD, PROVINCE, cities, geography, hoods, location, provinces, todo, _i, _len;
       PROVINCE = 0;
@@ -263,8 +264,6 @@ QuestionView = (function(_super) {
         var element, list;
         element = data[0];
         list = data[1];
-        console.log(element);
-        console.log(list);
         return element.autocomplete({
           source: list,
           minLength: 1,
@@ -339,6 +338,7 @@ QuestionView = (function(_super) {
     event.stopImmediatePropagation();
     if (confirm("Reemplazar corriente información con esta?")) {
       index = parseInt($(event.target).attr("data-index"));
+      questionCache['uuid'].find("input").val(window.Coconut.duplicates[index]['uuid']);
       js2form($('#question-view').get(0), window.Coconut.duplicates[index]);
       return $("#duplicates").empty();
     }
@@ -383,7 +383,6 @@ QuestionView = (function(_super) {
         isValid = false;
       }
     }
-    console.log("I am telling the complete button that we are valid " + isValid);
     this.completeButton(isValid);
     completeButtonModel = _(Coconut.questionView.model.get("questions")).filter(function(a) {
       return a.get("label") === "Completado";
@@ -392,9 +391,7 @@ QuestionView = (function(_super) {
     if (hasOnComplete) {
       onComplete = completeButtonModel.get("onComplete");
     }
-    if (hasOnComplete) {
-      console.log("onComplete");
-      console.log(onComplete);
+    if (hasOnComplete && isValid) {
       switch (onComplete.type) {
         case "redirect":
           if (onComplete.route != null) {
@@ -425,6 +422,7 @@ QuestionView = (function(_super) {
             if ($(".onComplete").length === 0) {
               $button.after("<div class='onComplete'>" + html + "</div>");
             }
+            $(".onComplete").scrollTo();
           }
       }
     }
@@ -696,10 +694,10 @@ QuestionView = (function(_super) {
   });
 
   QuestionView.prototype.completeButton = function(value) {
-    console.log("complete button util: " + value);
     this.changedComplete = true;
     if ($('[name=Completado]').prop("checked") !== value) {
-      return $('[name=Completado]').click();
+      $('[name=Completado]').click();
+      return this.save();
     }
   };
 
