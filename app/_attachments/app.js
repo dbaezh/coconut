@@ -494,19 +494,15 @@ Router = (function(_super) {
   };
 
   Router.prototype.showResults = function(question_id) {
-    return this.userLoggedIn({
+    if (Coconut.resultsView == null) {
+      Coconut.resultsView = new ResultsView();
+    }
+    Coconut.resultsView.question = new Question({
+      id: unescape(question_id)
+    });
+    return Coconut.resultsView.question.fetch({
       success: function() {
-        if (Coconut.resultsView == null) {
-          Coconut.resultsView = new ResultsView();
-        }
-        Coconut.resultsView.question = new Question({
-          id: unescape(question_id)
-        });
-        return Coconut.resultsView.question.fetch({
-          success: function() {
-            return Coconut.resultsView.render();
-          }
-        });
+        return Coconut.resultsView.render();
       }
     });
   };

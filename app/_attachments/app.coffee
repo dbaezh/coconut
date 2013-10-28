@@ -349,14 +349,12 @@ class Router extends Backbone.Router
             Coconut.customResultsView.render()
 
   showResults:(question_id) ->
-    @userLoggedIn
+    Coconut.resultsView ?= new ResultsView()
+    Coconut.resultsView.question = new Question
+      id: unescape(question_id)
+    Coconut.resultsView.question.fetch
       success: ->
-        Coconut.resultsView ?= new ResultsView()
-        Coconut.resultsView.question = new Question
-          id: unescape(question_id)
-        Coconut.resultsView.question.fetch
-          success: ->
-            Coconut.resultsView.render()
+        Coconut.resultsView.render()
 
   map: () ->
     @userLoggedIn
