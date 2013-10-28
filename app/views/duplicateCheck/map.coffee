@@ -1,7 +1,8 @@
 (doc) ->
   if doc.collection is "result" and doc.Completado
 
-    return unless doc['Apellido']? and doc['Nombre'] and doc['BarrioComunidad'] and doc['Sexo']
+    hasRequiredFields = doc['Apellido']? and doc['Nombre']? and doc['BarrioComunidad']? and doc['Sexo']?
+    return unless hasRequiredFields
 
     spacePattern = new RegExp(" ", "g") 
 
