@@ -368,17 +368,21 @@ QuestionView = (function(_super) {
   };
 
   QuestionView.prototype.validateAll = function() {
-    var $button, aPassed, completeButtonModel, hasOnComplete, html, isValid, key, link, onClick, onComplete, questionIsntValid, sPassed, _i, _j, _k, _len, _len1, _len2, _ref1, _ref2, _ref3;
+    var $button, $question, aPassed, completeButtonModel, hasOnComplete, html, isValid, key, link, onClick, onComplete, questionIsntValid, sPassed, _i, _j, _k, _len, _len1, _len2, _ref1, _ref2, _ref3;
     $button = $("[name=Completado]");
     isValid = true;
     _ref1 = window.keyCache;
     for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
       key = _ref1[_i];
-      questionIsntValid = !this.validateOne({
-        key: key,
-        autoscroll: isValid,
-        leaveMessage: false
-      });
+      $question = window.questionCache[key];
+      if (!$question.hasClass("group")) {
+        questionIsntValid = !this.validateOne;
+        ({
+          key: key,
+          autoscroll: isValid,
+          leaveMessage: false
+        });
+      }
       if (isValid && questionIsntValid) {
         isValid = false;
       }
@@ -982,5 +986,3 @@ window.ResultOfQuestion = function(name) {
   var _base;
   return (typeof (_base = window.getValueCache)[name] === "function" ? _base[name]() : void 0) || null;
 };
-
-//# sourceMappingURL=QuestionView.map

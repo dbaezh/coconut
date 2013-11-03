@@ -338,14 +338,21 @@ class QuestionView extends Backbone.View
 
     $button = $("[name=Completado]")
 
+    
+   
     isValid = true
 
     for key in window.keyCache
 
-      questionIsntValid = not @validateOne
-        key          : key
-        autoscroll   : isValid
-        leaveMessage : false
+      $question = window.questionCache[key]
+
+      if not $question.hasClass("group")
+      
+          questionIsntValid = not @validateOne 
+          key          : key
+          autoscroll   : isValid
+          leaveMessage : false 
+      
 
       if isValid and questionIsntValid
         isValid = false
