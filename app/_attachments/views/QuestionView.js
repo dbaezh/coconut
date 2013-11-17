@@ -368,7 +368,7 @@ QuestionView = (function(_super) {
   };
 
   QuestionView.prototype.validateAll = function() {
-    var $button, $question, aPassed, completeButtonModel, hasOnComplete, html, isValid, key, link, onClick, onComplete, questionIsntValid, sPassed, _i, _j, _k, _len, _len1, _len2, _ref1, _ref2, _ref3;
+    var $button, $question, aPassed, completeButtonModel, hasOnComplete, html, isValid, key, link, onClick, onComplete, questionIsntValid, sPassed, _i, _j, _k, _l, _len, _len1, _len2, _len3, _ref1, _ref2, _ref3, _ref4;
     $button = $("[name=Completado]");
     isValid = true;
     _ref1 = window.keyCache;
@@ -408,14 +408,27 @@ QuestionView = (function(_super) {
             _ref2 = onComplete.links;
             for (_j = 0, _len1 = _ref2.length; _j < _len1; _j++) {
               link = _ref2[_j];
+              aPassed = [];
               if (link.pass != null) {
-                aPassed = [];
                 _ref3 = link.pass;
                 for (_k = 0, _len2 = _ref3.length; _k < _len2; _k++) {
                   key = _ref3[_k];
                   aPassed.push("" + key + "=" + (window.getValueCache[key]()));
                 }
-                sPassed = "/" + aPassed.join("&");
+              }
+              if (link.urlparams != null) {
+                _ref4 = link.urlparams;
+                for (_l = 0, _len3 = _ref4.length; _l < _len3; _l++) {
+                  key = _ref4[_l];
+                  aPassed.push("" + key + "=" + ($('[name="' + key + '"]').val()));
+                }
+              }
+              if (aPassed.length > 0) {
+                if (link.isreport != null) {
+                  sPassed = "/" + aPassed.join("/");
+                } else {
+                  sPassed = "/" + aPassed.join("&");
+                }
               }
               onClick = '';
               if ((link.pass == null) && ~window.location.href.indexOf(link.route)) {

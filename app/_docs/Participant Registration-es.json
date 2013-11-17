@@ -235,7 +235,8 @@
           {
             "label" : "Continuar al Encuesta de Participante",
             "route" : "new/result/Participant Survey-es",
-            "pass" : ["uuid"]
+            "pass" : ["uuid"],
+            "urlparams" : ["provider_id","user_name","provider_name"] 
           }
         ]
         },
