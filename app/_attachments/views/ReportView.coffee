@@ -45,9 +45,8 @@ class ReportView extends Backbone.View
   render: ->
 
     @searchRows = {}
-
-    html = "<input type='text' id='search' placeholder='filter'>"
-
+    html = "<div style='font-size: 10pt'><b>Entradas totales: " + this.results.length + "</b></div><br>"
+    html += "<input type='text' id='search' placeholder='filter'>"
     html += "<div style='overflow:auto;'><table class='tablesorter'>
       <thead>
         <tr>"

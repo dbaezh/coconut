@@ -67,7 +67,8 @@ ReportView = (function(_super) {
   ReportView.prototype.render = function() {
     var field, html, result, _i, _j, _k, _len, _len1, _len2, _ref1, _ref2, _ref3;
     this.searchRows = {};
-    html = "<input type='text' id='search' placeholder='filter'>";
+    html = "<div style='font-size: 10pt'><b>Entradas totales: " + this.results.length + "</b></div><br>";
+    html += "<input type='text' id='search' placeholder='filter'>";
     html += "<div style='overflow:auto;'><table class='tablesorter'>      <thead>        <tr>";
     _ref1 = this.fields;
     for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
