@@ -4,7 +4,7 @@
  * 
  * This code assumes the following:
  *   1) There is a program node creation form called "program_node_form"
- *   2) The user has a field machine name "field_users_provider"
+ *   2) The user has a field machine name "field_user_provider"
  *   2.1) That field is a taxonomy term reference and we can get the tid
  *   3) The program node has a field machine name "field_program_provider"
  *
@@ -12,21 +12,130 @@
  */
 
 function form_tagger_form_alter( &$form, &$form_state, $form_id ) {
-  global $user;
+	global $user;
+//	echo $form_id;
+	switch ( $form_id ) {
+		case "eck__entity__form_add_program_program":
+		case "eck__entity__form_edit_program_program":
+			$user_data = user_load($user->uid);
+			$provider = $user_data->field_user_provider;
+			
+			if (array_key_exists('und', $provider)) {
+				$provider_tid = $provider['und'][0]['target_id'];
+				$entity = entity_load_single('provider', $provider_tid);
+				$provider_wrapper = entity_metadata_wrapper("provider", $entity);
+				$provider_name = $provider_wrapper->field_agency_name->value();
+			} else {
+				$provider_tid = '_none';
+				$provider_name = '- Select a value -';
+			}
 
-  //echo $form_id;
-  switch ( $form_id ) {
-    case "program_node_form":
+			if (in_array('System Administrator', $user->roles) || 
+				in_array('Evaluator', $user->roles)){
+				// show the providers as a dropdown list because these roles can select a provider
+			} else if (in_array('Provider Administrator', $user->roles)) {
+				unset($form['field_program_provider']['und']['#options']);
+				$form['field_program_provider']['und']['#options'][$provider_tid] = $provider_name;
+/*
+echo '<pre>'; 
+var_dump($form); 
+echo '</pre>';	  
+*/
+			} else {
+				// nobody else can do anything
+			}
+			break;
+			
+		case "eck__entity__form_add_activity_activity":
+		case "eck__entity__form_edit_activity_activity":
+			$user_data = user_load($user->uid);
+			$provider = $user_data->field_user_provider;
+			$program_provider_id = $provider['und'][0]['target_id'];
+						
+			if (in_array('System Administrator', $user->roles) || 
+				in_array('Evaluator', $user->roles)){
+				// do nothing. show all programs
+			} else if (in_array('Provider Administrator', $user->roles)) {
+				// display only those programs for the provider id tied to the logged in user
+				$query = new EntityFieldQuery();
+				$query->entityCondition("entity_type", "program")
+					->entityCondition("bundle", "program")
+					->fieldCondition("field_program_provider", "target_id", $program_provider_id, "=")
+					;
+					
+				$result = $query->execute();
+				$programs = entity_load("program", array_keys($result["program"]));
+				
+				unset($form['field_activity_program']['und']['#options']);
+				if (count($programs) == 0) {
+					$form['field_activity_program']['und']['#options']['_none'] = '- Select a value -';
+				} else {
+					foreach($programs as $program) {
+						$program_wrapper = entity_metadata_wrapper("program", $program);
+						$form['field_activity_program']['und']['#options'][$program_wrapper->id->value()] = 
+							$program_wrapper->field_program_name->value();
+					}
+				}
+				
+			} else {
+				// nobody else can do anything
+			}
 
-      $user_data = user_load($user->uid);
-      $provider = $user_data->field_users_provider;
-      $provider_tid = $provider['und'][0]['tid'];
 
-      $form['field_program_provider']['und']['#default_value'][0] = $provider_tid;
-      $form['field_program_provider']['#type'] = "hidden";
+			break;
+			
+		case "user_register_form":
+		case "user_profile_form":
+
+			$user_data = user_load($user->uid);
+			$provider = $user_data->field_user_provider;
+/*			
+echo '<pre>'; 
+var_dump($user_data); 
+echo '</pre>';	  
+*/
+			if (array_key_exists('und', $provider)) {
+				$provider_tid = $provider['und'][0]['target_id'];
+			} else {
+				$provider_tid = "_none";
+			}
+/*
+if (in_array('Provider Administrator', $user->roles)) {
+echo 'USER IS A PROVIDER';
+} else {
+echo 'USER IS NOT A PROVIDER';
+}
+if (in_array('Evaluator', $user->roles)) {
+echo 'USER IS A EVALUATOR';
+} else {
+echo 'USER IS NOT A EVALUATOR';
+}
+*/
+
+			if (in_array('System Administrator', $user->roles) || 
+				in_array('Evaluator', $user->roles)){
+				// show the providers as a dropdown list because these roles can select a provider
+			} else if (in_array('Provider Administrator', $user->roles)) {
+				// The provider can not set the role so set it as a hidden field
+
+
+				$form['field_users_providers']['und']['#default_value'][0] = $provider_tid;
+				$form['field_users_providers']['#type'] = "hidden";
+				$form['field_users_providers']['#value'] = $provider_tid;
+			} else {
+				// nobody else can do anything
+			}
+/*			
+echo '<pre>'; 
+var_dump($form); 
+echo '</pre>';	  
+*/			
+// $form['field_program_provider']['und']['#default_value'][0] = $provider_tid;
+// $form['field_program_provider']['#type'] = "hidden";
 
       break;
 
   }
 
 } // END of form_tagger_form_alter
+
