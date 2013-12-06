@@ -1752,10 +1752,32 @@
       "skip_logic": "ResultOfQuestion('98ADóndehasrecibidoinformacióndeVIHSida') isnt 'Otro'",
       "type": "text"
     },
-    {
+     {
       "_id": 301,
       "action_on_questions_loaded": "",
       "label": "Completado",
+      "onComplete" : {
+        "type" : "choice",
+        "message" : "Gracias, el impresso está completado. ¿Qué quiere hacer proxima?",
+        "links" : [
+          {
+            "label" : "Comenzar nuevo impresso",
+            "route" : "new/result/Participant Registration-es"
+          },
+          {
+            "label" : "Ver Lista de Registro",
+            "route" : "reports/Participant Registration-es/startDate=2013-07-31/endDate=2013-08-30",
+            "urlparams" : ["provider_id","user_name","provider_name"],
+            "isreport" : "true" 
+          },
+          {
+            "label" : "Ver Lista de Encuestas",
+            "route" : "reports/Participant Survey-es/startDate=2013-07-31/endDate=2013-08-30",
+            "urlparams" : ["provider_id","user_name","provider_name"],
+            "isreport" : "true" 
+          }
+        ]
+        },
       "radio-options": true,
       "repeatable": false,
       "required": false,

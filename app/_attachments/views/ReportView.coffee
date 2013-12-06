@@ -30,7 +30,7 @@ class ReportView extends Backbone.View
             .uniq()
             .value()
 
-        @fields = _(fields).without("_id", "_rev","test","question","collection")
+        @fields = _(fields).without("_id", "_rev","test","user","question","collection")
 
         @render()
 
@@ -45,10 +45,9 @@ class ReportView extends Backbone.View
   render: ->
 
     @searchRows = {}
-
-    html = "<input type='text' id='search' placeholder='filter'>"
-
-    html += "<table class='tablesorter'>
+    html = "<div style='font-size: 10pt'><b>Entradas totales: " + this.results.length + "</b></div><br>"
+    html += "<input type='text' id='search' placeholder='filter'>"
+    html += "<div style='overflow:auto;'><table class='tablesorter'>
       <thead>
         <tr>"
     for field in @fields
@@ -58,6 +57,12 @@ class ReportView extends Backbone.View
 
 
     for result in @results
+      
+
+      # filter by provider id
+      if this['provider_id'] isnt undefined and result.get('provider_id') isnt this['provider_id']
+          continue
+
       html += "<tr class='row-#{result.id}'>"
       @searchRows[result.id] = ""
       for field in @fields
@@ -65,7 +70,7 @@ class ReportView extends Backbone.View
         @searchRows[result.id] += result.get(field)
 
       html += "</tr>"
-    "</tbody></table>"
+    "</tbody></table></div>"
 
     @$el.html html
 

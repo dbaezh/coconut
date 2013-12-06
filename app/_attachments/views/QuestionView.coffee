@@ -377,13 +377,25 @@ class QuestionView extends Backbone.View
           if onComplete.message? and onComplete.links?
             html = "<p>#{onComplete.message}</p>"
             for link in onComplete.links
-              
+              aPassed = []
+
               # pass any varaibles needed
               if link.pass?
-                aPassed = []
                 for key in link.pass
                   aPassed.push "#{key}=#{window.getValueCache[key]()}"
-                sPassed = "/"+aPassed.join("&")
+                
+              if link.urlparams?
+                for key in link.urlparams
+                  aPassed.push "#{key}=#{$('[name="' + key + '"]').val()}"
+
+
+              if aPassed.length > 0
+                if link.isreport?
+                  sPassed = "/" + aPassed.join("/")
+                else
+                  sPassed = "/" + aPassed.join("&")
+
+
 
               # handle going to the same route
               onClick = ''
