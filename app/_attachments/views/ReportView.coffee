@@ -45,7 +45,18 @@ class ReportView extends Backbone.View
   render: ->
 
     @searchRows = {}
-    html = "<div style='font-size: 10pt'><b>Entradas totales: " + this.results.length + "</b></div><br>"
+    
+    total =0;
+    for result in @results
+      
+
+      # filter by provider id
+      if this['provider_id'] isnt undefined and result.get('provider_id') isnt this['provider_id']
+          continue
+       
+      total++;	
+	
+    html = "<div style='font-size: 10pt'><b>Entradas totales: " + total + "</b></div><br>"
     html += "<input type='text' id='search' placeholder='filter'>"
     html += "<div style='overflow:auto;'><table class='tablesorter'>
       <thead>
