@@ -84,7 +84,6 @@ function coconut_block_view( $delta = '' )
        // Put it all together
        $a_user_parameters = array(
            "user_name={$user_name}",    
-           "provider_name={$provider_name}",
            "provider_id={$provider_id}",	
        );
   }else{
