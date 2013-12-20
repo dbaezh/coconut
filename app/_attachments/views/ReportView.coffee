@@ -46,23 +46,28 @@ class ReportView extends Backbone.View
 
     @searchRows = {}
     
-    total =0;
+    total =0
+    headers = []
+
     for result in @results
       
-
       # filter by provider id
       if this['provider_id'] isnt undefined and result.get('provider_id') isnt this['provider_id']
           continue
        
       total++;	
+
+     
 	
-    html = "<div style='font-size: 10pt'><b>Entradas totales: " + total + "</b></div><br>"
-    html += "<input type='text' id='search' placeholder='filter'>"
+    
+    html = "<div style='font-size: 10pt'><input type='text' id='search' placeholder='filter'>&nbsp;&nbsp;<b>Entradas totales: " + total + "</b></div><br>";	
     html += "<div style='overflow:auto;'><table class='tablesorter'>
       <thead>
         <tr>"
     for field in @fields
       html += "<th>#{field}</th>"
+      headers[_j] = field
+
     html += "</tr></thead>
     <tbody>"
 
@@ -85,9 +90,20 @@ class ReportView extends Backbone.View
 
     @$el.html html
 
+    # download to csv file and make rows display in different colors
+    $("table").each ->
+       $table = $(this)
+       data = $table.table2CSV(
+        delivery: "value"
+        header: headers
+       )
 
-    $('table tr').each (index, row) ->
-      $(row).addClass("odd") if index % 2 is 1
+       $("<a><font size=\"2px\">Exportar a CSV</font></a>").attr("id", "downloadFile").attr("href", "data:text/csv;charset=utf8," + encodeURIComponent(data)).attr("download", "report.csv").insertBefore $table
+       $("#downloadFile").click ->
+         $("#downloadFile").get(0).click()
+
+       $('table tr').each (index, row) ->
+         $(row).addClass("odd") if index % 2 is 1
 
 
 class OldReportView extends Backbone.View
