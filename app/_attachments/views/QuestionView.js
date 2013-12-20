@@ -55,6 +55,12 @@ QuestionView = (function(_super) {
   QuestionView.prototype.render = function() {
     var key, questionsName, skipperList, standard_value_table, surveyName, value,
       _this = this;
+    if ("module" === Coconut.config.local.get("mode")) {
+      if (typeof this.standard_values["user_name"] === "undefined") {
+        alert("Nombre de usuario no está definido.");
+        return false;
+      }
+    }
     window.skipLogicCache = {};
     if ("module" !== Coconut.config.local.get("mode")) {
       questionsName = "<h1>" + this.model.id + "</h1>";

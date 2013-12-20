@@ -25,6 +25,12 @@ class QuestionView extends Backbone.View
 
   render: =>
 
+    # exit if user name is not defined
+    if "module" is Coconut.config.local.get("mode")
+      if typeof (@standard_values["user_name"]) is "undefined"
+        alert "Nombre de usuario no está definido."
+        return false
+
     window.skipLogicCache = {}
 
     questionsName = "<h1>#{@model.id}</h1>" unless "module" is Coconut.config.local.get("mode")
