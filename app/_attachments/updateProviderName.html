@@ -1,0 +1,116 @@
+<!DOCTYPE HTML>
+<html>
+ <head>
+  <title> Update Provider Name</title>
+
+  <style>
+        body {
+            font: 100% helvetica, arial, sans-serif;
+            line-height: 1.625;
+        }
+    
+  </style>
+
+  <script type="text/javascript" src="js-libraries/jquery-1.7.2.min.js"></script>
+  <script type="text/javascript" src="js-libraries/jquery.couch.js"></script>
+
+
+  
+
+<script language="JavaScript">
+// TBD: need to dynamicaly fetch this from mySQL database
+var providers =[];
+
+providers['38'] = 'Accion Callejera';
+providers['24'] = 'ACOPRO';
+providers['25'] = 'ADOM';
+providers['26'] = 'Alianza para el Servicio Comunitario';
+providers['23'] = 'Caminante';
+providers['22'] = 'Caritas';
+providers['18'] = 'Casa Abierta';
+providers['19'] = 'CEDUCA';
+providers['20'] = 'CEFASA';
+providers['21'] = 'CEPROSH';
+providers['27'] = 'Children International (Boca Chica)';
+providers['28'] = 'Children International (Santo Domingo/Santo Domingo Este)';
+providers['35'] = 'COIN (Puerto Plata)';
+providers['36'] = 'COIN (Santo Domingo/Santo Domingo Oeste)';
+providers['37'] = 'COIN (Villa Altagracia)';
+providers['34'] = 'Entrena';
+providers['33'] = 'EPCA';
+providers['29'] = 'FEI';
+providers['30'] = 'Fundacion Arcoiris';
+providers['31'] = 'Fundacion Casa de la Mujer Villaltagraciana';
+providers['32'] = 'Fundacion Pedro Martinez y Hermanos';
+providers['17'] = 'Grupo Clara';
+providers['16'] = 'IDAC';
+providers['7'] = 'IDCP (Santo Domingo/Santo Domingo Oeste)';
+providers['8'] = 'IDCP (Villa Altagracia)';
+providers['9'] = 'IDDI (Bonao)';
+providers['10'] = 'IDDI (Puerto Plata)';
+providers['6'] = 'IDDI (Santo Domingo/Distrito Nacional)';
+providers['5'] = 'IDDI (Santo Domingo/Santo Domingo Norte)';
+providers['2'] = 'MOSTCHA';
+providers['1'] = 'Profamilia (Duarte/San Francisco de Macoris)';
+providers['3'] = 'Profamilia (Santiago)';
+providers['4'] = 'Profamilia (Santo Domingo/Santo Domingo Norte)';
+providers['11'] = 'Project Hope';
+providers['12'] = 'RTI DR';
+providers['13'] = 'Sociedad del Nino Jesus';
+providers['14'] = 'Sur Futuro';
+providers['15'] = 'UCNE';
+
+  function startUpdate(){
+    var db = $.couch.db("coconut");
+	db.view("coconut/byUndefinedProviderName", 
+	{
+      success:function(data){
+    
+        for (i in data.rows) { 
+		  doc = data.rows[i];
+		  //fetch the document
+		  db.openDoc(doc.id, {
+		    success: function(data){
+			   
+			   html = '<tr>' + '<td>' + data._id + '</td>' +
+				'<td>' + data.provider_id + '</td>' +
+				'<td>' + data.provider_name + '</td>' +
+				'</tr>';
+				$("#listtbl").append(html);
+				
+				// update the provider name
+                data.provider_name = providers[data.provider_id];
+                
+				// save the document
+				db.saveDoc(data);
+	
+			}
+		  });
+
+         
+		}
+      },
+	  error:function(data){
+	    alert("Someting wrong");
+	  }
+    }); 
+  }
+
+  
+</script>
+
+ </head>
+
+
+ <body >
+	  <p>This will fetch documents where provider name is "undefined" by using a view and will update these documents with the correct provider name.</p> 
+	  <input type="button" onclick="startUpdate()" id="start" value="Start">
+
+      <p> Updating the documents.... </p>
+	  <table id="listtbl" ></table>
+
+     
+
+ </body>
+
+</html>
