@@ -79,12 +79,15 @@ function coconut_block_view( $delta = '' )
   // load provider entity
   if (isset($provider_id)){
   	$entity = entity_load_single('provider', $provider_id);
-  	$provider_name = $entity->{'title'};
+        //var_dump($entity);
+        $provider_name_temp = $entity->{'field_agency_name'}['und'][0]['value'];
+        $provider_name = str_replace("/", "#", $provider_name_temp);
 
        // Put it all together
        $a_user_parameters = array(
            "user_name={$user_name}",    
-           "provider_id={$provider_id}",	
+           "provider_id={$provider_id}",
+           "provider_name={$provider_name}"	
        );
   }else{
        $a_user_parameters = array("user_name={$user_name}");
