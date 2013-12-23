@@ -1762,7 +1762,8 @@
         "links" : [
           {
             "label" : "Comenzar nuevo impresso",
-            "route" : "new/result/Participant Registration-es"
+            "route" : "new/result/Participant Registration-es",
+            "urlparams" : ["provider_id","user_name","provider_name"]
           },
           {
             "label" : "Ver Lista de Registro",
