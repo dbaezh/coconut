@@ -65,28 +65,38 @@ ReportView = (function(_super) {
   };
 
   ReportView.prototype.render = function() {
-    var field, html, result, _i, _j, _k, _len, _len1, _len2, _ref1, _ref2, _ref3;
+    var field, headers, html, result, total, _i, _j, _k, _l, _len, _len1, _len2, _len3, _ref1, _ref2, _ref3, _ref4;
     this.searchRows = {};
-    html = "<div style='font-size: 10pt'><b>Entradas totales: " + this.results.length + "</b></div><br>";
-    html += "<input type='text' id='search' placeholder='filter'>";
-    html += "<div style='overflow:auto;'><table class='tablesorter'>      <thead>        <tr>";
-    _ref1 = this.fields;
+    total = 0;
+    headers = [];
+    _ref1 = this.results;
     for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
-      field = _ref1[_i];
+      result = _ref1[_i];
+      if (this['provider_id'] !== void 0 && result.get('provider_id') !== this['provider_id']) {
+        continue;
+      }
+      total++;
+    }
+    html = "<div style='font-size: 10pt'><input type='text' id='search' placeholder='filter'>&nbsp;&nbsp;<b>Entradas totales: " + total + "</b></div><br>";
+    html += "<div style='overflow:auto;'><table class='tablesorter'>      <thead>        <tr>";
+    _ref2 = this.fields;
+    for (_j = 0, _len1 = _ref2.length; _j < _len1; _j++) {
+      field = _ref2[_j];
       html += "<th>" + field + "</th>";
+      headers[_j] = field;
     }
     html += "</tr></thead>    <tbody>";
-    _ref2 = this.results;
-    for (_j = 0, _len1 = _ref2.length; _j < _len1; _j++) {
-      result = _ref2[_j];
+    _ref3 = this.results;
+    for (_k = 0, _len2 = _ref3.length; _k < _len2; _k++) {
+      result = _ref3[_k];
       if (this['provider_id'] !== void 0 && result.get('provider_id') !== this['provider_id']) {
         continue;
       }
       html += "<tr class='row-" + result.id + "'>";
       this.searchRows[result.id] = "";
-      _ref3 = this.fields;
-      for (_k = 0, _len2 = _ref3.length; _k < _len2; _k++) {
-        field = _ref3[_k];
+      _ref4 = this.fields;
+      for (_l = 0, _len3 = _ref4.length; _l < _len3; _l++) {
+        field = _ref4[_l];
         html += "<td>" + (result.get(field)) + "</td>";
         this.searchRows[result.id] += result.get(field);
       }
@@ -94,10 +104,22 @@ ReportView = (function(_super) {
     }
     "</tbody></table></div>";
     this.$el.html(html);
-    return $('table tr').each(function(index, row) {
-      if (index % 2 === 1) {
-        return $(row).addClass("odd");
-      }
+    return $("table").each(function() {
+      var $table, data;
+      $table = $(this);
+      data = $table.table2CSV({
+        delivery: "value",
+        header: headers
+      });
+      $("<a><font size=\"2px\">Exportar a CSV</font></a>").attr("id", "downloadFile").attr("href", "data:text/csv;charset=utf8," + encodeURIComponent(data)).attr("download", "report.csv").insertBefore($table);
+      $("#downloadFile").click(function() {
+        return $("#downloadFile").get(0).click();
+      });
+      return $('table tr').each(function(index, row) {
+        if (index % 2 === 1) {
+          return $(row).addClass("odd");
+        }
+      });
     });
   };
 
