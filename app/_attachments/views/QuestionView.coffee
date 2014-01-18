@@ -27,7 +27,7 @@ class QuestionView extends Backbone.View
 
     # exit if user name is not defined
     if "module" is Coconut.config.local.get("mode")
-      if typeof (@standard_values["user_name"]) is "undefined"
+      if typeof @standard_values["user_name"] is "undefined"
         alert "Nombre de usuario no está definido."
         return false
 
@@ -35,90 +35,102 @@ class QuestionView extends Backbone.View
 
     questionsName = "<h1>#{@model.id}</h1>" unless "module" is Coconut.config.local.get("mode")
 
-    standard_value_table = "
-      #{("<input type='hidden' name='#{key}' value='#{value}'>" for key, value of @standard_values ).join('')}
-      " if 'module' is Coconut.config.local.get('mode')
-
-    @$el.html "
-      #{standard_value_table || ''}
-      <div style='position:fixed; right:5px; color:white; background-color: #333; padding:20px; display:none; z-index:10: font-size:1.5em !important;' id='messageText'>
-        Saving...
-      </div>
-      #{questionsName || ''}
-      <div id='question-view'>
-          #{@toHTMLForm(@model)}
-      </div>
-
-    "
-
-    @updateCache()
-
-    # for first run
-    @updateSkipLogic()
     
-    # skipperList is a list of questions that use skip logic in their action on change events
-    skipperList = []
 
-    $(@model.get("questions")).each (index, question) =>
+    if "module" is Coconut.config.local.get("mode")
+  
+      # support for "/" character that might be part of the provider name; it's encoded as "#"
+      standard_value_table = "      " + (((->       
+        _ref1 = @standard_values
+        _results = []
+        for key of _ref1
+          value = _ref1[key]
+          re = new RegExp("#", "g")
+          value = value.replace(re, "/")
+          _results.push "<input type='hidden' name='" + key + "' value='" + value + "'>"
+        _results
+      ).call(this)).join("")) + "      "
 
-      # remember which questions have skip logic in their actionOnChange code 
-      skipperList.push(question.safeLabel()) if question.actionOnChange().match(/skip/i)
+     @$el.html "
+       #{standard_value_table || ''}
+       <div style='position:fixed; right:5px; color:white; background-color: #333; padding:20px; display:none; z-index:10: font-size:1.5em !important;' id='messageText'>
+        Saving...
+       </div>
+       #{questionsName || ''}
+       <div id='question-view'>
+          #{@toHTMLForm(@model)}
+       </div>
+
+     "
+
+     @updateCache()
+
+     # for first run
+     @updateSkipLogic()
+    
+     # skipperList is a list of questions that use skip logic in their action on change events
+     skipperList = []
+
+     $(@model.get("questions")).each (index, question) =>
+
+       # remember which questions have skip logic in their actionOnChange code 
+       skipperList.push(question.safeLabel()) if question.actionOnChange().match(/skip/i)
       
-      if question.actionOnQuestionsLoaded() isnt ""
-        CoffeeScript.eval question.actionOnQuestionsLoaded()
+       if question.actionOnQuestionsLoaded() isnt ""
+         CoffeeScript.eval question.actionOnQuestionsLoaded()
 
-    #js2form($('#question-view').get(0), @result.toJSON())
+     #js2form($('#question-view').get(0), @result.toJSON())
 
-    # Trigger a change event for each of the questions that contain skip logic in their actionOnChange code
-    @triggerChangeIn skipperList
+     # Trigger a change event for each of the questions that contain skip logic in their actionOnChange code
+     @triggerChangeIn skipperList
 
-    @jQueryUIze(@$el)
-    #@$el.find('input[type=date]').datebox
-    #  mode: "calbox"
-    #  dateFormat: "%d-%m-%Y"
+     @jQueryUIze(@$el)
+     #@$el.find('input[type=date]').datebox
+     #  mode: "calbox"
+     #  dateFormat: "%d-%m-%Y"
 
-#    tagSelector = "input[name=Tags],input[name=tags]"
-#    $(tagSelector).tagit
-#      availableTags: [
-#        "complete"
-#      ]
-#      onTagChanged: ->
-#        $(tagSelector).trigger('change')
+ #    tagSelector = "input[name=Tags],input[name=tags]"
+ #    $(tagSelector).tagit
+ #      availableTags: [
+ #        "complete"
+ #      ]
+ #      onTagChanged: ->
+ #        $(tagSelector).trigger('change')
 
-    _.each $("input[type='autocomplete from list'],input[type='autocomplete from previous entries']"), (element) ->
-      element = $(element)
-      if element.attr("type") is 'autocomplete from list'
-        source = element.attr("data-autocomplete-options").replace(/\n|\t/,"").split(/, */)
-        minLength = 0
-      else
-        source = document.location.pathname.substring(0,document.location.pathname.indexOf("index.html")) + "_list/values/byValue?key=\"#{element.attr("name")}\""
-        minLength = 1
+     _.each $("input[type='autocomplete from list'],input[type='autocomplete from previous entries']"), (element) ->
+       element = $(element)
+       if element.attr("type") is 'autocomplete from list'
+         source = element.attr("data-autocomplete-options").replace(/\n|\t/,"").split(/, */)
+         minLength = 0
+       else
+         source = document.location.pathname.substring(0,document.location.pathname.indexOf("index.html")) + "_list/values/byValue?key=\"#{element.attr("name")}\""
+         minLength = 1
 
-      element.autocomplete
-        source: source
-        minLength: minLength
-        target: "##{element.attr("id")}-suggestions"
-        callback: (event) ->
-          element.val($(event.currentTarget).text())
-          element.autocomplete('clear')
+       element.autocomplete
+         source: source
+         minLength: minLength
+         target: "##{element.attr("id")}-suggestions"
+         callback: (event) ->
+           element.val($(event.currentTarget).text())
+           element.autocomplete('clear')
 
-    $('input, textarea').attr("readonly", "true") if @readonly
+     $('input, textarea').attr("readonly", "true") if @readonly
 
-    @updateHeightDoc()
+     @updateHeightDoc()
 
-    @addUuid()
+     @addUuid()
 
-    surveyName = window.Coconut.questionView.model.id
-    @updateLocations() if surveyName is "Participant Registration-es"
+     surveyName = window.Coconut.questionView.model.id
+     @updateLocations() if surveyName is "Participant Registration-es"
 
-    @trigger "rendered"
+     @trigger "rendered"
 
-  jQueryUIze: ( $obj ) ->
-    $obj.find("input[type=text],input[type=number],input[type='autocomplete from previous entries'],input[type='autocomplete from list']").textinput()
-    $obj.find('input[type=radio],input[type=checkbox]').checkboxradio()
-    $obj.find('ul').listview()
-    $obj.find('select').selectmenu()
-    $obj.find('a').button()
+   jQueryUIze: ( $obj ) ->
+     $obj.find("input[type=text],input[type=number],input[type='autocomplete from previous entries'],input[type='autocomplete from list']").textinput()
+     $obj.find('input[type=radio],input[type=checkbox]').checkboxradio()
+     $obj.find('ul').listview()
+     $obj.find('select').selectmenu()
+     $obj.find('a').button()
 
   addUuid: ->
     if window.questionCache['uuid']

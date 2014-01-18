@@ -5,34 +5,87 @@ class ReportView extends Backbone.View
   events:
     "keyup #search" : "filter"
 
-  initialize: (options) ->
 
-    @[key] = value for key, value of options
+  getCompletedSurveyUUIDsAndFetch: ->
+
+    results = undefined
+    _this = this
+    completedSurveys = undefined
+    results = new Backbone.Collection
+    results.model = Result
+    results.url = "result"
+  
+    # TBD: Don't fetch directly use a model and collection
+    db = $.couch.db("coconut")
+    db.view "coconut/byUUIDandQuestion",
+      success: (data) ->
+        _this.completedSurveys = data
+      
+        # fetch results
+        results.fetch success: (allResults) ->
+          fields = undefined
+          console.log allResults.first()
+          window.allResults = allResults
+          console.log "trying to get all from"
+          console.log _this.quid
+          _this.results = allResults.where(question: _this.quid)
+          fields = _.chain(_this.results).map((result) ->
+            _.keys result.attributes
+          ).flatten().uniq().value()
+          if _this["isActions"] isnt undefined
+            _this.fields = _(fields).without("_id", "_rev", "test", "user", "question", "collection", "createdAt", "lastModifiedAt", "Teléfono", "Calleynumero", "Día", "Mes", "Año", "Celular", "Casa", "Direccióndecorreoelectrónico", "NombredeusuariodeFacebook", "Nombredepersonadecontacto", "Parentescoopersonarelacionada", "Completado", "savedBy", "Sexo", "Tieneunnumerocelular", "Tieneunnumerodetelefonoenlacasa", "Tieneunadireccióndecorreoelectrónico", "TieneunnombredeusuariodeFacebook")
+          else
+            _this.fields = _(fields).without("_id", "_rev", "test", "user", "question", "collection")
+          _this.render()
+
+      error: (data) ->
+        alert "Someting wrong"
+
+
+  initialize: (options) ->
+    urlParams = []
+
+    for key of options
+      value = options[key]
+      this[key] = value
+  
+      # do not need startDate and endDate
+      urlParams.push "" + key + "=" + value + ""  if key isnt "startDate" and key isnt "endDate"
+
+    @urlParams = urlParams
 
     console.log @quid
 
     results = new Backbone.Collection
     results.model = Result
     results.url = "result"
-    results.fetch
-      success: (allResults) =>
-        console.log allResults.first()
-        window.allResults = allResults
-        console.log "trying to get all from"
-        console.log @quid
-        @results = allResults.where
-          "question" : @quid
+    if this["isActions"] isnt undefined
+       _this.getCompletedSurveyUUIDsAndFetch();
+    else
+      results.fetch
+        success: (allResults) =>
+          console.log allResults.first()
+          window.allResults = allResults
+          console.log "trying to get all from"
+          console.log @quid
+          @results = allResults.where
+            "question" : @quid
 
-        fields = _.chain(@results)
-            .map (result) ->
-              _.keys(result.attributes)
-            .flatten()
-            .uniq()
-            .value()
+          fields = _.chain(@results)
+              .map (result) ->
+                _.keys(result.attributes)
+              .flatten()
+              .uniq()
+              .value()
 
-        @fields = _(fields).without("_id", "_rev","test","user","question","collection")
+          
 
-        @render()
+            if  this["isActions"] isnt undefined
+              @fields = _(fields).without("_id", "_rev", "test", "user", "question", "collection", "createdAt", "lastModifiedAt", "Teléfono", "Calleynumero", "Día", "Mes", "Año", "Celular", "Casa", "Direccióndecorreoelectrónico", "NombredeusuariodeFacebook", "Nombredepersonadecontacto", "Parentescoopersonarelacionada", "Completado", "savedBy", "Sexo", "Tieneunnumerocelular", "Tieneunnumerodetelefonoenlacasa", "Tieneunadireccióndecorreoelectrónico", "TieneunnombredeusuariodeFacebook")
+            else
+              @fields = _(fields).without("_id", "_rev", "test", "user", "question", "collection")
+
+          @render()
 
   filter: (event) ->
     query = @$el.find("#search").val()
@@ -41,6 +94,10 @@ class ReportView extends Backbone.View
         @$el.find(".row-#{id}").show()
       else
         @$el.find(".row-#{id}").hide()
+
+
+
+  
 
   render: ->
 
@@ -65,9 +122,14 @@ class ReportView extends Backbone.View
       <thead>
         <tr>"
     for field in @fields
-      html += "<th>#{field}</th>"
+      if this['isActions'] isnt undefined
+        html += "<th>" + field + "</th>"  if field isnt "user_name" and field isnt "provider_id" and field isnt "provider_name"
+      else
+        html += "<th>" + field + "</th>"
+
       headers[_j] = field
 
+    html += "<th>Action</th>"  if this["isActions"] isnt undefined
     html += "</tr></thead>
     <tbody>"
 
@@ -82,10 +144,30 @@ class ReportView extends Backbone.View
       html += "<tr class='row-#{result.id}'>"
       @searchRows[result.id] = ""
       for field in @fields
-        html += "<td>#{result.get(field)}</td>"
-        @searchRows[result.id] += result.get(field)
+        if this["isActions"] isnt undefined and (field is "user_name" or field is "provider_id" or field is "provider_name")
+          continue
+        else
+          html += "<td>" + (result.get(field)) + "</td>"
+          @searchRows[result.id] += result.get(field)
 
-      html += "</tr>"
+      
+       #prepare parameters for the actions
+       if this["isActions"] isnt undefined
+         isSurveyExist = false
+         @urlParams.push "uuid=" + result.get("uuid")
+         sPassed = "/" + @urlParams.join("&")
+         for i of @completedSurveys.rows
+           if result.get("uuid") is @completedSurveys.rows[i].key
+             isSurveyExist = true
+             break
+
+         if isSurveyExist
+           html += "<td><a href=\"#new/result/Participant Survey-es" + sPassed + "\">View Survey</a></td>"
+         else
+           html += "<td><a href=\"#new/result/Participant Survey-es" + sPassed + "\">New Survey</a></td>"
+
+       html += "</tr>"
+
     "</tbody></table></div>"
 
     @$el.html html
