@@ -21,11 +21,11 @@ ResultsView = (function(_super) {
   ResultsView.prototype.render = function() {
     var _this = this;
 
-    this.$el.html(("      <style>        table.results th.header, table.results td{          font-size:150%;        }      </style>      <div class='not-complete' data-collapsed='false' data-role='collapsible'>        <h2>'" + this.question.id + "' Items Not Completed (<span class='count-complete-false'></span>)</h2>        <table class='results complete-false tablesorter'>          <thead><tr>            ") + _.map(this.question.summaryFieldNames(), function(summaryField) {
+    this.$el.html(("      <style>        table.results th.header, table.results td{          font-size:150%;        }      </style>    <div class='not-complete' data-collapsed='false' data-role='collapsible'>        <h2>'" + this.question.id + "' Items Not Completed (<span class='count-complete-false'></span>)</h2>        <table class='results complete-false tablesorter'>          <thead><tr>            ") + _.map(this.question.summaryFieldNames(), function(summaryField) {
       return "<th class='header'>" + summaryField + "</th>";
     }).join("") + ("            <th></th>          </tr></thead>          <tbody>          </tbody>        </table>        <a href='#new/result/" + (escape(this.question.id)) + "'>Add new '" + this.question.id + "'</a>      </div>      <div class='complete' data-role='collapsible'>        <h2>'" + this.question.id + "' Items Completed (<span class='count-complete-true'></span>)</h2>        <table class='results complete-true tablesorter'>          <thead><tr>            ") + _.map(this.question.summaryFieldNames(), function(summaryField) {
       return "<th class='header'>" + summaryField + "</th>";
-    }).join("") + "            <th></th>          </tr></thead>          <tbody>          </tbody>        </table>      </div>    ");
+    }).join("") + "            <th></th>          </tr></thead>          <tbody>          </tbody>        </table>      </div>   ");
     $("a").button();
     $('table').tablesorter();
     $('table').addTableFilter({
