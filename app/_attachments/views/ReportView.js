@@ -18,34 +18,88 @@ ReportView = (function(_super) {
     "keyup #search": "filter"
   };
 
+  ReportView.prototype.getCompletedSurveyUUIDsAndFetch = function() {
+    var completedSurveys, db, results, _this;
+    results = void 0;
+    _this = this;
+    completedSurveys = void 0;
+    results = new Backbone.Collection;
+    results.model = Result;
+    results.url = "result";
+    db = $.couch.db("coconut");
+    return db.view("coconut/byUUIDandQuestion", {
+      success: function(data) {
+        _this.completedSurveys = data;
+        return results.fetch({
+          success: function(allResults) {
+            var fields;
+            fields = void 0;
+            console.log(allResults.first());
+            window.allResults = allResults;
+            console.log("trying to get all from");
+            console.log(_this.quid);
+            _this.results = allResults.where({
+              question: _this.quid
+            });
+            fields = _.chain(_this.results).map(function(result) {
+              return _.keys(result.attributes);
+            }).flatten().uniq().value();
+            if (_this["isActions"] !== void 0) {
+              _this.fields = _(fields).without("_id", "_rev", "test", "user", "question", "collection", "createdAt", "lastModifiedAt", "Teléfono", "Calleynumero", "Día", "Mes", "Año", "Celular", "Casa", "Direccióndecorreoelectrónico", "NombredeusuariodeFacebook", "Nombredepersonadecontacto", "Parentescoopersonarelacionada", "Completado", "savedBy", "Sexo", "Tieneunnumerocelular", "Tieneunnumerodetelefonoenlacasa", "Tieneunadireccióndecorreoelectrónico", "TieneunnombredeusuariodeFacebook");
+            } else {
+              _this.fields = _(fields).without("_id", "_rev", "test", "user", "question", "collection");
+            }
+            return _this.render();
+          }
+        });
+      },
+      error: function(data) {
+        return alert("Someting wrong");
+      }
+    });
+  };
+
   ReportView.prototype.initialize = function(options) {
-    var key, results, value,
+    var key, results, urlParams, value,
       _this = this;
+    urlParams = [];
     for (key in options) {
       value = options[key];
       this[key] = value;
+      if (key !== "startDate" && key !== "endDate") {
+        urlParams.push("" + key + "=" + value + "");
+      }
     }
+    this.urlParams = urlParams;
     console.log(this.quid);
     results = new Backbone.Collection;
     results.model = Result;
     results.url = "result";
-    return results.fetch({
-      success: function(allResults) {
-        var fields;
-        console.log(allResults.first());
-        window.allResults = allResults;
-        console.log("trying to get all from");
-        console.log(_this.quid);
-        _this.results = allResults.where({
-          "question": _this.quid
-        });
-        fields = _.chain(_this.results).map(function(result) {
-          return _.keys(result.attributes);
-        }).flatten().uniq().value();
-        _this.fields = _(fields).without("_id", "_rev", "test", "user", "question", "collection");
-        return _this.render();
-      }
-    });
+    if (this["isActions"] !== void 0) {
+      return _this.getCompletedSurveyUUIDsAndFetch();
+    } else {
+      return results.fetch({
+        success: function(allResults) {
+          var fields;
+          console.log(allResults.first());
+          window.allResults = allResults;
+          console.log("trying to get all from");
+          console.log(_this.quid);
+          _this.results = allResults.where({
+            "question": _this.quid
+          });
+          fields = _.chain(_this.results).map(function(result) {
+            return _.keys(result.attributes);
+          }).flatten().uniq().value();
+          if (_this["isActions"] !== void 0) {
+            _this.fields = _(fields).without("_id", "_rev", "test", "user", "question", "collection", "createdAt", "lastModifiedAt", "Teléfono", "Calleynumero", "Día", "Mes", "Año", "Celular", "Casa", "Direccióndecorreoelectrónico", "NombredeusuariodeFacebook", "Nombredepersonadecontacto", "Parentescoopersonarelacionada", "Completado", "savedBy", "Sexo", "Tieneunnumerocelular", "Tieneunnumerodetelefonoenlacasa", "Tieneunadireccióndecorreoelectrónico", "TieneunnombredeusuariodeFacebook");
+          } else {
+            _this.fields = _(fields).without("_id", "_rev", "test", "user", "question", "collection");
+          }
+          return _this.render();
+        }
+      });
+    }
   };
 
   ReportView.prototype.filter = function(event) {
@@ -65,7 +119,7 @@ ReportView = (function(_super) {
   };
 
   ReportView.prototype.render = function() {
-    var field, headers, html, result, total, _i, _j, _k, _l, _len, _len1, _len2, _len3, _ref1, _ref2, _ref3, _ref4;
+    var field, headers, html, i, isSurveyExist, result, sPassed, total, _i, _j, _k, _l, _len, _len1, _len2, _len3, _ref1, _ref2, _ref3, _ref4;
     this.searchRows = {};
     total = 0;
     headers = [];
@@ -82,8 +136,17 @@ ReportView = (function(_super) {
     _ref2 = this.fields;
     for (_j = 0, _len1 = _ref2.length; _j < _len1; _j++) {
       field = _ref2[_j];
-      html += "<th>" + field + "</th>";
+      if (this['isActions'] !== void 0) {
+        if (field !== "user_name" && field !== "provider_id" && field !== "provider_name") {
+          html += "<th>" + field + "</th>";
+        }
+      } else {
+        html += "<th>" + field + "</th>";
+      }
       headers[_j] = field;
+    }
+    if (this["isActions"] !== void 0) {
+      html += "<th>Action</th>";
     }
     html += "</tr></thead>    <tbody>";
     _ref3 = this.results;
@@ -97,8 +160,28 @@ ReportView = (function(_super) {
       _ref4 = this.fields;
       for (_l = 0, _len3 = _ref4.length; _l < _len3; _l++) {
         field = _ref4[_l];
-        html += "<td>" + (result.get(field)) + "</td>";
-        this.searchRows[result.id] += result.get(field);
+        if (this["isActions"] !== void 0 && (field === "user_name" || field === "provider_id" || field === "provider_name")) {
+          continue;
+        } else {
+          html += "<td>" + (result.get(field)) + "</td>";
+          this.searchRows[result.id] += result.get(field);
+        }
+      }
+      if (this["isActions"] !== void 0) {
+        isSurveyExist = false;
+        this.urlParams.push("uuid=" + result.get("uuid"));
+        sPassed = "/" + this.urlParams.join("&");
+        for (i in this.completedSurveys.rows) {
+          if (result.get("uuid") === this.completedSurveys.rows[i].key) {
+            isSurveyExist = true;
+            break;
+          }
+        }
+        if (isSurveyExist) {
+          html += "<td><a href=\"#new/result/Participant Survey-es" + sPassed + "\">View Survey</a></td>";
+        } else {
+          html += "<td><a href=\"#new/result/Participant Survey-es" + sPassed + "\">New Survey</a></td>";
+        }
       }
       html += "</tr>";
     }

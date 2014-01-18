@@ -53,7 +53,7 @@ QuestionView = (function(_super) {
   };
 
   QuestionView.prototype.render = function() {
-    var key, questionsName, skipperList, standard_value_table, surveyName, value,
+    var questionsName, skipperList, standard_value_table, surveyName,
       _this = this;
     if ("module" === Coconut.config.local.get("mode")) {
       if (typeof this.standard_values["user_name"] === "undefined") {
@@ -65,19 +65,21 @@ QuestionView = (function(_super) {
     if ("module" !== Coconut.config.local.get("mode")) {
       questionsName = "<h1>" + this.model.id + "</h1>";
     }
-    if ('module' === Coconut.config.local.get('mode')) {
+    if ("module" === Coconut.config.local.get("mode")) {
       standard_value_table = "      " + (((function() {
-        var _ref1, _results;
+        var key, re, value, _ref1, _results;
         _ref1 = this.standard_values;
         _results = [];
         for (key in _ref1) {
           value = _ref1[key];
+          re = new RegExp("#", "g");
+          value = value.replace(re, "/");
           _results.push("<input type='hidden' name='" + key + "' value='" + value + "'>");
         }
         return _results;
-      }).call(this)).join('')) + "      ";
+      }).call(this)).join("")) + "      ";
     }
-    this.$el.html("      " + (standard_value_table || '') + "      <div style='position:fixed; right:5px; color:white; background-color: #333; padding:20px; display:none; z-index:10: font-size:1.5em !important;' id='messageText'>        Saving...      </div>      " + (questionsName || '') + "      <div id='question-view'>          " + (this.toHTMLForm(this.model)) + "      </div>    ");
+    this.$el.html("       " + (standard_value_table || '') + "       <div style='position:fixed; right:5px; color:white; background-color: #333; padding:20px; display:none; z-index:10: font-size:1.5em !important;' id='messageText'>        Saving...       </div>       " + (questionsName || '') + "       <div id='question-view'>          " + (this.toHTMLForm(this.model)) + "       </div>     ");
     this.updateCache();
     this.updateSkipLogic();
     skipperList = [];
