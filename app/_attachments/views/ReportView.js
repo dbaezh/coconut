@@ -188,16 +188,19 @@ ReportView = (function(_super) {
     "</tbody></table></div>";
     this.$el.html(html);
     return $("table").each(function() {
-      var $table, data;
+      var $table, blob, data, url;
       $table = $(this);
       data = $table.table2CSV({
         delivery: "value",
         header: headers
       });
-      $("<a><font size=\"2px\">Exportar a CSV</font></a>").attr("id", "downloadFile").attr("href", "data:text/csv;charset=utf8," + encodeURIComponent(data)).attr("download", "report.csv").insertBefore($table);
-      $("#downloadFile").click(function() {
-        return $("#downloadFile").get(0).click();
+      blob = new Blob([data], {
+        type: "application/octet-binary"
       });
+      url = URL.createObjectURL(blob);
+      $("<a><font size=\"2px\">Exportar a CSV</font></a>").attr("id", "downloadFile").attr({
+        href: url
+      }).attr("download", "report.csv").insertBefore($table);
       return $('table tr').each(function(index, row) {
         if (index % 2 === 1) {
           return $(row).addClass("odd");

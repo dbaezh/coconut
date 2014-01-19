@@ -180,10 +180,11 @@ class ReportView extends Backbone.View
         header: headers
        )
 
-       $("<a><font size=\"2px\">Exportar a CSV</font></a>").attr("id", "downloadFile").attr("href", "data:text/csv;charset=utf8," + encodeURIComponent(data)).attr("download", "report.csv").insertBefore $table
-       $("#downloadFile").click ->
-         $("#downloadFile").get(0).click()
+       blob = new Blob([data],type: "application/octet-binary")
+       url = URL.createObjectURL(blob)
 
+       $("<a><font size=\"2px\">Exportar a CSV</font></a>").attr("id", "downloadFile").attr({href: url}).attr("download", "report.csv").insertBefore $table
+    
        $('table tr').each (index, row) ->
          $(row).addClass("odd") if index % 2 is 1
 
