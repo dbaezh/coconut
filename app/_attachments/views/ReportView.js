@@ -177,10 +177,10 @@ ReportView = (function(_super) {
             break;
           }
         }
-        if (isSurveyExist) {
-          html += "<td><a href=\"#new/result/Participant Survey-es" + sPassed + "\">View Survey</a></td>";
-        } else {
+        if (!isSurveyExist) {
           html += "<td><a href=\"#new/result/Participant Survey-es" + sPassed + "\">New Survey</a></td>";
+        } else {
+          html += "<td>&nbsp;</td>";
         }
       }
       html += "</tr>";

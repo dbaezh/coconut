@@ -161,10 +161,11 @@ class ReportView extends Backbone.View
              isSurveyExist = true
              break
 
-         if isSurveyExist
-           html += "<td><a href=\"#new/result/Participant Survey-es" + sPassed + "\">View Survey</a></td>"
-         else
+         
+         unless isSurveyExist
            html += "<td><a href=\"#new/result/Participant Survey-es" + sPassed + "\">New Survey</a></td>"
+         else  
+           html += "<td>&nbsp;</td>"
 
        html += "</tr>"
 
