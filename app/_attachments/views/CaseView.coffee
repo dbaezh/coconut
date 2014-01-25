@@ -15,3 +15,4 @@ class CaseView extends Backbone.View
       #{JSON.stringify(@case.toJSON(), null, 4)}
       </pre>
     "
+

@@ -566,4 +566,6 @@ Coconut.debug = function(string) {
   return $("#log").append(string + "<br/>");
 };
 
-//# sourceMappingURL=app.map
+/*
+//@ sourceMappingURL=app.map
+*/

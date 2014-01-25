@@ -146,7 +146,7 @@ ReportView = (function(_super) {
       headers[_j] = field;
     }
     if (this["isActions"] !== void 0) {
-      html += "<th>Action</th>";
+      html += "<th>Acción</th>";
     }
     html += "</tr></thead>    <tbody>";
     _ref3 = this.results;
@@ -178,10 +178,11 @@ ReportView = (function(_super) {
           }
         }
         if (!isSurveyExist) {
-          html += "<td><a href=\"#new/result/Participant Survey-es" + sPassed + "\">New Survey</a></td>";
+          html += "<td><a href=\"#new/result/Participant Survey-es" + sPassed + "\">Una Nueva Encuesta</a></td>";
         } else {
           html += "<td>&nbsp;</td>";
         }
+        this.urlParams.removeByValue("uuid=" + result.get("uuid"));
       }
       html += "</tr>";
     }
@@ -459,3 +460,7 @@ OldReportView = (function(_super) {
   return OldReportView;
 
 })(Backbone.View);
+
+/*
+//@ sourceMappingURL=ReportView.map
+*/

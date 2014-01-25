@@ -404,7 +404,11 @@ class QuestionView extends Backbone.View
                 
               if link.urlparams?
                 for key in link.urlparams
-                  aPassed.push "#{key}=#{$('[name="' + key + '"]').val()}"
+                  re = new RegExp("/", "g")
+                  v = $('[name="' + key + '"]').val()
+                  v = v.replace(re, "#")
+                  #aPassed.push "#{key}=#{$('[name="' + key + '"]').val()}"
+                  aPassed.push "#{key}=#{v}"
 
 
               if aPassed.length > 0

@@ -376,7 +376,7 @@ QuestionView = (function(_super) {
   };
 
   QuestionView.prototype.validateAll = function() {
-    var $button, $question, aPassed, completeButtonModel, hasOnComplete, html, isValid, key, link, onClick, onComplete, questionIsntValid, sPassed, _i, _j, _k, _l, _len, _len1, _len2, _len3, _ref1, _ref2, _ref3, _ref4;
+    var $button, $question, aPassed, completeButtonModel, hasOnComplete, html, isValid, key, link, onClick, onComplete, questionIsntValid, re, sPassed, v, _i, _j, _k, _l, _len, _len1, _len2, _len3, _ref1, _ref2, _ref3, _ref4;
     $button = $("[name=Completado]");
     isValid = true;
     _ref1 = window.keyCache;
@@ -428,7 +428,10 @@ QuestionView = (function(_super) {
                 _ref4 = link.urlparams;
                 for (_l = 0, _len3 = _ref4.length; _l < _len3; _l++) {
                   key = _ref4[_l];
-                  aPassed.push("" + key + "=" + ($('[name="' + key + '"]').val()));
+                  re = new RegExp("/", "g");
+                  v = $('[name="' + key + '"]').val();
+                  v = v.replace(re, "#");
+                  aPassed.push("" + key + "=" + v);
                 }
               }
               if (aPassed.length > 0) {
@@ -1007,3 +1010,7 @@ window.ResultOfQuestion = function(name) {
   var _base;
   return (typeof (_base = window.getValueCache)[name] === "function" ? _base[name]() : void 0) || null;
 };
+
+/*
+//@ sourceMappingURL=QuestionView.map
+*/

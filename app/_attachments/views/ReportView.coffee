@@ -78,7 +78,8 @@ class ReportView extends Backbone.View
               .uniq()
               .value()
 
-          
+
+
 
             if  this["isActions"] isnt undefined
               @fields = _(fields).without("_id", "_rev", "test", "user", "question", "collection", "createdAt", "lastModifiedAt", "Teléfono", "Calleynumero", "Día", "Mes", "Año", "Celular", "Casa", "Direccióndecorreoelectrónico", "NombredeusuariodeFacebook", "Nombredepersonadecontacto", "Parentescoopersonarelacionada", "Completado", "savedBy", "Sexo", "Tieneunnumerocelular", "Tieneunnumerodetelefonoenlacasa", "Tieneunadireccióndecorreoelectrónico", "TieneunnombredeusuariodeFacebook")
@@ -129,7 +130,7 @@ class ReportView extends Backbone.View
 
       headers[_j] = field
 
-    html += "<th>Action</th>"  if this["isActions"] isnt undefined
+    html += "<th>Acción</th>"  if this["isActions"] isnt undefined
     html += "</tr></thead>
     <tbody>"
 
@@ -163,9 +164,11 @@ class ReportView extends Backbone.View
 
          
          unless isSurveyExist
-           html += "<td><a href=\"#new/result/Participant Survey-es" + sPassed + "\">New Survey</a></td>"
+           html += "<td><a href=\"#new/result/Participant Survey-es" + sPassed + "\">Una Nueva Encuesta</a></td>"
          else  
            html += "<td>&nbsp;</td>"
+
+         @urlParams.removeByValue "uuid=" + result.get("uuid")
 
        html += "</tr>"
 
