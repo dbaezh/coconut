@@ -60,6 +60,11 @@ class Result extends Backbone.Model
 
     return original
 
+  safeGet: ( attribute, defaultValue ) ->
+    value = @get(attribute)
+    return value if value?
+    return defaultValue
+
   toJSON: ->
     json = super()
     if Coconut.config.local.get("mode") is "cloud"

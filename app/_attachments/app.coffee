@@ -14,6 +14,10 @@ class Router extends Backbone.Router
     "new/result/:question_id/:options" : "newResult"
     
     "edit/result/:result_id": "editResult"
+    "edit/result/:result_id/:options": "editResult"
+
+    "view/result/:result_id/:options": "viewResult"
+
     "delete/result/:result_id": "deleteResult"
     "delete/result/:result_id/:confirmed": "deleteResult"
     "edit/resultSummary/:question_id": "editResultSummary"
@@ -276,10 +280,15 @@ class Router extends Backbone.Router
         
 
 
-  editResult: (result_id) ->
+  editResult: (result_id, s_options = '') ->
     @userLoggedIn
       success: ->
+        standard_values = {}
+        s_options.replace(/([^=&]+)=([^&]*)/g, (m, key, value) -> standard_values[key] = value)
+
         Coconut.questionView ?= new QuestionView()
+        Coconut.questionView.standard_values = standard_values
+
         Coconut.questionView.readonly = false
 
         Coconut.questionView.result = new Result
@@ -291,6 +300,27 @@ class Router extends Backbone.Router
             Coconut.questionView.model.fetch
               success: ->
                 Coconut.questionView.render()
+
+
+
+  viewResult: (result_id, s_options = '') ->
+    standard_values = {}
+    s_options.replace(/([^=&]+)=([^&]*)/g, (m, key, value) -> standard_values[key] = value)
+
+    Coconut.questionView ?= new QuestionView()
+    Coconut.questionView.standard_values = standard_values
+
+    Coconut.questionView.readonly = false
+
+    Coconut.questionView.result = new Result
+      _id: result_id
+    Coconut.questionView.result.fetch
+      success: ->
+        Coconut.questionView.model = new Question
+          id: Coconut.questionView.result.question()
+        Coconut.questionView.model.fetch
+          success: ->
+            Coconut.questionView.renderSummary()
 
 
 

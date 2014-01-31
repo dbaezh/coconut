@@ -22,6 +22,8 @@ Router = (function(_super) {
     "new/result/:question_id": "newResult",
     "new/result/:question_id/:options": "newResult",
     "edit/result/:result_id": "editResult",
+    "edit/result/:result_id/:options": "editResult",
+    "view/result/:result_id/:options": "viewResult",
     "delete/result/:result_id": "deleteResult",
     "delete/result/:result_id/:confirmed": "deleteResult",
     "edit/resultSummary/:question_id": "editResultSummary",
@@ -392,12 +394,21 @@ Router = (function(_super) {
     });
   };
 
-  Router.prototype.editResult = function(result_id) {
+  Router.prototype.editResult = function(result_id, s_options) {
+    if (s_options == null) {
+      s_options = '';
+    }
     return this.userLoggedIn({
       success: function() {
+        var standard_values;
+        standard_values = {};
+        s_options.replace(/([^=&]+)=([^&]*)/g, function(m, key, value) {
+          return standard_values[key] = value;
+        });
         if (Coconut.questionView == null) {
           Coconut.questionView = new QuestionView();
         }
+        Coconut.questionView.standard_values = standard_values;
         Coconut.questionView.readonly = false;
         Coconut.questionView.result = new Result({
           _id: result_id
@@ -412,6 +423,37 @@ Router = (function(_super) {
                 return Coconut.questionView.render();
               }
             });
+          }
+        });
+      }
+    });
+  };
+
+  Router.prototype.viewResult = function(result_id, s_options) {
+    var standard_values;
+    if (s_options == null) {
+      s_options = '';
+    }
+    standard_values = {};
+    s_options.replace(/([^=&]+)=([^&]*)/g, function(m, key, value) {
+      return standard_values[key] = value;
+    });
+    if (Coconut.questionView == null) {
+      Coconut.questionView = new QuestionView();
+    }
+    Coconut.questionView.standard_values = standard_values;
+    Coconut.questionView.readonly = false;
+    Coconut.questionView.result = new Result({
+      _id: result_id
+    });
+    return Coconut.questionView.result.fetch({
+      success: function() {
+        Coconut.questionView.model = new Question({
+          id: Coconut.questionView.result.question()
+        });
+        return Coconut.questionView.model.fetch({
+          success: function() {
+            return Coconut.questionView.renderSummary();
           }
         });
       }

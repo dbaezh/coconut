@@ -99,6 +99,15 @@ Result = (function(_super) {
     return original;
   };
 
+  Result.prototype.safeGet = function(attribute, defaultValue) {
+    var value;
+    value = this.get(attribute);
+    if (value != null) {
+      return value;
+    }
+    return defaultValue;
+  };
+
   Result.prototype.toJSON = function() {
     var json,
       _this = this;
@@ -124,3 +133,7 @@ Result = (function(_super) {
   return Result;
 
 })(Backbone.Model);
+
+/*
+//@ sourceMappingURL=Result.map
+*/

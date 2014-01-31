@@ -7,6 +7,7 @@ class QuestionView extends Backbone.View
     "change #question-view select"   : "onChange"
     "change #question-view textarea" : "onChange"
     "click button.repeat" : "repeat"
+    "click button.repeat_summary" : "repeatSummary"
     "click #question-view a:contains(Get current location)" : "getLocation"
     "click .next_error"   : "runValidate"
     "click .validate_one" : "onValidateOne"
@@ -125,7 +126,109 @@ class QuestionView extends Backbone.View
 
      @trigger "rendered"
 
-   jQueryUIze: ( $obj ) ->
+  renderSummary: =>
+
+    # exit if user name is not defined
+    if "module" is Coconut.config.local.get("mode")
+      if typeof @standard_values["user_name"] is "undefined"
+        alert "Nombre de usuario no está definido."
+        return false
+
+    window.skipLogicCache = {}
+
+    questionsName = "<h1>#{@model.id}</h1>" unless "module" is Coconut.config.local.get("mode")
+
+
+
+    if "module" is Coconut.config.local.get("mode")
+
+      # support for "/" character that might be part of the provider name; it's encoded as "#"
+      standard_value_table = "      " + (((->
+        _ref1 = @standard_values
+        _results = []
+        for key of _ref1
+          value = _ref1[key]
+          re = new RegExp("#", "g")
+          value = value.replace(re, "/")
+          _results.push "<input type='hidden' name='" + key + "' value='" + value + "'>"
+        _results
+      ).call(this)).join("")) + "      "
+
+    @$el.html "
+           #{standard_value_table || ''}
+           <div style='position:fixed; right:5px; color:white; background-color: #333; padding:20px; display:none; z-index:10: font-size:1.5em !important;' id='messageText'>
+            Saving...
+           </div>
+           #{questionsName || ''}
+           <div id='question-view'>
+              #{@toSummaryForm(@model)}
+           </div>
+
+         "
+
+    @updateCache()
+
+    # for first run
+    @updateSkipLogic()
+
+    # skipperList is a list of questions that use skip logic in their action on change events
+    skipperList = []
+
+    $(@model.get("questions")).each (index, question) =>
+
+      # remember which questions have skip logic in their actionOnChange code
+      skipperList.push(question.safeLabel()) if question.actionOnChange().match(/skip/i)
+
+      if question.actionOnQuestionsLoaded() isnt ""
+        CoffeeScript.eval question.actionOnQuestionsLoaded()
+
+    #js2form($('#question-view').get(0), @result.toJSON())
+
+    # Trigger a change event for each of the questions that contain skip logic in their actionOnChange code
+    @triggerChangeIn skipperList
+
+    @jQueryUIze(@$el)
+    #@$el.find('input[type=date]').datebox
+    #  mode: "calbox"
+    #  dateFormat: "%d-%m-%Y"
+
+    #    tagSelector = "input[name=Tags],input[name=tags]"
+    #    $(tagSelector).tagit
+    #      availableTags: [
+    #        "complete"
+    #      ]
+    #      onTagChanged: ->
+    #        $(tagSelector).trigger('change')
+
+    _.each $("input[type='autocomplete from list'],input[type='autocomplete from previous entries']"), (element) ->
+      element = $(element)
+      if element.attr("type") is 'autocomplete from list'
+        source = element.attr("data-autocomplete-options").replace(/\n|\t/,"").split(/, */)
+        minLength = 0
+      else
+        source = document.location.pathname.substring(0,document.location.pathname.indexOf("index.html")) + "_list/values/byValue?key=\"#{element.attr("name")}\""
+        minLength = 1
+
+      element.autocomplete
+        source: source
+        minLength: minLength
+        target: "##{element.attr("id")}-suggestions"
+        callback: (event) ->
+          element.val($(event.currentTarget).text())
+          element.autocomplete('clear')
+
+    $('input, textarea').attr("readonly", "true") if @readonly
+
+    @updateHeightDoc()
+
+    @addUuid()
+
+    surveyName = window.Coconut.questionView.model.id
+    @updateLocations() if surveyName is "Participant Registration-es"
+
+    @trigger "rendered"
+
+  jQueryUIze: ( $obj ) ->
      $obj.find("input[type=text],input[type=number],input[type='autocomplete from previous entries'],input[type='autocomplete from list']").textinput()
      $obj.find('input[type=radio],input[type=checkbox]').checkboxradio()
      $obj.find('ul').listview()
@@ -852,6 +955,155 @@ class QuestionView extends Backbone.View
 
     return html
 
+  toSummaryForm: (questions = @model, groupId, isRepeatedGroup, index) ->
+    # Need this because we have recursion later
+    questions = [questions] unless questions.length?
+    unless index?
+      index = 0
+    else
+      if isRepeatedGroup
+        titleIndex = "<span class='title_index'>#{index+1}</span>"
+
+    html = ''
+
+    _(questions).each (question) =>
+
+      labelHeader = if question.type() is "label"
+        ["<h2>","</h2>"]
+      else
+        ["", ""]
+
+      warning = "
+        data-warning='#{_.escape(question.warning())}'
+      " if question.has('warning')
+
+      validation = "
+        data-validation='#{_.escape(question.validation())}'
+      " if question.has('validation')
+
+      isRepeatable = question.repeatable()
+
+      repeatButton = "
+        <button class='repeat_summary'>+</button>
+      " if isRepeatable
+
+      if isRepeatable || isRepeatedGroup
+        name        = question.safeLabel() + "[#{index}]"
+        question_id = question.get("id") + "-#{index}"
+      else
+        name        = question.safeLabel()
+        question_id = question.get("id")
+
+      window.skipLogicCache[name] =
+        if question.skipLogic() isnt ''
+          CoffeeScript.compile(question.skipLogic(),bare:true)
+        else
+          ''
+
+      if question.questions().length isnt 0
+
+        groupTitle = "<h1>#{question.label()} #{titleIndex || ''}</h1>" if question.label() isnt '' and question.label() isnt question.get("_id")
+
+        html += "
+          <div 
+            data-group-id='#{question_id}'
+            data-question-name='#{name}'
+            data-question-id='#{question_id}'
+            class='question group'>
+            #{(groupTitle) || ''}
+            #{@toSummaryForm(question.questions(), question_id, isRepeatable, index)}
+          </div>
+
+          #{repeatButton || ''}
+
+        "
+      else
+        html += "
+          <div
+            #{("style='display:none;'" if question.type() is 'hidden') || ''}
+            class='question #{question.type()}'
+
+            data-question-name='#{name}'
+            data-question-id='#{question_id}'
+            data-action_on_change='#{_.escape(question.actionOnChange())}'
+
+            #{validation || ''}
+            #{warning    || ''}
+            data-required='#{question.required()}'
+          >
+
+          #{
+          unless question.type() is 'hidden'
+            "<label type='#{question.type()}' for='#{question_id}'>#{labelHeader[0]}#{question.label()}#{labelHeader[1]} <span></span></label>" 
+          else
+            ""
+          }
+          #{"<p class='grey'>#{question.hint()}</p>"}
+          <div class='message'></div>
+          #{
+            switch question.type()
+              when "textarea"
+                "#{this.result.safeGet(name, '')}"
+              when "select"
+                if @readonly
+                  question.value()
+                else
+
+                  html = "<select>"
+                  for option, index in question.get("select-options").split(/, */)
+                    html += "<option name='#{name}' id='#{question_id}-#{index}' value='#{option}'>#{option}</option>"
+                  html += "</select>"
+              when "radio"
+                "#{this.result.safeGet(name, '')}"
+              when "date"
+                "#{this.result.safeGet(name, '')}"
+              when "checkbox"
+                cbChecked = ""
+                cbValue = this.result.safeGet(name, '')
+                if cbValue in ['true']
+                  cbChecked = " checked='checked' "
+
+                "<input style='display:none' name='#{name}' id='#{question_id}' type='checkbox' value='true' #{cbChecked} disabled='disabled'></input>"
+              when "autocomplete from list", "autocomplete from previous entries"
+                "#{this.result.safeGet(name, '')}"
+              when "location"
+                "
+                  <a data-question-id='#{question_id}'>Get current location</a>
+                  <label for='#{question_id}-description'>Location Description</label>
+                  <input type='text' name='#{name}-description' id='#{question_id}-description'></input>
+                  #{
+                    _.map(["latitude", "longitude"], (field) ->
+                      "<label for='#{question_id}-#{field}'>#{field}</label><input readonly='readonly' type='number' name='#{name}-#{field}' id='#{question_id}-#{field}'></input>"
+                    ).join("")
+                  }
+                  #{
+                    _.map(["altitude", "accuracy", "altitudeAccuracy", "heading", "timestamp"], (field) ->
+                      "<input type='hidden' name='#{name}-#{field}' id='#{question_id}-#{field}'></input>"
+                    ).join("")
+                  }
+                "
+
+              when "image"
+                "<img style='#{question.get "image-style"}' src='#{question.get "image-path"}'/>"
+              when "hidden"
+                unless @readonly
+                  "<input type='hidden' name='#{name}' id='#{question_id}'>"
+                else
+                  "<input name='#{name}' type='text' id='#{question_id}' value='#{_.escape(question.value())}'>"
+              when "label"
+                ""
+              else
+                "#{this.result.safeGet(name, '')}"
+
+          }
+          </div>
+          #{repeatButton || ''}
+        "
+
+    return html
+
+
+
   updateCache: ->
     window.questionCache = {}
     window.getValueCache = {}
@@ -915,6 +1167,41 @@ class QuestionView extends Backbone.View
 
     # render html and make a dom fragment
     $el = $(@toHTMLForm(question, groupId, isRepeatedGroup, index + 1))
+
+    # add dom fragment after question being duplicated
+    $question.after($el)
+
+    # add delete button
+    $el.find(".question").last().append("<button class='remove_repeat'>Borrar</button><br>") if $el.find(".remove_repeat").length == 0
+
+    # call jquery on new section
+    @jQueryUIze($el)
+
+    # remove duplicate button
+    $button.remove()
+
+    Coconut.questionView.updateCache()
+
+
+  repeatSummary: (event) ->
+
+    event.stopImmediatePropagation()
+
+    $button   = $(event.target)
+    $question = $button.prev(".question")
+
+    idSplit = $question.attr("data-question-id").split("-")
+
+    id      = parseInt(_(idSplit).first())
+    index   = parseInt(_(idSplit).last())
+
+    question = _(Coconut.questionView.model.questions()).where({"id":id})[0]
+
+    groupId = ''
+    isRepeatedGroup = true
+
+    # render html and make a dom fragment
+    $el = $(@toSummaryForm(question, groupId, isRepeatedGroup, index))
 
     # add dom fragment after question being duplicated
     $question.after($el)
