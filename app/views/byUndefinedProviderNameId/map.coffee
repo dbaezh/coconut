@@ -1,0 +1,2 @@
+(doc) ->
+  emit doc.uuid, doc.id  if doc.question is "Participant Registration-es" and (doc.provider_id is "undefined" or not doc.provider_id?) and (not doc.provider_name? or doc.provider_name is "undefined")
