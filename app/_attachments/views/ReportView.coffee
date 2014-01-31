@@ -164,9 +164,9 @@ class ReportView extends Backbone.View
 
          
          unless isSurveyExist
-           html += "<td><a href=\"#new/result/Participant Survey-es" + sPassed + "\">Una Nueva Encuesta</a></td>"
+           html += "<td><a href=\"#new/result/Participant Survey-es" + sPassed + "\">Una Nueva Encuesta</a><br>" + "<a href=\"#view/result/" + result.id +  sPassed + "\">Ver Registro</a></td>"
          else  
-           html += "<td>&nbsp;</td>"
+           html += "<td><a href=\"#view/result/" + result.id +  sPassed + "\">Ver Registro</a></td>"
 
          @urlParams.removeByValue "uuid=" + result.get("uuid")
 
