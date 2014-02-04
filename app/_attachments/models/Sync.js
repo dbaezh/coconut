@@ -327,4 +327,6 @@ Sync = (function(_super) {
 
 })(Backbone.Model);
 
-//# sourceMappingURL=Sync.map
+/*
+//@ sourceMappingURL=Sync.map
+*/

@@ -5,18 +5,23 @@ class ResultCollection extends Backbone.Collection
     view: "resultsByQuestionAndComplete"
 
   fetch: (options = {}) ->
+
     unless options.include_docs?
       options.include_docs = true
+    #TBD: For now hard-code to not modify all the links in prod but need to fix
     # I am using z to mark the end of the match
-    if options?.question
+    #if options?.question
       options.descending = "true"
+      options.startkey = options.question + ":" + "true" + ":z"
+      options.endkey = options.question + ":" + "true"
+
 # Note, this checks if isComplete is defined not if it is true
-      if options.isComplete?
-        options.startkey = options.question + ":" + options.isComplete + ":z"
-        options.endkey = options.question + ":" + options.isComplete
-      else
-        options.startkey = options.question + ":z"
-        options.endkey = options.question
+      #if options.isComplete?
+      #  options.startkey = options.question + ":" + options.isComplete + ":z"
+      #  options.endkey = options.question + ":" + options.isComplete
+      #else
+        #options.startkey = options.question + ":z"
+        #options.endkey = options.question
     super(options)
 
   notSent: ->

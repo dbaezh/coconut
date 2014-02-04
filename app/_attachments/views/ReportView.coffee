@@ -56,13 +56,16 @@ class ReportView extends Backbone.View
 
     console.log @quid
 
-    results = new Backbone.Collection
+    #results = new Backbone.Collection
+    results = new ResultCollection
     results.model = Result
     results.url = "result"
+
     if this["isActions"] isnt undefined
        _this.getCompletedSurveyUUIDsAndFetch();
     else
       results.fetch
+        "question" : @quid
         success: (allResults) =>
           console.log allResults.first()
           window.allResults = allResults
@@ -107,6 +110,8 @@ class ReportView extends Backbone.View
     total =0
     headers = []
 
+    if @results is undefined
+      return;
     for result in @results
       
       # filter by provider id

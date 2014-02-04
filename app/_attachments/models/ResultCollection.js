@@ -25,16 +25,9 @@ ResultCollection = (function(_super) {
     }
     if (options.include_docs == null) {
       options.include_docs = true;
-    }
-    if (options != null ? options.question : void 0) {
       options.descending = "true";
-      if (options.isComplete != null) {
-        options.startkey = options.question + ":" + options.isComplete + ":z";
-        options.endkey = options.question + ":" + options.isComplete;
-      } else {
-        options.startkey = options.question + ":z";
-        options.endkey = options.question;
-      }
+      options.startkey = options.question + ":" + "true" + ":z";
+      options.endkey = options.question + ":" + "true";
     }
     return ResultCollection.__super__.fetch.call(this, options);
   };
@@ -80,3 +73,7 @@ ResultCollection = (function(_super) {
   return ResultCollection;
 
 })(Backbone.Collection);
+
+/*
+//@ sourceMappingURL=ResultCollection.map
+*/

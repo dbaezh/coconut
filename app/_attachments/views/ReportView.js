@@ -72,13 +72,14 @@ ReportView = (function(_super) {
     }
     this.urlParams = urlParams;
     console.log(this.quid);
-    results = new Backbone.Collection;
+    results = new ResultCollection;
     results.model = Result;
     results.url = "result";
     if (this["isActions"] !== void 0) {
       return _this.getCompletedSurveyUUIDsAndFetch();
     } else {
       return results.fetch({
+        "question": this.quid,
         success: function(allResults) {
           var fields;
           console.log(allResults.first());
@@ -123,6 +124,9 @@ ReportView = (function(_super) {
     this.searchRows = {};
     total = 0;
     headers = [];
+    if (this.results === void 0) {
+      return;
+    }
     _ref1 = this.results;
     for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
       result = _ref1[_i];
