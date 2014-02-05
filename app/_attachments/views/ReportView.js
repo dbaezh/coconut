@@ -23,7 +23,7 @@ ReportView = (function(_super) {
     results = void 0;
     _this = this;
     completedSurveys = void 0;
-    results = new Backbone.Collection;
+    results = new ResultCollection;
     results.model = Result;
     results.url = "result";
     db = $.couch.db("coconut");
@@ -31,6 +31,7 @@ ReportView = (function(_super) {
       success: function(data) {
         _this.completedSurveys = data;
         return results.fetch({
+          "question": _this.quid,
           success: function(allResults) {
             var fields;
             fields = void 0;

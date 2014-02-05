@@ -11,7 +11,7 @@ class ReportView extends Backbone.View
     results = undefined
     _this = this
     completedSurveys = undefined
-    results = new Backbone.Collection
+    results = new ResultCollection
     results.model = Result
     results.url = "result"
   
@@ -22,21 +22,23 @@ class ReportView extends Backbone.View
         _this.completedSurveys = data
       
         # fetch results
-        results.fetch success: (allResults) ->
-          fields = undefined
-          console.log allResults.first()
-          window.allResults = allResults
-          console.log "trying to get all from"
-          console.log _this.quid
-          _this.results = allResults.where(question: _this.quid)
-          fields = _.chain(_this.results).map((result) ->
-            _.keys result.attributes
-          ).flatten().uniq().value()
-          if _this["isActions"] isnt undefined
-            _this.fields = _(fields).without("_id", "_rev", "test", "user", "question", "collection", "createdAt", "lastModifiedAt", "Teléfono", "Calleynumero", "Día", "Mes", "Año", "Celular", "Casa", "Direccióndecorreoelectrónico", "NombredeusuariodeFacebook", "Nombredepersonadecontacto", "Parentescoopersonarelacionada", "Completado", "savedBy", "Sexo", "Tieneunnumerocelular", "Tieneunnumerodetelefonoenlacasa", "Tieneunadireccióndecorreoelectrónico", "TieneunnombredeusuariodeFacebook")
-          else
-            _this.fields = _(fields).without("_id", "_rev", "test", "user", "question", "collection")
-          _this.render()
+        results.fetch
+          "question" : _this.quid
+          success: (allResults) ->
+            fields = undefined
+            console.log allResults.first()
+            window.allResults = allResults
+            console.log "trying to get all from"
+            console.log _this.quid
+            _this.results = allResults.where(question: _this.quid)
+            fields = _.chain(_this.results).map((result) ->
+              _.keys result.attributes
+            ).flatten().uniq().value()
+            if _this["isActions"] isnt undefined
+              _this.fields = _(fields).without("_id", "_rev", "test", "user", "question", "collection", "createdAt", "lastModifiedAt", "Teléfono", "Calleynumero", "Día", "Mes", "Año", "Celular", "Casa", "Direccióndecorreoelectrónico", "NombredeusuariodeFacebook", "Nombredepersonadecontacto", "Parentescoopersonarelacionada", "Completado", "savedBy", "Sexo", "Tieneunnumerocelular", "Tieneunnumerodetelefonoenlacasa", "Tieneunadireccióndecorreoelectrónico", "TieneunnombredeusuariodeFacebook")
+            else
+              _this.fields = _(fields).without("_id", "_rev", "test", "user", "question", "collection")
+            _this.render()
 
       error: (data) ->
         alert "Someting wrong"
@@ -60,6 +62,7 @@ class ReportView extends Backbone.View
     results = new ResultCollection
     results.model = Result
     results.url = "result"
+
 
     if this["isActions"] isnt undefined
        _this.getCompletedSurveyUUIDsAndFetch();
