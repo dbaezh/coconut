@@ -33,6 +33,7 @@ class Router extends Backbone.Router
     "map": "map"
     "reports": "reports"
     "reports/:question_id/*options": "reports"
+    "reportregsurvey/:question_id/*options": "reportRegSurvey"
     "dashboard": "dashboard"
     "dashboard/*options": "dashboard"
     "alerts": "alerts"
@@ -156,6 +157,23 @@ class Router extends Backbone.Router
     reportOptions['reportType'] = "results"
 
     Coconut.reportView ?= new ReportView(reportOptions)
+
+    Coconut.reportView.render reportOptions
+
+  reportRegSurvey: (quid, s_options = '') ->
+      #@userLoggedIn
+      #  success: ->
+
+    return $("#content").html "Reports not available in mobile mode." if Coconut.config.local.mode is "mobile"
+
+    quid = unescape decodeURIComponent quid
+
+    reportOptions = {}
+    s_options.replace(/([^=\/]+)=([^\/]*)/g, (m, key, value) -> reportOptions[key] = value; console.log(m, key, value);)
+    reportOptions['quid'] = quid
+    reportOptions['reportType'] = "results"
+
+    Coconut.reportView ?= new RegSurveyReportView(reportOptions)
 
     Coconut.reportView.render reportOptions
 

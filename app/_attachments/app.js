@@ -39,6 +39,7 @@ Router = (function(_super) {
     "map": "map",
     "reports": "reports",
     "reports/:question_id/*options": "reports",
+    "reportregsurvey/:question_id/*options": "reportRegSurvey",
     "dashboard": "dashboard",
     "dashboard/*options": "dashboard",
     "alerts": "alerts",
@@ -200,6 +201,28 @@ Router = (function(_super) {
     reportOptions['reportType'] = "results";
     if (Coconut.reportView == null) {
       Coconut.reportView = new ReportView(reportOptions);
+    }
+    return Coconut.reportView.render(reportOptions);
+  };
+
+  Router.prototype.reportRegSurvey = function(quid, s_options) {
+    var reportOptions;
+    if (s_options == null) {
+      s_options = '';
+    }
+    if (Coconut.config.local.mode === "mobile") {
+      return $("#content").html("Reports not available in mobile mode.");
+    }
+    quid = unescape(decodeURIComponent(quid));
+    reportOptions = {};
+    s_options.replace(/([^=\/]+)=([^\/]*)/g, function(m, key, value) {
+      reportOptions[key] = value;
+      return console.log(m, key, value);
+    });
+    reportOptions['quid'] = quid;
+    reportOptions['reportType'] = "results";
+    if (Coconut.reportView == null) {
+      Coconut.reportView = new RegSurveyReportView(reportOptions);
     }
     return Coconut.reportView.render(reportOptions);
   };
