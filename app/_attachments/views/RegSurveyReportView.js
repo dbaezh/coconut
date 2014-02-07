@@ -86,11 +86,12 @@ RegSurveyReportView = (function(_super) {
   };
 
   RegSurveyReportView.prototype.render = function() {
-    var field, headers, html, i, regvals, result, total, _i, _j, _k, _l, _len, _len1, _len2, _len3, _ref1, _ref2, _ref3, _ref4;
+    var field, headers, html, i, isRegExist, regvals, result, total, _i, _j, _k, _l, _len, _len1, _len2, _len3, _ref1, _ref2, _ref3, _ref4;
     this.searchRows = {};
     total = 0;
     headers = [];
     regvals = null;
+    isRegExist = false;
     if (this.results === void 0) {
       return;
     }
@@ -104,7 +105,7 @@ RegSurveyReportView = (function(_super) {
     }
     html = "<div style='font-size: 10pt'><input type='text' id='search' placeholder='filter'>&nbsp;&nbsp;<b>Entradas totales: " + total + "</b></div><br>";
     html += "<div style='overflow:auto;'><table class='tablesorter'>          <thead>            <tr>";
-    html += "<th>Nombre</th><th>Fecha</th><th>Apellido</th><th>Apodo</th><th>Calleynumero</th><th>Provincia</th><th>Municipio</th><th>BarrioComunidad</th>";
+    html += "<th>Fecha</th><th>Nombre</th><th>Apellido</th><th>Apodo</th><th>Calleynumero</th><th>Provincia</th><th>Municipio</th><th>BarrioComunidad</th>";
     _ref2 = this.fields;
     for (_j = 0, _len1 = _ref2.length; _j < _len1; _j++) {
       field = _ref2[_j];
@@ -121,9 +122,10 @@ RegSurveyReportView = (function(_super) {
       html += "<tr class='row-" + result.id + "'>";
       for (i in this.registrations.rows) {
         if (result.get("uuid") === this.registrations.rows[i].key) {
+          isRegExist = true;
           regvals = jQuery.parseJSON(this.registrations.rows[i].value);
-          html += "<td>" + regvals.Nombre + "</td>";
           html += "<td>" + regvals.Fecha + "</td>";
+          html += "<td>" + regvals.Nombre + "</td>";
           html += "<td>" + regvals.Apellido + "</td>";
           html += "<td>" + regvals.Apodo + "</td>";
           html += "<td>" + regvals.Calleynumero + "</td>";
@@ -133,6 +135,11 @@ RegSurveyReportView = (function(_super) {
           break;
         }
       }
+      if (isRegExist === false) {
+        html += "</tr>";
+        continue;
+      }
+      isRegExist = false;
       this.searchRows[result.id] = "";
       _ref4 = this.fields;
       for (_l = 0, _len3 = _ref4.length; _l < _len3; _l++) {

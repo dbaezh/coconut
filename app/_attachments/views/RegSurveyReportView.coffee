@@ -82,6 +82,7 @@ class RegSurveyReportView extends Backbone.View
     total =0
     headers = []
     regvals = null
+    isRegExist = false
 
     if @results is undefined
       return;
@@ -101,7 +102,7 @@ class RegSurveyReportView extends Backbone.View
           <thead>
             <tr>"
 
-    html += "<th>Nombre</th><th>Fecha</th><th>Apellido</th><th>Apodo</th><th>Calleynumero</th><th>Provincia</th><th>Municipio</th><th>BarrioComunidad</th>"
+    html += "<th>Fecha</th><th>Nombre</th><th>Apellido</th><th>Apodo</th><th>Calleynumero</th><th>Provincia</th><th>Municipio</th><th>BarrioComunidad</th>"
     for field in @fields
       html += "<th>" + field + "</th>"
 
@@ -123,9 +124,10 @@ class RegSurveyReportView extends Backbone.View
       #retrieve registration data
       for i of @registrations.rows
         if result.get("uuid") is @registrations.rows[i].key
+          isRegExist = true
           regvals = jQuery.parseJSON(@registrations.rows[i].value)
-          html += "<td>" + regvals.Nombre + "</td>"
           html += "<td>" + regvals.Fecha + "</td>"
+          html += "<td>" + regvals.Nombre + "</td>"
           html += "<td>" + regvals.Apellido + "</td>"
           html += "<td>" + regvals.Apodo + "</td>"
           html += "<td>" + regvals.Calleynumero + "</td>"
@@ -134,6 +136,11 @@ class RegSurveyReportView extends Backbone.View
           html += "<td>" + regvals.BarrioComunidad + "</td>"
           break
 
+      if isRegExist is false
+        html += "</tr>"
+        continue
+
+      isRegExist = false
       @searchRows[result.id] = ""
       for field in @fields
         html += "<td>" + (result.get(field)) + "</td>"
