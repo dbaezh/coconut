@@ -361,7 +361,7 @@ QuestionView = (function(_super) {
   };
 
   QuestionView.prototype.duplicateCheck = function(event) {
-    var community, count, family, key, label, names, sexo, spacePattern, _base, _i, _len, _ref1;
+    var community, count, dobAno, dobDia, dobMes, family, key, label, municipality, names, sexo, spacePattern, _base, _i, _len, _ref1;
     count = 0;
     window.Coconut.duplicates = [];
     _ref1 = window.duplicateLabels;
@@ -374,9 +374,13 @@ QuestionView = (function(_super) {
     spacePattern = new RegExp(" ", "g");
     family = (window.getValueCache['Apellido']() || '').toLowerCase().replace(spacePattern, '');
     names = (window.getValueCache['Nombre']() || '').toLowerCase().replace(spacePattern, '');
+    municipality = (window.getValueCache['Municipio']() || '').toLowerCase().replace(spacePattern, '');
     community = (window.getValueCache['BarrioComunidad']() || '').toLowerCase().replace(spacePattern, '');
     sexo = (window.getValueCache['Sexo']() || '').toLowerCase().replace(spacePattern, '');
-    key = [family, names, community, sexo].join(":");
+    dobDia = (window.getValueCache['Día']() || '').toLowerCase().replace(spacePattern, '');
+    dobMes = (window.getValueCache['Mes']() || '').toLowerCase().replace(spacePattern, '');
+    dobAno = (window.getValueCache['Año']() || '').toLowerCase().replace(spacePattern, '');
+    key = [family, names, municipality, community, sexo, dobDia, dobMes, dobAno].join(":");
     if (~key.indexOf("::")) {
       return;
     }

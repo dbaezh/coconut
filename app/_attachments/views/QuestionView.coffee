@@ -373,10 +373,14 @@ class QuestionView extends Backbone.View
 
     family    = (window.getValueCache['Apellido']()        || '').toLowerCase().replace(spacePattern, '')
     names     = (window.getValueCache['Nombre']()          || '').toLowerCase().replace(spacePattern, '')
+    municipality = (window.getValueCache['Municipio']() || '').toLowerCase().replace(spacePattern, '')
     community = (window.getValueCache['BarrioComunidad']() || '').toLowerCase().replace(spacePattern, '')
     sexo      = (window.getValueCache['Sexo']()            || '').toLowerCase().replace(spacePattern, '')
+    dobDia      = (window.getValueCache['Día']()            || '').toLowerCase().replace(spacePattern, '')
+    dobMes      = (window.getValueCache['Mes']()            || '').toLowerCase().replace(spacePattern, '')
+    dobAno      = (window.getValueCache['Año']()            || '').toLowerCase().replace(spacePattern, '')
 
-    key = [family, names, community, sexo].join(":")
+    key = [family, names, municipality, community, sexo, dobDia, dobMes, dobAno].join(":")
 
     return if ~key.indexOf("::")
 
