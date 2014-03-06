@@ -308,12 +308,12 @@ class Router extends Backbone.Router
               Coconut.questionView.render()
     else
       question.fetch
-      success: ->
-        Coconut.questionView = new QuestionView
-          standard_values : _(standard_values).omit('question')
-          result          : new Result standard_values
-          model           : question
-        Coconut.questionView.render()
+        success: ->
+          Coconut.questionView = new QuestionView
+            standard_values : _(standard_values).omit('question')
+            result          : new Result standard_values
+            model           : question
+          Coconut.questionView.render()
 
 
 

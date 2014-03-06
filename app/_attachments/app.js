@@ -431,8 +431,7 @@ Router = (function(_super) {
         }
       });
     } else {
-      question.fetch;
-      return {
+      return question.fetch({
         success: function() {
           Coconut.questionView = new QuestionView({
             standard_values: _(standard_values).omit('question'),
@@ -441,7 +440,7 @@ Router = (function(_super) {
           });
           return Coconut.questionView.render();
         }
-      };
+      });
     }
   };
 
