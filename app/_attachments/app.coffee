@@ -286,16 +286,36 @@ class Router extends Backbone.Router
     standard_values = {}
     s_options.replace(/([^=&]+)=([^&]*)/g, (m, key, value) -> standard_values[key] = value)
     standard_values['question'] = quid
-
     question = new Question "id" : quid
-    question.fetch
+
+    if question_id == "Exit Survey-es"
+      question.fetch
+        success: ->
+          $.ajax
+      #      url: "/cocorest/views/wsfindprogramnames.json"
+            url: "http://54.204.20.212/cocorest/views/wsfindprogramnames.json"
+            dataType: 'json'
+            crossDomain: true
+            xhrFields: {
+              withOrigin: true
+            }
+            success: (response) =>
+              Coconut.questionView = new QuestionView
+                standard_values : _(standard_values).omit('question')
+                result          : new Result standard_values
+                model           : question
+                wsData          : {'programsList': response}
+              Coconut.questionView.render()
+    else
+      question.fetch
       success: ->
         Coconut.questionView = new QuestionView
           standard_values : _(standard_values).omit('question')
           result          : new Result standard_values
           model           : question
         Coconut.questionView.render()
-        
+
+
 
 
   editResult: (result_id, s_options = '') ->

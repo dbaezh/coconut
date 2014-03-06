@@ -899,6 +899,47 @@ class QuestionView extends Backbone.View
                       <input type='radio' name='#{name}' id='#{question_id}-#{index}' value='#{_.escape(option)}'/>
                     "
                   ).join("")
+              when "programnameslist"
+                programString = ''
+                programString += "
+                                  <div
+                                    data-group-id='#{question_id}'
+                                    data-question-name='#{name}'
+                                    data-question-id='#{question_id}'
+                                    class='question group'>
+                                  "
+
+                for program in this.wsData.programsList
+                  questionProgramId = question_id + '_' + program.programnameid
+                  questionProgramName = name + '_' + program.programnameid
+                  programString += "
+                                      <div
+                                        class='question radio'
+
+                                        data-question-name='#{questionProgramName}'
+                                        data-question-id='#{questionProgramId}'
+                                        data-action_on_change='#{_.escape(question.actionOnChange())}'
+
+                                        #{validation || ''}
+                                        #{warning    || ''}
+                                        data-required='true'
+                                      >"
+                  programString += "<h2>#{program.programname}</h2>"
+                  if @readonly
+                    programString += "<input name='#{questionProgramName}' type='text' id='#{questionProgramId}' value='#{question.value()}'></input>"
+                  else
+                    options = question.get("radio-options")
+                    programString += _.map(options.split(/, */), (option,index) ->
+                      "
+                                              <label for='#{questionProgramId}-#{index}'>#{option}</label>
+                                              <input type='radio' name='#{questionProgramName}' id='#{questionProgramId}-#{index}' value='#{_.escape(option)}'/>
+                                            "
+                    ).join("")
+                  programString += "</div>"
+
+
+                programString += "</div>"
+                programString
               when "date"
                 if @readonly
                   "<input name='#{name}' type='text' id='#{question_id}' value='#{question.value()}'>"

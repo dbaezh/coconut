@@ -405,16 +405,44 @@ Router = (function(_super) {
     question = new Question({
       "id": quid
     });
-    return question.fetch({
-      success: function() {
-        Coconut.questionView = new QuestionView({
-          standard_values: _(standard_values).omit('question'),
-          result: new Result(standard_values),
-          model: question
-        });
-        return Coconut.questionView.render();
-      }
-    });
+    if (question_id === "Exit Survey-es") {
+      return question.fetch({
+        success: function() {
+          var _this = this;
+          return $.ajax({
+            url: "http://54.204.20.212/cocorest/views/wsfindprogramnames.json",
+            dataType: 'json',
+            crossDomain: true,
+            xhrFields: {
+              withOrigin: true
+            },
+            success: function(response) {
+              Coconut.questionView = new QuestionView({
+                standard_values: _(standard_values).omit('question'),
+                result: new Result(standard_values),
+                model: question,
+                wsData: {
+                  'programsList': response
+                }
+              });
+              return Coconut.questionView.render();
+            }
+          });
+        }
+      });
+    } else {
+      question.fetch;
+      return {
+        success: function() {
+          Coconut.questionView = new QuestionView({
+            standard_values: _(standard_values).omit('question'),
+            result: new Result(standard_values),
+            model: question
+          });
+          return Coconut.questionView.render();
+        }
+      };
+    }
   };
 
   Router.prototype.editResult = function(result_id, s_options) {

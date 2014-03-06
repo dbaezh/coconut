@@ -826,7 +826,7 @@ QuestionView = (function(_super) {
     }
     html = '';
     _(questions).each(function(question) {
-      var groupTitle, isRepeatable, labelHeader, name, option, options, question_id, repeatButton, validation, warning;
+      var groupTitle, isRepeatable, labelHeader, name, option, options, program, programString, questionProgramId, questionProgramName, question_id, repeatButton, validation, warning;
       labelHeader = question.type() === "label" ? ["<h2>", "</h2>"] : ["", ""];
       if (question.has('warning')) {
         warning = "        data-warning='" + (_.escape(question.warning())) + "'      ";
@@ -855,7 +855,7 @@ QuestionView = (function(_super) {
         return html += "          <div             data-group-id='" + question_id + "'            data-question-name='" + name + "'            data-question-id='" + question_id + "'            class='question group'>            " + (groupTitle || '') + "            " + (_this.toHTMLForm(question.questions(), question_id, isRepeatable, index)) + "          </div>          " + (repeatButton || '') + "        ";
       } else {
         return html += "          <div            " + ((question.type() === 'hidden' ? "style='display:none;'" : void 0) || '') + "            class='question " + (question.type()) + "'            data-question-name='" + name + "'            data-question-id='" + question_id + "'            data-action_on_change='" + (_.escape(question.actionOnChange())) + "'            " + (validation || '') + "            " + (warning || '') + "            data-required='" + (question.required()) + "'          >          " + (question.type() !== 'hidden' ? "<label type='" + (question.type()) + "' for='" + question_id + "'>" + labelHeader[0] + (question.label()) + labelHeader[1] + " <span></span></label>" : "") + "          " + ("<p class='grey'>" + (question.hint()) + "</p>") + "          <div class='message'></div>          " + ((function() {
-          var _i, _len, _ref1;
+          var _i, _j, _len, _len1, _ref1, _ref2;
           switch (question.type()) {
             case "textarea":
               return "<input name='" + name + "' type='text' id='" + question_id + "' value='" + (_.escape(question.value())) + "'></input>";
@@ -882,6 +882,28 @@ QuestionView = (function(_super) {
                 }).join("");
               }
               break;
+            case "programnameslist":
+              programString = '';
+              programString += "                                  <div                                    data-group-id='" + question_id + "'                                    data-question-name='" + name + "'                                    data-question-id='" + question_id + "'                                    class='question group'>                                  ";
+              _ref2 = this.wsData.programsList;
+              for (_j = 0, _len1 = _ref2.length; _j < _len1; _j++) {
+                program = _ref2[_j];
+                questionProgramId = question_id + '_' + program.programnameid;
+                questionProgramName = name + '_' + program.programnameid;
+                programString += "                                      <div                                        class='question radio'                                        data-question-name='" + questionProgramName + "'                                        data-question-id='" + questionProgramId + "'                                        data-action_on_change='" + (_.escape(question.actionOnChange())) + "'                                        " + (validation || '') + "                                        " + (warning || '') + "                                        data-required='true'                                      >";
+                programString += "<h2>" + program.programname + "</h2>";
+                if (this.readonly) {
+                  programString += "<input name='" + questionProgramName + "' type='text' id='" + questionProgramId + "' value='" + (question.value()) + "'></input>";
+                } else {
+                  options = question.get("radio-options");
+                  programString += _.map(options.split(/, */), function(option, index) {
+                    return "                                              <label for='" + questionProgramId + "-" + index + "'>" + option + "</label>                                              <input type='radio' name='" + questionProgramName + "' id='" + questionProgramId + "-" + index + "' value='" + (_.escape(option)) + "'/>                                            ";
+                  }).join("");
+                }
+                programString += "</div>";
+              }
+              programString += "</div>";
+              return programString;
             case "date":
               if (this.readonly) {
                 return "<input name='" + name + "' type='text' id='" + question_id + "' value='" + (question.value()) + "'>";
