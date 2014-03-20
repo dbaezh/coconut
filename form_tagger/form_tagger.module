@@ -65,7 +65,10 @@ echo '</pre>';
 					;
 					
 				$result = $query->execute();
-				$programs = entity_load("program", array_keys($result["program"]));
+				$programs = array();
+				if (isset($result) && isset($result["program"])) {
+					$programs = entity_load("program", array_keys($result["program"]));
+				}
 
 				unset($form['field_activity_program']['und']['#options']);
 				if (count($programs) == 0) {
