@@ -6,20 +6,20 @@ class ReportView extends Backbone.View
     "keyup #search" : "filter"
 
 
-  getCompletedSurveyUUIDsAndFetch: ->
+  getCompletedDocsUUIDsAndFetch: ->
 
     results = undefined
     _this = this
-    completedSurveys = undefined
+    completedDocs = undefined
     results = new ResultCollection
     results.model = Result
     results.url = "result"
   
     # TBD: Don't fetch directly use a model and collection
     db = $.couch.db("coconut")
-    db.view "coconut/byUUIDandQuestion",
+    db.view "coconut/byUUIDForReportActions",
       success: (data) ->
-        _this.completedSurveys = data
+        _this.completedDocs = data
       
         # fetch results
         results.fetch
@@ -65,7 +65,7 @@ class ReportView extends Backbone.View
 
 
     if this["isActions"] isnt undefined
-       _this.getCompletedSurveyUUIDsAndFetch();
+       _this.getCompletedDocsUUIDsAndFetch();
     else
       results.fetch
         "question" : @quid
@@ -163,18 +163,34 @@ class ReportView extends Backbone.View
        #prepare parameters for the actions
        if this["isActions"] isnt undefined
          isSurveyExist = false
+         isExitExist = false
          @urlParams.push "uuid=" + result.get("uuid")
          sPassed = "/" + @urlParams.join("&")
-         for i of @completedSurveys.rows
-           if result.get("uuid") is @completedSurveys.rows[i].key
-             isSurveyExist = true
+         for i of @completedDocs.rows
+           completedDoc = @completedDocs.rows[i]
+           questionName = ""
+           unless completedDoc.value is undefined
+             questionName = completedDoc.value.question
+           if result.get("uuid") is completedDoc.key
+#             alert(result.get("question") + " " + result.get("_id"))
+             if questionName is "Participant Survey-es"
+               isSurveyExist = true
+
+             if questionName is "Exit Survey-es"
+               isExitExist = true
+
+
+           if isSurveyExist and isExitExist
              break
 
-         
+         html += "<td>"
          unless isSurveyExist
-           html += "<td><a href=\"#new/result/Participant Survey-es" + sPassed + "\">Una Nueva Encuesta</a><br>" + "<a href=\"#view/result/" + result.id +  sPassed + "\">Ver Registro</a></td>"
-         else  
-           html += "<td><a href=\"#view/result/" + result.id +  sPassed + "\">Ver Registro</a></td>"
+           html += "<a href=\"#new/result/Participant Survey-es" + sPassed + "\">Una Nueva Encuesta</a><br>"
+
+         unless isExitExist
+           html += "<a href=\"#new/result/Exit Survey-es" + sPassed + "\">Salida</a><br>"
+
+         html += "<a href=\"#view/result/" + result.id +  sPassed + "\">Ver Registro</a></td>"
 
          @urlParams.removeByValue "uuid=" + result.get("uuid")
 

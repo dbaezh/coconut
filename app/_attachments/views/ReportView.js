@@ -18,18 +18,18 @@ ReportView = (function(_super) {
     "keyup #search": "filter"
   };
 
-  ReportView.prototype.getCompletedSurveyUUIDsAndFetch = function() {
-    var completedSurveys, db, results, _this;
+  ReportView.prototype.getCompletedDocsUUIDsAndFetch = function() {
+    var completedDocs, db, results, _this;
     results = void 0;
     _this = this;
-    completedSurveys = void 0;
+    completedDocs = void 0;
     results = new ResultCollection;
     results.model = Result;
     results.url = "result";
     db = $.couch.db("coconut");
-    return db.view("coconut/byUUIDandQuestion", {
+    return db.view("coconut/byUUIDForReportActions", {
       success: function(data) {
-        _this.completedSurveys = data;
+        _this.completedDocs = data;
         return results.fetch({
           "question": _this.quid,
           success: function(allResults) {
@@ -77,7 +77,7 @@ ReportView = (function(_super) {
     results.model = Result;
     results.url = "result";
     if (this["isActions"] !== void 0) {
-      return _this.getCompletedSurveyUUIDsAndFetch();
+      return _this.getCompletedDocsUUIDsAndFetch();
     } else {
       return results.fetch({
         "question": this.quid,
@@ -121,7 +121,7 @@ ReportView = (function(_super) {
   };
 
   ReportView.prototype.render = function() {
-    var field, headers, html, i, isSurveyExist, result, sPassed, total, _i, _j, _k, _l, _len, _len1, _len2, _len3, _ref1, _ref2, _ref3, _ref4;
+    var completedDoc, field, headers, html, i, isExitExist, isSurveyExist, questionName, result, sPassed, total, _i, _j, _k, _l, _len, _len1, _len2, _len3, _ref1, _ref2, _ref3, _ref4;
     this.searchRows = {};
     total = 0;
     headers = [];
@@ -174,19 +174,35 @@ ReportView = (function(_super) {
       }
       if (this["isActions"] !== void 0) {
         isSurveyExist = false;
+        isExitExist = false;
         this.urlParams.push("uuid=" + result.get("uuid"));
         sPassed = "/" + this.urlParams.join("&");
-        for (i in this.completedSurveys.rows) {
-          if (result.get("uuid") === this.completedSurveys.rows[i].key) {
-            isSurveyExist = true;
+        for (i in this.completedDocs.rows) {
+          completedDoc = this.completedDocs.rows[i];
+          questionName = "";
+          if (completedDoc.value !== void 0) {
+            questionName = completedDoc.value.question;
+          }
+          if (result.get("uuid") === completedDoc.key) {
+            if (questionName === "Participant Survey-es") {
+              isSurveyExist = true;
+            }
+            if (questionName === "Exit Survey-es") {
+              isExitExist = true;
+            }
+          }
+          if (isSurveyExist && isExitExist) {
             break;
           }
         }
+        html += "<td>";
         if (!isSurveyExist) {
-          html += "<td><a href=\"#new/result/Participant Survey-es" + sPassed + "\">Una Nueva Encuesta</a><br>" + "<a href=\"#view/result/" + result.id + sPassed + "\">Ver Registro</a></td>";
-        } else {
-          html += "<td><a href=\"#view/result/" + result.id + sPassed + "\">Ver Registro</a></td>";
+          html += "<a href=\"#new/result/Participant Survey-es" + sPassed + "\">Una Nueva Encuesta</a><br>";
         }
+        if (!isExitExist) {
+          html += "<a href=\"#new/result/Exit Survey-es" + sPassed + "\">Salida</a><br>";
+        }
+        html += "<a href=\"#view/result/" + result.id + sPassed + "\">Ver Registro</a></td>";
         this.urlParams.removeByValue("uuid=" + result.get("uuid"));
       }
       html += "</tr>";
