@@ -463,8 +463,7 @@ QuestionView = (function(_super) {
       key = _ref1[_i];
       $question = window.questionCache[key];
       if (!$question.hasClass("group")) {
-        questionIsntValid = !this.validateOne;
-        ({
+        questionIsntValid = !this.validateOne({
           key: key,
           autoscroll: isValid,
           leaveMessage: false
