@@ -267,6 +267,18 @@
 		"_id": 301,
 		"action_on_questions_loaded": "",
 	   "label": "Completado",
+      "onComplete" : {
+        "type" : "choice",
+        "message" : "Gracias, el impresso está completado. ¿Qué quiere hacer proxima?",
+        "links" : [
+          {
+            "label" : "Lista de Participantes",
+            "route" : "reports/Participant Registration-es/isActions=true/",
+            "urlparams" : ["user_name"]
+          }
+        ]
+        },
+	   
 	   "radio-options": true,
 	   "repeatable": false,
 	   "required": false,
