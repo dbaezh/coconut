@@ -482,9 +482,9 @@ class QuestionView extends Backbone.View
       if not $question.hasClass("group")
       
           questionIsntValid = not @validateOne 
-          key          : key
-          autoscroll   : isValid
-          leaveMessage : false 
+            key          : key
+            autoscroll   : isValid
+            leaveMessage : false
       
 
       if isValid and questionIsntValid
