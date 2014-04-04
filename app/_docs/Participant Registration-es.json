@@ -100,7 +100,7 @@
           "repeatable": false,
           "required": false,
           "type": "number",
-	  "validation": "min = moment().year()-28;max = moment().year(); valid = min <= parseInt(value) <= max; return \"Advertencia, el año normalmente es entre #{moment().year()-26} y #{moment().year()}\" unless valid"
+	  "validation": "min = moment().year()-24;max = moment().year()-11; valid = min <= parseInt(value) <= max; return \"Advertencia, el año normalmente es entre #{moment().year()-24} y #{moment().year()-11}\" unless valid"
         }
       ],
       "repeatable": false,

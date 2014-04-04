@@ -19,6 +19,8 @@ ResultCollection = (function(_super) {
     view: "resultsByQuestionAndComplete"
   };
 
+
+
   ResultCollection.prototype.fetch = function(options) {
     if (options == null) {
       options = {};

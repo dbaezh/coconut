@@ -166,6 +166,14 @@ class QuestionView extends Backbone.View
 
          "
 
+    #Added support for inactive
+    if this.standard_values["isEvaluator"] is "true"
+      onClick = "onClick=\"document.location.reload();\""
+      @$el.append "<div  style='width:100%; font-size:3em; font-color:red ' id='messageInactive'></div>"
+      uuid = Coconut.questionView.result.get("uuid")
+      @$("#messageInactive").append "<p align='center'> Please proceed with care. If you clcik the button below the participant will no longer be accessible by the system.</p><p align='center'><button><a href='#update/inactive/" + uuid + "'>Mark Inactive</a></button></p>"
+
+
     @updateCache()
 
     # for first run

@@ -48,6 +48,7 @@ Router = (function(_super) {
     "messaging": "messaging",
     "help": "help",
     "summary/:client_id": "summary",
+    "update/inactive/:result_id": "markInactive",
     "": "default"
   };
 
@@ -563,6 +564,30 @@ Router = (function(_super) {
           Coconut.designView = new DesignView();
         }
         return Coconut.designView.render();
+      }
+    });
+  };
+
+  Router.prototype.markInactive = function(uuid) {
+    var db;
+    db = void 0;
+    db = $.couch.db("coconut");
+    db.view("coconut/byUUID?key=\"WJPWY4ZWK\"", {
+      success: function(data) {
+        var i, numRows;
+        i = void 0;
+        numRows = void 0;
+        numRows = data.rows.length;
+        i = 0;
+        while (i < numRows) {
+          invalideDocById(data.rows[i].id);
+          i++;
+        }
+        $("#content").empty();
+        $("#content").html("<p align='center' style='font-size:12pt'>Documento fue marcado exitosamente como no activo. Ya no se mostrará como resultado.</p>");
+      },
+      error: function() {
+        console.log("someting wrong...");
       }
     });
   };

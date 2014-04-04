@@ -128,7 +128,7 @@ QuestionView = (function(_super) {
   };
 
   QuestionView.prototype.renderSummary = function() {
-    var questionsName, skipperList, standard_value_table, surveyName,
+    var onClick, questionsName, skipperList, standard_value_table, surveyName, uuid,
       _this = this;
     if ("module" === Coconut.config.local.get("mode")) {
       if (typeof this.standard_values["user_name"] === "undefined") {
@@ -155,6 +155,12 @@ QuestionView = (function(_super) {
       }).call(this)).join("")) + "      ";
     }
     this.$el.html("           " + (standard_value_table || '') + "           <div style='position:fixed; right:5px; color:white; background-color: #333; padding:20px; display:none; z-index:10: font-size:1.5em !important;' id='messageText'>            Saving...           </div>           " + (questionsName || '') + "           <div id='question-view'>              " + (this.toSummaryForm(this.model)) + "           </div>         ");
+    if (this.standard_values["isEvaluator"] === "true") {
+      onClick = "onClick=\"document.location.reload();\"";
+      this.$el.append("<div  style='width:100%; font-size:3em; font-color:red ' id='messageInactive'></div>");
+      uuid = Coconut.questionView.result.get("uuid");
+      this.$("#messageInactive").append("<p align='center'> Please proceed with care. If you clcik the button below the participant will no longer be accessible by the system.</p><p align='center'><button><a href='#update/inactive/" + uuid + "'>Mark Inactive</a></button></p>");
+    }
     this.updateCache();
     this.updateSkipLogic();
     skipperList = [];

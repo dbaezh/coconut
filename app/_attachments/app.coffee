@@ -42,6 +42,7 @@ class Router extends Backbone.Router
     "messaging": "messaging"
     "help": "help"
     "summary/:client_id": "summary"
+    "update/inactive/:result_id": "markInactive"
     "": "default"
 
   route: (route, name, callback) ->
@@ -405,6 +406,32 @@ class Router extends Backbone.Router
         $("#content").empty()
         Coconut.designView ?= new DesignView()
         Coconut.designView.render()
+
+
+  Router::markInactive = (uuid) ->
+    db = undefined
+    db = $.couch.db("coconut")
+    db.view "coconut/byUUID?key=\"WJPWY4ZWK\"",
+      success: (data) ->
+        i = undefined
+        numRows = undefined
+        numRows = data.rows.length
+        i = 0
+        while i < numRows
+          invalideDocById data.rows[i].id
+          i++
+
+        $("#content").empty()
+        $("#content").html("<p align='center' style='font-size:12pt'>Documento fue marcado exitosamente como no activo. Ya no se mostrará como resultado.</p>")
+        return
+
+      error: ->
+        console.log "someting wrong..."
+        return
+
+    return
+
+
 
   showCustomResults:(question_id) ->
     @userLoggedIn

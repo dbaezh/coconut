@@ -23,7 +23,7 @@
       "_id": 99,
       "label": "10. ¿Tienes un acta de nacimiento dominicana?",
       "radio-options": "Sí, No, No responde",
-      "repeatable": true,
+      "repeatable": false,
       "required": false,
       "type": "radio"
     },
@@ -37,7 +37,7 @@
       "type": "radio"
     },
     {
-      "_id": 101,
+      "_id": 10111,
       "label": "10.2 ¿Cuál es tu número de cédula?",
       "repeatable": false,
       "required": false,   
@@ -1634,6 +1634,7 @@
       "radio-options": "Sí, No,No responde",
       "repeatable": false,
       "required": true,
+      "skip_logic": "ResultOfQuestion('84Algunavezhastenidorelacionessexuales') isnt 'Sí'",
       "type": "radio"
     },
     {
@@ -1641,8 +1642,8 @@
       "label": "91A. Si la respuesta es afirmativa, ¿Cuándo fue la última vez?",
       "radio-options": "La semana pasada, En los últimos 6 meses, En los últimos 12 meses,No responde",
       "repeatable": false,
-      "required": true,
-      "skip_logic": "ResultOfQuestion('91Algunavezhastenidorelacionessexualespordinerobienescelularesviviendaetcoserviciosproteccióncomidaetc') isnt 'Sí'",
+      "required": false,
+      "skip_logic": "ResultOfQuestion('84Algunavezhastenidorelacionessexuales') isnt 'Sí'",
       "type": "radio"
     },
     {
