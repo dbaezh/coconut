@@ -572,7 +572,7 @@ Router = (function(_super) {
     var db;
     db = void 0;
     db = $.couch.db("coconut");
-    db.view("coconut/byUUID?key=\"WJPWY4ZWK\"", {
+    db.view("coconut/byUUID?key=\"" + uuid + "\"", {
       success: function(data) {
         var i, numRows;
         i = void 0;

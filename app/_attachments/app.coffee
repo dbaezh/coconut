@@ -411,7 +411,7 @@ class Router extends Backbone.Router
   Router::markInactive = (uuid) ->
     db = undefined
     db = $.couch.db("coconut")
-    db.view "coconut/byUUID?key=\"WJPWY4ZWK\"",
+    db.view "coconut/byUUID?key=\"" + uuid + "\"",
       success: (data) ->
         i = undefined
         numRows = undefined
