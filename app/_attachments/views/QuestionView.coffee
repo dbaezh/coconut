@@ -171,7 +171,7 @@ class QuestionView extends Backbone.View
       onClick = "onClick=\"document.location.reload();\""
       @$el.append "<div  style='width:100%; font-size:3em; font-color:red ' id='messageInactive'></div>"
       uuid = Coconut.questionView.result.get("uuid")
-      @$("#messageInactive").append "<p align='center'> Please proceed with care. If you clcik the button below the participant will no longer be accessible by the system.</p><p align='center'><button><a href='#update/inactive/" + uuid + "'>Mark Inactive</a></button></p>"
+      @$("#messageInactive").append "<p align='center'> Por favor proceda con cuidado. Si Clcik el botón de abajo el participante ya no serán accesibles por el sistema.</p><p align='center'><button><a href='#update/inactive/" + uuid + "'>Marcos Inactivo</a></button></p>"
 
 
     @updateCache()
