@@ -411,7 +411,7 @@ Router = (function(_super) {
         success: function() {
           var _this = this;
           return $.ajax({
-            url: "http://54.204.20.212/cocorest/views/wsfindprogramnames.json",
+            url: "http://107.20.181.244/cocorest/views/wsfindprogramnames.json",
             dataType: 'json',
             crossDomain: true,
             xhrFields: {
