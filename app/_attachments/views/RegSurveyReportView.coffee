@@ -29,7 +29,7 @@ class RegSurveyReportView extends Backbone.View
             console.log allResults.first()
             window.allResults = allResults
             console.log "trying to get all from"
-            console.log _this.quid
+
             _this.results = allResults.where(question: _this.quid)
             fields = _.chain(_this.results).map((result) ->
               _.keys result.attributes
@@ -121,28 +121,41 @@ class RegSurveyReportView extends Backbone.View
         continue
 
       html += "<tr class='row-#{result.id}'>"
+
+      console.log "*******DOC ID=" + result.id
+
       #retrieve registration data
       for i of @registrations.rows
         if result.get("uuid") is @registrations.rows[i].key
+          regvalues = @registrations.rows[i].value.replace(/[//]/g, '')
+          if result.id == "d3d193f23d655e81ba8881f5604d3526"
+            console.log "*******GOT HERE"
           isRegExist = true
-          regvals = jQuery.parseJSON(@registrations.rows[i].value)
-          html += "<td>" + regvals.Fecha + "</td>"
-          html += "<td>" + regvals.Nombre + "</td>"
-          html += "<td>" + regvals.Apellido + "</td>"
-          html += "<td>" + regvals.Apodo + "</td>"
-          html += "<td>" + regvals.Calleynumero + "</td>"
-          html += "<td>" + regvals.Provincia + "</td>"
-          html += "<td>" + regvals.Municipio + "</td>"
-          html += "<td>" + regvals.BarrioComunidad + "</td>"
-          break
-
+          try
+            regvals = jQuery.parseJSON(regvalues)
+            html += "<td>" + regvals.Fecha + "</td>"
+            html += "<td>" + regvals.Nombre + "</td>"
+            html += "<td>" + regvals.Apellido + "</td>"
+            html += "<td>" + regvals.Apodo + "</td>"
+            html += "<td>" + regvals.Calleynumero + "</td>"
+            html += "<td>" + regvals.Provincia + "</td>"
+            html += "<td>" + regvals.Municipio + "</td>"
+            html += "<td>" + regvals.BarrioComunidad + "</td>"
+            break
+          catch e
+            isRegExist = false
+            break
       if isRegExist is false
         html += "</tr>"
         continue
 
+
+
       isRegExist = false
       @searchRows[result.id] = ""
       for field in @fields
+        if result.id == "d3d193f23d655e81ba8881f5604d3526"
+          console.log "*******FIELD is=" + field
         html += "<td>" + (result.get(field)) + "</td>"
         @searchRows[result.id] += result.get(field)
 

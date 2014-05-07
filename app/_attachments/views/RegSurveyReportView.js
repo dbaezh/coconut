@@ -37,7 +37,6 @@ RegSurveyReportView = (function(_super) {
             console.log(allResults.first());
             window.allResults = allResults;
             console.log("trying to get all from");
-            console.log(_this.quid);
             _this.results = allResults.where({
               question: _this.quid
             });
@@ -86,7 +85,7 @@ RegSurveyReportView = (function(_super) {
   };
 
   RegSurveyReportView.prototype.render = function() {
-    var field, headers, html, i, isRegExist, regvals, result, total, _i, _j, _k, _l, _len, _len1, _len2, _len3, _ref1, _ref2, _ref3, _ref4;
+    var e, field, headers, html, i, isRegExist, regvals, regvalues, result, total, _i, _j, _k, _l, _len, _len1, _len2, _len3, _ref1, _ref2, _ref3, _ref4;
     this.searchRows = {};
     total = 0;
     headers = [];
@@ -122,17 +121,24 @@ RegSurveyReportView = (function(_super) {
       html += "<tr class='row-" + result.id + "'>";
       for (i in this.registrations.rows) {
         if (result.get("uuid") === this.registrations.rows[i].key) {
+          regvalues = this.registrations.rows[i].value.replace(/[//]/g, '');
           isRegExist = true;
-          regvals = jQuery.parseJSON(this.registrations.rows[i].value);
-          html += "<td>" + regvals.Fecha + "</td>";
-          html += "<td>" + regvals.Nombre + "</td>";
-          html += "<td>" + regvals.Apellido + "</td>";
-          html += "<td>" + regvals.Apodo + "</td>";
-          html += "<td>" + regvals.Calleynumero + "</td>";
-          html += "<td>" + regvals.Provincia + "</td>";
-          html += "<td>" + regvals.Municipio + "</td>";
-          html += "<td>" + regvals.BarrioComunidad + "</td>";
-          break;
+          try {
+            regvals = jQuery.parseJSON(regvalues);
+            html += "<td>" + regvals.Fecha + "</td>";
+            html += "<td>" + regvals.Nombre + "</td>";
+            html += "<td>" + regvals.Apellido + "</td>";
+            html += "<td>" + regvals.Apodo + "</td>";
+            html += "<td>" + regvals.Calleynumero + "</td>";
+            html += "<td>" + regvals.Provincia + "</td>";
+            html += "<td>" + regvals.Municipio + "</td>";
+            html += "<td>" + regvals.BarrioComunidad + "</td>";
+            break;
+          } catch (_error) {
+            e = _error;
+            isRegExist = false;
+            break;
+          }
         }
       }
       if (isRegExist === false) {
@@ -144,6 +150,9 @@ RegSurveyReportView = (function(_super) {
       _ref4 = this.fields;
       for (_l = 0, _len3 = _ref4.length; _l < _len3; _l++) {
         field = _ref4[_l];
+        if (result.id === "d3d193f23d655e81ba8881f5604d3526") {
+          console.log("*******FIELD is=" + field);
+        }
         html += "<td>" + (result.get(field)) + "</td>";
         this.searchRows[result.id] += result.get(field);
       }
