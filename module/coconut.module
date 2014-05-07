@@ -63,7 +63,6 @@ function coconut_block_info() {
 function coconut_block_view( $delta = '' )
 {
 
-
   global $user, $base_url;
   $block = array();
   $path = current_path();
@@ -78,7 +77,6 @@ function coconut_block_view( $delta = '' )
     }
   }   
   
-
 // Get provider name and id
   $user_data = user_load($user->uid);
   $provider = $user_data->field_user_provider;
@@ -104,7 +102,6 @@ function coconut_block_view( $delta = '' )
   }
 
    $s_user_parameters = join("&", $a_user_parameters);
-
 
    /* Send request to couch
    * ask for docs of type questions
@@ -141,7 +138,7 @@ function coconut_block_view( $delta = '' )
   /*
    * Build block
    */
-  if ( in_array( $delta, $surveys ) && $delta != 'Registration Report' && $delta!= 'Survey Report' && $delta != 'Participant Report with Actions')
+  if ( in_array( $delta, $surveys ) && $delta != 'Registration Report' && $delta!= 'Survey Report' && $delta != 'Participant Report with Actions' && $delta != 'Attendance List')
   {
     $block['subject'] = t( $delta );
     if ( user_access('access content') ){
@@ -177,10 +174,37 @@ $block['content'] = $html;
      if (!$isEvaluator){
       $html = $html."<iframe id='coconut_iframe' width='100%' height='600px' src='$base_url:5984/coconut/_design/coconut/index.html#reports/Participant Registration-es/isActions=true/provider_id=$provider_id/user_name=$user_name/provider_name=$provider_name'></iframe>";
 }else{
-$html = $html."<iframe id='coconut_iframe' width='100%' height='600px' src='$base_url:5984/coconut/_design/coconut/index.html#reports/Participant Registration-es/isActions=true/user_name=$user_name/isEvaluator=true'></iframe>";
+	  $html = $html."<iframe id='coconut_iframe' width='100%' height='600px' src='$base_url:5984/coconut/_design/coconut/index.html#reports/Participant Registration-es/isActions=true/user_name=$user_name/isEvaluator=true'></iframe>";
 }
       $block['content'] = $html;
     }
+} else if($delta == 'Attendance List'){
+
+	if (isset($_GET["activity_id"]) && isset($_GET["activity_name"]) && isset($_GET["activity_provider_id"])) {
+		$activity_id = $_GET["activity_id"];
+		$activity_name = $_GET["activity_name"];
+		$activity_provider_id = $_GET["activity_provider_id"];
+	/*
+	echo '<pre>'; 
+	echo 'user name is:|';
+	echo $user_name;
+	echo '|';
+	echo '</pre>';	  
+	*/
+		if ( user_access('access content') ){
+			if (!$isEvaluator){
+				$html = $html."<iframe id='coconut_iframe' width='100%' height='600px' src='$base_url:5984/coconut/_design/coconut/index.html#attendancelist/Attendance List/provider_id=$provider_id/user_name=$user_name/provider_name=$provider_name/activity_id=$activity_id/activity_name=$activity_name/activity_provider_id=$activity_provider_id'></iframe>";
+			} else {
+				$html = $html."<iframe id='coconut_iframe' width='100%' height='600px' src='$base_url:5984/coconut/_design/coconut/index.html#attendancelist/Attendance List/provider_id=$provider_id/user_name=$user_name/provider_name=$provider_name/activity_id=$activity_id/activity_name=$activity_name/activity_provider_id=$activity_provider_id/isEvaluator=true'></iframe>";
+			}
+			$block['content'] = $html;
+		}
+    } else {
+		$block = array(
+		  'subject' => $delta,
+		  'content' => '404 - Can not set attendance'
+		  );
+	}
 }else{
     $block = array(
       'subject' => $delta,

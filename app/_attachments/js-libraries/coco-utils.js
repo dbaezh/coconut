@@ -55,3 +55,12 @@ function invalideDocById(result_id){
         }});
 
 }
+
+function sortJSONData(data, key, asc) {
+	return data.sort(function(a, b) {
+		var x = a.value[key];
+		var y = b.value[key];
+		if (asc) return (x > y) ? 1 : ((x < y) ? -1 : 0);
+		else     return (y > x) ? 1 : ((y < x) ? -1 : 0);
+	});
+}

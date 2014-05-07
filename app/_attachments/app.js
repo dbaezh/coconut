@@ -49,6 +49,7 @@ Router = (function(_super) {
     "help": "help",
     "summary/:client_id": "summary",
     "update/inactive/:result_id": "markInactive",
+    "attendancelist/:question_id/*options": "attendancelist",
     "": "default"
   };
 
@@ -588,6 +589,74 @@ Router = (function(_super) {
       },
       error: function() {
         console.log("someting wrong...");
+      }
+    });
+  };
+
+  Router.prototype.attendancelist = function(question_id, s_options) {
+    var activity_id, activity_provider_id, db, quid, standard_values;
+    if (s_options == null) {
+      s_options = '';
+    }
+    quid = unescape(decodeURIComponent(question_id));
+    standard_values = {};
+    s_options.replace(/([^=\/]+)=([^\/]*)/g, function(m, key, value) {
+      return standard_values[key] = value;
+    });
+    activity_provider_id = standard_values['activity_provider_id'];
+    activity_id = standard_values['activity_id'];
+    db = void 0;
+    db = $.couch.db("coconut");
+    return db.view("coconut/findParticipantsByProvider?key=\"" + activity_provider_id + "\"", {
+      success: function(participants) {
+        return db.view("coconut/findAttendanceByActivity?key=\"" + activity_id + "\"", {
+          success: function(attendanceList) {
+            var question, result;
+            if (attendanceList.rows.length === 0) {
+              standard_values['question'] = quid;
+              question = new Question({
+                "id": quid
+              });
+              return question.fetch({
+                success: function() {
+                  Coconut.attendanceListView = new AttendanceListView({
+                    standard_values: _(standard_values).omit('question'),
+                    result: new Result(standard_values),
+                    model: question,
+                    wsData: {
+                      'participants': participants
+                    }
+                  });
+                  return Coconut.attendanceListView.render();
+                }
+              });
+            } else {
+              result = attendanceList.rows[0];
+              if (Coconut.attendanceListView == null) {
+                Coconut.attendanceListView = new AttendanceListView;
+              }
+              Coconut.attendanceListView.standard_values = standard_values;
+              Coconut.attendanceListView.wsData = {
+                'participants': participants
+              };
+              Coconut.attendanceListView.result = new Result({
+                _id: result.id
+              });
+              return Coconut.attendanceListView.result.fetch({
+                success: function() {
+                  Coconut.attendanceListView.model = new Question({
+                    id: Coconut.attendanceListView.result.question()
+                  });
+                  return Coconut.attendanceListView.model.fetch({
+                    success: function() {
+                      return Coconut.attendanceListView.render();
+                    }
+                  });
+                }
+              });
+            }
+          }
+        });
       }
     });
   };

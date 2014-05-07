@@ -43,6 +43,7 @@ class Router extends Backbone.Router
     "help": "help"
     "summary/:client_id": "summary"
     "update/inactive/:result_id": "markInactive"
+    "attendancelist/:question_id/*options": "attendancelist"
     "": "default"
 
   route: (route, name, callback) ->
@@ -430,6 +431,50 @@ class Router extends Backbone.Router
         return
 
     return
+
+  attendancelist: (question_id, s_options = '') ->
+
+    quid = unescape decodeURIComponent question_id
+
+    standard_values = {}
+    s_options.replace(/([^=\/]+)=([^\/]*)/g, (m, key, value) -> standard_values[key] = value)
+    activity_provider_id = standard_values['activity_provider_id']
+    activity_id = standard_values['activity_id']
+
+    db = undefined
+    db = $.couch.db("coconut")
+    db.view "coconut/findParticipantsByProvider?key=\"" + activity_provider_id + "\"",
+      success: (participants) ->
+        db.view "coconut/findAttendanceByActivity?key=\"" + activity_id + "\"",
+          success: (attendanceList) ->
+            if attendanceList.rows.length is 0
+              # create
+              standard_values['question'] = quid
+              question = new Question "id" : quid
+              question.fetch
+                success: ->
+                  Coconut.attendanceListView = new AttendanceListView
+                    standard_values : _(standard_values).omit('question')
+                    result          : new Result standard_values
+                    model           : question
+                    wsData          : {'participants': participants}
+                  Coconut.attendanceListView.render()
+            else
+              # edit the existing one
+              result = attendanceList.rows[0]
+              Coconut.attendanceListView ?= new AttendanceListView
+              Coconut.attendanceListView.standard_values = standard_values
+              Coconut.attendanceListView.wsData = {'participants': participants}
+
+              Coconut.attendanceListView.result = new Result
+                _id: result.id
+              Coconut.attendanceListView.result.fetch
+                success: ->
+                  Coconut.attendanceListView.model = new Question
+                    id: Coconut.attendanceListView.result.question()
+                  Coconut.attendanceListView.model.fetch
+                    success: ->
+                      Coconut.attendanceListView.render()
 
 
 
