@@ -36,7 +36,6 @@ RegSurveyReportView = (function(_super) {
             fields = void 0;
             console.log(allResults.first());
             window.allResults = allResults;
-            console.log("trying to get all from");
             _this.results = allResults.where({
               question: _this.quid
             });
@@ -122,6 +121,7 @@ RegSurveyReportView = (function(_super) {
       for (i in this.registrations.rows) {
         if (result.get("uuid") === this.registrations.rows[i].key) {
           regvalues = this.registrations.rows[i].value.replace(/[//]/g, '');
+          regvalues = this.registrations.rows[i].value.replace(/[//]/g, '');
           isRegExist = true;
           try {
             regvals = jQuery.parseJSON(regvalues);
@@ -150,9 +150,6 @@ RegSurveyReportView = (function(_super) {
       _ref4 = this.fields;
       for (_l = 0, _len3 = _ref4.length; _l < _len3; _l++) {
         field = _ref4[_l];
-        if (result.id === "d3d193f23d655e81ba8881f5604d3526") {
-          console.log("*******FIELD is=" + field);
-        }
         html += "<td>" + (result.get(field)) + "</td>";
         this.searchRows[result.id] += result.get(field);
       }

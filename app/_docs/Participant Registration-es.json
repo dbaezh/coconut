@@ -74,6 +74,24 @@
       "repeatable": false,
       "type": "group"
     },
+
+      {
+          "_id": 106,
+          "label": "Colateral (colateral son usuarios que no son participantes en el programa, pero asisten a las actividades)",
+          "questions": [
+            {
+                "_id": 199,
+                "label": "¿Este colateral participante",
+                "radio-options": "No,Sí, No Sabe",
+                "repeatable": false,
+                "required": true,
+                "type": "radio"
+            }
+           ],
+           "repeatable": false,
+           "type": "group"
+       },
+
     {
       "_id": 111,
       "label": "Fecha de nacimiento",
@@ -100,7 +118,7 @@
           "repeatable": false,
           "required": false,
           "type": "number",
-	  "validation": "min = moment().year()-24;max = moment().year()-11; valid = min <= parseInt(value) <= max; return \"Advertencia, el año normalmente es entre #{moment().year()-24} y #{moment().year()-11}\" unless valid"
+	       "validation": "return if window.getValueCache['Estecolateralparticipante']() == 'Sí';min = moment().year()-24;max = moment().year()-11; valid = min <= parseInt(value) <= max; return \"Advertencia, el año normalmente es entre #{moment().year()-24} y #{moment().year()-11}\" unless valid"
         }
       ],
       "repeatable": false,

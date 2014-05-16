@@ -10,7 +10,7 @@
   val += ',' + '"Provincia":"' + doc.Provincia + '"';
   val += ',' + '"Municipio":"' + doc.Municipio + '"';
   val += ',' + '"BarrioComunidad":"' + doc.BarrioComunidad + '"';
-  if (doc.question === "Participant Registration-es" && doc.Completado === "true") {
+  if (doc.question === "Participant Registration-es" && doc.Completado === "true" && (doc.Estecolateralparticipante === void 0 || doc.Estecolateralparticipante !== "Sí")) {
     return emit(doc.uuid, "{" + val + "}");
   }
 });

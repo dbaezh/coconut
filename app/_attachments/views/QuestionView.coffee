@@ -559,6 +559,7 @@ class QuestionView extends Backbone.View
     $question = window.questionCache[key]
     $message  = $question.find(".message")
 
+
     return '' if key is 'Completado'
     return '' if $question.hasClass("group")
 
