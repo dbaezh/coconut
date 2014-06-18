@@ -175,6 +175,7 @@ class Router extends Backbone.Router
     reportOptions['quid'] = quid
     reportOptions['reportType'] = "results"
 
+
     Coconut.reportView ?= new RegSurveyReportView(reportOptions)
 
     Coconut.reportView.render reportOptions

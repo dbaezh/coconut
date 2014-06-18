@@ -29,8 +29,13 @@ RegSurveyReportView = (function(_super) {
     return db.view("coconut/byUUIDRegistration", {
       success: function(data) {
         _this.registrations = data;
+        _this.complete = 'true';
+        if (_this.options.complete !== void 0 && _this.options.complete !== 'true') {
+          _this.complete = 'false';
+        }
         return results.fetch({
           "question": _this.quid,
+          "complete": _this.complete,
           success: function(allResults) {
             var fields;
             fields = void 0;
@@ -56,6 +61,7 @@ RegSurveyReportView = (function(_super) {
   RegSurveyReportView.prototype.initialize = function(options) {
     var key, urlParams, value;
     urlParams = [];
+    this.options = options;
     for (key in options) {
       value = options[key];
       this[key] = value;
@@ -84,12 +90,13 @@ RegSurveyReportView = (function(_super) {
   };
 
   RegSurveyReportView.prototype.render = function() {
-    var e, field, headers, html, i, isRegExist, regvals, regvalues, result, total, _i, _j, _k, _l, _len, _len1, _len2, _len3, _ref1, _ref2, _ref3, _ref4;
+    var e, field, headers, headersNum, html, i, isRegExist, regvals, regvalues, result, total, _i, _j, _k, _l, _len, _len1, _len2, _len3, _ref1, _ref2, _ref3, _ref4;
     this.searchRows = {};
     total = 0;
     headers = [];
     regvals = null;
     isRegExist = false;
+    headersNum = 0;
     if (this.results === void 0) {
       return;
     }
@@ -104,11 +111,19 @@ RegSurveyReportView = (function(_super) {
     html = "<div style='font-size: 10pt'><input type='text' id='search' placeholder='filter'>&nbsp;&nbsp;<b>Entradas totales: " + total + "</b></div><br>";
     html += "<div style='overflow:auto;'><table class='tablesorter'>          <thead>            <tr>";
     html += "<th>Fecha</th><th>Nombre</th><th>Apellido</th><th>Apodo</th><th>Calleynumero</th><th>Provincia</th><th>Municipio</th><th>BarrioComunidad</th>";
+    headers[headersNum++] = "Fecha";
+    headers[headersNum++] = "Nombre";
+    headers[headersNum++] = "Apellido";
+    headers[headersNum++] = "Apodo";
+    headers[headersNum++] = "Calleynumero";
+    headers[headersNum++] = "Provincia";
+    headers[headersNum++] = "Municipio";
+    headers[headersNum] = "BarrioComunidad";
     _ref2 = this.fields;
     for (_j = 0, _len1 = _ref2.length; _j < _len1; _j++) {
       field = _ref2[_j];
       html += "<th>" + field + "</th>";
-      headers[_j] = field;
+      headers[_j + headersNum + 1] = field;
     }
     html += "</tr></thead>        <tbody>";
     _ref3 = this.results;

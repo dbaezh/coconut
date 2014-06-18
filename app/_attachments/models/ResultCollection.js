@@ -19,8 +19,6 @@ ResultCollection = (function(_super) {
     view: "resultsByQuestionAndComplete"
   };
 
-
-
   ResultCollection.prototype.fetch = function(options) {
     if (options == null) {
       options = {};
@@ -28,8 +26,13 @@ ResultCollection = (function(_super) {
     if (options.include_docs == null) {
       options.include_docs = true;
       options.descending = "true";
-      options.startkey = options.question + ":" + "true" + ":z";
-      options.endkey = options.question + ":" + "true";
+      if (options.complete === undefined || options.complete === "true") {
+        options.startkey = options.question + ":" + "true" + ":z";
+        options.endkey = options.question + ":" + "true";
+      } else {
+        options.startkey = options.question + ":" + "false" + ":z";
+        options.endkey = options.question + ":" + "false";
+      }
     }
     return ResultCollection.__super__.fetch.call(this, options);
   };

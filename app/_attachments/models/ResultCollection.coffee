@@ -12,8 +12,13 @@ class ResultCollection extends Backbone.Collection
     # I am using z to mark the end of the match
     #if options?.question
       options.descending = "true"
-      options.startkey = options.question + ":" + "true" + ":z"
-      options.endkey = options.question + ":" + "true"
+      if options.complete is `undefined` or options.complete is "true"
+        options.startkey = options.question + ":" + "true" + ":z"
+        options.endkey = options.question + ":" + "true"
+      else
+        options.startkey = options.question + ":" + "false" + ":z"
+        options.endkey = options.question + ":" + "false"
+
 
 # Note, this checks if isComplete is defined not if it is true
       #if options.isComplete?

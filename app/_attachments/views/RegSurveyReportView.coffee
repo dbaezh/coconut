@@ -20,10 +20,15 @@ class RegSurveyReportView extends Backbone.View
     db.view "coconut/byUUIDRegistration",
       success: (data) ->
         _this.registrations = data
+        _this.complete = 'true'
+        if _this.options.complete isnt undefined and _this.options.complete isnt 'true'
+          _this.complete = 'false'
+
 
         # fetch results
         results.fetch
           "question" : _this.quid
+          "complete" : _this.complete
           success: (allResults) ->
             fields = undefined
             console.log allResults.first()
@@ -44,6 +49,7 @@ class RegSurveyReportView extends Backbone.View
 
   initialize: (options) ->
     urlParams = []
+    this.options = options
 
     for key of options
       value = options[key]
@@ -82,6 +88,7 @@ class RegSurveyReportView extends Backbone.View
     headers = []
     regvals = null
     isRegExist = false
+    headersNum=0
 
     if @results is undefined
       return;
@@ -102,10 +109,20 @@ class RegSurveyReportView extends Backbone.View
             <tr>"
 
     html += "<th>Fecha</th><th>Nombre</th><th>Apellido</th><th>Apodo</th><th>Calleynumero</th><th>Provincia</th><th>Municipio</th><th>BarrioComunidad</th>"
+
+    headers[headersNum++] = "Fecha"
+    headers[headersNum++] = "Nombre"
+    headers[headersNum++] = "Apellido"
+    headers[headersNum++] = "Apodo"
+    headers[headersNum++] = "Calleynumero"
+    headers[headersNum++] = "Provincia"
+    headers[headersNum++] = "Municipio"
+    headers[headersNum] = "BarrioComunidad"
+
     for field in @fields
       html += "<th>" + field + "</th>"
 
-      headers[_j] = field
+      headers[_j + headersNum + 1] = field
 
 
     html += "</tr></thead>
@@ -120,6 +137,8 @@ class RegSurveyReportView extends Backbone.View
         continue
 
       html += "<tr class='row-#{result.id}'>"
+
+
 
       #retrieve registration data
       for i of @registrations.rows
