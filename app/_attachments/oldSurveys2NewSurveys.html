@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-<title> Update Corrections</title>
+<title> Old surveys to new surveys.</title>
 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
@@ -34,7 +34,7 @@
         var db = $.couch.db("coconut");
 
         // first process complete surveys
-        db.view("coconut/findCompleteSurveys",
+        db.view("coconut/findCompletedNotConvertedSurveys",
                 {
                     success:function(data){
                         var idx = 0;
@@ -44,8 +44,8 @@
 
                             docIds[i++] = doc.id;
 
-                            if (i == 10)
-                              break;
+                           // if (i == 10)
+                             // break;
 
                             console.log("Document processed.");
                         }
@@ -69,12 +69,10 @@
                                     $("#listtbl").append(html);
 
 
-                                    // go through the mapping and map old question answers to new ones
-                                    console.log("******Updating uuid=" + data.uuid + "****");
 
                                     $.each(jsonQuestionMap, function (key, value) {
                                        // console.log(key + "=" + value);
-                                        console.log("old value=" + data[value]);
+                                        //console.log("old value=" + data[value]);
                                         if (value === "16Estasactualmenteasistiendoaunaescuelaouniversidad")
                                             processQuestion16(data);
                                         else if (key === "19ActualmenteestasasistiendoaalgúnprogramadeeducaciónparajóvenesyadultosMarcalaopciónqueaplique")
@@ -114,10 +112,11 @@
                                     });
 
                                     // just for testing
-                                    outputdoc(data);
+                                   // outputdoc(data);
 
+                                    data['convertedDate'] = Date();
                                     // save the document
-                                   // db.saveDoc(data);
+                                    db.saveDoc(data);
                                 }
 
                             });
