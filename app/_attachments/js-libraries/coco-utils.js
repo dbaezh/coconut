@@ -56,6 +56,14 @@ function invalideDocById(result_id){
 
 }
 
+// Add startsWith function
+if (typeof String.prototype.startsWith != 'function') {
+    // see below for better implementation!
+    String.prototype.startsWith = function (str){
+        return this.indexOf(str) == 0;
+    };
+}
+
 function sortJSONData(data, key, asc) {
 	return data.sort(function(a, b) {
 		var x = a.value[key];
