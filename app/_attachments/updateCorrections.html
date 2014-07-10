@@ -1,0 +1,233 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title> Update Corrections</title>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+    <style>
+        body {
+            font: 100% helvetica, arial, sans-serif;
+            line-height: 1.625;
+        }
+
+    </style>
+
+    <script type="text/javascript" src="js-libraries/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="js-libraries/jquery.couch.js"></script>
+
+
+
+
+    <script language="JavaScript">
+        // TBD: need to dynamicaly fetch this from mySQL database
+        var corrections =[];
+
+        corrections['15N5BVZWH']='{"78AEnlosúltimos12meseshasconsumidoalcohol":"Sí","91Algunavezhastenidorelacionessexualespordinerobienescelularesviviendaetcoserviciosproteccióncomidaetc":"No "}';
+        corrections['4CC0SYR8~']='{"16Estasactualmenteasistiendoaunaescuelaouniversidad":"No","16ACuáleselnombredetuescuelaouniversidad":"null","16BQuégradoestascursandoactualmente":"null","16B1Cuálnivel":"undefined","19Enelúltimoañocuántasveceshasfaltadoalaescuelaporundíacompletosinexcusaejemploporenfermedadovacaciones":0,"91Algunavezhastenidorelacionessexualespordinerobienescelularesviviendaetcoserviciosproteccióncomidaetc":"No"}';
+        corrections['N022WY03F']='{"16Estasactualmenteasistiendoaunaescuelaouniversidad":"No","16ACuáleselnombredetuescuelaouniversidad":"null","16BQuégradoestascursandoactualmente":"null","21Hascompletadoalgúncursotécnico":"No","22Actualmentetededicasa":"No estudio y no trabajo","91Algunavezhastenidorelacionessexualespordinerobienescelularesviviendaetcoserviciosproteccióncomidaetc":"No"}';
+        corrections['YNXR8CH7T']='{"96AOtro":"sala de tareas"}';
+        corrections['QP6ENFJSK']='{"22Actualmentetededicasa":"No estudio y no trabajo"}';
+        corrections['ZPCQ9N360']='{"22Actualmentetededicasa":"Estudiar y trabajar"}';
+        corrections['7035BESH2']='{"91Algunavezhastenidorelacionessexualespordinerobienescelularesviviendaetcoserviciosproteccióncomidaetc":"No"}';
+        corrections['YKNHW112N']='{"91Algunavezhastenidorelacionessexualespordinerobienescelularesviviendaetcoserviciosproteccióncomidaetc":"No"}';
+        corrections['88W6B487Q']='{"91Algunavezhastenidorelacionessexualespordinerobienescelularesviviendaetcoserviciosproteccióncomidaetc":"No"}';
+        corrections['3YSQ2HJH9']='{"22Actualmentetededicasa":"Estudiar y trabajar"}';
+        corrections['PYKNQKS10']='{"22Actualmentetededicasa":"Estudiar y trabajar","30Cuántashorastrabajasenundía":2,"31Cuántosdíastrabajasenunasemana":7,"43Conquéfrecuenciatepreocupaservíctimadeladelincuenciaentubarrio":"No responde","57Enlosúltimos12meseshasllevadounarmadefuego":"No","57ASilarespuestaesafirmativaencuáleslugarespasó":"undefined","91Algunavezhastenidorelacionessexualespordinerobienescelularesviviendaetcoserviciosproteccióncomidaetc":"No"}';
+        corrections['WE7HGB2G1']='{"16BQuégradoestascursandoactualmente":"4to","Alfabetizacióndejóvenesyadultos":"No","EBA":"No","PREPARA":"No","Noestoyinscritoenningunodeestos":"Sí","85Quéedadteníaslaprimeravezquetuvisterelacionessexuales":5}';
+        corrections['QQZASN6S$']='{"85Quéedadteníaslaprimeravezquetuvisterelacionessexuales":8}';
+        corrections['6F3Q223SM']='{"16Estasactualmenteasistiendoaunaescuelaouniversidad":"No","16ACuáleselnombredetuescuelaouniversidad":"null","16BQuégradoestascursandoactualmente":"null","18Hasrepetidouncursoenlaescuela":"No","41Hasobtenidounempleonuevoomejorenelúltimomes":"No","85Quéedadteníaslaprimeravezquetuvisterelacionessexuales":7}';
+        corrections['0AVTZ6ECK']='{"22Actualmentetededicasa":"Estudiar y trabajar"}';
+        corrections['B339E5K6*']='{"91Algunavezhastenidorelacionessexualespordinerobienescelularesviviendaetcoserviciosproteccióncomidaetc":"No"}';
+        corrections['DN8T2FC18']='{"91Algunavezhastenidorelacionessexualespordinerobienescelularesviviendaetcoserviciosproteccióncomidaetc":"No"}';
+        corrections['K6GEHT40A']='{"96AlgunaveztehanenseñadoacercadelasInfeccionesdetransmisiónsexual":"No","96ADóndehasrecibidoinformacióndelasInfeccionesdeTransmisiónSexual":"null"}';
+        corrections['CVE19J80C']='{"91Algunavezhastenidorelacionessexualespordinerobienescelularesviviendaetcoserviciosproteccióncomidaetc":"No"}';
+        corrections['CBKHZHA2C']='{"22Actualmentetededicasa":"Estudiar y trabajar"}';
+        corrections['2MBRAEFJH']='{"95Algunavezhastenidounaconversaciónabiertayhonestasobresexocontuspadres":"undefined"}';
+        corrections['ZKWMAVCR1']='{"95Algunavezhastenidounaconversaciónabiertayhonestasobresexocontuspadres":"undefined"}';
+        corrections['TXVJJQKND']='{"85Quéedadteníaslaprimeravezquetuvisterelacionessexuales":12}';
+        corrections['H5MDK18XY']='{"21Hascompletadoalgúncursotécnico":"no","91Algunavezhastenidorelacionessexualespordinerobienescelularesviviendaetcoserviciosproteccióncomidaetc":"No"}';
+        corrections['Y5TWJJWM1']='{"91Algunavezhastenidorelacionessexualespordinerobienescelularesviviendaetcoserviciosproteccióncomidaetc":"No"}';
+        corrections['X5F52B64$']='{"66Enlosúltimos12meseshastenidoalgúnamigoomiembrodetufamiliaquelehandisparadocortadooapuñalado":"undefined","95Algunavezhastenidounaconversaciónabiertayhonestasobresexocontuspadres":"undefined"}';
+        corrections['ABW9TFFC6']='{"16BQuégradoestascursandoactualmente":"6to","91Algunavezhastenidorelacionessexualespordinerobienescelularesviviendaetcoserviciosproteccióncomidaetc":"No"}';
+        corrections['7N6WGRT5Z']='{"91Algunavezhastenidorelacionessexualespordinerobienescelularesviviendaetcoserviciosproteccióncomidaetc":"No"}';
+        corrections['73058TT87']='{"22Actualmentetededicasa":"Estudiar y trabajar"}';
+        corrections['VYGBCNXZY']='{"91Algunavezhastenidorelacionessexualespordinerobienescelularesviviendaetcoserviciosproteccióncomidaetc":"No","93SiquisierastenersexocreesqueseríascapazdeconvenceratuparejaqueuseunCondónencasoqueélellanoquiera":"Sí"}';
+        corrections['PQC261DRT']='{"63AEncuáleslugarespasó":"undefined","85Quéedadteníaslaprimeravezquetuvisterelacionessexuales":13,"87Concuántaspersonasdiferenteshastenidorelacionessexualesenlosúltimos12meses":"undefined"}';
+        corrections['WB5XP4CFE']='{"53ASucedióestoenlosúltimos12meses":"No"}';
+        corrections['7DW8ZRJ5$']='{"45Enquémedidatuvidahasidoafectadaporladelincuencia":5,"91Algunavezhastenidorelacionessexualespordinerobienescelularesviviendaetcoserviciosproteccióncomidaetc":"No"}';
+        corrections['A3GXZJ4T5']='{"18ACuálescursos":"3ro","56AEncuáleslugarespasó":"Barrio","91Algunavezhastenidorelacionessexualespordinerobienescelularesviviendaetcoserviciosproteccióncomidaetc":"No"}';
+        corrections['8PSXCCBSZ']='{"91Algunavezhastenidorelacionessexualespordinerobienescelularesviviendaetcoserviciosproteccióncomidaetc":"No"}';
+        corrections['5MXRZVK8W']='{"91Algunavezhastenidorelacionessexualespordinerobienescelularesviviendaetcoserviciosproteccióncomidaetc":"No"}';
+        corrections['NVNKC82XJ']='{"18ACuálescursos":"7mo","59AEncuáleslugarespasó":"Barrio","91Algunavezhastenidorelacionessexualespordinerobienescelularesviviendaetcoserviciosproteccióncomidaetc":"No"}';
+        corrections['JH43M3CDC']='{"58AEncuáleslugarespasó":"Barrio"}';
+        corrections['0MT0T72C=']='{"22Actualmentetededicasa":"Solo trabajar"}';
+        corrections['E5XCPHS4=']='{"91Algunavezhastenidorelacionessexualespordinerobienescelularesviviendaetcoserviciosproteccióncomidaetc":"No"}';
+        corrections['ZWT9A389V']='{"16BQuégradoestascursandoactualmente":"null","19Enelúltimoañocuántasveceshasfaltadoalaescuelaporundíacompletosinexcusaejemploporenfermedadovacaciones":0,"21Hascompletadoalgúncursotécnico":"no","91Algunavezhastenidorelacionessexualespordinerobienescelularesviviendaetcoserviciosproteccióncomidaetc":"No"}';
+        corrections['13KJF0JZH']='{"91Algunavezhastenidorelacionessexualespordinerobienescelularesviviendaetcoserviciosproteccióncomidaetc":"null"}';
+        corrections['DJMWV9K7B']='{"91Algunavezhastenidorelacionessexualespordinerobienescelularesviviendaetcoserviciosproteccióncomidaetc":"null"}';
+        corrections['0DS9XP289']='{"91Algunavezhastenidorelacionessexualespordinerobienescelularesviviendaetcoserviciosproteccióncomidaetc":"No"}';
+        corrections['J8JWF43KH']='{"22Actualmentetededicasa":"Estudiar y trabajar"}';
+        corrections['DPQHE60P6']='{"22Actualmentetededicasa":"Estudiar y trabajar"}';
+        corrections['V93YSK6XA']='{"36EnquélugarrealizasestetrabajoOtros":"Ayudante","59AEncuáleslugarespasó":"No","89LaúltimavezquetuvisterelacionessexualescuálmétodousasteotucompañeroaparaprevenirelembarazoSeleccionesólounaopción":"No responde"}';
+        corrections['E6X6A271R']='{"91Algunavezhastenidorelacionessexualespordinerobienescelularesviviendaetcoserviciosproteccióncomidaetc":"null"}';
+        corrections['GBWKWRWM=']='{"22Actualmentetededicasa":"Estudiar y trabajar"}';
+        corrections['XWE6DA7RS']='{"91Algunavezhastenidorelacionessexualespordinerobienescelularesviviendaetcoserviciosproteccióncomidaetc":"No"}';
+        corrections['EXKDS7Z8U']='{"56Enlosúltimos12meseshasllevadouncuchillopuñalomachete":"Sí","56AEncuáleslugarespasó":"No responde"}';
+        corrections['DCJ5J9BKV']='{"16Estasactualmenteasistiendoaunaescuelaouniversidad":"No","91Algunavezhastenidorelacionessexualespordinerobienescelularesviviendaetcoserviciosproteccióncomidaetc":"null"}';
+        corrections['RJCVA9XK5']='{"91Algunavezhastenidorelacionessexualespordinerobienescelularesviviendaetcoserviciosproteccióncomidaetc":"No"}';
+        corrections['9ARRYH0RW']='{"44Conquéfrecuenciatepreocupaservíctimadeladelincuenciaentuescuelaouniversidad":"No Sé","45Enquémedidatuvidahasidoafectadaporladelincuencia":1,"91Algunavezhastenidorelacionessexualespordinerobienescelularesviviendaetcoserviciosproteccióncomidaetc":"null"}';
+        corrections['E4SK6KZJT']='{"22Actualmentetededicasa":"No estudio y no trabajo"}';
+        corrections['160SVT7XZ']='{"51Hassidodetenidoporlapolicíaporcualquiermotivo":"No","91Algunavezhastenidorelacionessexualespordinerobienescelularesviviendaetcoserviciosproteccióncomidaetc":"No"}';
+        corrections['V0EDGBKHB']='{"78AEnlosúltimos12meseshasconsumidoalcohol":"No","91Algunavezhastenidorelacionessexualespordinerobienescelularesviviendaetcoserviciosproteccióncomidaetc":"No"}';
+        corrections['J5A9MEWTU']='{"65AEncuáleslugarespasó":"No responde"}';
+        corrections['WPMX8QPX$']='{"49EUnpolicíameacosósexualmente":"No","91Algunavezhastenidorelacionessexualespordinerobienescelularesviviendaetcoserviciosproteccióncomidaetc":"No"}';
+        corrections['PG7V1FSV1']='{"19Enelúltimoañocuántasveceshasfaltadoalaescuelaporundíacompletosinexcusaejemploporenfermedadovacaciones":0,"59Enlosúltimos12mesesalguientehaamenazadoconuncuchilloounapistola":"No","91Algunavezhastenidorelacionessexualespordinerobienescelularesviviendaetcoserviciosproteccióncomidaetc":"No","94Tesientescapazdetenerunaconversaciónabiertayhonestasobresexoconsuspadres":"No"}';
+        corrections['RMKZQAJ81']='{"22Actualmentetededicasa":"Estudiar y trabajar"}';
+        corrections['QJQAFNHA0']='{"40Hasbuscadounnuevoomejorempleoenelúltimomes":"No ","41Hasobtenidounempleonuevoomejorenelúltimomes":"No ","42Hasparticipadoenalgúnprogramadedesarrollodeempleo":"No","53AlgunodetusamigoshasidodetenidoalgunavezporlaPolicía":"No","91Algunavezhastenidorelacionessexualespordinerobienescelularesviviendaetcoserviciosproteccióncomidaetc":"No"}';
+        corrections['YT5JCRHQ~']='{"20Enlosúltimos12meseshassidosuspendidoadelaescuela":"No","78AEnlosúltimos12meseshasconsumidoalcohol":"Si","91Algunavezhastenidorelacionessexualespordinerobienescelularesviviendaetcoserviciosproteccióncomidaetc":"null"}';
+        corrections['0VD2SJ6F5']='{"42Hasparticipadoenalgúnprogramadedesarrollodeempleo":"No","45Enquémedidatuvidahasidoafectadaporladelincuencia":1,"91Algunavezhastenidorelacionessexualespordinerobienescelularesviviendaetcoserviciosproteccióncomidaetc":"null","92SiquisierascomprarunCondóncreesquepodríasencontrarlo":"No","93SiquisierastenersexocreesqueseríascapazdeconvenceratuparejaqueuseunCondónencasoqueélellanoquiera":"No","94Tesientescapazdetenerunaconversaciónabiertayhonestasobresexoconsuspadres":"No","95Algunavezhastenidounaconversaciónabiertayhonestasobresexocontuspadres":"No"}';
+        corrections['HAPERE9X1']='{"91Algunavezhastenidorelacionessexualespordinerobienescelularesviviendaetcoserviciosproteccióncomidaetc":"null"}';
+        corrections['498MAK8KE']='{"40Hasbuscadounnuevoomejorempleoenelúltimomes":"No ","41Hasobtenidounempleonuevoomejorenelúltimomes":"No ","42Hasparticipadoenalgúnprogramadedesarrollodeempleo":"No ","91Algunavezhastenidorelacionessexualespordinerobienescelularesviviendaetcoserviciosproteccióncomidaetc":"No responde"}';
+        corrections['8Z6TQ5M8=']='{"91Algunavezhastenidorelacionessexualespordinerobienescelularesviviendaetcoserviciosproteccióncomidaetc":"No"}';
+        corrections['7Q02TEX63']='{"14Sabesleeryescribir":"No","15Cuáleselniveleducativomásaltoquehasaprobado":"Básica","84Algunavezhastenidorelacionessexuales":"No"}';
+        corrections['ZR018RA2Z']='{"22Actualmentetededicasa":"Estudiar y trabajar"}';
+        corrections['VG8XCX094']='{"89LaúltimavezquetuvisterelacionessexualescuálmétodousasteotucompañeroaparaprevenirelembarazoSeleccionesólounaopción":"undefined","98AlgunavezlehanenseñadoacercalainfecciónporVIHSida":"No","98ADóndehasrecibidoinformacióndeVIHSida":"undefined"}';
+        corrections['T7NFBHAJQ']='{"91Algunavezhastenidorelacionessexualespordinerobienescelularesviviendaetcoserviciosproteccióncomidaetc":"No responde","96ADóndehasrecibidoinformacióndelasInfeccionesdeTransmisiónSexual":"Escuela"}';
+        corrections['97NKWMQ2*']='{"13Tieneshijos":"No ","16Estasactualmenteasistiendoaunaescuelaouniversidad":"No","16ACuáleselnombredetuescuelaouniversidad":"undefined","16BQuégradoestascursandoactualmente":"null","91Algunavezhastenidorelacionessexualespordinerobienescelularesviviendaetcoserviciosproteccióncomidaetc":"No"}';
+        corrections['3D02VXDPF']='{"18ACuálescursos":"null","40Hasbuscadounnuevoomejorempleoenelúltimomes":"No","41Hasobtenidounempleonuevoomejorenelúltimomes":"No ","42Hasparticipadoenalgúnprogramadedesarrollodeempleo":"No ","91Algunavezhastenidorelacionessexualespordinerobienescelularesviviendaetcoserviciosproteccióncomidaetc":"No responde"}';
+        corrections['ZWAMNKGWU']='{"16ACuáleselnombredetuescuelaouniversidad":"undefined","16BQuégradoestascursandoactualmente":"null","19Enelúltimoañocuántasveceshasfaltadoalaescuelaporundíacompletosinexcusaejemploporenfermedadovacaciones":0}';
+        corrections['C4SR8NKXR']='{"16ACuáleselnombredetuescuelaouniversidad":"undefined","18Hasrepetidouncursoenlaescuela":"No","19Enelúltimoañocuántasveceshasfaltadoalaescuelaporundíacompletosinexcusaejemploporenfermedadovacaciones":0,"26Hasrealizadoalgunavezuntrabajoporpagaoganancia":"No ","47Tepreocupalapresenciadepandillasentubarrio":"Muy a menudo","79Hasprobadoalgunavezcualquieradeestasdrogasmarihuanacocaínaheroínapastillascrackcementoocualquierotracosaparadrogarse":"No "}';
+        corrections['33MD76KG4']='{"Notengoningunameta":"null"}';
+
+
+
+        function start(){
+            var db = $.couch.db("coconut");
+
+            for (uuid in corrections) {
+
+                db.view('coconut/byUUIDandQuestion?key="' + uuid +'"',
+                        {
+                            success: function (data) {
+                                doc = data.rows[0];
+                                if (doc.id != null && doc.id != undefined) {
+                                    console.log("DOC ID = " + doc.id);
+                                    //fetch the document
+                                    db.openDoc(doc.id, {
+                                        success: function (data) {
+                                            var html = '<tr>' + '<td>' + data._id + ',</td>' +
+                                                    '<td>' + data.uuid + ',</td>' +
+                                                    '<td>' + data.lastModifiedAt + '</td>' +
+                                                    '</tr>';
+
+                                            $("#listtbl").append(html);
+
+
+                                            // update the provider name
+                                            //data.provider_name = "IDDI (Santo Domingo/Distrito Nacional)";
+                                            //data.provider_id = "6";
+
+                                            // go through the list of corrections and update the document
+                                            var jsonCorrections = eval('(' + corrections[data.uuid] + ')');
+
+                                            console.log("******Updating uuid=" + data.uuid + "****");
+
+                                            $.each(jsonCorrections, function (key, value) {
+                                                console.log(key + "=" + value);
+                                                data[key] = value;
+                                            });
+
+
+                                            // save the document
+                                            db.saveDoc(data);
+                                        }
+                                    });
+                                }
+
+                                console.log("Document processed.");
+
+                            },
+                            error: function (data) {
+                                alert("Someting wrong");
+                            }
+                        });
+            }
+        }
+
+
+        function start_old(){
+            var db = $.couch.db("coconut");
+            db.view("coconut/byUUIDandQuestion",
+                    {
+                        success:function(data){
+
+                            for (i in data.rows) {
+
+                                doc = data.rows[i];
+                                console.log("DOC ID = " + doc.id);
+                                //fetch the document
+                                db.openDoc(doc.id, {
+                                    success: function(data){
+                                        console.log("******INSIDE SUCCESS****");
+                                        if (corrections[data.uuid] != undefined){
+                                            var html = '<tr>' + '<td>' + data._id + ',</td>' +
+                                                    '<td>' + data.uuid + ',</td>' +
+                                                    '<td>' + data.lastModifiedAt + '</td>' +
+                                                    '</tr>';
+
+                                            $("#listtbl").append(html);
+
+
+                                            // update the provider name
+                                            //data.provider_name = "IDDI (Santo Domingo/Distrito Nacional)";
+                                            //data.provider_id = "6";
+
+                                            // go through the list of corrections and update the document
+                                            var jsonCorrections = eval('('+ corrections[data.uuid] +')');
+
+                                            console.log("******Updating uuid=" + data.uuid + "****");
+
+                                            $.each(jsonCorrections, function(key,value){
+                                                console.log(key + "=" + value);
+                                                data[key]=value;
+                                            });
+
+
+                                            // save the document
+                                            db.saveDoc(data);
+                                        }
+                                    }
+                                });
+
+                                console.log("Document processed.");
+                            }
+                        },
+                        error:function(data){
+                            alert("Someting wrong");
+                        }
+                    });
+        }
+
+
+    </script>
+
+</head>
+
+
+<body >
+<p>This will fetch COMPLETE surveys and update values from the correction excel file.</p>
+<input type="button" onclick="start()" id="start" value="Start">
+
+<p> Updating the documents.... </p>
+<table id="listtbl" style = "border:1;cellpadding:4" ><tr><th>Doc Id</th><th>UUID</th><th>Last Modified</th></tr></table>
+
+
+
+</body>
+
+
+</body>
+
+</html>

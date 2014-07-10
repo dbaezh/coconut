@@ -1,0 +1,627 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title> Update Corrections</title>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+<style>
+    body {
+        font: 100% helvetica, arial, sans-serif;
+        line-height: 1.625;
+    }
+
+</style>
+
+<script type="text/javascript" src="js-libraries/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="js-libraries/jquery.couch.js"></script>
+<script type="text/javascript" src="js-libraries/coco-utils.js"></script>
+
+
+
+
+<script language="JavaScript">
+
+    var questionMapJSONStr = '{"16Actualmenteestasasistiendoa":"16Estasactualmenteasistiendoaunaescuelaouniversidad","16ACuáleselnombredetuescuela":"16ACuáleselnombredetuescuelaouniversidad","17Enelúltimoañocuántasveceshasfaltadoalaescuelaporundíacompletosinexcusa":"19Enelúltimoañocuántasveceshasfaltadoalaescuelaporundíacompletosinexcusaejemploporenfermedadovacaciones","18Enlosúltimos12meseshassidosuspendidoadelaescuela":"20Enlosúltimos12meseshassidosuspendidoadelaescuela","19ActualmenteestasasistiendoaalgúnprogramadeeducaciónparajóvenesyadultosMarcalaopciónqueaplique":"17Enelúltimoañocuántasveceshasfaltadoalaescuelaporundíacompletosinexcusa","20Hasrepetidoalgúncursoenlaescuela":"18Hasrepetidouncursoenlaescuela","20ASilarespuestaesafirmativacuálescursos":"18ACuálescursos","21ASilarespuestaesafirmativacuálescursos":"21ACuálescursos","23Hassidosuspendidoadelaescuelaalgunavez":"23Hasidosuspendidoadelaescuela","24ConrespectoatueducaciónquétegustaríalograrenelfuturoMarcatodoloquecorresponda":"24Conrespectoatueducaciónquétegustaríalograrenelfuturo","Megustaríaterminarlabásica":"Megustaríaterminarlaprimaria","25Hasrealizadoalgunavezuntrabajoporpagaoganancia":"26Hasrealizadoalgunavezuntrabajoporpagaoganancia","26Durantelaúltimasemanarealizastealgúntrabajoporpagaoganancia":"27Durantelaúltimasemanarealizastealgúntrabajoporpagaoganancia","26ADescribeloquehaceseneltrabajoactual":"271Describeloquehaceseneltrabajoactual","27Mes":"28Mes","27Año":"28Año","28Enquélugarrealizasestetrabajo":"29Enquélugarrealizasestetrabajo","28EnquélugarOtros":"29EnquélugarOtros","29Cuántashorastrabajasenundía":"30Cuántashorastrabajasenundía","30Cuántosdíastrabajasenunasemana":"31Cuántosdíastrabajasenunasemana","31Enpromediocuántoganasenunasemana":"32Enpromediocuántoganasenunasemana","32Enestetrabajotúeres":"33Enestetrabajotúeres","32OtroTúeres":"33OtroTúeres","33Actualmenterealizasalgúntrabajoenelquenosetepagaonorecibesganancia":"34Actualmenterealizasalgúntrabajoenelquenosetepagaonorecibesganancia","33ADescribeloquehacesenestetrabajo":"34ADescribeloquehacesenestetrabajo","34Mes":"35Mes","34Año":"35Año","35Enquélugarrealizasestetrabajo":"36Enquélugarrealizasestetrabajo","35EnquélugarrealizasestetrabajoOtros":"36EnquélugarrealizasestetrabajoOtros","36Cuántashorastrabajasenundía":"37Cuántashorastrabajasenundía","37Cuántosdíastrabajasenunasemana":"38Cuántosdíastrabajasenunasemana","38Enestetrabajotúeres":"39Enestetrabajotúeres","38EnestetrabajotúeresOtro":"39EnestetrabajotúeresOtro","39Hasbuscadounnuevoomejorempleoenelúltimomes":"40Hasbuscadounnuevoomejorempleoenelúltimomes","40Hasparticipadoenalgúnprogramadedesarrollodeempleo":"42Hasparticipadoenalgúnprogramadedesarrollodeempleo","41Conquéfrecuenciatepreocupaservíctimadeladelincuenciaentubarrio":"43Conquéfrecuenciatepreocupaservíctimadeladelincuenciaentubarrio","42Conquéfrecuenciatepreocupaservíctimadeladelincuenciaentuescuelaouniversidad":"44Conquéfrecuenciatepreocupaservíctimadeladelincuenciaentuescuelaouniversidad","43Enquémedidatuvidahasidoafectadaporladelincuencia":"45Enquémedidatuvidahasidoafectadaporladelincuencia","44Entuopiniónladelincuenciaesunproblemagraveentubarrio":"46Entuopiniónladelincuenciaesunproblemagraveentubarrio","45Tepreocupalapresenciadepandillasentubarrio":"47Tepreocupalapresenciadepandillasentubarrio","46Lapreocupaciónporladelincuenciaocrimenteimpiderealizarlascosasquedeseashacerentubarrio":"48Lapreocupaciónporladelincuenciaocrimenteimpiderealizarlascosasquedeseashacerentubarrio","47AUnpolicíameamenazóverbalmente":"49AUnpolicíameamenazóverbalmente","47BUnpolicíamecobródinerosinjustificación":"49BUnpolicíamecobródinerosinjustificación","47CUnpolicíamequitóalgoquemepertenecia":"49CUnpolicíatomóalgoquepertenecíaamí","47DUnpolicíamemaltratófísicamente":"49DUnpolicíamemaltratófísicamente","48Hassidotransportadoenunapatrullapolicialporunaredadaoporsospechadelapolicíahaciati":"50Hassidotransportadoenunapatrullapolicialporunaredadaoporsospechadelapolicíahaciati","49Hassidodetenidoporlapolicíaporalgúnmotivo":"51Hassidodetenidoporlapolicíaporcualquiermotivo","49ASucedióestoenlosúltimos12meses":"51ASucedióestoenlosúltimos12meses","50HassidodetenidoporlaPolicíaacusadodecometeralgúndelito":"52HassidodetenidoporlaPolicíaacusadodecometeralgúndelito","50ASucedióestoenlosúltimos12meses":"52ASucedióestoenlosúltimos12meses","51AlgunodetusamigoshasidodetenidoalgunavezporlaPolicía":"53AlgunodetusamigoshasidodetenidoalgunavezporlaPolicía","51ASucedióestoenlosúltimos12meses":"53ASucedióestoenlosúltimos12meses","52Enlosúltimos12meseshastomadoalgodeunatiendasinpagarporella":"54Enlosúltimos12meseshastomadoalgodeunatiendasinpagarporella","53Enlosúltimos12meseshasparticipadoenalgunapeleaoriña":"55Enlosúltimos12meseshasparticipadoenalgunapeleaoriña","54Enlosúltimos12meseshasllevadouncuchillopuñalomachete":"56Enlosúltimos12meseshasllevadouncuchillopuñalomachete","55Enlosúltimos12meseshasllevadounarmadefuego":"57Enlosúltimos12meseshasllevadounarmadefuego","56Enlosúltimos12meseshasvistoaalguienqueestabasiendoapuñaladocortadoobaleado":"58Enlosúltimos12meseshasvistoaalguienqueestabasiendoapuñaladocortadoobaleado","57Enlosúltimos12mesesalguientehaamenazadoconuncuchilloounapistola":"59Enlosúltimos12mesesalguientehaamenazadoconuncuchilloounapistola","58Enlosúltimos12mesesalguientehacortadooapuñaladotangravementequetuvistequeiraunmédico":"60Enlosúltimos12mesesalguientehacortadooapuñaladotangravementequetuvistequeiraunmédico","59Enlosúltimos12mesesalguientehadisparadoconunarmadefuego":"61Enlosúltimos12mesesalguientehadisparadoconunarmadefuego","60Enlosúltimos12meseshasamenazadoaalguienconcortarleapuñalarleodispararle":"62Enlosúltimos12meseshasamenazadoaalguienconcortarleapuñalarleodispararle","61Enlosúltimos12meseshasamenazadoaalguienconuncuchillooarma":"63Enlosúltimos12meseshasamenazadoaalguienconuncuchillooarma","62Enlosúltimos12meseshascortadooapuñaladoaalguien":"64Enlosúltimos12meseshascortadooapuñaladoaalguien","63Enlosúltimos12meseslehasdisparadoaalguien":"65Enlosúltimos12meseslehasdisparadoaalguien","64Enlosúltimos12meseshastenidoalgúnamigoomiembrodetufamiliaquelehandisparadocortadooapuñalado":"66Enlosúltimos12meseshastenidoalgúnamigoomiembrodetufamiliaquelehandisparadocortadooapuñalado","65Hasdañadoodestruidoapropósitoartículosquenotepertenecen":"67Hasdañadoodestruidoapropósitoartículosquenotepertenecen","66Algunavezhassidoatacadoorobado":"68Algunavezhassidoatacadoorobado","67Algunavezhasatacadoorobadoaalguien":"69Algunavezhasatacadoorobadoaalguien","68Algunavezhassidosecuestrado":"70Algunavezhassidosecuestrado","69Algunavezhassecuestradoaalguien":"71Algunavezhassecuestradoaalguien","70AlgunavezhasrobadoalgodeunatiendaoalgoquenotepertenecíaqueteníaunvalormenordeRD200":"72AlgunavezhasrobadoalgodeunatiendaoalgoquenotepertenecíaqueteníaunvalormenordeRD200","71AlgunavezharobadoalgodeunatiendaoalgoquenotepertenecíaqueteníaunvalormayordeRD200incluyendocarros":"73AlgunavezharobadoalgodeunatiendaoalgoquenotepertenecíaqueteníaunvalormayordeRD200incluyendocarros","72Algunavezhasvendidooayudadoavenderdrogas":"74Algunavezhasvendidooayudadoavenderdrogas","73Hasestadoinvolucradoenunapandilla":"75Hasestadoinvolucradoenunapandilla","73AActualmenteestásinvolucradoenunapandilla":"75AActualmenteestásinvolucradoenunapandilla","74Compartestiempooterelacionasconmiembrosdeunapandilla":"76Compartestiempooterelacionasconmiembrosdeunapandilla","75Enlosúltimos12meseshashabladoocompartidoconalguienborrachoodrogado":"77Enlosúltimos12meseshashabladoocompartidoconalguienborrachooqueestabadrogado","76Algunavezhastomadounabebidaalcohólicaunacopavasoenteronosólounsorbo":"78Algunavezhastomadounabebidaalcohólicaunacopavasoenteronosólounsorbo","76AEnlosúltimos12meseshasconsumidoalcohol":"78AEnlosúltimos12meseshasconsumidoalcohol","76BEnlosúltimos12meseshastomadocincovasoscopasomásdebebidasalcohólicasenelmismodía":"78BEnlosúltimos12meseshastomadocincovasoscopasomásdebebidasalcohólicasenelmismodía","77Hasprobadoalgunavezcualquieradeestasdrogasmarihuanacocaínaheroínapastillascrackcementoocualquierotracosaparadrogarse":"79Hasprobadoalgunavezcualquieradeestasdrogasmarihuanacocaínaheroínapastillascrackcementoocualquierotracosaparadrogarse","78Hasusadoenalgunaocasiónunaagujaparainyectartedroga":"80Hasusadoenalgunaocasiónunaagujaparainyectartedroga","79AMarihuana":"81AMarihuana","79BCrack":"81BCrack","79CCocaínaenpolvo":"81CCocaínaenpolvo","79DHeroína":"81DHeroína","79EMetanfetaminaocristal":"81EMetanfetaminaocristal","79FÉxtasisMDMA":"81FxtasisMDMA","79GInhalantescomopegamentocementopinturaspray":"81GInhalantescomopegamentocementopinturaspray","79HNoresponde":"81HNoresponde","79IOtrosespecifica":"81IOtra","80AMarihuana":"82AMarihuana","80BCrack":"82BCrack","80CCocaínaenpolvo":"82CCocaínaenpolvo","80DHeroína":"82DHeroína","80EMetanfetaminaocristal":"82EMetanfetaminaocristal","80FÉxtasisMDMA":"82FxtasisMDMA","80GInhalantescomopegamentocementopinturaspray":"82GInhalantescomopegamentocementopinturaspray","80HNoresponde":"81HNoresponde","80IOtrosespecifica":"82IOtra","81AMarihuana":"83AMarihuana","81BCrack":"83BCrack","81CCocaínaenpolvo":"83CCocaínaenpolvo","81DHeroína":"83DHeroína","81EMetanfetaminaocristal":"83EMetanfetaminaocristal","81FÉxtasisMDMA":"83FxtasisMDMA","81GInhalantescomopegamentocementopinturaspray":"83GInhalantescomopegamentocementopinturaspray","81HOtraespecifica":"83HOtradroga","82Algunavezhastenidorelacionessexuales":"84Algunavezhastenidorelacionessexuales","83Quéedadteníaslaprimeravezquetuvisterelacionessexuales":"85Quéedadteníaslaprimeravezquetuvisterelacionessexuales","84Conquiéneshastenidorelacionessexuales":"86Conquiéneshastenidorelacionessexuales","85Concuántaspersonasdiferenteshastenidorelacionessexualesenlosúltimos12meses":"87Concuántaspersonasdiferenteshastenidorelacionessexualesenlosúltimos12meses","86Laúltimavezquetuvisterelacionessexualestuotucompañeroautilizóuncondón":"88Laúltimavezquetuvisterelacionessexualestuotucompañeroautilizóuncondón","87LaúltimavezquetuvisterelacionessexualescuálmétodousasteotucompañeroaparaprevenirelembarazoSeleccionesólounaopción":"89LaúltimavezquetuvisterelacionessexualescuálmétodousasteotucompañeroaparaprevenirelembarazoSeleccionesólounaopción","87Otro":"89Otro","88Algunavezalguientehaobligadoatenerrelacionessexuales":"90Algunavezalguientehaobligadoatenerrelacionessexuales","89Algunavezhastenidorelacionessexualespordinerobienescelularesviviendaetcoserviciosproteccióncomidaetc":"91Algunavezhastenidorelacionessexualespordinerobienescelularesviviendaetcoserviciosproteccióncomidaetc","89ASilarespuestaesafirmativaCuándofuelaúltimavez":"91ASilarespuestaesafirmativaCuándofuelaúltimavez","90Siquisierascompraruncondóncreesquepodríasencontrarlo":"92Siquisierascompraruncondóncreesquepodríasencontrarlo","91Siquisierastenersexocreesquepodriasconvenceratuparejadequeusecondónencasodequeélellaseniegueausarlo":"93Siquisierastenersexocreesqueseríascapazdeconvenceratuparejaqueuseuncondónencasoqueélellanoquiera","92Tesientescapazdetenerunaconversaciónabiertayhonestasobresexoconsuspadres":"94Tesientescapazdetenerunaconversaciónabiertayhonestasobresexoconsuspadres","93Algunavezhastenidounaconversaciónabiertayhonestasobresexocontuspadres":"95Algunavezhastenidounaconversaciónabiertayhonestasobresexocontuspadres","94Algunavezalguientehaenseñadoohabladoacercadelasinfeccionesdetransmisiónsexual":"96AlgunaveztehanenseñadoacercadelasInfeccionesdetransmisiónsexual","94AOtroEspecifique":"96AOtro","95Algunavezlehanenseñadoacercadeprevencióndeembarazo":"97Algunavezlehanenseñadoacercadeprevencióndeembarazo","95AOtroEspecifique":"97AOtro","96AlgunavezlehanenseñadoacercalainfecciónporVIHSida":"98AlgunavezlehanenseñadoacercalainfecciónporVIHSida","98AOtroEspecifique":"98AOtro"}';
+
+    var jsonQuestionMap = eval('(' + questionMapJSONStr + ')');
+
+    var docIds = [];
+
+
+    function start(){
+        var db = $.couch.db("coconut");
+
+        // first process complete surveys
+        db.view("coconut/findCompleteSurveys",
+                {
+                    success:function(data){
+                        var idx = 0;
+                        for (i in data.rows) {
+
+                            doc = data.rows[i];
+
+                            docIds[i++] = doc.id;
+
+                            if (i == 10)
+                              break;
+
+                            console.log("Document processed.");
+                        }
+
+                        // iterate through documents and update
+                        for (var i=0; i < docIds.length; i++) {
+                            var docId = docIds[i];
+
+                            //fetch the document
+                            db.openDoc(docId, {
+                                success: function (data) {
+
+
+                                    console.log("Processing DOC UUID = " + data.uuid);
+
+                                    var html = '<tr>' + '<td>' + data._id + ',</td>' +
+                                            '<td>' + data.uuid + ',</td>' +
+                                            '<td>' + data.lastModifiedAt + '</td>' +
+                                            '</tr>';
+
+                                    $("#listtbl").append(html);
+
+
+                                    // go through the mapping and map old question answers to new ones
+                                    console.log("******Updating uuid=" + data.uuid + "****");
+
+                                    $.each(jsonQuestionMap, function (key, value) {
+                                       // console.log(key + "=" + value);
+                                        console.log("old value=" + data[value]);
+                                        if (value === "16Estasactualmenteasistiendoaunaescuelaouniversidad")
+                                            processQuestion16(data);
+                                        else if (key === "19ActualmenteestasasistiendoaalgúnprogramadeeducaciónparajóvenesyadultosMarcalaopciónqueaplique")
+                                            processQuestion19(data);
+                                        else if (key === "54Enlosúltimos12meseshasllevadouncuchillopuñalomachete")
+                                            processQuestion54(data);
+                                        else if (key === "55Enlosúltimos12meseshasllevadounarmadefuego")
+                                            processQuestion55(data);
+                                        else if (key === "56Enlosúltimos12meseshasvistoaalguienqueestabasiendoapuñaladocortadoobaleado")
+                                            processQuestion56(data);
+                                        else if (key === "57Enlosúltimos12mesesalguientehaamenazadoconuncuchilloounapistola")
+                                            processQuestion57(data);
+                                        else if (key === "58Enlosúltimos12mesesalguientehacortadooapuñaladotangravementequetuvistequeiraunmédico")
+                                            processQuestion58(data);
+                                        else if (key === "59Enlosúltimos12mesesalguientehadisparadoconunarmadefuego")
+                                            processQuestion59(data);
+                                        else if (key === "60Enlosúltimos12meseshasamenazadoaalguienconcortarleapuñalarleodispararle")
+                                            processQuestion60(data);
+                                        else if (key === "61Enlosúltimos12meseshasamenazadoaalguienconuncuchillooarma")
+                                            processQuestion61(data);
+                                        else if (key === "62Enlosúltimos12meseshascortadooapuñaladoaalguien")
+                                            processQuestion62(data);
+                                        else if (key === "63Enlosúltimos12meseslehasdisparadoaalguien")
+                                            processQuestion63(data);
+                                        else if (key === "74Compartestiempooterelacionasconmiembrosdeunapandilla")
+                                            processQuestion74(data);
+                                        else if (key === "87LaúltimavezquetuvisterelacionessexualescuálmétodousasteotucompañeroaparaprevenirelembarazoSeleccionesólounaopción")
+                                            processQuestion87(data);
+                                        else if (key === "94Algunavezalguientehaenseñadoohabladoacercadelasinfeccionesdetransmisiónsexual")
+                                            processQuestion94(data);
+                                        else if (key === "95Algunavezlehanenseñadoacercadeprevencióndeembarazo")
+                                            processQuestion95(data);
+                                        else if (key === "96AlgunavezlehanenseñadoacercalainfecciónporVIHSida")
+                                            processQuestion96(data);
+                                        else
+                                            data[key] = data[value];
+                                    });
+
+                                    // just for testing
+                                    outputdoc(data);
+
+                                    // save the document
+                                   // db.saveDoc(data);
+                                }
+
+                            });
+                        }
+
+                        },
+                    error:function(data){
+                        alert("Someting wrong");
+                    }
+                });
+
+    }
+
+
+    /**
+     * A logic to initialize the Universidad or Escuela.
+     *
+     * testing with 002BADVDP-escuela
+     * @param data
+     */
+    function processQuestion16(data){
+        if (data['16Estasactualmenteasistiendoaunaescuelaouniversidad'] === 'Sí' ){
+            if (data['16ACuáleselnombredetuescuelaouniversidad'] != undefined && data['16ACuáleselnombredetuescuelaouniversidad'] != null && data['16ACuáleselnombredetuescuelaouniversidad'] != "") {
+
+                var universidadOrescuela = data['16ACuáleselnombredetuescuelaouniversidad'].toUpperCase();
+
+                // inti universidad or escuela
+                if (universidadOrescuela == "ANTONOMA DE SANTO DOMINGO" || universidadOrescuela.startsWith('UAPA')
+                        || universidadOrescuela.startsWith('UASD') || universidadOrescuela == "CURNE"
+                        || universidadOrescuela == "OYM" || universidadOrescuela == "UNICARIBE"
+                        || universidadOrescuela == "UNEV" || universidadOrescuela == "O&AMP;M"
+                        || universidadOrescuela == "UNIVE" || universidadOrescuela.startsWith('UNIVERSIDAD')
+                        || universidadOrescuela == "UTESA"
+                        || universidadOrescuela.startsWith('UCATECI') || universidadOrescuela.startsWith('UCATE')) {
+                    data['16ACuáleselnombredetuuniversidad'] = data['16ACuáleselnombredetuescuelaouniversidad'];
+                    data['16Actualmenteestasasistiendoa'] = "Universidad";
+                } else {
+                    data['16ACuáleselnombredetuescuela'] = data['16ACuáleselnombredetuescuelaouniversidad'];
+                    data['16Actualmenteestasasistiendoa'] = "Escuela";
+                }
+            }
+            data['16CCuálnivel']= data['16B1Cuálnivel'];
+            data['16DAquétandaasistes'] = data['16CEnquétandaasistes'];
+        }
+    }
+
+    function processQuestion54(data){
+        data['54Enlosúltimos12meseshasllevadouncuchillopuñalomachete'] = data['56Enlosúltimos12meseshasllevadouncuchillopuñalomachete'];
+
+        if (data['56Enlosúltimos12meseshasllevadouncuchillopuñalomachete'] === 'Sí' ){
+            if (data['56AEncuáleslugarespasó'] == "Casa")
+                data['54ACasa'] = "true";
+            else
+                data['54ACasa'] = null;
+
+            if (data['56AEncuáleslugarespasó'] == "Escuela")
+                data['54AEscuela'] = "true";
+            else
+                data['54AEscuela'] = null;
+
+            if (data['56AEncuáleslugarespasó'] == "Barrio")
+                data['54ABarrio'] = "true";
+            else
+                data['54ABarrio'] = null;
+
+        }
+    }
+
+    function processQuestion55(data){
+        data['55Enlosúltimos12meseshasllevadounarmadefuego'] = data['57Enlosúltimos12meseshasllevadounarmadefuego'];
+
+
+
+        if (data['57Enlosúltimos12meseshasllevadounarmadefuego'] === 'Sí' ){
+            if (data['57ASilarespuestaesafirmativaencuáleslugarespasó'] == "Casa")
+                data['55ACasa'] = "true";
+            else
+                data['55ACasa'] = null;
+
+            if (data['57ASilarespuestaesafirmativaencuáleslugarespasó'] == "Escuela")
+                data['55AEscuela'] = "true";
+            else
+                data['55AEscuela'] = null;
+
+            if (data['57ASilarespuestaesafirmativaencuáleslugarespasó'] == "Barrio")
+                data['55ABarrio'] = "true";
+            else
+                data['55ABarrio'] = null;
+
+        }
+    }
+
+
+
+
+    function processQuestion56(data){
+        data['56Enlosúltimos12meseshasvistoaalguienqueestabasiendoapuñaladocortadoobaleado'] = data['58Enlosúltimos12meseshasvistoaalguienqueestabasiendoapuñaladocortadoobaleado'];
+        if (data['58Enlosúltimos12meseshasvistoaalguienqueestabasiendoapuñaladocortadoobaleado'] === 'Sí' ){
+            if (data['58AEncuáleslugarespasó'] == "Casa")
+                data['56ACasa'] = "true";
+            else
+                data['56ACasa'] = null;
+
+            if (data['58AEncuáleslugarespasó'] == "Escuela")
+                data['56AEscuela'] = "true";
+            else
+                data['56AEscuela'] = null;
+
+            if (data['58AEncuáleslugarespasó'] == "Barrio")
+                data['56ABarrio'] = "true";
+            else
+                data['56ABarrio'] = null;
+
+        }
+    }
+
+
+    function processQuestion57(data){
+        data['57Enlosúltimos12mesesalguientehaamenazadoconuncuchilloounapistola'] = data['59Enlosúltimos12mesesalguientehaamenazadoconuncuchilloounapistola'];
+        if (data['59Enlosúltimos12mesesalguientehaamenazadoconuncuchilloounapistola'] === 'Sí' ){
+            if (data['59AEncuáleslugarespasó'] == "Casa")
+                data['57ACasa'] = "true";
+            else
+                data['57ACasa'] = null;
+
+            if (data['59AEncuáleslugarespasó'] == "Escuela")
+                data['57AEscuela'] = "true";
+            else
+                data['57AEscuela'] = null;
+
+            if (data['59AEncuáleslugarespasó'] == "Barrio")
+                data['57ABarrio'] = "true";
+            else
+                data['57ABarrio'] = null;
+
+        }
+    }
+
+    function processQuestion58(data){
+        data['58Enlosúltimos12mesesalguientehacortadooapuñaladotangravementequetuvistequeiraunmédico'] = data['60Enlosúltimos12mesesalguientehacortadooapuñaladotangravementequetuvistequeiraunmédico'];
+        if (data['60Enlosúltimos12mesesalguientehacortadooapuñaladotangravementequetuvistequeiraunmédico'] === 'Sí' ){
+            if (data['60ASilarespuestaesafirmativaencuáleslugarespasó'] == "Casa")
+                data['58ACasa'] = "true";
+            else
+                data['58ACasa'] = null;
+
+            if (data['60ASilarespuestaesafirmativaencuáleslugarespasó'] == "Escuela")
+                data['58AEscuela'] = "true";
+            else
+                data['58AEscuela'] = null;
+
+            if (data['60ASilarespuestaesafirmativaencuáleslugarespasó'] == "Barrio")
+                data['58ABarrio'] = "true";
+            else
+                data['58ABarrio'] = null;
+
+        }
+    }
+
+    function processQuestion59(data){
+        data['59Enlosúltimos12mesesalguientehadisparadoconunarmadefuego'] = data['61Enlosúltimos12mesesalguientehadisparadoconunarmadefuego'];
+        if (data['61Enlosúltimos12mesesalguientehadisparadoconunarmadefuego'] === 'Sí' ){
+            if (data['61AEncuáleslugarespasó'] == "Casa")
+                data['59ACasa'] = "true";
+            else
+                data['59ACasa'] = null;
+
+            if (data['61AEncuáleslugarespasó'] == "Escuela")
+                data['59AEscuela'] = "true";
+            else
+                data['59AEscuela'] = null;
+
+            if (data['61AEncuáleslugarespasó'] == "Barrio")
+                data['59ABarrio'] = "true";
+            else
+                data['59ABarrio'] = null;
+
+        }
+    }
+
+    function processQuestion60(data){
+        data['60Enlosúltimos12meseshasamenazadoaalguienconcortarleapuñalarleodispararle'] = data['62Enlosúltimos12meseshasamenazadoaalguienconcortarleapuñalarleodispararle'];
+        if (data['62Enlosúltimos12meseshasamenazadoaalguienconcortarleapuñalarleodispararle'] === 'Sí' ){
+            if (data['62AEncuáleslugarespasó'] == "Casa")
+                data['60ACasa'] = "true";
+            else
+                data['60ACasa'] = null;
+
+            if (data['62AEncuáleslugarespasó'] == "Escuela")
+                data['60AEscuela'] = "true";
+            else
+                data['60AEscuela'] = null;
+
+            if (data['62AEncuáleslugarespasó'] == "Barrio")
+                data['60ABarrio'] = "true";
+            else
+                data['60ABarrio'] = null;
+
+        }
+    }
+
+    function processQuestion61(data){
+        data['61Enlosúltimos12meseshasamenazadoaalguienconuncuchillooarma'] = data['63Enlosúltimos12meseshasamenazadoaalguienconuncuchillooarma'];
+        if (data['63Enlosúltimos12meseshasamenazadoaalguienconuncuchillooarma'] === 'Sí' ){
+            if (data['63AEncuáleslugarespasó'] == "Casa")
+                data['61ACasa'] = "true";
+            else
+                data['61ACasa'] = null;
+
+            if (data['63AEncuáleslugarespasó'] == "Escuela")
+                data['61AEscuela'] = "true";
+            else
+                data['61AEscuela'] = null;
+
+            if (data['63AEncuáleslugarespasó'] == "Barrio")
+                data['61ABarrio'] = "true";
+            else
+                data['61ABarrio'] = null;
+
+        }
+    }
+
+    function processQuestion62(data){
+        data['62Enlosúltimos12meseshascortadooapuñaladoaalguien'] = data['64Enlosúltimos12meseshascortadooapuñaladoaalguien'];
+        if (data['64Enlosúltimos12meseshascortadooapuñaladoaalguien'] === 'Sí' ){
+            if (data['64AEncuáleslugarespasó'] == "Casa")
+                data['62ACasa'] = "true";
+            else
+                data['62ACasa'] = null;
+
+            if (data['64AEncuáleslugarespasó'] == "Escuela")
+                data['62AEscuela'] = "true";
+            else
+                data['62AEscuela'] = null;
+
+            if (data['64AEncuáleslugarespasó'] == "Barrio")
+                data['62ABarrio'] = "true";
+            else
+                data['62ABarrio'] = null;
+
+        }
+    }
+
+    function processQuestion63(data){
+        data['63Enlosúltimos12meseslehasdisparadoaalguien'] = data['65Enlosúltimos12meseslehasdisparadoaalguien'];
+        if (data['65Enlosúltimos12meseslehasdisparadoaalguien'] === 'Sí' ){
+            if (data['65AEncuáleslugarespasó'] == "Casa")
+                data['63ACasa'] = "true";
+            else
+                data['63ACasa'] = null;
+
+            if (data['65AEncuáleslugarespasó'] == "Escuela")
+                data['63AEscuela'] = "true";
+            else
+                data['63AEscuela'] = null;
+
+            if (data['65AEncuáleslugarespasó'] == "Barrio")
+                data['63ABarrio'] = "true";
+            else
+                data['63ABarrio'] = null;
+
+        }
+    }
+
+
+
+    function processQuestion74(data){
+        data['74Compartestiempooterelacionasconmiembrosdeunapandilla'] = data['76Compartestiempooterelacionasconmiembrosdeunapandilla'];
+        if (data['76Compartestiempooterelacionasconmiembrosdeunapandilla'] === 'Sí' ){
+            if (data['76AEncuáleslugarespasó'] == "Casa")
+                data['74ACasa'] = "true";
+            else
+                data['74ACasa'] = null;
+
+            if (data['76AEncuáleslugarespasó'] == "Escuela")
+                data['74AEscuela'] = "true";
+            else
+                data['74AEscuela'] = null;
+
+            if (data['76AEncuáleslugarespasó'] == "Barrio")
+                data['74ABarrio'] = "true";
+            else
+                data['74ABarrio'] = null;
+
+        }
+    }
+
+
+    /**
+     * Need special processing.
+     *
+     * @param data
+     */
+    function processQuestion19(data){
+       if (data['PREPARA'] === "Sí")
+           data['19ActualmenteestasasistiendoaalgúnprogramadeeducaciónparajóvenesyadultosMarcalaopciónqueaplique'] = "Educación Secundaria para Adultos (PREPARA)";
+       else if (data['Alfabetizacióndejóvenesyadultos'] === "Sí")
+           data['19ActualmenteestasasistiendoaalgúnprogramadeeducaciónparajóvenesyadultosMarcalaopciónqueaplique'] = "Alfabetización de jóvenes y adultos";
+       else if  (data['EBA'] === "Sí")
+           data['19ActualmenteestasasistiendoaalgúnprogramadeeducaciónparajóvenesyadultosMarcalaopciónqueaplique'] = "Educación Básica para Adultos (EBA)";
+       else
+           data['19ActualmenteestasasistiendoaalgúnprogramadeeducaciónparajóvenesyadultosMarcalaopciónqueaplique'] = "No estoy inscrito en ninguno de estos";
+    }
+
+
+    function processQuestion87(data){
+
+        if (data['89LaúltimavezquetuvisterelacionessexualescuálmétodousasteotucompañeroaparaprevenirelembarazoSeleccionesólounaopción'] == undefined)
+            return;
+
+
+
+
+        if (data['89LaúltimavezquetuvisterelacionessexualescuálmétodousasteotucompañeroaparaprevenirelembarazoSeleccionesólounaopción'] === 'No utilicé ningún método para prevenir el embarazo' )
+            data['87ANoutilicéningúnmétodoparaprevenirelembarazo'] = "true";
+        else
+            data['87ANoutilicéningúnmétodoparaprevenirelembarazo'] = null;
+
+        if (data['89LaúltimavezquetuvisterelacionessexualescuálmétodousasteotucompañeroaparaprevenirelembarazoSeleccionesólounaopción'] === 'Condón' )
+            data['87BCondón'] = "true";
+        else
+            data['87BCondón'] = null;
+
+        if (data['89LaúltimavezquetuvisterelacionessexualescuálmétodousasteotucompañeroaparaprevenirelembarazoSeleccionesólounaopción'] === 'Condón femenino' )
+            data['87CCondónfemenino'] = "true";
+        else
+            data['87CCondónfemenino'] = null;
+
+        if (data['89LaúltimavezquetuvisterelacionessexualescuálmétodousasteotucompañeroaparaprevenirelembarazoSeleccionesólounaopción'] === 'Píldora anticonceptiva' )
+            data['87DPíldoraanticonceptiva'] = "true";
+        else
+            data['87DPíldoraanticonceptiva'] = null;
+
+        if (data['89LaúltimavezquetuvisterelacionessexualescuálmétodousasteotucompañeroaparaprevenirelembarazoSeleccionesólounaopción'] === 'Ritmo (mantener relaciones en días no fértiles o cuando no hay ovulación)' )
+            data['87ERitmomantenerrelacionesendíasnofértilesocuandonohayovulación'] = "true";
+        else
+            data['87ERitmomantenerrelacionesendíasnofértilesocuandonohayovulación'] = null;
+
+        if (data['89LaúltimavezquetuvisterelacionessexualescuálmétodousasteotucompañeroaparaprevenirelembarazoSeleccionesólounaopción'] === 'Retiro (detener la penetración antes de eyacular)' )
+            data['87FRetirodetenerlapenetraciónantesdeeyacular'] = "true";
+        else
+            data['87FRetirodetenerlapenetraciónantesdeeyacular'] = null;
+
+        if (data['89LaúltimavezquetuvisterelacionessexualescuálmétodousasteotucompañeroaparaprevenirelembarazoSeleccionesólounaopción'] === 'Mela (mujeres lactando)' )
+            data['87GMelamujereslactando'] = "true";
+        else
+            data['87GMelamujereslactando'] = null;
+
+        if (data['89LaúltimavezquetuvisterelacionessexualescuálmétodousasteotucompañeroaparaprevenirelembarazoSeleccionesólounaopción'] === 'DIU (como Mirena o Paragard)' )
+            data['87HDIUcomoMirenaoParagard'] = "true";
+        else
+            data['87HDIUcomoMirenaoParagard'] = null;
+
+        if (data['89LaúltimavezquetuvisterelacionessexualescuálmétodousasteotucompañeroaparaprevenirelembarazoSeleccionesólounaopción'] === 'Inyección (como Depo-Provera) un parche (Ortho Evra) o un anillo (como NuvaRing)' )
+            data['87IInyeccióncomoDepo-ProveraunparcheOrthoEvraounanillocomoNuvaRing'] = "true";
+        else
+            data['87IInyeccióncomoDepo-ProveraunparcheOrthoEvraounanillocomoNuvaRing'] = null;
+
+        if (data['89LaúltimavezquetuvisterelacionessexualescuálmétodousasteotucompañeroaparaprevenirelembarazoSeleccionesólounaopción'] === 'Implante o norplant (como Implanon o Nexplanon)' )
+            data['87JImplanteonorplantcomoImplanonoNexplanon'] = "true";
+        else
+            data['87JImplanteonorplantcomoImplanonoNexplanon'] = null;
+
+        if (data['89LaúltimavezquetuvisterelacionessexualescuálmétodousasteotucompañeroaparaprevenirelembarazoSeleccionesólounaopción'] === 'Esterilización femenina' )
+            data['87KEsterilizaciónfemenina'] = "true";
+        else
+            data['87KEsterilizaciónfemenina'] = null;
+
+        if (data['89LaúltimavezquetuvisterelacionessexualescuálmétodousasteotucompañeroaparaprevenirelembarazoSeleccionesólounaopción'] === 'Esterilización masculina' )
+            data['87LEsterilizaciónmasculina'] = "true";
+        else
+            data['87LEsterilizaciónmasculina'] = null;
+
+        if (data['89LaúltimavezquetuvisterelacionessexualescuálmétodousasteotucompañeroaparaprevenirelembarazoSeleccionesólounaopción'] === 'No sé/Inseguro' )
+            data['87MNoséInseguro'] = "true";
+        else
+            data['87MNoséInseguro'] = null;
+
+
+    }
+
+    function processQuestion94(data){
+        data['94Algunavezalguientehaenseñadoohabladoacercadelasinfeccionesdetransmisiónsexual'] = data['96AlgunaveztehanenseñadoacercadelasInfeccionesdetransmisiónsexual'];
+
+        if (data['96ADóndehasrecibidoinformacióndelasInfeccionesdeTransmisiónSexual'] == undefined)
+            return;
+
+
+
+        if (data['96ADóndehasrecibidoinformacióndelasInfeccionesdeTransmisiónSexual'] === 'Padre o Madre' )
+            data['94APadreoMadre'] = "true";
+        else
+            data['94APadreoMadre'] = null;
+
+        if (data['96ADóndehasrecibidoinformacióndelasInfeccionesdeTransmisiónSexual'] === 'Promotor de Salud Amigos' ){
+            data['94APromotoradeSalud'] = "true";
+            data['94AAmigos'] = "true";
+        }else{
+            data['94APromotoradeSalud'] = null;
+            data['94AAmigos'] = null;
+        }
+
+        if (data['96ADóndehasrecibidoinformacióndelasInfeccionesdeTransmisiónSexual'] === 'Escuela' )
+            data['94AProfesoradelaescuela'] = "true";
+        else
+            data['94AProfesoradelaescuela'] = null;
+
+        if (data['96ADóndehasrecibidoinformacióndelasInfeccionesdeTransmisiónSexual'] === 'Internet' )
+            data['94AInternet'] = "true";
+        else
+            data['94AInternet'] = null;
+
+    }
+
+    function processQuestion95(data){
+        data['95Algunavezlehanenseñadoacercadeprevencióndeembarazo'] = data['97Algunavezlehanenseñadoacercadeprevencióndeembarazo'];
+
+
+        if (data['97ADóndehasrecibidoinformacióndeprevencióndeembarazo'] == undefined )
+          return;
+
+
+        if (data['97ADóndehasrecibidoinformacióndeprevencióndeembarazo'] === 'Padre o Madre' )
+            data['95APadreoMadre'] = "true";
+        else
+            data['95APadreoMadre'] = null;
+
+        if (data['97ADóndehasrecibidoinformacióndeprevencióndeembarazo'] === 'Promotor de Salud Amigos' ){
+            data['95APromotoradeSalud'] = "true";
+            data['95AAmigos'] = "true";
+        }else{
+            data['95APromotoradeSalud'] = null;
+            data['95AAmigos'] = null;
+        }
+
+        if (data['97ADóndehasrecibidoinformacióndeprevencióndeembarazo'] === 'Escuela' )
+            data['95AProfesoradelaescuela'] = "true";
+        else
+            data['95AProfesoradelaescuela'] = null;
+
+        if (data['97ADóndehasrecibidoinformacióndeprevencióndeembarazo'] === 'Internet' )
+            data['95AInternet'] = "true";
+        else
+            data['95AInternet'] = null;
+
+    }
+
+    function processQuestion96(data){
+
+        data['96AlgunavezlehanenseñadoacercalainfecciónporVIHSida'] = data['98AlgunavezlehanenseñadoacercalainfecciónporVIHSida'];
+
+        if (data['98ADóndehasrecibidoinformacióndeVIHSida'] == undefined )
+          return;
+
+        if (data['98ADóndehasrecibidoinformacióndeVIHSida'] === 'Padre o Madre' )
+            data['96APadreoMadre'] = "true";
+        else
+            data['96APadreoMadre'] = null;
+
+        if (data['98ADóndehasrecibidoinformacióndeVIHSida'] === 'Promotor de Salud Amigos' ){
+            data['96APromotoradeSalud'] = "true";
+            data['96AAmigos'] = "true";
+        }else{
+            data['96APromotoradeSalud'] = null;
+            data['96AAmigos'] = null;
+        }
+
+        if (data['98ADóndehasrecibidoinformacióndeVIHSida'] === 'Escuela' )
+            data['96AProfesoradelaescuela'] = "true";
+        else
+            data['96AProfesoradelaescuela'] = null;
+
+        if (data['98ADóndehasrecibidoinformacióndeVIHSida'] === 'Internet' )
+            data['96AInternet'] = "true";
+        else
+            data['96AInternet'] = null;
+
+    }
+
+    function outputdoc(doc){
+        console.log("*******PRINTING DOCUMENT******");
+
+        for (var key in doc){
+            console.log(key + ":" + doc[key]);
+        }
+    }
+
+</script>
+
+</head>
+
+
+<body >
+<p>This will fetch COMPLETE surveys and update values from the correction excel file.</p>
+<input type="button" onclick="start()" id="start" value="Start">
+
+<p> Updating the documents.... </p>
+<table id="listtbl" style = "border:1;cellpadding:4" ><tr><th>Doc Id</th><th>UUID</th><th>Last Modified</th></tr></table>
+
+
+
+</body>
+
+
+</body>
+
+</html>
