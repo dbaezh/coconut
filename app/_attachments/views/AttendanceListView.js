@@ -27,19 +27,38 @@ AttendanceListView = (function(_super) {
   };
 
   AttendanceListView.prototype.filter = function(event) {
-    var id, query, row, _ref1, _results;
+    var foundRow, id, query, row, rows, table, _ref1, _results;
     query = this.$el.find("#search").val();
+    table = this.$el.find(".tablesorter");
+    rows = $(".tablesorter tr");
     _ref1 = this.searchRows;
     _results = [];
     for (id in _ref1) {
       row = _ref1[id];
-      if (~row.indexOf(query) || query.length < 3) {
-        _results.push(this.$el.find(".row-" + id).show());
+      foundRow = this.findTRByClass(rows, id);
+      if (foundRow !== null) {
+        if (~row.indexOf(query) || query.length < 3) {
+          _results.push($(foundRow).show());
+        } else {
+          _results.push($(foundRow).hide());
+        }
       } else {
-        _results.push(this.$el.find(".row-" + id).hide());
+        _results.push(void 0);
       }
     }
     return _results;
+  };
+
+  AttendanceListView.prototype.findTRByClass = function(rows, className) {
+    var classNames, id, row;
+    for (id in rows) {
+      row = rows[id];
+      classNames = row.className;
+      if (classNames.indexOf(className) > -1) {
+        return row;
+      }
+    }
+    return null;
   };
 
   AttendanceListView.prototype.save = function() {
@@ -57,7 +76,7 @@ AttendanceListView = (function(_super) {
   };
 
   AttendanceListView.prototype.render = function() {
-    var birthday, cbChecked, cbHTML, cbValue, foo, html, participant, participantData, participantsSorted, standard_value_table, _i, _len,
+    var birthday, cbChecked, cbHTML, cbValue, html, participant, participantData, participantsSorted, standard_value_table, _i, _len,
       _this = this;
     this.searchRows = {};
     html = "";
@@ -78,7 +97,7 @@ AttendanceListView = (function(_super) {
     html += ("" + (standard_value_table || '') + "<div style='font-size: 14pt;font-weight: bold'>") + this.standard_values.activity_name + "</div><br>";
     html += "<div style='font-size: 10pt'><input type='text' id='search' placeholder='filter'></div><br>";
     html += "<div id='attendanceForm' style='overflow:auto;'><table class='tablesorter'>          <thead>            <tr>              <th></th>              <th>Apellido</th>              <th>Nombre</th>              <th>Sexo</th>              <th>Fecha de <br/>Nacimiento</th>              <th>Barrio o Sector</th>              <th>Teléfono</th>              <th>Correo Electrónico</th>            </tr></thead>        <tbody>";
-    participantsSorted = sortJSONData(this.wsData.participants.rows, "Apellido", true);
+    participantsSorted = caseInsensitiveSortJSONData(this.wsData.participants.rows, "Apellido", true);
     for (_i = 0, _len = participantsSorted.length; _i < _len; _i++) {
       participant = participantsSorted[_i];
       participantData = participant.value;
@@ -91,15 +110,14 @@ AttendanceListView = (function(_super) {
       }
       cbHTML = "<input name='" + participantData.uuid + "' id='" + participantData.uuid + "' type='checkbox' value='true' " + cbChecked + "></input>";
       html += "<td>" + cbHTML + "</td>";
-      foo = participantData.institucion;
-      html += this.createColumn(participantData.Apellido, participantData.uuid);
-      html += this.createColumn(participantData.Nombre, participantData.uuid);
-      html += this.createColumn(participantData.Sexo, participantData.uuid);
+      html += this.createColumn(participantData.Apellido, participantData.uuid, true);
+      html += this.createColumn(participantData.Nombre, participantData.uuid, true);
+      html += this.createColumn(participantData.Sexo, participantData.uuid, false);
       birthday = participantData.Día + "/" + participantData.Mes + "/" + participantData.Año;
-      html += this.createColumn(birthday, participantData.uuid);
-      html += this.createColumn(participantData.BarrioComunidad, participantData.uuid);
-      html += this.createColumn(participantData.Teléfono, participantData.uuid);
-      html += this.createColumn(participantData.Direccióndecorreoelectrónico, participantData.uuid);
+      html += this.createColumn(birthday, participantData.uuid, false);
+      html += this.createColumn(participantData.BarrioComunidad, participantData.uuid, false);
+      html += this.createColumn(participantData.Teléfono, participantData.uuid, false);
+      html += this.createColumn(participantData.Direccióndecorreoelectrónico, participantData.uuid, false);
       html += "</tr>";
     }
     "</tbody></table></div>";
@@ -113,13 +131,15 @@ AttendanceListView = (function(_super) {
     $('#completeButton').click(this.save);
   };
 
-  AttendanceListView.prototype.createColumn = function(value, participantId) {
+  AttendanceListView.prototype.createColumn = function(value, participantId, searchField) {
     var columnHtml;
     if (value === null || typeof value === "undefined") {
       columnHtml = "<td></td>";
     } else {
       columnHtml = "<td>" + value + "</td>";
-      this.searchRows[participantId] += value;
+      if (searchField === true) {
+        this.searchRows[participantId] += value;
+      }
     }
     return columnHtml;
   };

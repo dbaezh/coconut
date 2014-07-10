@@ -56,14 +56,6 @@ function invalideDocById(result_id){
 
 }
 
-// Add startsWith function
-if (typeof String.prototype.startsWith != 'function') {
-    // see below for better implementation!
-    String.prototype.startsWith = function (str){
-        return this.indexOf(str) == 0;
-    };
-}
-
 function sortJSONData(data, key, asc) {
 	return data.sort(function(a, b) {
 		var x = a.value[key];
@@ -71,4 +63,22 @@ function sortJSONData(data, key, asc) {
 		if (asc) return (x > y) ? 1 : ((x < y) ? -1 : 0);
 		else     return (y > x) ? 1 : ((y < x) ? -1 : 0);
 	});
+}
+
+// assumes you are sorting strings
+function caseInsensitiveSortJSONData(data, key, asc) {
+	return data.sort(function(a, b) {
+		var x = a.value[key].toUpperCase();
+		var y = b.value[key].toUpperCase();
+		if (asc) return (x > y) ? 1 : ((x < y) ? -1 : 0);
+		else     return (y > x) ? 1 : ((y < x) ? -1 : 0);
+	});
+}
+
+// Add startsWith function
+if (typeof String.prototype.startsWith != 'function') {
+    // see below for better implementation!
+    String.prototype.startsWith = function (str){
+        return this.indexOf(str) == 0;
+    };
 }

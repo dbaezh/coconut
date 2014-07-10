@@ -12,11 +12,24 @@ class AttendanceListView extends Backbone.View
 
   filter: (event) ->
     query = @$el.find("#search").val()
+    table = @$el.find(".tablesorter")
+    rows = $(".tablesorter tr")
     for id, row of @searchRows
-      if ~row.indexOf(query) or query.length < 3
-        @$el.find(".row-#{id}").show()
-      else
-        @$el.find(".row-#{id}").hide()
+      foundRow = this.findTRByClass(rows, id)
+      if foundRow != null
+        if ~row.indexOf(query) or query.length < 3
+          $(foundRow).show()
+#          @$el.find(".row-#{escapedId}").show()
+        else
+          $(foundRow).hide()
+#          @$el.find(".row-#{escapedId}").hide()
+
+  findTRByClass: (rows, className) ->
+     for id, row of rows
+       classNames = row.className
+       if classNames.indexOf(className) > -1
+        return row
+     return null
 
   save: ->
     currentData = $('#attendanceForm').toObject(skipEmpty: true)
@@ -64,7 +77,7 @@ class AttendanceListView extends Backbone.View
             </tr></thead>
         <tbody>"
 
-    participantsSorted = sortJSONData @wsData.participants.rows, "Apellido", true
+    participantsSorted = caseInsensitiveSortJSONData @wsData.participants.rows, "Apellido", true
 
     for participant in participantsSorted
       participantData = participant.value
@@ -79,16 +92,15 @@ class AttendanceListView extends Backbone.View
       cbHTML = "<input name='#{participantData.uuid}' id='#{participantData.uuid}' type='checkbox' value='true' #{cbChecked}></input>"
 
       html += "<td>" + cbHTML + "</td>"
-      foo = participantData.institucion
 
-      html += @createColumn(participantData.Apellido, participantData.uuid)
-      html += @createColumn(participantData.Nombre, participantData.uuid)
-      html += @createColumn(participantData.Sexo, participantData.uuid)
+      html += @createColumn(participantData.Apellido, participantData.uuid, true)
+      html += @createColumn(participantData.Nombre, participantData.uuid, true)
+      html += @createColumn(participantData.Sexo, participantData.uuid, false)
       birthday = participantData.Día + "/" + participantData.Mes + "/" + participantData.Año
-      html += @createColumn(birthday, participantData.uuid)
-      html += @createColumn(participantData.BarrioComunidad, participantData.uuid)
-      html += @createColumn(participantData.Teléfono, participantData.uuid)
-      html += @createColumn(participantData.Direccióndecorreoelectrónico, participantData.uuid)
+      html += @createColumn(birthday, participantData.uuid, false)
+      html += @createColumn(participantData.BarrioComunidad, participantData.uuid, false)
+      html += @createColumn(participantData.Teléfono, participantData.uuid, false)
+      html += @createColumn(participantData.Direccióndecorreoelectrónico, participantData.uuid, false)
 
       html += "</tr>"
 
@@ -112,12 +124,13 @@ class AttendanceListView extends Backbone.View
 
     return
 
-  createColumn: (value, participantId) ->
+  createColumn: (value, participantId, searchField) ->
     if value is null or typeof value is "undefined"
       columnHtml = "<td></td>"
     else
       columnHtml = "<td>" + value + "</td>"
-      @searchRows[participantId] += value
+      if searchField is true
+        @searchRows[participantId] += value
     return columnHtml
 
   jQueryUIze: ( $obj ) ->
