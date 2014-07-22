@@ -12,6 +12,7 @@ class Router extends Backbone.Router
     "new/result"                       : "newResult"
     "new/result/:question_id"          : "newResult"
     "new/result/:question_id/:options" : "newResult"
+
     
     "edit/result/:result_id": "editResult"
     "edit/result/:result_id/:options": "editResult"
@@ -33,6 +34,7 @@ class Router extends Backbone.Router
     "map": "map"
     "reports": "reports"
     "reports/:question_id/*options": "reports"
+    "reportscsv/:question_id/*options": "reportsCSV"
     "reportregsurvey/:question_id/*options": "reportRegSurvey"
     "dashboard": "dashboard"
     "dashboard/*options": "dashboard"
@@ -161,6 +163,24 @@ class Router extends Backbone.Router
     Coconut.reportView ?= new ReportView(reportOptions)
 
     Coconut.reportView.render reportOptions
+
+  reportsCSV: (quid, s_options = '') ->
+    #@userLoggedIn
+    #  success: ->
+
+    return $("#content").html "Reports not available in mobile mode." if Coconut.config.local.mode is "mobile"
+
+    quid = unescape decodeURIComponent quid
+
+    reportOptions = {}
+    s_options.replace(/([^=\/]+)=([^\/]*)/g, (m, key, value) -> reportOptions[key] = value; console.log(m, key, value);)
+    reportOptions['quid'] = quid
+    reportOptions['reportType'] = "results"
+
+    Coconut.reportViewCSV ?= new ReportViewOnlyCSV(reportOptions)
+
+    Coconut.reportViewCSV.render reportOptions
+
 
   reportRegSurvey: (quid, s_options = '') ->
       #@userLoggedIn
@@ -317,7 +337,6 @@ class Router extends Backbone.Router
             result          : new Result standard_values
             model           : question
           Coconut.questionView.render()
-
 
 
 
