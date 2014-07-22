@@ -68,8 +68,17 @@ function sortJSONData(data, key, asc) {
 // assumes you are sorting strings
 function caseInsensitiveSortJSONData(data, key, asc) {
 	return data.sort(function(a, b) {
-		var x = a.value[key].toUpperCase();
-		var y = b.value[key].toUpperCase();
+		var x1 = a.value[key];
+		var y1 = b.value[key];
+		if (x1 == null || y1 == null) {
+		  if (asc) {
+			return 1;
+		  } else {
+			return -1;
+		  }
+		}
+		var x = x1.toUpperCase();
+		var y = y1.toUpperCase();
 		if (asc) return (x > y) ? 1 : ((x < y) ? -1 : 0);
 		else     return (y > x) ? 1 : ((y < x) ? -1 : 0);
 	});
