@@ -229,13 +229,13 @@ ReportView = (function(_super) {
       $("<a><font size=\"2px\">Exportar a CSV</font></a>").attr("id", "downloadFile").attr({
         href: url
       }).attr("download", "report.csv").insertBefore($table);
-
-      return $('table tr').each(function(index, row) {
-        if (index % 2 === 1) {
-          return $(row).addClass("odd");
-        }
-      });
-
+      if (this['quid'] !== "Participant Survey-es") {
+        return $('table tr').each(function(index, row) {
+          if (index % 2 === 1) {
+            return $(row).addClass("odd");
+          }
+        });
+      }
     });
   };
 

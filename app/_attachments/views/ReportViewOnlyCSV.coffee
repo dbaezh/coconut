@@ -47,6 +47,8 @@ class ReportViewOnlyCSV extends Backbone.View
   initialize: (options) ->
     urlParams = []
 
+    @$el.append '<div id="reportloader"><marquee ALIGN="Top" LOOP="infinite"  DIRECTION="right" style="font-size:24px; color:#FF8000">Cargando el informe. Por favor espera ...</marquee></div>'
+
     for key of options
       value = options[key]
       this[key] = value
@@ -58,7 +60,7 @@ class ReportViewOnlyCSV extends Backbone.View
 
     console.log @quid
 
-    #results = new Backbone.Collection
+
     if this['quid'] is "Participant Survey-es"
       results = new ResultCollectionSurvey
     else
@@ -114,6 +116,8 @@ class ReportViewOnlyCSV extends Backbone.View
 
   render: ->
 
+
+
     if @results is undefined
       return;
 
@@ -158,9 +162,11 @@ class ReportViewOnlyCSV extends Backbone.View
     blob = new Blob([csvContent], {'type':'application/octet-stream'});
     a.href = window.URL.createObjectURL(blob);
     a.download = "report.csv";
+    $('#reportloader').hide();
     a.click();
 
-    #link.click();
+
+
 
 
 

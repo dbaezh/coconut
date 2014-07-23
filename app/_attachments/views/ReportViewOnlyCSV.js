@@ -65,6 +65,7 @@ ReportViewOnlyCSV = (function(_super) {
     var key, results, urlParams, value,
       _this = this;
     urlParams = [];
+    this.$el.append('<div id="reportloader"><marquee ALIGN="Top" LOOP="infinite"  DIRECTION="right" style="font-size:24px; color:#FF8000">Cargando el informe. Por favor espera ...</marquee></div>');
     for (key in options) {
       value = options[key];
       this[key] = value;
@@ -178,6 +179,7 @@ ReportViewOnlyCSV = (function(_super) {
     });
     a.href = window.URL.createObjectURL(blob);
     a.download = "report.csv";
+    $('#reportloader').hide();
     return a.click();
   };
 

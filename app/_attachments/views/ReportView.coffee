@@ -154,7 +154,7 @@ class ReportView extends Backbone.View
 
       # filter by provider id
       if this['provider_id'] isnt undefined and result.get('provider_id') isnt this['provider_id']
-          continue
+        continue
 
       html += "<tr class='row-#{result.id}'>"
       @searchRows[result.id] = ""
