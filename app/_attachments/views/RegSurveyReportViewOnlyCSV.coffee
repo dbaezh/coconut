@@ -19,7 +19,16 @@ class RegSurveyReportViewOnlyCSV extends Backbone.View
     db = $.couch.db("coconut")
     db.view "coconut/byUUIDRegistration",
       success: (data) ->
-        _this.registrations = data
+
+
+        dataByUUID = []
+        for idx of data.rows
+          uuid = data.rows[idx].key
+          dataByUUID[uuid] = data.rows[idx].value;
+
+
+        _this.registrations = dataByUUID
+        data= [];
         _this.complete = 'true'
         if _this.options.complete isnt undefined and _this.options.complete isnt 'true'
           _this.complete = 'false'
@@ -129,27 +138,25 @@ class RegSurveyReportViewOnlyCSV extends Backbone.View
       if this['provider_id'] isnt undefined and result.get('provider_id') isnt this['provider_id']
         continue
 
-
-      #retrieve registration data
-      for i of @registrations.rows
-        if result.get("uuid") is @registrations.rows[i].key
-          regvalues = @registrations.rows[i].value.replace(/[//]/g, '')
-          regvalues = @registrations.rows[i].value.replace(/[//]/g, '')
-          isRegExist = true
-          try
-            regvals = jQuery.parseJSON(regvalues)
-            csvContent += '"' + regvals.Fecha + '"' + ','
-            csvContent += '"' + regvals.Nombre + '"' + ','
-            csvContent += '"' + regvals.Apellido + '"' + ','
-            csvContent += '"' + regvals.Apodo + '"' + ','
-            csvContent += '"' + regvals.Calleynumero + '"' + ','
-            csvContent += '"' + regvals.Provincia + '"' + ','
-            csvContent += '"' + regvals.Municipio + '"' + ','
-            csvContent += '"' + regvals.BarrioComunidad + '"' + ','
-            break
-          catch e
-            isRegExist = false
-            break
+      isRegExist = false
+      uuid = result.get("uuid");
+      if @registrations[uuid] isnt undefined
+        isRegExist = true
+        regvalues = @registrations[uuid].replace(/[//]/g, '')
+        regvalues = @registrations[uuid].replace(/[//]/g, '')
+        try
+          regvals = jQuery.parseJSON(regvalues)
+          csvContent += '"' + regvals.Fecha + '"' + ','
+          csvContent += '"' + regvals.Nombre + '"' + ','
+          csvContent += '"' + regvals.Apellido + '"' + ','
+          csvContent += '"' + regvals.Apodo + '"' + ','
+          csvContent += '"' + regvals.Calleynumero + '"' + ','
+          csvContent += '"' + regvals.Provincia + '"' + ','
+          csvContent += '"' + regvals.Municipio + '"' + ','
+          csvContent += '"' + regvals.BarrioComunidad + '"' + ','
+        catch e
+          isRegExist = false
+          
 
       if isRegExist is false
         continue

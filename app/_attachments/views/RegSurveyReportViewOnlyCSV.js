@@ -28,7 +28,14 @@ RegSurveyReportViewOnlyCSV = (function(_super) {
     db = $.couch.db("coconut");
     return db.view("coconut/byUUIDRegistration", {
       success: function(data) {
-        _this.registrations = data;
+        var dataByUUID, idx, uuid;
+        dataByUUID = [];
+        for (idx in data.rows) {
+          uuid = data.rows[idx].key;
+          dataByUUID[uuid] = data.rows[idx].value;
+        }
+        _this.registrations = dataByUUID;
+        data = [];
         _this.complete = 'true';
         if (_this.options.complete !== void 0 && _this.options.complete !== 'true') {
           _this.complete = 'false';
@@ -95,7 +102,7 @@ RegSurveyReportViewOnlyCSV = (function(_super) {
   };
 
   RegSurveyReportViewOnlyCSV.prototype.render = function() {
-    var a, blob, csvContent, e, field, headers, headersNum, i, innerValue, isRegExist, regvals, regvalues, result, resval, total, _i, _j, _k, _l, _len, _len1, _len2, _len3, _ref1, _ref2, _ref3, _ref4;
+    var a, blob, csvContent, e, field, headers, headersNum, innerValue, isRegExist, regvals, regvalues, result, resval, total, uuid, _i, _j, _k, _l, _len, _len1, _len2, _len3, _ref1, _ref2, _ref3, _ref4;
     this.searchRows = {};
     total = 0;
     headers = [];
@@ -136,27 +143,25 @@ RegSurveyReportViewOnlyCSV = (function(_super) {
       if (this['provider_id'] !== void 0 && result.get('provider_id') !== this['provider_id']) {
         continue;
       }
-      for (i in this.registrations.rows) {
-        if (result.get("uuid") === this.registrations.rows[i].key) {
-          regvalues = this.registrations.rows[i].value.replace(/[//]/g, '');
-          regvalues = this.registrations.rows[i].value.replace(/[//]/g, '');
-          isRegExist = true;
-          try {
-            regvals = jQuery.parseJSON(regvalues);
-            csvContent += '"' + regvals.Fecha + '"' + ',';
-            csvContent += '"' + regvals.Nombre + '"' + ',';
-            csvContent += '"' + regvals.Apellido + '"' + ',';
-            csvContent += '"' + regvals.Apodo + '"' + ',';
-            csvContent += '"' + regvals.Calleynumero + '"' + ',';
-            csvContent += '"' + regvals.Provincia + '"' + ',';
-            csvContent += '"' + regvals.Municipio + '"' + ',';
-            csvContent += '"' + regvals.BarrioComunidad + '"' + ',';
-            break;
-          } catch (_error) {
-            e = _error;
-            isRegExist = false;
-            break;
-          }
+      isRegExist = false;
+      uuid = result.get("uuid");
+      if (this.registrations[uuid] !== void 0) {
+        isRegExist = true;
+        regvalues = this.registrations[uuid].replace(/[//]/g, '');
+        regvalues = this.registrations[uuid].replace(/[//]/g, '');
+        try {
+          regvals = jQuery.parseJSON(regvalues);
+          csvContent += '"' + regvals.Fecha + '"' + ',';
+          csvContent += '"' + regvals.Nombre + '"' + ',';
+          csvContent += '"' + regvals.Apellido + '"' + ',';
+          csvContent += '"' + regvals.Apodo + '"' + ',';
+          csvContent += '"' + regvals.Calleynumero + '"' + ',';
+          csvContent += '"' + regvals.Provincia + '"' + ',';
+          csvContent += '"' + regvals.Municipio + '"' + ',';
+          csvContent += '"' + regvals.BarrioComunidad + '"' + ',';
+        } catch (_error) {
+          e = _error;
+          isRegExist = false;
         }
       }
       if (isRegExist === false) {
