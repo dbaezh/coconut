@@ -138,7 +138,7 @@ function coconut_block_view( $delta = '' )
   /*
    * Build block
    */
-  if ( in_array( $delta, $surveys ) && $delta != 'Registration Report' && $delta!= 'Survey Report' && $delta != 'Participant Report with Actions' && $delta != 'Attendance List')
+  if ( in_array( $delta, $surveys ) && $delta != 'Registration Report' && $delta!= 'Survey Report' && $delta != 'Participant Report with Actions' && $delta != 'Attendance List' && $delta != 'Combined Report')
   {
     $block['subject'] = t( $delta );
     if ( user_access('access content') ){
@@ -151,11 +151,22 @@ function coconut_block_view( $delta = '' )
       if (!$isEvaluator){
           $html = $html."<iframe id='coconut_iframe' width='100%' height='600px' src='$base_url:5984/coconut/_design/coconut/index.html#reportscsv/Participant Registration-es/provider_id=$provider_id/user_name=$user_name/provider_name=$provider_name'></iframe>";
       }else{
- $html = $html."<iframe id='coconut_iframe' width='100%' height='600px' src='$base_url:5984/coconut/_design/coconut/index.html#reportscsv/Participant Registration-es/user_name=$user_name'></iframe>";
+          $html = $html."<iframe id='coconut_iframe' width='100%' height='600px' src='$base_url:5984/coconut/_design/coconut/index.html#reportscsv/Participant Registration-es/user_name=$user_name'></iframe>";
      
-}
-$block['content'] = $html;
+      }
+      $block['content'] = $html;
     }
+  } else if($delta == 'Combined Report'){
+
+      if ( user_access('access content') ){
+          if (!$isEvaluator){
+              $html = $html."<iframe id='coconut_iframe' width='100%' height='600px' src='$base_url:5984/coconut/_design/coconut/index.html#reportregsurveycsv/Participant Survey-es/provider_id=$provider_id/user_name=$user_name/provider_name=$provider_name'></iframe>";
+          }else{
+              $html = $html."<iframe id='coconut_iframe' width='100%' height='600px' src='$base_url:5984/coconut/_design/coconut/index.html#reportregsurveycsv/Participant Survey-es/user_name=$user_name'></iframe>";
+
+          }
+          $block['content'] = $html;
+      }
 } else if($delta == 'Survey Report'){
     
     if ( user_access('access content') ){

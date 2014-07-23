@@ -156,7 +156,7 @@ class RegSurveyReportViewOnlyCSV extends Backbone.View
           csvContent += '"' + regvals.BarrioComunidad + '"' + ','
         catch e
           isRegExist = false
-          
+
 
       if isRegExist is false
         continue
