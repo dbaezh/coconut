@@ -119,7 +119,7 @@ RegSurveyReportViewOnlyCSV = (function(_super) {
         continue;
       }
     }
-    csvContent = "";
+    csvContent = "\uFEFF";
     csvContent += "Fecha,Nombre,Apellido,Apodo,Calleynumero,Provincia,Municipio,BarrioComunidad,";
     _ref2 = this.fields;
     for (_j = 0, _len1 = _ref2.length; _j < _len1; _j++) {
@@ -188,7 +188,7 @@ RegSurveyReportViewOnlyCSV = (function(_super) {
     }
     a = document.createElement('a');
     blob = new Blob([csvContent], {
-      'type': 'application/octet-stream'
+      'type': 'text/csv;charset=utf-8'
     });
     a.href = window.URL.createObjectURL(blob);
     a.download = "report.csv";

@@ -133,7 +133,7 @@ ReportViewOnlyCSV = (function(_super) {
     if (this.results === void 0) {
       return;
     }
-    csvContent = "";
+    csvContent = "\uFEFF";
     _ref1 = this.fields;
     for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
       field = _ref1[_i];
@@ -175,7 +175,7 @@ ReportViewOnlyCSV = (function(_super) {
     }
     a = document.createElement('a');
     blob = new Blob([csvContent], {
-      'type': 'application/octet-stream'
+      'type': 'text/csv;charset=utf-8'
     });
     a.href = window.URL.createObjectURL(blob);
     a.download = "report.csv";

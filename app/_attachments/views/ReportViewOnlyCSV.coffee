@@ -121,7 +121,7 @@ class ReportViewOnlyCSV extends Backbone.View
     if @results is undefined
       return;
 
-    csvContent = "";
+    csvContent = "\uFEFF";
     for field in @fields
       innerValue = "";
       if field is undefined
@@ -159,7 +159,8 @@ class ReportViewOnlyCSV extends Backbone.View
 
 
     a = document.createElement('a');
-    blob = new Blob([csvContent], {'type':'application/octet-stream'});
+    #blob = new Blob([csvContent], {'type':'application/octet-stream'});
+    blob = new Blob([csvContent], {'type':'text/csv;charset=utf-8'});
     a.href = window.URL.createObjectURL(blob);
     a.download = "report.csv";
     $('#reportloader').hide();

@@ -112,7 +112,7 @@ class RegSurveyReportViewOnlyCSV extends Backbone.View
       if this['provider_id'] isnt undefined and result.get('provider_id') isnt this['provider_id']
         continue
 
-    csvContent = "";
+    csvContent = "\uFEFF";
     csvContent += "Fecha,Nombre,Apellido,Apodo,Calleynumero,Provincia,Municipio,BarrioComunidad,"
 
 
@@ -182,7 +182,8 @@ class RegSurveyReportViewOnlyCSV extends Backbone.View
       csvContent += "\n"
 
     a = document.createElement('a');
-    blob = new Blob([csvContent], {'type':'application/octet-stream'});
+    #blob = new Blob([csvContent], {'type':'application/octet-stream'});
+    blob = new Blob([csvContent], {'type':'text/csv;charset=utf-8'});
     a.href = window.URL.createObjectURL(blob);
     a.download = "report.csv";
     $('#reportloader').hide();
