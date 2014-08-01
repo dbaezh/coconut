@@ -1,0 +1,252 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title> Process Incomplete Surveys</title>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <style>
+        body {
+            font: 100% helvetica, arial, sans-serif;
+            line-height: 1.625;
+        }
+
+    </style>
+
+    <script type="text/javascript" src="js-libraries/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="js-libraries/jquery.couch.js"></script>
+
+
+
+
+    <script language="JavaScript">
+        var requiredFields = ["user_name","provider_id","provider_name","uuid","Fecha","Nombre","Apellido","Apodo","Calleynumero","Provincia","Municipio","BarrioComunidad","Celular","Direccióndecorreoelectrónico","NombredeusuariodeFacebook","Nombredepersonadecontacto","Parentescoopersonarelacionada","Teléfono","Sexo","Tieneunnumerocelular","Tieneunnumerodetelefonoenlacasa","Tieneunadireccióndecorreoelectrónico","TieneunnombredeusuariodeFacebook"];
+        var headers = [ "_id","createdAt", "lastModifiedAt","user_name","provider_id","provider_name","question","user","uuid","Fecha","Nombre","Apellido","Apodo","Calleynumero","Provincia","Municipio","BarrioComunidad","Día","Mes","Año","Celular","Casa","Direccióndecorreoelectrónico","NombredeusuariodeFacebook","Nombredepersonadecontacto","Parentescoopersonarelacionada","Teléfono","Completado","Sexo","Tieneunnumerocelular","Tieneunadireccióndecorreoelectrónico","Tieneunnumerodetelefonoenlacasa","TieneunnombredeusuariodeFacebook"];
+
+        var csvContent = "\uFEFF";
+
+        function start(){
+            var db = $.couch.db("coconut");
+            var incompleteRegs = [];
+            var finalIncompleteRegs = [];
+            var completeRegs = [];
+
+            var processedDocsCnt = 0;
+
+
+            writeHeaders2CSV();
+
+            db.view("coconut/resultsByQuestionAndComplete",
+                    {
+                        success:function(data) {
+                            // filter data and keep only registrations
+                            var i1 = 0, i2 =0;
+
+                            for (i in data.rows) {
+                                var keys= data.rows[i].key.split(":");
+
+                                // keep only registration
+                                if (keys[0] != "Participant Registration-es" )
+                                    continue;
+                                else {
+                                    if (keys[1] != "true")
+                                        incompleteRegs[i1++] = data.rows[i];
+                                    else
+                                        completeRegs[i2++] = data.rows[i];
+                                }
+
+                            }
+
+                            // need to open the document to get the uuid so decided to clean duplicates separately
+                            //finalIncompleteRegs = initFinalIncompleteRegs(incompleteRegs, completeRegs);
+                            finalIncompleteRegs = incompleteRegs;
+
+                            // free  memory
+                            data = null;
+                            incompleteRegs = null;
+                            completeRegs = null;
+
+
+                            for (i  in finalIncompleteRegs){
+                                var doc = finalIncompleteRegs[i];
+
+                                //fetch the document and update if all required fields exist
+                                db.openDoc(doc.id, {
+                                    success: function (doc) {
+                                        processedDocsCnt++;
+
+                                        if (doc.inactive != "true") {
+
+
+                                            if (isAllRequiredFieldsExist(doc)) {
+                                                // update to complete
+                                                doc.Completado = "true";
+
+                                                // save the document
+                                                db.saveDoc(doc);
+
+                                                var html = '<tr>' + '<td>' + doc._id + ',</td>' +
+                                                        '<td>' + doc.uuid + ',</td>' +
+                                                        '<td>' + doc.lastModifiedAt + '</td>' +
+                                                        '</tr>';
+
+                                                $("#listtbl").append(html);
+
+                                            } else {
+                                                //add document to csv content
+                                                writeDoc2CSV(doc);
+
+                                            }
+
+                                        }
+
+                                        // the end is reached so just download the reports
+                                        if (processedDocsCnt == finalIncompleteRegs.length - 1)
+                                            downloadMissingRequiredFieldsReport();
+                                    }
+
+
+
+                            });
+
+                           }
+                        },
+                        error:function(data){
+                            alert("Something wrong!!!");
+                        }
+                    });
+        }
+
+        /**
+         * Writes document headers to the csv file.
+         *
+         * @param doc
+         * @param csvContent
+         */
+        function writeHeaders2CSV(){
+            var innerValue;
+
+            for (i in headers) {
+                innerValue = headers[i];
+                resval = innerValue.replace(/"/g, '""');
+                if (resval.search(/("|,|\n)/g) >= 0) {
+                    resval = '"' + result + '"';
+                }
+                csvContent += resval + ',';
+            }
+            csvContent += "\n";
+
+
+
+        }
+
+        /**
+         * Write document to CSV content.
+         *
+         * @param doc
+         * @param csvContent
+         */
+        function writeDoc2CSV(doc){
+            var value, innerValue, resval;
+
+            for (i in headers) {
+
+              value = doc[headers[i]];
+
+
+              innerValue = "";
+              if (value === void 0 || value === null) {
+                   innerValue = '';
+              } else {
+                   innerValue = value.toString();
+              }
+              resval = innerValue.replace(/"/g, '""');
+              if (resval.search(/("|,|\n)/g) >= 0) {
+                  resval = '"' + result + '"';
+              }
+              csvContent += resval + ',';
+            }
+
+            csvContent += "\n";
+
+
+        }
+
+        /**
+         * Downloads the report.
+         *
+         * @param csvContent
+         * @returns {*}
+         */
+        function downloadMissingRequiredFieldsReport(){
+            a = document.createElement('a');
+            blob = new Blob([csvContent], {
+                'type': 'text/csv;charset=utf-8'
+            });
+            a.href = window.URL.createObjectURL(blob);
+            a.download = "missingregregs.csv";
+            $('#reportloader').hide();
+            return a.click();
+        }
+
+
+
+        function initFinalIncompleteRegs(incompleteRegs, completeRegs){
+           var finalRegs = [];
+           var i2 = 0;
+
+            for (i in incompleteRegs) {
+                var doc = incompleteRegs[i];
+                if (!ifCompleteExist(doc.uuid, completeRegs)){
+                    finalRegs[i2++] = doc;
+                }
+            }
+
+            return finalRegs;
+        }
+
+
+
+        function ifCompleteExist(uuid, completeRegs){
+            for (i in completeRegs){
+                var doc = completeRegs[i];
+
+                if (uuid === doc.id){
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        // checks if all required fields exist
+        function isAllRequiredFieldsExist(doc){
+
+            for (i in requiredFields){
+                field = requiredFields[i];
+                if (doc[field] == undefined)
+                  return false;
+            }
+
+            return true;
+        }
+
+
+
+
+    </script>
+
+</head>
+
+
+<body >
+<p>This will fetch incomplete surveys and flag duplicate to not show in the reports.</p>
+<input type="button" onclick="start()" id="start" value="Start">
+
+<p> Updating the documents.... </p>
+<table id="listtbl" style = "border:1;cellpadding:4" ><tr><th>Doc Id</th><th>UUID</th><th>Last Modified</th></tr></table>
+
+
+
+</body>
+
+</html>
