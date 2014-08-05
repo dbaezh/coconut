@@ -20,8 +20,9 @@
 
 
     <script language="JavaScript">
-        var requiredFields = ["user_name","provider_id","provider_name","uuid","Fecha","Nombre","Apellido","Apodo","Calleynumero","Provincia","Municipio","BarrioComunidad","Celular","Direccióndecorreoelectrónico","NombredeusuariodeFacebook","Nombredepersonadecontacto","Parentescoopersonarelacionada","Teléfono","Sexo","Tieneunnumerocelular","Tieneunnumerodetelefonoenlacasa","Tieneunadireccióndecorreoelectrónico","TieneunnombredeusuariodeFacebook"];
-        var headers = [ "_id","createdAt", "lastModifiedAt","user_name","provider_id","provider_name","question","user","uuid","Fecha","Nombre","Apellido","Apodo","Calleynumero","Provincia","Municipio","BarrioComunidad","Día","Mes","Año","Celular","Casa","Direccióndecorreoelectrónico","NombredeusuariodeFacebook","Nombredepersonadecontacto","Parentescoopersonarelacionada","Teléfono","Completado","Sexo","Tieneunnumerocelular","Tieneunadireccióndecorreoelectrónico","Tieneunnumerodetelefonoenlacasa","TieneunnombredeusuariodeFacebook"];
+        //var requiredFields = ["user_name","provider_id","provider_name","uuid","Fecha","Nombre","Apellido","Apodo","Calleynumero","Provincia","Municipio","BarrioComunidad","Celular","Direccióndecorreoelectrónico","NombredeusuariodeFacebook","Nombredepersonadecontacto","Parentescoopersonarelacionada","Teléfono","Sexo","Tieneunnumerocelular","Tieneunnumerodetelefonoenlacasa","Tieneunadireccióndecorreoelectrónico","TieneunnombredeusuariodeFacebook"];
+        var requiredFields = ["user_name","provider_id","provider_name","uuid","Fecha","Nombre","Apellido","Apodo","Provincia","Municipio","BarrioComunidad","Celular","Direccióndecorreoelectrónico","NombredeusuariodeFacebook","Nombredepersonadecontacto","Parentescoopersonarelacionada","Teléfono","Sexo"];
+        var headers = [ "_id","createdAt", "lastModifiedAt","user_name","provider_id","provider_name","question","user","uuid","Fecha","Nombre","Apellido","Apodo","Calleynumero","Provincia","Municipio","BarrioComunidad","Día","Mes","Año","Celular","Casa","Direccióndecorreoelectrónico","NombredeusuariodeFacebook","Nombredepersonadecontacto","Parentescoopersonarelacionada","Teléfono","Sexo","Tieneunnumerocelular","Tieneunadireccióndecorreoelectrónico","Tieneunnumerodetelefonoenlacasa","TieneunnombredeusuariodeFacebook"];
 
         var csvContent = "\uFEFF";
 
@@ -29,7 +30,7 @@
             var db = $.couch.db("coconut");
             var incompleteRegs = [];
             var finalIncompleteRegs = [];
-            var completeRegs = [];
+
 
             var processedDocsCnt = 0;
 
@@ -51,71 +52,79 @@
                                 else {
                                     if (keys[1] != "true")
                                         incompleteRegs[i1++] = data.rows[i];
-                                    else
-                                        completeRegs[i2++] = data.rows[i];
                                 }
 
                             }
 
-                            // need to open the document to get the uuid so decided to clean duplicates separately
-                            //finalIncompleteRegs = initFinalIncompleteRegs(incompleteRegs, completeRegs);
-                            finalIncompleteRegs = incompleteRegs;
-
                             // free  memory
                             data = null;
-                            incompleteRegs = null;
-                            completeRegs = null;
+
+                            // need to open the document to get the uuid so decided to clean duplicates separately
+                            //finalIncompleteRegs = initFinalIncompleteRegs(incompleteRegs, completeRegs);
+
+                            // query complete registrations only
+                            db.view("coconut/byUUIDRegistration",
+                                    {
+                                        success:function(completeRegs) {
+
+                                            for (i  in incompleteRegs) {
+                                                var doc = incompleteRegs[i];
+
+                                                //fetch the document and update if all required fields exist
+                                                db.openDoc(doc.id, {
+                                                    success: function (doc) {
+                                                        processedDocsCnt++;
+
+                                                        if (doc.inactive != "true") {
 
 
-                            for (i  in finalIncompleteRegs){
-                                var doc = finalIncompleteRegs[i];
+                                                            if (!ifCompleteExist(doc.uuid, completeRegs)) {
+                                                                if (isAllRequiredFieldsExist(doc)){
+                                                                    // update to complete
+                                                                    doc.Completado = "true";
 
-                                //fetch the document and update if all required fields exist
-                                db.openDoc(doc.id, {
-                                    success: function (doc) {
-                                        processedDocsCnt++;
+                                                                    if (doc.Celular == undefined || doc.Celular == null)
+                                                                        doc.Celular = "809-000-0000";
 
-                                        if (doc.inactive != "true") {
+                                                                    // save the document
+                                                                    //db.saveDoc(doc);
 
+                                                                    var html = '<tr>' + '<td>' + doc._id + ',</td>' +
+                                                                        '<td>' + doc.uuid + ',</td>' +
+                                                                        '<td>' + doc.lastModifiedAt + '</td>' +
+                                                                        '</tr>';
 
-                                            if (isAllRequiredFieldsExist(doc)) {
-                                                // update to complete
-                                                doc.Completado = "true";
+                                                                    $("#listtbl").append(html);
 
-                                                // save the document
-                                                db.saveDoc(doc);
+                                                                }else{
+                                                                    //add document to csv content
+                                                                    writeDoc2CSV(doc);
+                                                                }
 
-                                                var html = '<tr>' + '<td>' + doc._id + ',</td>' +
-                                                        '<td>' + doc.uuid + ',</td>' +
-                                                        '<td>' + doc.lastModifiedAt + '</td>' +
-                                                        '</tr>';
+                                                            }else{
+                                                                // update to Duplicate registration
+                                                                doc.question="Participant Registration-es_DUPLICATE";
+                                                                //db.saveDoc(doc);
+                                                            }
 
-                                                $("#listtbl").append(html);
+                                                        }
 
-                                            } else {
-                                                //add document to csv content
-                                                writeDoc2CSV(doc);
+                                                        // the end is reached so just download the reports
+                                                        if (processedDocsCnt == incompleteRegs.length - 1)
+                                                            downloadMissingRequiredFieldsReport();
 
+                                                }});
                                             }
-
-                                        }
-
-                                        // the end is reached so just download the reports
-                                        if (processedDocsCnt == finalIncompleteRegs.length - 1)
-                                            downloadMissingRequiredFieldsReport();
-                                    }
+                                        }});
 
 
-
-                            });
-
-                           }
                         },
                         error:function(data){
                             alert("Something wrong!!!");
                         }
                     });
         }
+
 
         /**
          * Writes document headers to the csv file.
@@ -130,7 +139,7 @@
                 innerValue = headers[i];
                 resval = innerValue.replace(/"/g, '""');
                 if (resval.search(/("|,|\n)/g) >= 0) {
-                    resval = '"' + result + '"';
+                    resval = '"' + resval + '"';
                 }
                 csvContent += resval + ',';
             }
@@ -162,7 +171,7 @@
               }
               resval = innerValue.replace(/"/g, '""');
               if (resval.search(/("|,|\n)/g) >= 0) {
-                  resval = '"' + result + '"';
+                  resval = '"' + resval + '"';
               }
               csvContent += resval + ',';
             }
@@ -208,10 +217,12 @@
 
 
         function ifCompleteExist(uuid, completeRegs){
-            for (i in completeRegs){
-                var doc = completeRegs[i];
+            var completeDoc;
 
-                if (uuid === doc.id){
+            for (i in completeRegs.rows){
+                completeDoc = completeRegs.rows[i];
+
+                if (completeDoc.key === uuid){
                     return true;
                 }
             }

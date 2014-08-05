@@ -131,7 +131,7 @@ class ReportViewOnlyCSV extends Backbone.View
 
       resval = innerValue.replace(/"/g, '""');
       if (resval.search(/("|,|\n)/g) >= 0)
-        resval = '"' + result + '"';
+        resval = '"' + resval + '"';
 
       csvContent += resval + ','
 
@@ -151,7 +151,7 @@ class ReportViewOnlyCSV extends Backbone.View
 
         resval = innerValue.replace(/"/g, '""');
         if (resval.search(/("|,|\n)/g) >= 0)
-          resval = '"' + result + '"';
+          resval = '"' + resval + '"';
 
         csvContent += resval + ','
 

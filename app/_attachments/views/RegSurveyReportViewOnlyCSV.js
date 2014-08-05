@@ -132,7 +132,7 @@ RegSurveyReportViewOnlyCSV = (function(_super) {
       }
       resval = innerValue.replace(/"/g, '""');
       if (resval.search(/("|,|\n)/g) >= 0) {
-        resval = '"' + result + '"';
+        resval = '"' + resval + '"';
       }
       csvContent += resval + ',';
     }
@@ -180,7 +180,7 @@ RegSurveyReportViewOnlyCSV = (function(_super) {
         }
         resval = innerValue.replace(/"/g, '""');
         if (resval.search(/("|,|\n)/g) >= 0) {
-          resval = '"' + result + '"';
+          resval = '"' + resval + '"';
         }
         csvContent += resval + ',';
       }
