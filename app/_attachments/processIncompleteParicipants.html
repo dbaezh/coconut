@@ -21,8 +21,8 @@
 
     <script language="JavaScript">
         //var requiredFields = ["user_name","provider_id","provider_name","uuid","Fecha","Nombre","Apellido","Apodo","Calleynumero","Provincia","Municipio","BarrioComunidad","Celular","Direccióndecorreoelectrónico","NombredeusuariodeFacebook","Nombredepersonadecontacto","Parentescoopersonarelacionada","Teléfono","Sexo","Tieneunnumerocelular","Tieneunnumerodetelefonoenlacasa","Tieneunadireccióndecorreoelectrónico","TieneunnombredeusuariodeFacebook"];
-        var requiredFields = ["provider_id","provider_name","uuid","Fecha","Nombre","Apellido","Apodo","Provincia","Municipio","BarrioComunidad","Nombredepersonadecontacto","Parentescoopersonarelacionada","Teléfono","Sexo"];
-        var headers = [ "_id","createdAt", "lastModifiedAt","user_name","provider_id","provider_name","question","uuid","Fecha","Nombre","Apellido","Apodo","Calleynumero","Provincia","Municipio","BarrioComunidad","Día","Mes","Año","Celular","Casa","Direccióndecorreoelectrónico","NombredeusuariodeFacebook","Nombredepersonadecontacto","Parentescoopersonarelacionada","Teléfono","Sexo","Tieneunnumerocelular","Tieneunadireccióndecorreoelectrónico","Tieneunnumerodetelefonoenlacasa","TieneunnombredeusuariodeFacebook"];
+        var requiredFields = ["provider_id","provider_name","uuid","Fecha","Nombre","Apellido","Provincia","Municipio","BarrioComunidad","Sexo"];
+        var headers = [ "_id","createdAt", "lastModifiedAt","user_name","provider_id","provider_name","uuid","Fecha","Nombre","Apellido","Apodo","Calleynumero","Provincia","Municipio","BarrioComunidad","Día","Mes","Año","Celular","Casa","Direccióndecorreoelectrónico","NombredeusuariodeFacebook","Nombredepersonadecontacto","Parentescoopersonarelacionada","Teléfono","Sexo","Tieneunnumerocelular","Tieneunadireccióndecorreoelectrónico","Tieneunnumerodetelefonoenlacasa","TieneunnombredeusuariodeFacebook"];
 
         var csvContent = "\uFEFF";
 
@@ -87,7 +87,7 @@
                                                                         doc.Celular = "809-000-0000";
 
                                                                     // save the document
-                                                                    //db.saveDoc(doc);
+                                                                    db.saveDoc(doc);
 
                                                                     var html = '<tr>' + '<td>' + doc._id + ',</td>' +
                                                                         '<td>' + doc.uuid + ',</td>' +
@@ -97,14 +97,22 @@
                                                                     $("#listtbl").append(html);
 
                                                                 }else{
-                                                                    //add document to csv content
-                                                                    writeDoc2CSV(doc);
+                                                                    //Filter registrations with no first and last name since these
+                                                                    // cannot be corrected.
+                                                                    if ((doc.Nombre != undefined && doc.Nombre != null) ||
+                                                                            (doc.Apellido != undefined && doc.Apellido != null)) {
+                                                                        // filter registrations where Nobre is number
+                                                                        if (isNaN(doc.Nombre)) {
+                                                                            //add document to csv content
+                                                                            writeDoc2CSV(doc);
+                                                                        }
+                                                                    }
                                                                 }
 
                                                             }else{
                                                                 // update to Duplicate registration
                                                                 doc.question="Participant Registration-es_DUPLICATE";
-                                                                //db.saveDoc(doc);
+                                                                db.saveDoc(doc);
                                                             }
 
                                                         }
@@ -193,7 +201,7 @@
                 'type': 'text/csv;charset=utf-8'
             });
             a.href = window.URL.createObjectURL(blob);
-            a.download = "missingregregs.csv";
+            a.download = "missingregfields.csv";
             $('#reportloader').hide();
             return a.click();
         }
