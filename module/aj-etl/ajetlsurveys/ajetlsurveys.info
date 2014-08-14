@@ -1,0 +1,3 @@
+name = AJ ETL Surveys
+description = Extracts, transforms and load surveys from CouchDB into Drupal/mySQL database.
+core = 7.x
