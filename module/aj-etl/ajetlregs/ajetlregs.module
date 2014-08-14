@@ -52,6 +52,8 @@ function load_regs_worker()
     watchdog("ajetlregs", "load_regs_worker JOB IS CALLED");
     global $base_url;
 
+    ajetlregs_setModuleVariables();
+
     $req_url = 'http://localhost:5984/coconut/_design/coconut/_view/resultsByQuestionAndComplete?startkey=%22Participant%20Registration-es%3Atrue%3Az%22&endkey=%22Participant%20Registration-es%3Atrue%22&descending=true&include_docs=false';
 
     //TBD Uncomment when deploying to prod, the $base_url is not write when deploying on Windows because it has /drupal in the link
@@ -81,29 +83,28 @@ function load_regs_worker()
 
     foreach ( $rows as $one_row ){
         list($type, $isCompleted, $lastModified1,$lastModified2, $lastModified3, $lastModified4) = explode(":", $one_row['key']);
-        if ($type === "Participant Registration-es") {
-            // lastModified is in format as 2014-08-11T13:50:41-03:00 so need to re-create
-            $lastModified = $lastModified1.':'.$lastModified2.':'.$lastModified3.':'.$lastModified4;
 
-            // check if the record with the same id and last modified date already exist
-            $record = getRegistrationByIdAndModifiedDate($one_row['id'], $lastModified);
+        // lastModified is in format as 2014-08-11T13:50:41-03:00 so need to re-create
+        $lastModified = $lastModified1.':'.$lastModified2.':'.$lastModified3.':'.$lastModified4;
 
-            if ($record != null) {
+        // check if the record with the same id and last modified date already exist
+        $record = ajetlregs_ajetlregs_getRegistrationByIdAndModifiedDate($one_row['id'], $lastModified);
+
+        if ($record != null) {
                 watchdog("ajetlregs", 'Found same exact record and stopped loading registrations.');
                 break;
-            }
-
-
-            loadRegistration($one_row['id'], $lastModified);
-            $i++;
-
         }
 
-        if ($i === 1000)
-            break;
 
+            ajetlregs_loadRegistration($one_row['id'], $lastModified);
+            $i++;
+
+       /* if ($i === 1000)
+            break;*/
 
     }
+
+    ajetlregs_deleteModuleVariables();
 
     watchdog("ajetlregs", 'Document processed'.$i);
 
@@ -130,7 +131,7 @@ function ajetlregs_enable() {
  *
  * @param $id
  */
-function openDocById($id){
+function ajetlregs_OpenRegById($id){
     // TBD: changed hard coded localhost link
     $req_url = 'http://localhost:5984/coconut/'.$id;
 
@@ -149,19 +150,159 @@ function openDocById($id){
 }
 
 /**
+ * Delete module variables.
+ */
+function ajetlregs_deleteModuleVariables(){
+    variable_del("ajRegsColumns");
+    
+}
+
+/**
+ *
+ * Use variable_set() to set module global variables.
+ *
+ *
+ */
+function ajetlregs_setModuleVariables()
+{
+    // retrieve aj-survey table columns
+    $ajRegsColumns = drupal_schema_fields_sql("aj_registration");
+    // set the columns as variable
+    variable_set("ajRegsColumns", $ajRegsColumns);
+}
+
+/**
+ * Generates the first insert query e.g. .(col1, col2, col3...). It's driven by the aj_registration table columns.
+ *
+ * @param $doc
+ *
+ */
+function ajetlregs_genInsertQueryPart1($doc){
+    $query = "";
+    watchdog("ajetregistrations", 'genInsertPart1Query');
+    $ajRegsColumns = variable_get("ajRegsColumns");
+
+
+
+    foreach ($ajRegsColumns as $col){
+        if ($col === "id" || $col === "changed")
+            continue;
+
+        $query = $query.$col.", ";
+
+
+    }
+
+    // clean the last ","
+    $len = strlen($query);
+    $query =substr($query, 0, $len-2);
+
+    return $query;
+
+}
+
+
+/**
+ * Generates the values() insert statement.
+ *
+ * @param $doc
+ *
+ */
+function ajetlregs_genInsertQueryPart2($doc){
+    $query = "";
+    $key = "";
+    $val = "";
+    watchdog("ajetregistrations", 'genInsertPart1Query');
+    $ajRegsColumns = variable_get("ajRegsColumns");
+
+
+    $surveyColumnMap = variable_get("surveyColumnMap");
+
+    foreach ($ajRegsColumns as $col) {
+        // skip these
+        if ($col === "id" || $col === "changed")
+            continue;
+
+        if (array_key_exists($col, $ajRegsColumns))
+            $key = $ajRegsColumns[$col];
+        else
+            $key = $col;
+
+        if ($key === "createdAt" || $key === "lastModifiedAt") {
+            $val = ajetlregs_couchDateTime2Mysql($doc[$key]);
+            $query = $query . $val . " ";
+        }else if ($key === "created"){
+            $val = " NOW() ";
+            $query = $query . $val . " ";
+        }else if ($key === "Fecha"){
+            if (array_key_exists($key, $doc)) {
+                $val = ajetlregs_couchDate2Mysql($doc[$key]);
+            }else{
+                $val = "";
+            }
+            $query = $query . $val . " ";
+        }else {
+            if (array_key_exists($key, $doc))
+                $val = $doc[$key];
+            else
+                $val = "";
+            $query = $query . "'" . $val . "' ";
+        }
+
+
+
+
+        $query = $query.",";
+
+
+    }
+
+    // clean the last ","
+    $len = strlen($query);
+    $query =substr($query, 0, $len-1);
+
+    return $query;
+
+}
+
+
+/**
+ * Inserts data into aj_etlsurvey table.
+ *
+ * @param $id
+ * @param $lastModifiedDate
+ */
+function ajetlregs_insertRegistration($doc){
+
+    watchdog("ajetregistrations", 'Inside insertSurvey');
+
+    $q1 = ajetlregs_genInsertQueryPart1($doc);
+    $q2 = ajetlregs_genInsertQueryPart2($doc);
+    $query = "INSERT INTO {aj_registration} (".$q1.") VALUES(".$q2.")";
+
+
+    watchdog("ajetregistrations", 'QUERY='.$query);
+
+    $result = db_query($query);
+
+
+}
+
+
+/**
  * Inserts data into aj_registration table.
  *
  * @param $id
  * @param $lastModifiedDate
  */
-function insertRegistration($doc){
+function ajetlregs_insertRegistrationOld($doc){
 
-    watchdog("ajetlregs", 'Inside insertRegistration');
+    watchdog("ajetlregs", 'Inside ajetlregs_insertRegistration');
 
     // transform dates
-    $createdAt = couchDateTime2Mysql($doc['createdAt']);
-    $lastModifiedAt = couchDateTime2Mysql($doc['lastModifiedAt']);
-    $fetcha = couchDate2Mysql($doc['Fecha']);
+    $createdAt = ajetlregs_couchDateTime2Mysql($doc['createdAt']);
+    $lastModifiedAt = ajetlregs_couchDateTime2Mysql($doc['lastModifiedAt']);
+    $fetcha = ajetlregs_couchDate2Mysql($doc['Fecha']);
 
 
     $query = "INSERT INTO {aj_registration}".
@@ -216,11 +357,11 @@ function insertRegistration($doc){
  * @return null if record does not exist
  *         the record if exist
  */
-function getRegistrationByIdAndModifiedDate($_id, $lastModifiedAt)
+function ajetlregs_ajetlregs_getRegistrationByIdAndModifiedDate($_id, $lastModifiedAt)
 {
     $retRecord = null;
 
-    $sqlLastModifiedAt = couchDateTime2Mysql($lastModifiedAt);
+    $sqlLastModifiedAt = ajetlregs_couchDateTime2Mysql($lastModifiedAt);
 
     $result = db_query("SELECT t.id FROM {aj_registration} t WHERE t._id = :_id AND t.lastModifiedAt=".$sqlLastModifiedAt, array(':_id' => $_id));
 
@@ -247,7 +388,7 @@ function getRegistrationByIdAndModifiedDate($_id, $lastModifiedAt)
  * @return null if record not found
  *         the record if found
  */
-function getRegistrationById($_id)
+function ajetlregs_getRegistrationById($_id)
 {
     $retRecord = null;
 
@@ -281,15 +422,15 @@ function getRegistrationById($_id)
  * @return null if record is not found
  *         the record if found
  */
-function getRegistrationByIdDifferentDate($_id, $lastModifiedAt)
+function ajetlregs_getRegistrationByIdDifferentDate($_id, $lastModifiedAt)
 {
     $retRecord = null;
 
-    //echo "<br>INSIDE getRegistrationById";
+    //echo "<br>INSIDE ajetlregs_getRegistrationById";
 
     watchdog("ajetlregs", 'lastmodifiedAt ='.$lastModifiedAt);
 
-    $sqlLastModifiedAt = couchDateTime2Mysql($lastModifiedAt);
+    $sqlLastModifiedAt = ajetlregs_couchDateTime2Mysql($lastModifiedAt);
 
     watchdog("ajetlregs", 'sqllastmodified ='.$sqlLastModifiedAt);
 
@@ -323,10 +464,10 @@ function getRegistrationByIdDifferentDate($_id, $lastModifiedAt)
  * @param $id
  * @param $lastModifiedDate
  */
-function loadRegistration($_id, $lastModifiedAt){
+function ajetlregs_loadRegistration($_id, $lastModifiedAt){
 
     // check if the record with the same id but different modified date already exist
-    $record = getRegistrationByIdDifferentDate($_id, $lastModifiedAt);
+    $record = ajetlregs_getRegistrationByIdDifferentDate($_id, $lastModifiedAt);
 
     // TBD: Maybe need to update the existing document, not delete before inserting. However because
     // of the fast approaching deadline do this for now.
@@ -338,11 +479,11 @@ function loadRegistration($_id, $lastModifiedAt){
     }
 
     // fetch the document from couch db
-    $doc = openDocById($_id);
+    $doc = ajetlregs_OpenRegById($_id);
 
 
     // insert the record
-    insertRegistration($doc);
+    ajetlregs_insertRegistration($doc);
 
 }
 
@@ -353,7 +494,7 @@ function loadRegistration($_id, $lastModifiedAt){
  * @param $id
  * @return bool
  */
-function isDocumentValid($doc, $id){
+function ajetlregs_isDocumentValid($doc, $id){
 
     // Check if Fetcha is valid, there is occasions where Fetcha is 20104-04-26
     $len = strlen($doc['Fecha']);
@@ -376,7 +517,7 @@ function isDocumentValid($doc, $id){
  * adds STR_TO_DATE so the final string will be STR_TO_DATE('2013-11-29T09:40:10', '%Y-%m-%dT%H:%i:%S').
  *
  */
-function couchDateTime2Mysql($dt){
+function ajetlregs_couchDateTime2Mysql($dt){
 
     // remove the last 6 chars, e.g. the couchDB time zone
     $len = strlen($dt);
@@ -397,7 +538,7 @@ function couchDateTime2Mysql($dt){
  * 23/04/2014
  *
  */
-function couchDate2Mysql($dt){
+function ajetlregs_couchDate2Mysql($dt){
     if ($dt == null )
         return " null ";
 

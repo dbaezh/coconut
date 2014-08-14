@@ -57,7 +57,7 @@ function load_surveys_worker()
     global $base_url;
 
     // set module global variables
-    setModuleVariables();
+    ajetlsurveys_setModuleVariables();
 
     $req_url = 'http://localhost:5984/coconut/_design/coconut/_view/resultsByQuestionAndComplete?startkey=%22Participant%20Survey-es%3Atrue%3Az%22&endkey=%22Participant%20Registration-es%3Atrue%22&descending=true&include_docs=false';
 
@@ -93,7 +93,7 @@ function load_surveys_worker()
         $lastModified = $lastModified1.':'.$lastModified2.':'.$lastModified3.':'.$lastModified4;
 
         // check if the record with the same id and last modified date already exist
-        $record = getSurveyByIdAndModifiedDate($one_row['id'], $lastModified);
+        $record = ajetlsurveys_ajetlsurveys_getSurveyByIdAndModifiedDate($one_row['id'], $lastModified);
 
         if ($record != null) {
            watchdog("ajetlsurveys", 'Found same exact record and stopped loading surveys.');
@@ -101,18 +101,18 @@ function load_surveys_worker()
         }
 
 
-        loadSurvey($one_row['id'], $lastModified);
+        ajetlsurveys_loadSurvey($one_row['id'], $lastModified);
         $i++;
 
 
 
-        if ($i === 100)
-            break;
+        /*if ($i === 1000)
+            break;*/
 
 
     }
 
-    deleteModuleVariables();
+    ajetlsurveys_deleteModuleVariables();
     watchdog("ajetlsurveys", 'Document processed'.$i);
 
 
@@ -136,7 +136,7 @@ function ajetlsurveys_enable() {
 /**
  * Delete module variables.
  */
-function deleteModuleVariables(){
+function ajetlsurveys_deleteModuleVariables(){
     variable_del("ajSurveyColumns");
     variable_del("surveyColumnMap");
 }
@@ -147,7 +147,7 @@ function deleteModuleVariables(){
  *
  *
  */
-function setModuleVariables(){
+function ajetlsurveys_setModuleVariables(){
     // retrieve aj-survey table columns
     $ajSurveyColumns = drupal_schema_fields_sql("aj_survey");
     // set the columns as variable
@@ -226,7 +226,7 @@ function setModuleVariables(){
  *
  * @param $id
  */
-function openDocById($id){
+function ajetlsurveys_openDocById($id){
     // TBD: changed hard coded localhost link
     $req_url = 'http://localhost:5984/coconut/'.$id;
 
@@ -250,7 +250,7 @@ function openDocById($id){
  * @param $doc
  *
  */
-function genInsertQueryPart1($doc){
+function ajetlsurveys_genInsertQueryPart1($doc){
     $query = "";
     watchdog("ajetlsurveys", 'genInsertPart1Query');
     $ajSurveyColumns = variable_get("ajSurveyColumns");
@@ -281,7 +281,7 @@ function genInsertQueryPart1($doc){
  * @param $doc
  *
  */
-function genInsertQueryPart2($doc){
+function ajetlsurveys_genInsertQueryPart2($doc){
     $query = "";
     $key = "";
     $val = "";
@@ -302,7 +302,7 @@ function genInsertQueryPart2($doc){
             $key = $col;
 
         if ($key === "createdAt" || $key === "lastModifiedAt") {
-            $val = couchDateTime2Mysql($doc[$key]);
+            $val = ajetlsurveys_couchDateTime2Mysql($doc[$key]);
             $query = $query . $val . " ";
         }else if ($key === "created"){
             $val = " NOW() ";
@@ -338,12 +338,12 @@ function genInsertQueryPart2($doc){
  * @param $id
  * @param $lastModifiedDate
  */
-function insertSurvey($doc){
+function ajetlsurveys_insertSurvey($doc){
 
-    watchdog("ajetlsurveys", 'Inside insertSurvey');
+    watchdog("ajetlsurveys", 'Inside ajetlsurveys_insertSurvey');
 
-    $q1 = genInsertQueryPart1($doc);
-    $q2 = genInsertQueryPart2($doc);
+    $q1 = ajetlsurveys_genInsertQueryPart1($doc);
+    $q2 = ajetlsurveys_genInsertQueryPart2($doc);
     $query = "INSERT INTO {aj_survey} (".$q1.") VALUES(".$q2.")";
 
 
@@ -355,65 +355,7 @@ function insertSurvey($doc){
 }
 
 
-/**
- * Inserts data into aj_etlsurvey table.
- *
- * @param $id
- * @param $lastModifiedDate
- */
-function insertSurvey1($doc){
 
-    watchdog("ajetlsurveys", 'Inside insertSurvey');
-
-    // transform dates
-    $createdAt = couchDateTime2Mysql($doc['createdAt']);
-    $lastModifiedAt = couchDateTime2Mysql($doc['lastModifiedAt']);
-    $fetcha = couchDate2Mysql($doc['Fecha']);
-
-
-    $query = "INSERT INTO {aj_survey}".
-        "(_id, _rev, createdAt, lastModifiedAt,created,uuid,Apellido,Apodo,Año,BarrioComunidad,Calleynumero ,".
-        "Casa,Celular,Completado,Direccióndecorreoelectrónico,Día,Fecha,Mes, Municipio,Nombre,".
-        "Nombredepersonadecontacto,NombredeusuariodeFacebook,Parentescoopersonarelacionada,".
-        "Provincia,Teléfono,provider_id,provider_name,question,user_name)".
-        " VALUES (:_id,:_rev,".$createdAt.",".$lastModifiedAt.", NOW(), :uuid, :Apellido, :Apodo, :Ano,:BarrioComunidad, :Calleynumero,".
-        ":Casa,:Celular,:Completado,:Direcciondecorreoelectronico,:Dia,".$fetcha.",:Mes, :Municipio,:Nombre,".
-        ":Nombredepersonadecontacto,:NombredeusuariodeFacebook, :Parentescoopersonarelacionada,".
-        ":Provincia, :Telefono, :provider_id,:provider_name, :question, :user_name)";
-
-
-
-    $result = db_query($query,
-        array(':_id' => $doc['_id'],
-            ':_rev' => $doc['_rev'],
-            ':uuid' => $doc['uuid'],
-            ':Apellido' => $doc['Apellido'],
-            ':Apodo' => $doc['Apodo'],
-            ':Ano' => $doc['Año'],
-            ':BarrioComunidad' => $doc['BarrioComunidad'],
-            ':Calleynumero' => $doc['Calleynumero'],
-            ':Casa' => $doc['Casa'],
-            ':Celular' => $doc['Celular'],
-            ':Completado' => $doc['Completado'],
-            ':Direcciondecorreoelectronico' => $doc['Direccióndecorreoelectrónico'],
-            ':Dia' => $doc['Día'],
-            ':Mes' => $doc['Mes'],
-            ':Municipio' => $doc['Municipio'],
-            ':Nombre' => $doc['Nombre'],
-            ':Nombredepersonadecontacto' => $doc['Nombredepersonadecontacto'],
-            ':NombredeusuariodeFacebook' => $doc['NombredeusuariodeFacebook'],
-            ':Parentescoopersonarelacionada' => $doc['Parentescoopersonarelacionada'],
-            ':Provincia' => $doc['Provincia'],
-            ':Telefono' => $doc['Teléfono'],
-            ':provider_id' => $doc['provider_id'],
-            ':provider_name' => $doc['provider_name'],
-            ':question' => $doc['question'],
-            ':user_name' => $doc['user_name']
-        )
-    );
-
-
-}
 
 /**
  * Query aj_etlsurvey table for record by _id and lastModifiedAt date.
@@ -423,11 +365,11 @@ function insertSurvey1($doc){
  * @return null if record does not exist
  *         the record if exist
  */
-function getSurveyByIdAndModifiedDate($_id, $lastModifiedAt)
+function ajetlsurveys_ajetlsurveys_getSurveyByIdAndModifiedDate($_id, $lastModifiedAt)
 {
     $retRecord = null;
 
-    $sqlLastModifiedAt = couchDateTime2Mysql($lastModifiedAt);
+    $sqlLastModifiedAt = ajetlsurveys_couchDateTime2Mysql($lastModifiedAt);
 
     $result = db_query("SELECT t.id FROM {aj_survey} t WHERE t._id = :_id AND t.lastModifiedAt=".$sqlLastModifiedAt, array(':_id' => $_id));
 
@@ -454,7 +396,7 @@ function getSurveyByIdAndModifiedDate($_id, $lastModifiedAt)
  * @return null if record not found
  *         the record if found
  */
-function getSurveyById($_id)
+function ajetlsurveys_getSurveyById($_id)
 {
     $retRecord = null;
 
@@ -488,15 +430,15 @@ function getSurveyById($_id)
  * @return null if record is not found
  *         the record if found
  */
-function getSurveyByIdDifferentDate($_id, $lastModifiedAt)
+function ajetlsurveys_getSurveyByIdDifferentDate($_id, $lastModifiedAt)
 {
     $retRecord = null;
 
-    //echo "<br>INSIDE getSurveyById";
+    //echo "<br>INSIDE ajetlsurveys_getSurveyById";
 
     watchdog("ajetlsurveys", 'lastmodifiedAt ='.$lastModifiedAt);
 
-    $sqlLastModifiedAt = couchDateTime2Mysql($lastModifiedAt);
+    $sqlLastModifiedAt = ajetlsurveys_couchDateTime2Mysql($lastModifiedAt);
 
     watchdog("ajetlsurveys", 'sqllastmodified ='.$sqlLastModifiedAt);
 
@@ -530,10 +472,10 @@ function getSurveyByIdDifferentDate($_id, $lastModifiedAt)
  * @param $id
  * @param $lastModifiedDate
  */
-function loadSurvey($_id, $lastModifiedAt){
+function ajetlsurveys_loadSurvey($_id, $lastModifiedAt){
 
     // check if the record with the same id but different modified date already exist
-    $record = getSurveyByIdDifferentDate($_id, $lastModifiedAt);
+    $record = ajetlsurveys_getSurveyByIdDifferentDate($_id, $lastModifiedAt);
 
     // TBD: Maybe need to update the existing document, not delete before inserting. However because
     // of the fast approaching deadline do this for now.
@@ -545,32 +487,15 @@ function loadSurvey($_id, $lastModifiedAt){
     }
 
     // fetch the document from couch db
-    $doc = openDocById($_id);
+    $doc = ajetlsurveys_openDocById($_id);
 
 
     // insert the record
-    insertSurvey($doc);
+    ajetlsurveys_insertSurvey($doc);
 
 }
 
-/**
- * Checks if Fecha is correct.
- *
- * @param $doc
- * @param $id
- * @return bool
- */
-function isDocumentValid($doc, $id){
 
-    // Check if Fetcha is valid, there is occasions where Fetcha is 20104-04-26
-    $len = strlen($doc['Fecha']);
-    if ($len != 10){
-        watchdog("ajetlsurveys", 'Fecha is not correct.');
-        return false;
-    }
-
-    return true;
-}
 
 
 
@@ -583,7 +508,7 @@ function isDocumentValid($doc, $id){
  * adds STR_TO_DATE so the final string will be STR_TO_DATE('2013-11-29T09:40:10', '%Y-%m-%dT%H:%i:%S').
  *
  */
-function couchDateTime2Mysql($dt){
+function ajetlsurveys_couchDateTime2Mysql($dt){
 
     // remove the last 6 chars, e.g. the couchDB time zone
     $len = strlen($dt);
@@ -593,72 +518,6 @@ function couchDateTime2Mysql($dt){
 }
 
 
-/**
- *
-
- * Example: converts 23/10/2013 to STR_TO_DATE('23/10/2013', '%d/%m/%Y').
- *
- * Handle different date formats. The input date might be in format:
- * 23-07-2014
- * 2014-07-23
- * 23/04/2014
- *
- */
-function couchDate2Mysql($dt){
-    if ($dt == null )
-        return " null ";
-
-    $pos = stripos($dt, "octubre");
-
-    if ($pos > 0){
-        list($dd, $mm, $y) = explode("-", $dt);
-        if (strlen($dd) == 1)
-            $dd = '0'.$dd;
-        if($mm === "octubre")
-            $mm = '10';
-        $newDt = $dd.'-'.$mm.'-'.$y;
-        return " STR_TO_DATE('".$newDt."', '%d-%m-%Y')";
-    }
-
-
-    // date is in dd/mm/YYYY format
-    $pos = stripos($dt, "/");
-
-    if ($pos > 0)
-        return " STR_TO_DATE('".$dt."', '%d/%m/%Y')";
-
-    $pos = stripos($dt, "-");
-
-    if ($pos > 0) {
-
-        if (strlen($dt) < 8)
-            return " null ";
-
-        $pos1 = stripos($dt, "-");
-        if ($pos1 === 2) // date is in format 23/05/2014
-            return " STR_TO_DATE('" . $dt . "', '%d-%m-%Y')";
-        else {
-
-            $first5 = substr($dt, 0, 5);
-            $last4 = substr($first5, 1);
-
-            // it means the year has one additional character on front, e.g. 22014, 32014, etc..
-            if ($last4 === "2014" || strstr($dt, '20104') || strstr($dt, '20147') || strstr($dt, '20014')){
-                $endDt = substr($dt, 5);
-                $dt = '2014'.$endDt;
-            }else if ($last4 === "2013" || strstr($dt, '20103') || strstr($dt, '20137') || strstr($dt, '20013')){
-                $endDt = substr($dt, 5);
-                $dt = '2013'.$endDt;
-            }
-
-
-            return " STR_TO_DATE('" . $dt . "', '%Y-%m-%d')";
-        }
-    }else{
-        //assume date is in 14032014 format
-        return " STR_TO_DATE('" . $dt . "', '%d%m%Y')";
-    }
-}
 
 //drupal_schema_fields_sql
 
