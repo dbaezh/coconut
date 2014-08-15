@@ -25,8 +25,6 @@ function ajetlregs_cron() {
 function ajetlregs_cron_queue_info()
 {
 
-    watchdog("ajetlregs", "INSIDE CRON QUEUE INFO");
-
     $queues = array();
 
     //cron is run at 2:00am
@@ -216,8 +214,6 @@ function ajetlregs_genInsertQueryPart2($doc){
     $val = "";
 
     $ajRegsColumns = variable_get("ajRegsColumns");
-
-
     $surveyColumnMap = variable_get("surveyColumnMap");
 
     foreach ($ajRegsColumns as $col) {
@@ -365,7 +361,7 @@ function ajetlregs_ajetlregs_getRegistrationByIdAndModifiedDate($_id, $lastModif
 
     foreach ($result as $record) {
         $retRecord = $record;
-        watchdog("ajetlregs", 'Found existing doc for doc id='.$record->id);
+        ajetllog_log("ajetlregs", "MESSAGE", 'Found existing doc for doc id='.$record->id);
         break;
     }
 
@@ -390,13 +386,12 @@ function ajetlregs_getRegistrationById($_id)
     var_dump($result);
 
     if ($result == null) {
-        watchdog("ajetlregs", 'Result is null');
         return null;
     }
 
     foreach ($result as $record) {
         $retRecord = $record;
-        watchdog("ajetlregs", 'Found existing doc for doc id='.$record->id);
+        ajetllog_log("ajetlregs", "MESSAGE", 'Found existing doc for doc id='.$record->id);
         break;
     }
 
@@ -417,22 +412,12 @@ function ajetlregs_getRegistrationById($_id)
 function ajetlregs_getRegistrationByIdDifferentDate($_id, $lastModifiedAt)
 {
     $retRecord = null;
-
-    //echo "<br>INSIDE ajetlregs_getRegistrationById";
-
-    watchdog("ajetlregs", 'lastmodifiedAt ='.$lastModifiedAt);
-
     $sqlLastModifiedAt = ajetlregs_couchDateTime2Mysql($lastModifiedAt);
-
-    watchdog("ajetlregs", 'sqllastmodified ='.$sqlLastModifiedAt);
-
-
     $result = db_query("SELECT t.id FROM {aj_registration} t WHERE t._id = :_id AND t.lastModifiedAt<>".$sqlLastModifiedAt, array(':_id' => $_id));
 
 
 
     if ($result == null) {
-        watchdog("ajetlregs", 'Result is null');
         return null;
     }
 
