@@ -64,7 +64,7 @@ function ajetlsurveys_schema() {
 	'provider_id' => array(
            'description' => 'Provider Id.',
            'type' => 'varchar',
-           'length' => 5,
+           'length' => 10,
            'not null' => FALSE,
            'default' => ''),
         'provider_name' => array(
