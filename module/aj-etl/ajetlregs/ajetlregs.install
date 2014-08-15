@@ -17,7 +17,7 @@ function ajetlregs_schema() {
       'description' => 'AJ registration form entered in CouchDB.',
       'fields' => array(
         'id' => array(
-          'description' => 'The primary identifier for a node.',
+          'description' => 'The primary identifier.',
           'type' => 'serial',
           'unsigned' => TRUE,
           'not null' => TRUE),
@@ -232,8 +232,14 @@ function ajetlregs_schema() {
 
        ),
       'indexes' => array(
-        'vbtest_changed'        => array('changed'),
-        'vbtest_created'        => array('created'),
+                'ajregistration_created'        => array('created'),
+                'ajregistration_uuid'           => array('uuid'),
+                'ajregistration_provider_id'    => array('provider_id'),
+                'ajregistration_lastModifiedAt' => array('lastModifiedAt'),
+                'ajregistration_createdAt'      => array('createdAt'),
+                'ajregistration_Apelido'        => array('Apelido'),
+                'ajregistration_Nobre'          => array('Nobre'),
+                'ajregistration_Sexo'          => array('Sexo'),
         ),
       'unique keys' => array(
         'id' => array('id')

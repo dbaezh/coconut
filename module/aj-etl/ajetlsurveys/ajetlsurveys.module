@@ -54,6 +54,9 @@ function ajetlsurveys_cron_queue_info()
 function load_surveys_worker()
 {
     watchdog("ajetlsurveys", "load_surveys_worker JOB IS CALLED");
+
+    ajetllog_log_message("ajetlsurveys", "MESSAGE", "HELLLOOO");
+
     global $base_url;
 
     // set module global variables
@@ -64,7 +67,7 @@ function load_surveys_worker()
     //TBD Uncomment when deploying to prod, the $base_url is not write when deploying on Windows because it has /drupal in the link
     //$req_url = $base_url.':5984/coconut/_design/coconut/_view/resultsByQuestionAndComplete?startkey=%22Participant%20Registration-es%3Atrue%3Az%22&endkey=%22Participant%20Registration-es%3Atrue%22&descending=true&include_docs=false';
 
-    watchdog("ajetlsurveys", 'URL:'.$req_url);
+    //watchdog("ajetlsurveys", 'URL:'.$req_url);
 
 
     // prepare the request options
@@ -82,7 +85,7 @@ function load_surveys_worker()
 
     $size = sizeof($rows);
 
-    watchdog("ajetlsurveys", 'Rows fetched:'.$size);
+    watchdog("ajetlsurveys", '******Rows fetched:'.$size);
 
     $i = 0;
 
@@ -113,7 +116,7 @@ function load_surveys_worker()
     }
 
     ajetlsurveys_deleteModuleVariables();
-    watchdog("ajetlsurveys", 'Document processed'.$i);
+    watchdog("ajetlsurveys", '*****Document processed'.$i);
 
 
 }
@@ -252,7 +255,7 @@ function ajetlsurveys_openDocById($id){
  */
 function ajetlsurveys_genInsertQueryPart1($doc){
     $query = "";
-    watchdog("ajetlsurveys", 'genInsertPart1Query');
+
     $ajSurveyColumns = variable_get("ajSurveyColumns");
 
 
@@ -285,7 +288,7 @@ function ajetlsurveys_genInsertQueryPart2($doc){
     $query = "";
     $key = "";
     $val = "";
-    watchdog("ajetlsurveys", 'genInsertPart1Query');
+
     $ajSurveyColumns = variable_get("ajSurveyColumns");
 
 
@@ -308,10 +311,27 @@ function ajetlsurveys_genInsertQueryPart2($doc){
             $val = " NOW() ";
             $query = $query . $val . " ";
         }else {
-            if (array_key_exists($key, $doc))
-                $val = $doc[$key];
-            else
+            if (is_array($val)){
+                $val = $val[0];
+            }
+            if (array_key_exists($key, $doc)) {
+                //Support for "Fechadenacimiento" field that is one value but it's stored as an array
+                if (is_array($doc[$key])) {
+                    ajetllog_log_message("ajetlsurveys", "MESSAGE", "VAL is arrey for key" . $key);
+                    foreach ($doc[$key] as $v){
+                        ajetllog_log_message("ajetlsurveys", "MESSAGE", "VAL 0 is " . $v);
+                        $val = $v;
+                    }
+                }else
+                   $val = $doc[$key];
+
+                $pos = stripos($val, "'");
+                if ($pos > 0)
+                    $val = str_replace("'", "\'", $val);
+
+            }else {
                 $val = "";
+            }
             $query = $query . "'" . $val . "' ";
         }
 
@@ -339,18 +359,11 @@ function ajetlsurveys_genInsertQueryPart2($doc){
  * @param $lastModifiedDate
  */
 function ajetlsurveys_insertSurvey($doc){
-
-    watchdog("ajetlsurveys", 'Inside ajetlsurveys_insertSurvey');
-
     $q1 = ajetlsurveys_genInsertQueryPart1($doc);
     $q2 = ajetlsurveys_genInsertQueryPart2($doc);
     $query = "INSERT INTO {aj_survey} (".$q1.") VALUES(".$q2.")";
 
-
-    watchdog("ajetlsurveys", 'QUERY='.$query);
-
     $result = db_query($query);
-
 
 }
 
@@ -375,13 +388,11 @@ function ajetlsurveys_ajetlsurveys_getSurveyByIdAndModifiedDate($_id, $lastModif
 
 
     if ($result == null) {
-        watchdog("ajetlsurveys", 'Result is null');
         return null;
     }
 
     foreach ($result as $record) {
         $retRecord = $record;
-        watchdog("ajetlsurveys", 'Found existing doc for doc id='.$record->id);
         break;
     }
 
@@ -406,13 +417,11 @@ function ajetlsurveys_getSurveyById($_id)
     var_dump($result);
 
     if ($result == null) {
-        watchdog("ajetlsurveys", 'Result is null');
         return null;
     }
 
     foreach ($result as $record) {
         $retRecord = $record;
-        watchdog("ajetlsurveys", 'Found existing doc for doc id='.$record->id);
         break;
     }
 
@@ -433,28 +442,16 @@ function ajetlsurveys_getSurveyById($_id)
 function ajetlsurveys_getSurveyByIdDifferentDate($_id, $lastModifiedAt)
 {
     $retRecord = null;
-
-    //echo "<br>INSIDE ajetlsurveys_getSurveyById";
-
-    watchdog("ajetlsurveys", 'lastmodifiedAt ='.$lastModifiedAt);
-
     $sqlLastModifiedAt = ajetlsurveys_couchDateTime2Mysql($lastModifiedAt);
-
-    watchdog("ajetlsurveys", 'sqllastmodified ='.$sqlLastModifiedAt);
-
-
     $result = db_query("SELECT t.id FROM {aj_survey} t WHERE t._id = :_id AND t.lastModifiedAt<>".$sqlLastModifiedAt, array(':_id' => $_id));
 
 
-
     if ($result == null) {
-        watchdog("ajetlsurveys", 'Result is null');
         return null;
     }
 
     foreach ($result as $record) {
         $retRecord = $record;
-        watchdog("ajetlsurveys", 'Found existing doc for doc id='.$record->id);
         break;
     }
 
@@ -482,7 +479,6 @@ function ajetlsurveys_loadSurvey($_id, $lastModifiedAt){
 
     // record has been changed so delete the old record before inserting
     if ($record != null) {
-        watchdog("ajetlsurveys", 'Existing record with different modified date exist');
         db_query("DELETE FROM {aj_survey} WHERE _id='".$_id."'");
     }
 
@@ -519,5 +515,5 @@ function ajetlsurveys_couchDateTime2Mysql($dt){
 
 
 
-//drupal_schema_fields_sql
+
 

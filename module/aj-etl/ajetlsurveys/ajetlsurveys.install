@@ -17,7 +17,7 @@ function ajetlsurveys_schema() {
       'description' => 'AJ surveys entered in CouchDB.',
       'fields' => array(
         'id' => array(
-          'description' => 'The primary identifier for a node.',
+          'description' => 'The primary identifier.',
           'type' => 'serial',
           'unsigned' => TRUE,
           'not null' => TRUE),
@@ -274,7 +274,7 @@ function ajetlsurveys_schema() {
 	 '31Enpromediocuántoganasenunasemana' => array(
            'description' => '31. En promedio, ¿cuánto ganas en una semana?',
            'type' => 'varchar',
-           'length' => 40,
+           'length' => 255,
            'not null' => FALSE,
            'default' => ''),
 	'32Enestetrabajotúeres' => array(
@@ -1378,8 +1378,11 @@ function ajetlsurveys_schema() {
 
        ),
       'indexes' => array(
-        'vbtest_changed'        => array('changed'),
-        'vbtest_created'        => array('created'),
+        'ajsurvey_created'        => array('created'),
+        'ajsurvey_uuid'           => array('uuid'),
+        'ajsurvey_provider_id'    => array('provider_id'),
+        'ajsurvey_lastModifiedAt' => array('lastModifiedAt'),
+        'ajsurvey_createdAt'      => array('createdAt'),
         ),
       'unique keys' => array(
         'id' => array('id')
@@ -1389,3 +1392,5 @@ function ajetlsurveys_schema() {
 
   return $schema;
 }
+
+
