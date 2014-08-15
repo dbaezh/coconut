@@ -49,7 +49,7 @@ function ajetlregs_cron_queue_info()
  */
 function load_regs_worker()
 {
-    watchdog("ajetlregs", "load_regs_worker JOB IS CALLED");
+    ajetllog_log("ajetlregs", "MESSAGE", "PROCESSING STARTED");
     global $base_url;
 
     ajetlregs_setModuleVariables();
@@ -58,8 +58,6 @@ function load_regs_worker()
 
     //TBD Uncomment when deploying to prod, the $base_url is not write when deploying on Windows because it has /drupal in the link
     //$req_url = $base_url.':5984/coconut/_design/coconut/_view/resultsByQuestionAndComplete?startkey=%22Participant%20Registration-es%3Atrue%3Az%22&endkey=%22Participant%20Registration-es%3Atrue%22&descending=true&include_docs=false';
-
-    watchdog("ajetlregs", 'URL:'.$req_url);
 
 
     // prepare the request options
@@ -77,12 +75,16 @@ function load_regs_worker()
 
     $size = sizeof($rows);
 
-    watchdog("ajetlregs", 'Rows fetched:'.$size);
+    ajetllog_log("ajetlregs", "MESSAGE", "******Rows fetched:".$size);
 
     $i = 0;
 
     foreach ( $rows as $one_row ){
         list($type, $isCompleted, $lastModified1,$lastModified2, $lastModified3, $lastModified4) = explode(":", $one_row['key']);
+
+        // for some reason the query returns surveys at the end
+        if ($type != "Participant Registration-es")
+            continue;
 
         // lastModified is in format as 2014-08-11T13:50:41-03:00 so need to re-create
         $lastModified = $lastModified1.':'.$lastModified2.':'.$lastModified3.':'.$lastModified4;
@@ -91,7 +93,7 @@ function load_regs_worker()
         $record = ajetlregs_ajetlregs_getRegistrationByIdAndModifiedDate($one_row['id'], $lastModified);
 
         if ($record != null) {
-                watchdog("ajetlregs", 'Found same exact record and stopped loading registrations.');
+                ajetllog_log("ajetlregs", "MESSAGE", "Found same exact record and stopped loading registrations.");
                 break;
         }
 
@@ -106,7 +108,8 @@ function load_regs_worker()
 
     ajetlregs_deleteModuleVariables();
 
-    watchdog("ajetlregs", 'Document processed'.$i);
+    ajetllog_log("ajetlregs", "MESSAGE", "Document processed".$i);
+
 
 
 }
@@ -179,7 +182,6 @@ function ajetlregs_setModuleVariables()
  */
 function ajetlregs_genInsertQueryPart1($doc){
     $query = "";
-    watchdog("ajetregistrations", 'genInsertPart1Query');
     $ajRegsColumns = variable_get("ajRegsColumns");
 
 
@@ -212,7 +214,7 @@ function ajetlregs_genInsertQueryPart2($doc){
     $query = "";
     $key = "";
     $val = "";
-    watchdog("ajetregistrations", 'genInsertPart1Query');
+
     $ajRegsColumns = variable_get("ajRegsColumns");
 
 
@@ -273,17 +275,11 @@ function ajetlregs_genInsertQueryPart2($doc){
  */
 function ajetlregs_insertRegistration($doc){
 
-    watchdog("ajetregistrations", 'Inside insertSurvey');
-
     $q1 = ajetlregs_genInsertQueryPart1($doc);
     $q2 = ajetlregs_genInsertQueryPart2($doc);
     $query = "INSERT INTO {aj_registration} (".$q1.") VALUES(".$q2.")";
 
-
-    watchdog("ajetregistrations", 'QUERY='.$query);
-
     $result = db_query($query);
-
 
 }
 
@@ -295,8 +291,6 @@ function ajetlregs_insertRegistration($doc){
  * @param $lastModifiedDate
  */
 function ajetlregs_insertRegistrationOld($doc){
-
-    watchdog("ajetlregs", 'Inside ajetlregs_insertRegistration');
 
     // transform dates
     $createdAt = ajetlregs_couchDateTime2Mysql($doc['createdAt']);
@@ -366,7 +360,6 @@ function ajetlregs_ajetlregs_getRegistrationByIdAndModifiedDate($_id, $lastModif
 
 
     if ($result == null) {
-        watchdog("ajetlregs", 'Result is null');
         return null;
     }
 
@@ -445,7 +438,7 @@ function ajetlregs_getRegistrationByIdDifferentDate($_id, $lastModifiedAt)
 
     foreach ($result as $record) {
         $retRecord = $record;
-        watchdog("ajetlregs", 'Found existing doc for doc id='.$record->id);
+        ajetllog_log("ajetlregs", "MESSAGE", 'Found existing doc for doc id='.$record->id);
         break;
     }
 
@@ -473,7 +466,6 @@ function ajetlregs_loadRegistration($_id, $lastModifiedAt){
 
     // record has been changed so delete the old record before inserting
     if ($record != null) {
-        watchdog("ajetlregs", 'Existing record with different modified date exist');
         db_query("DELETE FROM {aj_registration} WHERE _id='".$_id."'");
     }
 
@@ -498,7 +490,7 @@ function ajetlregs_isDocumentValid($doc, $id){
     // Check if Fetcha is valid, there is occasions where Fetcha is 20104-04-26
     $len = strlen($doc['Fecha']);
     if ($len != 10){
-        watchdog("ajetlregs", 'Fecha is not correct.');
+        ajetllog_log("ajetlregs", "ERROR", 'Fecha is not correct for doc id='.$id);
         return false;
     }
 
@@ -593,5 +585,5 @@ function ajetlregs_couchDate2Mysql($dt){
     }
 }
 
-//drupal_schema_fields_sql
+
 

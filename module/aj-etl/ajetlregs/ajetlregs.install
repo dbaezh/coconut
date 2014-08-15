@@ -233,12 +233,13 @@ function ajetlregs_schema() {
        ),
       'indexes' => array(
                 'ajregistration_created'        => array('created'),
+                'ajregistration__id'            => array('_id'),
                 'ajregistration_uuid'           => array('uuid'),
                 'ajregistration_provider_id'    => array('provider_id'),
                 'ajregistration_lastModifiedAt' => array('lastModifiedAt'),
                 'ajregistration_createdAt'      => array('createdAt'),
-                'ajregistration_Apelido'        => array('Apelido'),
-                'ajregistration_Nobre'          => array('Nobre'),
+                'ajregistration_Apelido'        => array('Apellido'),
+                'ajregistration_Nobre'          => array('Nombre'),
                 'ajregistration_Sexo'          => array('Sexo'),
         ),
       'unique keys' => array(

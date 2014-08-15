@@ -53,9 +53,9 @@ function ajetlsurveys_cron_queue_info()
  */
 function load_surveys_worker()
 {
-    watchdog("ajetlsurveys", "load_surveys_worker JOB IS CALLED");
+    //watchdog("ajetlsurveys", "load_surveys_worker JOB IS CALLED");
 
-    ajetllog_log_message("ajetlsurveys", "MESSAGE", "HELLLOOO");
+    ajetllog_log("ajetlsurveys", "MESSAGE", "PROCESSING STARTED");
 
     global $base_url;
 
@@ -66,9 +66,6 @@ function load_surveys_worker()
 
     //TBD Uncomment when deploying to prod, the $base_url is not write when deploying on Windows because it has /drupal in the link
     //$req_url = $base_url.':5984/coconut/_design/coconut/_view/resultsByQuestionAndComplete?startkey=%22Participant%20Registration-es%3Atrue%3Az%22&endkey=%22Participant%20Registration-es%3Atrue%22&descending=true&include_docs=false';
-
-    //watchdog("ajetlsurveys", 'URL:'.$req_url);
-
 
     // prepare the request options
     $req_options = array(
@@ -85,13 +82,16 @@ function load_surveys_worker()
 
     $size = sizeof($rows);
 
-    watchdog("ajetlsurveys", '******Rows fetched:'.$size);
+    ajetllog_log("ajetlsurveys", "MESSAGE", "******Rows fetched:".$size);
 
     $i = 0;
 
     foreach ( $rows as $one_row ){
         list($type, $isCompleted, $lastModified1,$lastModified2, $lastModified3, $lastModified4) = explode(":", $one_row['key']);
 
+        // for some reason the query returns surveys at the end
+        if ($type != "Participant Survey-es")
+            continue;
         // lastModified is in format as 2014-08-11T13:50:41-03:00 so need to re-create
         $lastModified = $lastModified1.':'.$lastModified2.':'.$lastModified3.':'.$lastModified4;
 
@@ -99,7 +99,7 @@ function load_surveys_worker()
         $record = ajetlsurveys_ajetlsurveys_getSurveyByIdAndModifiedDate($one_row['id'], $lastModified);
 
         if ($record != null) {
-           watchdog("ajetlsurveys", 'Found same exact record and stopped loading surveys.');
+           ajetllog_log("ajetlsurveys", "MESSAGE", "Found same exact record and stopped loading surveys.");
            break;
         }
 
@@ -108,16 +108,13 @@ function load_surveys_worker()
         $i++;
 
 
-
         /*if ($i === 1000)
             break;*/
-
 
     }
 
     ajetlsurveys_deleteModuleVariables();
-    watchdog("ajetlsurveys", '*****Document processed'.$i);
-
+    ajetllog_log("ajetlsurveys", "MESSAGE", "Document processed".$i);
 
 }
 
@@ -290,8 +287,6 @@ function ajetlsurveys_genInsertQueryPart2($doc){
     $val = "";
 
     $ajSurveyColumns = variable_get("ajSurveyColumns");
-
-
     $surveyColumnMap = variable_get("surveyColumnMap");
 
     foreach ($ajSurveyColumns as $col) {
@@ -317,9 +312,8 @@ function ajetlsurveys_genInsertQueryPart2($doc){
             if (array_key_exists($key, $doc)) {
                 //Support for "Fechadenacimiento" field that is one value but it's stored as an array
                 if (is_array($doc[$key])) {
-                    ajetllog_log_message("ajetlsurveys", "MESSAGE", "VAL is arrey for key" . $key);
                     foreach ($doc[$key] as $v){
-                        ajetllog_log_message("ajetlsurveys", "MESSAGE", "VAL 0 is " . $v);
+                        ajetllog_log("ajetlsurveys", "MESSAGE", "VAL 0 is " . $v);
                         $val = $v;
                     }
                 }else
@@ -410,11 +404,7 @@ function ajetlsurveys_ajetlsurveys_getSurveyByIdAndModifiedDate($_id, $lastModif
 function ajetlsurveys_getSurveyById($_id)
 {
     $retRecord = null;
-
-
     $result = db_query('SELECT t.id, t._id, t.lastModifiedAt FROM {aj_survey} t WHERE t._id = :_id', array(':_id' => $_id));
-
-    var_dump($result);
 
     if ($result == null) {
         return null;
