@@ -34,7 +34,7 @@ function ajetlregs_cron_queue_info()
     //{
     $queues['ajetlregs'] = array(
         'worker callback' => 'load_regs_worker',
-        'time' => 60, // time in seconds, this is the duration that the job will be CALLED, e.g.
+        'time' => 300, // time in seconds, this is the duration that the job will be CALLED, e.g.
         // after it finish it will be called again until the time is up.
     );
     //}
@@ -99,8 +99,8 @@ function load_regs_worker()
             ajetlregs_loadRegistration($one_row['id'], $lastModified);
             $i++;
 
-       /* if ($i === 1000)
-            break;*/
+        //if ($i === 10)
+          //  break;
 
     }
 
@@ -235,16 +235,15 @@ function ajetlregs_genInsertQueryPart2($doc){
             $val = " NOW() ";
             $query = $query . $val . " ";
         }else if ($key === "Fecha"){
-            if (array_key_exists($key, $doc)) {
-                $val = ajetlregs_couchDate2Mysql($doc[$key]);
-            }else{
-                $val = "";
-            }
+            $val = ajetlregs_couchDate2Mysql($doc[$key]);
             $query = $query . $val . " ";
         }else {
-            if (array_key_exists($key, $doc))
+            if (array_key_exists($key, $doc)) {
                 $val = $doc[$key];
-            else
+                $pos = stripos($val, "'");
+                if ($pos > 0)
+                    $val = str_replace("'", "\'", $val);
+            }else
                 $val = "";
             $query = $query . "'" . $val . "' ";
         }
