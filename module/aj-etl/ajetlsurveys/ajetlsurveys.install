@@ -112,7 +112,7 @@ function ajetlsurveys_schema() {
 	 'Fechadenacimiento' => array(
            'description' => 'Fecha de nacimiento',
            'type' => 'varchar',
-           'length' => 50,
+           'length' => 255,
            'not null' => FALSE,
            'default' => ''),
 	 '16ACuáleselnombredetuescuela' => array(

@@ -38,7 +38,7 @@ function ajetlsurveys_cron_queue_info()
     //{
     $queues['ajetlsurveys'] = array(
         'worker callback' => 'load_surveys_worker',
-        'time' => 60, // time in seconds, this is the duration that the job will be CALLED, e.g.
+        'time' => 300, // time in seconds, this is the duration that the job will be CALLED, e.g.
         // after it finish it will be called again until the time is up.
     );
     //}
@@ -313,7 +313,7 @@ function ajetlsurveys_genInsertQueryPart2($doc){
                 //Support for "Fechadenacimiento" field that is one value but it's stored as an array
                 if (is_array($doc[$key])) {
                     foreach ($doc[$key] as $v){
-                        ajetllog_log("ajetlsurveys", "MESSAGE", "VAL 0 is " . $v);
+                        //ajetllog_log("ajetlsurveys", "MESSAGE", "VAL 0 is " . $v);
                         $val = $v;
                     }
                 }else
