@@ -1,7 +1,14 @@
 (function ($) {
   Drupal.behaviors.ajSkin = {
     attach: function (context, settings) {
-		$('#ajPageTable').dataTable();
+		if ($('#ajPageTable').length) {
+			$('#ajPageTable').dataTable();
+		} else if ($('#ajPageTableNoPagingOrSorting').length){
+			$('#ajPageTable').dataTable({
+				"paging": false,
+				"ordering": false
+			});
+		}
     }
   };
 })(jQuery);

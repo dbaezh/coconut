@@ -4,8 +4,8 @@
 ;  Scripts are searched for first in the reports directory, second in the site relative file system 
 ;  and thirdly in the sites/all/libraries folder. 
 ;  
-name = Alerta Joven Skin
-description = Alerta Joven skin for use with Forena. 
+name = Alerta Joven Skin - Default
+description = All the defaults of datatables are enabled. 
 ; ------------------------------------------------------
 ; Javascript libraries can be added.  Forena will
 ; automatically search sites/all/libraries in 
