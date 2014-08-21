@@ -1,14 +1,25 @@
 (function ($) {
   Drupal.behaviors.ajSkin = {
     attach: function (context, settings) {
-		if ($('#ajPageTable').length) {
-			$('#ajPageTable').dataTable();
+		if ($('#ajPageTableDefaults').length) {
+			$('#ajPageTableDefaults').dataTable({
+				"sScrollX": "100%"
+			});
 		} else if ($('#ajPageTableNoPagingOrSorting').length){
-			$('#ajPageTable').dataTable({
-				"paging": false,
-				"ordering": false
+			$('#ajPageTableNoPagingOrSorting').dataTable({
+				"bPaginate": false,
+				"bSort": false,
+				"bFilter": false
+			});
+		} else if ($('#ajOverdue').length){
+			$('#ajOverdue').dataTable({
+				"bPaginate": false,
+				"bSort": true,
+				"bFilter": false
 			});
 		}
     }
   };
 })(jQuery);
+
+
