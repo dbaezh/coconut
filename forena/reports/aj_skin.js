@@ -17,6 +17,12 @@
 				"bSort": true,
 				"bFilter": false
 			});
+		} else if ($('#ajRiskScreen').length){
+			$('#ajRiskScreen').dataTable({
+				"bPaginate": false,
+				"bSort": true,
+				"bFilter": false
+			});
 		}
     }
   };
