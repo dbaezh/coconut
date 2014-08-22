@@ -1,12 +1,15 @@
 (function ($) {
   Drupal.behaviors.ajSkin = {
     attach: function (context, settings) {
-		if ($('#ajPageTable').length) {
-			$('#ajPageTable').dataTable();
+		if ($('#ajPageTableDefaults').length) {
+			$('#ajPageTableDefaults').dataTable({
+				"sScrollX": "100%"
+			});
 		} else if ($('#ajPageTableNoPagingOrSorting').length){
-			$('#ajPageTable').dataTable({
-				"paging": false,
-				"ordering": false
+			$('#ajPageTableNoPagingOrSorting').dataTable({
+				"bPaginate": false,
+				"bSort": false,
+				"bFilter": false
 			});
 		}
     }
