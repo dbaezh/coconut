@@ -1,0 +1,3 @@
+name = AJ ETL Log
+description = Used by AJ ETL modules to log errors and messages.
+core = 7.x

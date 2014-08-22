@@ -11,7 +11,21 @@
 				"bSort": false,
 				"bFilter": false
 			});
+		} else if ($('#ajOverdue').length){
+			$('#ajOverdue').dataTable({
+				"bPaginate": false,
+				"bSort": true,
+				"bFilter": false
+			});
+		} else if ($('#ajRiskScreen').length){
+			$('#ajRiskScreen').dataTable({
+				"bPaginate": false,
+				"bSort": true,
+				"bFilter": false
+			});
 		}
     }
   };
 })(jQuery);
+
+
