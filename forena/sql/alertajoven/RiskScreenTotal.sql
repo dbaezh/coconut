@@ -1,5 +1,5 @@
 -- ACCESS=access content
-SELECT ifnull(entity.field_agency_name_value, "Total") as 'Provider',
+SELECT 
 SUM(case when s.9Dóndenaciste = 'Haití' or s.9Dóndenaciste = 'Otro' then 1 else 0 end) as 'docrisk',
 SUM(case when s.13Tieneshijos = 'Sí' then 1 else 0 end) as 'youthwithdep',
 SUM(case when s.14Sabesleeryescribir = 'No' or s.15Cuálesel is null or s.20Hasrepetidoalgúncursoenlaescuela = 'Sí' then 1 else 0 end) as 'edurisk',
@@ -11,11 +11,7 @@ SUM(case when s.86Laúltima = 'No' or s.89Algunave = 'Sí'  or s.90Siquisie = 'N
 SUM(case when s.95Algunave = 'No' or s.13Tieneshijos = 'Sí'  or s.90Siquisie = 'No'  or s.91Siquisie = 'No'  then 1 else 0 end) as 'pregrisk',
 SUM(case when s.73Hasestadoinvolucradoenunapandilla = 'Sí' or s.74Comparte = 'Sí'  or s.45Tepreocu = 'Rara vez'   then 1 else 0 end) as 'gangrisk'
 
-
-
-
-
-FROM bitnami_drupal7.aj_survey s
+FROM bitnami_drupal7.aj_survey s 
 join bitnami_drupal7.field_data_field_agency_name entity on entity.entity_id=s.provider_id
 
 where 1 = 1
@@ -23,8 +19,8 @@ where 1 = 1
 --
 and entity.entity_type = 'provider'
 and entity.bundle = 'provider'
-group by entity.field_agency_name_value
---WITH ROLLUP
+
+
 
 
 

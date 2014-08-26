@@ -19,7 +19,27 @@
 			});
 		} else if ($('#ajRiskScreen').length){
 			$('#ajRiskScreen').dataTable({
-				"bPaginate": false,
+				"bPaginate": false,	
+				"bFilter": false,
+				"bSort": true
+			    
+			});
+		
+			$('#ajRiskScreenTotal').dataTable({
+				"bPaginate": false,	
+				"bFilter": false,
+				"bSort": false
+			    
+			});
+		}else if ($('#ajActiveParticipants').length){
+			$('#ajActiveParticipants').dataTable({
+				"bPaginate": true,
+				"bSort": true,
+				"bFilter": false
+			});
+		}else if ($('#ajActiveParticipants2').length){
+			$('#ajActiveParticipants2').dataTable({
+				"bPaginate": true,
 				"bSort": true,
 				"bFilter": false
 			});
