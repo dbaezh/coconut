@@ -207,8 +207,8 @@ QuestionView = (function(_super) {
   };
 
   QuestionView.prototype.jQueryUIze = function($obj) {
-    $obj.find("input[type=text],input[type=number],input[type='autocomplete from previous entries'],input[type='autocomplete from list']").textinput();
-    $obj.find('input[type=radio],input[type=checkbox]').checkboxradio();
+    $obj.find("input[type='text'],input[type='number'],input[type='autocomplete from previous entries'],input[type='autocomplete from list']").val();
+    $obj.find("input[type='radio'],input[type='checkbox']").checkboxradio();
     $obj.find('ul').listview();
     $obj.find('select').selectmenu();
     return $obj.find('a').button();
@@ -723,7 +723,7 @@ QuestionView = (function(_super) {
       });
       return this.autoscrollTimer = setTimeout(function() {
         $(window).off("scroll");
-        return _this.$next.scrollTo().find("input[type=text],input[type=number],input[type='autocomplete from previous entries'], input=[type='autocomplete from list']").first().focus();
+        return _this.$next.scrollTo().find("input[type='text'],input[type='number'],input[type='autocomplete from previous entries'], input[type='autocomplete from list']").first().focus();
       }, 1000);
     }
   };
@@ -859,7 +859,7 @@ QuestionView = (function(_super) {
         }
         return html += "          <div             data-group-id='" + question_id + "'            data-question-name='" + name + "'            data-question-id='" + question_id + "'            class='question group'>            " + (groupTitle || '') + "            " + (_this.toHTMLForm(question.questions(), question_id, isRepeatable, index)) + "          </div>          " + (repeatButton || '') + "        ";
       } else {
-        return html += "          <div            " + ((question.type() === 'hidden' ? "style='display:none;'" : void 0) || '') + "            class='question " + (question.type()) + "'            data-question-name='" + name + "'            data-question-id='" + question_id + "'            data-action_on_change='" + (_.escape(question.actionOnChange())) + "'            " + (validation || '') + "            " + (warning || '') + "            data-required='" + (question.required()) + "'          >          " + (question.type() !== 'hidden' ? "<label type='" + (question.type()) + "' for='" + question_id + "'>" + labelHeader[0] + (question.label()) + labelHeader[1] + " <span></span></label>" : "") + "          " + ("<p class='grey'>" + (question.hint()) + "</p>") + "          <div class='message'></div>          " + ((function() {
+        return html += "          <div            " + ((question.type() === 'hidden' ? "style='display:none;'" : void 0) || '') + "            class='question " + (question.type()) + "'            data-question-name='" + name + "'            data-question-id='" + question_id + "'            data-action_on_change='" + (_.escape(question.actionOnChange())) + "'            " + (validation || '') + "            " + (warning || '') + "            data-required='" + (question.required()) + "'          >          " + (question.type() !== 'hidden' ? "<label type='" + (question.type()) + "' for='" + question_id + "' class='ui-input-text'>" + labelHeader[0] + (question.label()) + labelHeader[1] + " <span></span></label>" : "") + "          " + ("<p class='grey'>" + (question.hint()) + "</p>") + "          <div class='message'></div>          " + ((function() {
           var _i, _j, _len, _len1, _ref1, _ref2;
           switch (question.type()) {
             case "textarea":
@@ -879,11 +879,11 @@ QuestionView = (function(_super) {
               break;
             case "radio":
               if (this.readonly) {
-                return "<input name='" + name + "' type='text' id='" + question_id + "' value='" + (question.value()) + "'></input>";
+                return "<input name='" + name + "' type='text' id='" + question_id + "' value='" + (question.value()) + "' class='ui-input-text ui-body-c ui-corner-all ui-shadow-inset'></input>";
               } else {
                 options = question.get("radio-options");
                 return _.map(options.split(/, */), function(option, index) {
-                  return "                      <label for='" + question_id + "-" + index + "'>" + option + "</label>                      <input type='radio' name='" + name + "' id='" + question_id + "-" + index + "' value='" + (_.escape(option)) + "'/>                    ";
+                  return "                      <label for='" + question_id + "-" + index + "' class='ui-input-text'>" + option + "</label>                      <input type='radio' name='" + name + "' id='" + question_id + "-" + index + "' value='" + (_.escape(option)) + "'/>                    ";
                 }).join("");
               }
               break;
@@ -898,11 +898,11 @@ QuestionView = (function(_super) {
                 programString += "                                      <div                                        class='question radio'                                        data-question-name='" + questionProgramName + "'                                        data-question-id='" + questionProgramId + "'                                        data-action_on_change='" + (_.escape(question.actionOnChange())) + "'                                        " + (validation || '') + "                                        " + (warning || '') + "                                        data-required='true'                                      >";
                 programString += "<h2>" + program.programname + "</h2>";
                 if (this.readonly) {
-                  programString += "<input name='" + questionProgramName + "' type='text' id='" + questionProgramId + "' value='" + (question.value()) + "'></input>";
+                  programString += "<input name='" + questionProgramName + "' type='text' id='" + questionProgramId + "' value='" + (question.value()) + "' class='ui-input-text ui-body-c ui-corner-all ui-shadow-inset'></input>";
                 } else {
                   options = question.get("radio-options");
                   programString += _.map(options.split(/, */), function(option, index) {
-                    return "                                              <label for='" + questionProgramId + "-" + index + "'>" + option + "</label>                                              <input type='radio' name='" + questionProgramName + "' id='" + questionProgramId + "-" + index + "' value='" + (_.escape(option)) + "'/>                                            ";
+                    return "                                              <label for='" + questionProgramId + "-" + index + "' class='ui-input-text'>" + option + "</label>                                              <input type='radio' name='" + questionProgramName + "' id='" + questionProgramId + "-" + index + "' value='" + (_.escape(option)) + "'/>                                            ";
                   }).join("");
                 }
                 programString += "</div>";
@@ -925,10 +925,10 @@ QuestionView = (function(_super) {
               break;
             case "autocomplete from list":
             case "autocomplete from previous entries":
-              return "                  <!-- autocomplete='off' disables browser completion -->                  <input autocomplete='off' name='" + name + "' id='" + question_id + "' type='" + (question.type()) + "' value='" + (question.value()) + "' data-autocomplete-options='" + (question.get("autocomplete-options")) + "'></input>                  <ul id='" + question_id + "-suggestions' data-role='listview' data-inset='true'/>                ";
+              return "                  <!-- autocomplete='off' disables browser completion -->                  <input autocomplete='off' name='" + name + "' id='" + question_id + "' type='" + (question.type()) + "' value='" + (question.value()) + "' data-autocomplete-options='" + (question.get("autocomplete-options")) + "' class='ui-input-text ui-body-c ui-corner-all ui-shadow-inset'></input>                  <ul id='" + question_id + "-suggestions' data-role='listview' data-inset='true'/>                ";
             case "location":
-              return "                  <a data-question-id='" + question_id + "'>Get current location</a>                  <label for='" + question_id + "-description'>Location Description</label>                  <input type='text' name='" + name + "-description' id='" + question_id + "-description'></input>                  " + (_.map(["latitude", "longitude"], function(field) {
-                return "<label for='" + question_id + "-" + field + "'>" + field + "</label><input readonly='readonly' type='number' name='" + name + "-" + field + "' id='" + question_id + "-" + field + "'></input>";
+              return "                  <a data-question-id='" + question_id + "'>Get current location</a>                  <label for='" + question_id + "-description' class='ui-input-text'>Location Description</label>                  <input type='text' name='" + name + "-description' id='" + question_id + "-description'></input>                  " + (_.map(["latitude", "longitude"], function(field) {
+                return "<label for='" + question_id + "-" + field + "' class='ui-input-text'>" + field + "</label><input readonly='readonly' type='number' name='" + name + "-" + field + "' id='" + question_id + "-" + field + "'></input>";
               }).join("")) + "                  " + (_.map(["altitude", "accuracy", "altitudeAccuracy", "heading", "timestamp"], function(field) {
                 return "<input type='hidden' name='" + name + "-" + field + "' id='" + question_id + "-" + field + "'></input>";
               }).join("")) + "                ";
@@ -944,7 +944,7 @@ QuestionView = (function(_super) {
             case "label":
               return "";
             default:
-              return "<input name='" + name + "' id='" + question_id + "' type='" + (question.type()) + "' value='" + (question.value()) + "'></input>";
+              return "<input name='" + name + "' id='" + question_id + "' type='" + (question.type()) + "' value='" + (question.value()) + "' class='ui-input-text ui-body-c ui-corner-all ui-shadow-inset'></input>";
           }
         }).call(_this)) + "          </div>          " + (repeatButton || '') + "        ";
       }
@@ -998,7 +998,7 @@ QuestionView = (function(_super) {
         }
         return html += "          <div             data-group-id='" + question_id + "'            data-question-name='" + name + "'            data-question-id='" + question_id + "'            class='question group'>            " + (groupTitle || '') + "            " + (_this.toSummaryForm(question.questions(), question_id, isRepeatable, index)) + "          </div>          " + (repeatButton || '') + "        ";
       } else {
-        return html += "          <div            " + ((question.type() === 'hidden' ? "style='display:none;'" : void 0) || '') + "            class='question " + (question.type()) + "'            data-question-name='" + name + "'            data-question-id='" + question_id + "'            data-action_on_change='" + (_.escape(question.actionOnChange())) + "'            " + (validation || '') + "            " + (warning || '') + "            data-required='" + (question.required()) + "'          >          " + (question.type() !== 'hidden' ? "<label type='" + (question.type()) + "' for='" + question_id + "'>" + labelHeader[0] + (question.label()) + labelHeader[1] + " <span></span></label>" : "") + "          " + ("<p class='grey'>" + (question.hint()) + "</p>") + "          <div class='message'></div>          " + ((function() {
+        return html += "          <div            " + ((question.type() === 'hidden' ? "style='display:none;'" : void 0) || '') + "            class='question " + (question.type()) + "'            data-question-name='" + name + "'            data-question-id='" + question_id + "'            data-action_on_change='" + (_.escape(question.actionOnChange())) + "'            " + (validation || '') + "            " + (warning || '') + "            data-required='" + (question.required()) + "'          >          " + (question.type() !== 'hidden' ? "<label type='" + (question.type()) + "' for='" + question_id + "' class='ui-input-text'>" + labelHeader[0] + (question.label()) + labelHeader[1] + " <span></span></label>" : "") + "          " + ("<p class='grey'>" + (question.hint()) + "</p>") + "          <div class='message'></div>          " + ((function() {
           var _i, _len, _ref1;
           switch (question.type()) {
             case "textarea":
@@ -1032,7 +1032,7 @@ QuestionView = (function(_super) {
               return "" + (this.result.safeGet(name, ''));
             case "location":
               return "                  <a data-question-id='" + question_id + "'>Get current location</a>                  <label for='" + question_id + "-description'>Location Description</label>                  <input type='text' name='" + name + "-description' id='" + question_id + "-description'></input>                  " + (_.map(["latitude", "longitude"], function(field) {
-                return "<label for='" + question_id + "-" + field + "'>" + field + "</label><input readonly='readonly' type='number' name='" + name + "-" + field + "' id='" + question_id + "-" + field + "'></input>";
+                return "<label for='" + question_id + "-" + field + "' class='ui-input-text'>" + field + "</label><input readonly='readonly' type='number' name='" + name + "-" + field + "' id='" + question_id + "-" + field + "'></input>";
               }).join("")) + "                  " + (_.map(["altitude", "accuracy", "altitudeAccuracy", "heading", "timestamp"], function(field) {
                 return "<input type='hidden' name='" + name + "-" + field + "' id='" + question_id + "-" + field + "'></input>";
               }).join("")) + "                ";

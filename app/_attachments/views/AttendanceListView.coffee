@@ -2,8 +2,8 @@ class AttendanceListView extends Backbone.View
 
   el: "#content"
 
-  events:
-   "click #searchButton" : "filter"
+  #events:
+   #"click #searchButton" : "filter"
 
   initialize: (options) ->
     (@[key] = value for key, value of options)
@@ -64,8 +64,8 @@ class AttendanceListView extends Backbone.View
       ).call(this)).join("")) + "      "
 
     html += "#{standard_value_table || ''}<div style='font-size: 14pt;font-weight: bold'>" + @standard_values.activity_name + "</div><br>"
-    html += "<div style='font-size: 10pt'><input type='text' id='search' placeholder='filter'></div><br>";
-    html += "<div id='attendanceForm' style='overflow:auto;'><table class='tablesorter'>
+    #html += "<div style='font-size: 10pt'><input type='text' id='search' placeholder='filter'></div><br>";
+    html += "<div id='attendanceForm' style='overflow:auto;'><table id='participants'>
           <thead>
             <tr>
               <th></th>
@@ -109,13 +109,19 @@ class AttendanceListView extends Backbone.View
     "</tbody></table></div>"
 
     html += "<button id='completeButton' name='completeButton' type='button'>Guardar</button>"
-    html += "<button id='searchButton' name='searchButton' type='button'>Búsqueda</button>"
+
 
     @$el.html html
 
+    $('#participants').dataTable({
+      "bPaginate": true,
+      "bSort": true,
+      "bFilter": true
+    });
+
     # make rows display in different colors
-    $('table tr').each (index, row) =>
-      $(row).addClass("odd") if index % 2 is 1
+    #$('table tr').each (index, row) =>
+    #  $(row).addClass("odd") if index % 2 is 1
 
     # @jQueryUIze(@$el)
 

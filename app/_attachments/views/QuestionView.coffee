@@ -237,8 +237,10 @@ class QuestionView extends Backbone.View
     @trigger "rendered"
 
   jQueryUIze: ( $obj ) ->
-     $obj.find("input[type=text],input[type=number],input[type='autocomplete from previous entries'],input[type='autocomplete from list']").textinput()
-     $obj.find('input[type=radio],input[type=checkbox]').checkboxradio()
+     #VBJQUERY 1.9 PORT $obj.find("input[type=text],input[type=number],input[type='autocomplete from previous entries'],input[type='autocomplete from list']").textinput()
+     #VBJQUERY 1.9 PORT $obj.find('input[type=radio],input[type=checkbox]').checkboxradio()
+     $obj.find("input[type='text'],input[type='number'],input[type='autocomplete from previous entries'],input[type='autocomplete from list']").val()
+     $obj.find("input[type='radio'],input[type='checkbox']").checkboxradio()
      $obj.find('ul').listview()
      $obj.find('select').selectmenu()
      $obj.find('a').button()
@@ -708,11 +710,12 @@ class QuestionView extends Backbone.View
             @$next = $parentsMaybe
 
     else
-      $(window).on( "scroll", => $(window).off("scroll"); clearTimeout @autoscrollTimer; )
+      $(window).on( "scroll", => $(window).off("scroll"); clearTimeout @autoscrollTimer;)
       @autoscrollTimer = setTimeout(
         => 
           $(window).off( "scroll" )
-          @$next.scrollTo().find("input[type=text],input[type=number],input[type='autocomplete from previous entries'], input=[type='autocomplete from list']").first().focus()
+          #VBJQUERY @$next.scrollTo().find("input[type='text'],input[type='number'],input[type='autocomplete from previous entries'], input=[type='autocomplete from list']").first().focus()
+          @$next.scrollTo().find("input[type='text'],input[type='number'],input[type='autocomplete from previous entries'], input[type='autocomplete from list']").first().focus()
         1000
       )
 
@@ -868,7 +871,7 @@ class QuestionView extends Backbone.View
 
           #{
           unless question.type() is 'hidden'
-            "<label type='#{question.type()}' for='#{question_id}'>#{labelHeader[0]}#{question.label()}#{labelHeader[1]} <span></span></label>" 
+            "<label type='#{question.type()}' for='#{question_id}' class='ui-input-text'>#{labelHeader[0]}#{question.label()}#{labelHeader[1]} <span></span></label>"
           else
             ""
           }
@@ -899,12 +902,12 @@ class QuestionView extends Backbone.View
                   html += "</select>"
               when "radio"
                 if @readonly
-                  "<input name='#{name}' type='text' id='#{question_id}' value='#{question.value()}'></input>"
+                  "<input name='#{name}' type='text' id='#{question_id}' value='#{question.value()}' class='ui-input-text ui-body-c ui-corner-all ui-shadow-inset'></input>"
                 else
                   options = question.get("radio-options")
                   _.map(options.split(/, */), (option,index) ->
                     "
-                      <label for='#{question_id}-#{index}'>#{option}</label>
+                      <label for='#{question_id}-#{index}' class='ui-input-text'>#{option}</label>
                       <input type='radio' name='#{name}' id='#{question_id}-#{index}' value='#{_.escape(option)}'/>
                     "
                   ).join("")
@@ -935,12 +938,12 @@ class QuestionView extends Backbone.View
                                       >"
                   programString += "<h2>#{program.programname}</h2>"
                   if @readonly
-                    programString += "<input name='#{questionProgramName}' type='text' id='#{questionProgramId}' value='#{question.value()}'></input>"
+                    programString += "<input name='#{questionProgramName}' type='text' id='#{questionProgramId}' value='#{question.value()}' class='ui-input-text ui-body-c ui-corner-all ui-shadow-inset'></input>"
                   else
                     options = question.get("radio-options")
                     programString += _.map(options.split(/, */), (option,index) ->
                       "
-                                              <label for='#{questionProgramId}-#{index}'>#{option}</label>
+                                              <label for='#{questionProgramId}-#{index}' class='ui-input-text'>#{option}</label>
                                               <input type='radio' name='#{questionProgramName}' id='#{questionProgramId}-#{index}' value='#{_.escape(option)}'/>
                                             "
                     ).join("")
@@ -965,7 +968,7 @@ class QuestionView extends Backbone.View
               when "autocomplete from list", "autocomplete from previous entries"
                 "
                   <!-- autocomplete='off' disables browser completion -->
-                  <input autocomplete='off' name='#{name}' id='#{question_id}' type='#{question.type()}' value='#{question.value()}' data-autocomplete-options='#{question.get("autocomplete-options")}'></input>
+                  <input autocomplete='off' name='#{name}' id='#{question_id}' type='#{question.type()}' value='#{question.value()}' data-autocomplete-options='#{question.get("autocomplete-options")}' class='ui-input-text ui-body-c ui-corner-all ui-shadow-inset'></input>
                   <ul id='#{question_id}-suggestions' data-role='listview' data-inset='true'/>
                 "
 #              when "autocomplete from previous entries" or ""
@@ -977,11 +980,11 @@ class QuestionView extends Backbone.View
               when "location"
                 "
                   <a data-question-id='#{question_id}'>Get current location</a>
-                  <label for='#{question_id}-description'>Location Description</label>
+                  <label for='#{question_id}-description' class='ui-input-text'>Location Description</label>
                   <input type='text' name='#{name}-description' id='#{question_id}-description'></input>
                   #{
                     _.map(["latitude", "longitude"], (field) ->
-                      "<label for='#{question_id}-#{field}'>#{field}</label><input readonly='readonly' type='number' name='#{name}-#{field}' id='#{question_id}-#{field}'></input>"
+                      "<label for='#{question_id}-#{field}' class='ui-input-text'>#{field}</label><input readonly='readonly' type='number' name='#{name}-#{field}' id='#{question_id}-#{field}'></input>"
                     ).join("")
                   }
                   #{
@@ -1001,7 +1004,7 @@ class QuestionView extends Backbone.View
               when "label"
                 ""
               else
-                "<input name='#{name}' id='#{question_id}' type='#{question.type()}' value='#{question.value()}'></input>"
+                "<input name='#{name}' id='#{question_id}' type='#{question.type()}' value='#{question.value()}' class='ui-input-text ui-body-c ui-corner-all ui-shadow-inset'></input>"
           }
           </div>
           #{repeatButton || ''}
@@ -1088,7 +1091,7 @@ class QuestionView extends Backbone.View
 
           #{
           unless question.type() is 'hidden'
-            "<label type='#{question.type()}' for='#{question_id}'>#{labelHeader[0]}#{question.label()}#{labelHeader[1]} <span></span></label>" 
+            "<label type='#{question.type()}' for='#{question_id}' class='ui-input-text'>#{labelHeader[0]}#{question.label()}#{labelHeader[1]} <span></span></label>"
           else
             ""
           }
@@ -1127,7 +1130,7 @@ class QuestionView extends Backbone.View
                   <input type='text' name='#{name}-description' id='#{question_id}-description'></input>
                   #{
                     _.map(["latitude", "longitude"], (field) ->
-                      "<label for='#{question_id}-#{field}'>#{field}</label><input readonly='readonly' type='number' name='#{name}-#{field}' id='#{question_id}-#{field}'></input>"
+                      "<label for='#{question_id}-#{field}' class='ui-input-text'>#{field}</label><input readonly='readonly' type='number' name='#{name}-#{field}' id='#{question_id}-#{field}'></input>"
                     ).join("")
                   }
                   #{

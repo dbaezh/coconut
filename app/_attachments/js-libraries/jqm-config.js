@@ -5,7 +5,11 @@ $(document).bind("mobileinit", function () {
     $.mobile.pushStateEnabled = false;
 
     // Remove page from DOM when it's being replaced
-    $('div[data-role="page"]').live('pagehide', function (event, ui) {
+    // VBJQUERY replaced live with on when moving to jQUery 1.9
+    /*$('div[data-role="page"]').live('pagehide', function (event, ui) {
+        $(event.currentTarget).remove();
+    });*/
+    $('div[data-role="page"]').on('pagehide', function (event, ui) {
         $(event.currentTarget).remove();
     });
 });

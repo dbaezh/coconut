@@ -13,10 +13,6 @@ AttendanceListView = (function(_super) {
 
   AttendanceListView.prototype.el = "#content";
 
-  AttendanceListView.prototype.events = {
-    "click #searchButton": "filter"
-  };
-
   AttendanceListView.prototype.initialize = function(options) {
     var key, value;
     for (key in options) {
@@ -76,8 +72,7 @@ AttendanceListView = (function(_super) {
   };
 
   AttendanceListView.prototype.render = function() {
-    var birthday, cbChecked, cbHTML, cbValue, html, participant, participantData, participantsSorted, standard_value_table, _i, _len,
-      _this = this;
+    var birthday, cbChecked, cbHTML, cbValue, html, participant, participantData, participantsSorted, standard_value_table, _i, _len;
     this.searchRows = {};
     html = "";
     if ("module" === Coconut.config.local.get("mode")) {
@@ -95,8 +90,7 @@ AttendanceListView = (function(_super) {
       }).call(this)).join("")) + "      ";
     }
     html += ("" + (standard_value_table || '') + "<div style='font-size: 14pt;font-weight: bold'>") + this.standard_values.activity_name + "</div><br>";
-    html += "<div style='font-size: 10pt'><input type='text' id='search' placeholder='filter'></div><br>";
-    html += "<div id='attendanceForm' style='overflow:auto;'><table class='tablesorter'>          <thead>            <tr>              <th></th>              <th>Apellido</th>              <th>Nombre</th>              <th>Sexo</th>              <th>Fecha de <br/>Nacimiento</th>              <th>Barrio o Sector</th>              <th>Teléfono</th>              <th>Correo Electrónico</th>            </tr></thead>        <tbody>";
+    html += "<div id='attendanceForm' style='overflow:auto;'><table id='participants'>          <thead>            <tr>              <th></th>              <th>Apellido</th>              <th>Nombre</th>              <th>Sexo</th>              <th>Fecha de <br/>Nacimiento</th>              <th>Barrio o Sector</th>              <th>Teléfono</th>              <th>Correo Electrónico</th>            </tr></thead>        <tbody>";
     participantsSorted = caseInsensitiveSortJSONData(this.wsData.participants.rows, "Apellido", true);
     for (_i = 0, _len = participantsSorted.length; _i < _len; _i++) {
       participant = participantsSorted[_i];
@@ -122,12 +116,11 @@ AttendanceListView = (function(_super) {
     }
     "</tbody></table></div>";
     html += "<button id='completeButton' name='completeButton' type='button'>Guardar</button>";
-    html += "<button id='searchButton' name='searchButton' type='button'>Búsqueda</button>";
     this.$el.html(html);
-    $('table tr').each(function(index, row) {
-      if (index % 2 === 1) {
-        return $(row).addClass("odd");
-      }
+    $('#participants').dataTable({
+      "bPaginate": true,
+      "bSort": true,
+      "bFilter": true
     });
     $('#completeButton').click(this.save);
   };

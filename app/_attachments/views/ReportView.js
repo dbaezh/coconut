@@ -14,10 +14,6 @@ ReportView = (function(_super) {
 
   ReportView.prototype.el = "#content";
 
-  ReportView.prototype.events = {
-    "keyup #search": "filter"
-  };
-
   ReportView.prototype.getCompletedDocsUUIDsAndFetch = function() {
     var completedDocs, db, results, _this;
     results = void 0;
@@ -64,6 +60,7 @@ ReportView = (function(_super) {
     var key, results, urlParams, value,
       _this = this;
     urlParams = [];
+    this.$el.append('<div id="reportloader"><marquee ALIGN="Top" LOOP="infinite"  DIRECTION="right" style="font-size:24px; color:#FF8000">Cargando el informe. Por favor espera ...</marquee></div>');
     for (key in options) {
       value = options[key];
       this[key] = value;
@@ -142,8 +139,7 @@ ReportView = (function(_super) {
       }
       total++;
     }
-    html = "<div style='font-size: 10pt'><input type='text' id='search' placeholder='filter'>&nbsp;&nbsp;<b>Entradas totales: " + total + "</b></div><br>";
-    html += "<div style='overflow:auto;'><table class='tablesorter'>      <thead>        <tr>";
+    html = "<div style='overflow:auto;' ><table id='reportTable'>      <thead>        <tr>";
     _ref2 = this.fields;
     for (_j = 0, _len1 = _ref2.length; _j < _len1; _j++) {
       field = _ref2[_j];
@@ -215,28 +211,12 @@ ReportView = (function(_super) {
     }
     html += "</tbody></table></div>";
     this.$el.html(html);
-    return $("table").each(function() {
-      var $table, blob, data, url;
-      $table = $(this);
-      data = $table.table2CSV({
-        delivery: "value",
-        header: headers
-      });
-      blob = new Blob([data], {
-        type: "application/octet-binary"
-      });
-      url = URL.createObjectURL(blob);
-      $("<a><font size=\"2px\">Exportar a CSV</font></a>").attr("id", "downloadFile").attr({
-        href: url
-      }).attr("download", "report.csv").insertBefore($table);
-      if (this['quid'] !== "Participant Survey-es") {
-        return $('table tr').each(function(index, row) {
-          if (index % 2 === 1) {
-            return $(row).addClass("odd");
-          }
-        });
-      }
+    $('#reportTable').dataTable({
+      "bPaginate": true,
+      "bSort": true,
+      "bFilter": true
     });
+    return $('#reportloader').hide();
   };
 
   return ReportView;

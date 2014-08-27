@@ -100,7 +100,7 @@
           "_id": 112,
           "label": "Día",
           "repeatable": false,
-          "required": false,
+          "required": true,
           "type": "number",
           "validation": "return \"Dia debe ser de 1 al 31.\" if parseInt(value) < 1 || parseInt(value) > 31 "
         },
@@ -109,7 +109,7 @@
           "autocomplete-options": "enero,febrero,marzo,abril,mayo,junio,julio,agosto,septiembre,octubre,noviembre,diciembre",
           "label": "Mes",
           "repeatable": false,
-          "required": false,
+          "required": true,
           "type": "autocomplete from list"	   
         },        
 	{

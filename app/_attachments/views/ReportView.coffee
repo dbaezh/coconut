@@ -2,8 +2,8 @@ class ReportView extends Backbone.View
 
   el: "#content"
 
-  events:
-    "keyup #search" : "filter"
+  #events:
+    #"keyup #search" : "filter"
 
 
   getCompletedDocsUUIDsAndFetch: ->
@@ -46,6 +46,7 @@ class ReportView extends Backbone.View
 
   initialize: (options) ->
     urlParams = []
+    @$el.append '<div id="reportloader"><marquee ALIGN="Top" LOOP="infinite"  DIRECTION="right" style="font-size:24px; color:#FF8000">Cargando el informe. Por favor espera ...</marquee></div>'
 
     for key of options
       value = options[key]
@@ -127,13 +128,12 @@ class ReportView extends Backbone.View
       if this['provider_id'] isnt undefined and result.get('provider_id') isnt this['provider_id']
           continue
        
-      total++;	
+      total++;
 
-     
-	
-    
-    html = "<div style='font-size: 10pt'><input type='text' id='search' placeholder='filter'>&nbsp;&nbsp;<b>Entradas totales: " + total + "</b></div><br>";	
-    html += "<div style='overflow:auto;'><table class='tablesorter'>
+
+    #html = "<div style='font-size: 10pt'><input type='text' id='search' placeholder='filter'>&nbsp;&nbsp;<b>Entradas totales: " + total + "</b></div><br>";
+    #html += "<div style='overflow:auto;'><table class='tablesorter'>
+    html = "<div style='overflow:auto;' ><table id='reportTable'>
       <thead>
         <tr>"
     for field in @fields
@@ -206,22 +206,30 @@ class ReportView extends Backbone.View
 
     @$el.html html
 
+    $('#reportTable').dataTable({
+      "bPaginate": true,
+      "bSort": true,
+      "bFilter": true
+    });
+
+    $('#reportloader').hide();
+
     # download to csv file and make rows display in different colors
-    $("table").each ->
-       $table = $(this)
-       data = $table.table2CSV(
-        delivery: "value"
-        header: headers
-       )
+    #$("table").each ->
+    #   $table = $(this)
+    #   data = $table.table2CSV(
+    #    delivery: "value"
+    #    header: headers
+    #   )
 
-       blob = new Blob([data],type: "application/octet-binary")
-       url = URL.createObjectURL(blob)
+    #   blob = new Blob([data],type: "application/octet-binary")
+    #   url = URL.createObjectURL(blob)
 
-       $("<a><font size=\"2px\">Exportar a CSV</font></a>").attr("id", "downloadFile").attr({href: url}).attr("download", "report.csv").insertBefore $table
+    #   $("<a><font size=\"2px\">Exportar a CSV</font></a>").attr("id", "downloadFile").attr({href: url}).attr("download", "report.csv").insertBefore $table
 
-       if this['quid'] isnt "Participant Survey-es"
-          $('table tr').each (index, row) ->
-            $(row).addClass("odd") if index % 2 is 1
+    #   if this['quid'] isnt "Participant Survey-es"
+    #      $('table tr').each (index, row) ->
+    #        $(row).addClass("odd") if index % 2 is 1
 
 
 class OldReportView extends Backbone.View
