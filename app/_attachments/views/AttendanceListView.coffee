@@ -3,11 +3,11 @@ class AttendanceListView extends Backbone.View
   el: "#content"
 
   events:
-    "keyup #search" : "filter"
+   "click #searchButton" : "filter"
 
   initialize: (options) ->
     (@[key] = value for key, value of options)
-    Coconut.resultCollection ?= new ResultCollection()
+    Coconut.resultCollection ?= new ResultCollectionWithCollateral()
 
 
   filter: (event) ->
@@ -19,10 +19,12 @@ class AttendanceListView extends Backbone.View
       if foundRow != null
         if ~row.indexOf(query) or query.length < 3
           $(foundRow).show()
-#          @$el.find(".row-#{escapedId}").show()
+          #          @$el.find(".row-#{escapedId}").show()
         else
           $(foundRow).hide()
-#          @$el.find(".row-#{escapedId}").hide()
+  #          @$el.find(".row-#{escapedId}").hide()
+
+
 
   findTRByClass: (rows, className) ->
      for id, row of rows
@@ -107,6 +109,7 @@ class AttendanceListView extends Backbone.View
     "</tbody></table></div>"
 
     html += "<button id='completeButton' name='completeButton' type='button'>Guardar</button>"
+    html += "<button id='searchButton' name='searchButton' type='button'>Búsqueda</button>"
 
     @$el.html html
 
@@ -121,6 +124,7 @@ class AttendanceListView extends Backbone.View
 #      @save
 
     $('#completeButton').click @save
+
 
     return
 

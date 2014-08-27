@@ -14,7 +14,7 @@ AttendanceListView = (function(_super) {
   AttendanceListView.prototype.el = "#content";
 
   AttendanceListView.prototype.events = {
-    "keyup #search": "filter"
+    "click #searchButton": "filter"
   };
 
   AttendanceListView.prototype.initialize = function(options) {
@@ -23,7 +23,7 @@ AttendanceListView = (function(_super) {
       value = options[key];
       this[key] = value;
     }
-    return Coconut.resultCollection != null ? Coconut.resultCollection : Coconut.resultCollection = new ResultCollection();
+    return Coconut.resultCollection != null ? Coconut.resultCollection : Coconut.resultCollection = new ResultCollectionWithCollateral();
   };
 
   AttendanceListView.prototype.filter = function(event) {
@@ -122,6 +122,7 @@ AttendanceListView = (function(_super) {
     }
     "</tbody></table></div>";
     html += "<button id='completeButton' name='completeButton' type='button'>Guardar</button>";
+    html += "<button id='searchButton' name='searchButton' type='button'>Búsqueda</button>";
     this.$el.html(html);
     $('table tr').each(function(index, row) {
       if (index % 2 === 1) {
