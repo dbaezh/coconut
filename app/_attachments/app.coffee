@@ -336,7 +336,6 @@ class Router extends Backbone.Router
         success: ->
           $.ajax
             url: "http://107.20.181.244/cocorest/views/wsfindprogramnames.json"
-      #      url: "http://54.204.20.212/cocorest/views/wsfindprogramnames.json"
             dataType: 'json'
             crossDomain: true
             xhrFields: {
@@ -349,6 +348,28 @@ class Router extends Backbone.Router
                 model           : question
                 wsData          : {'programsList': response}
               Coconut.questionView.render()
+    else if question_id == "Participant Survey-es"
+      #first check if survey already exist
+      uuid = standard_values['uuid'];
+      db = $.couch.db("coconut")
+      surveyByUUID = 'coconut/byUUIDForReportActions?key="' +uuid + '"';
+
+      db.view surveyByUUID,
+        success: (data) ->
+          if data.rows.length is 0
+            question.fetch
+              success: ->
+                Coconut.questionView = new QuestionView
+                  standard_values : _(standard_values).omit('question')
+                  result          : new Result standard_values
+                  model           : question
+                Coconut.questionView.render()
+          else
+            #show survey already exist
+            alert("Encuesta para este usuario ya existe!");
+        error: (data) ->
+          alert "Someting wrong"
+
     else
       question.fetch
         success: ->

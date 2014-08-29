@@ -440,7 +440,7 @@ Router = (function(_super) {
   };
 
   Router.prototype.newResult = function(question_id, s_options) {
-    var question, quid, standard_values;
+    var db, question, quid, standard_values, surveyByUUID, uuid;
     if (s_options == null) {
       s_options = '';
     }
@@ -476,6 +476,31 @@ Router = (function(_super) {
               return Coconut.questionView.render();
             }
           });
+        }
+      });
+    } else if (question_id === "Participant Survey-es") {
+      uuid = standard_values['uuid'];
+      db = $.couch.db("coconut");
+      surveyByUUID = 'coconut/byUUIDForReportActions?key="' + uuid + '"';
+      return db.view(surveyByUUID, {
+        success: function(data) {
+          if (data.rows.length === 0) {
+            return question.fetch({
+              success: function() {
+                Coconut.questionView = new QuestionView({
+                  standard_values: _(standard_values).omit('question'),
+                  result: new Result(standard_values),
+                  model: question
+                });
+                return Coconut.questionView.render();
+              }
+            });
+          } else {
+            return alert("Encuesta para este usuario ya existe!");
+          }
+        },
+        error: function(data) {
+          return alert("Someting wrong");
         }
       });
     } else {
