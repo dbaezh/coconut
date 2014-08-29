@@ -91,7 +91,7 @@ function load_regs_worker()
         $record = ajetlregs_ajetlregs_getRegistrationByIdAndModifiedDate($one_row['id'], $lastModified);
 
         if ($record != null) {
-                ajetllog_log("ajetlregs", "MESSAGE", "Found same exact record and stopped loading registrations.");
+                ajetllog_log("ajetlregs", "MESSAGE", "Found same exact record and stopped loading registrations for document is".$one_row['id']);
                 break;
         }
 

@@ -943,6 +943,12 @@ function ajetlsurveys_schema() {
            'length' => 40,
            'not null' => FALSE,
            'default' => ''),
+	 '18Enlosúltimos12meseshassidosuspendidoadelaescuela' => array(
+           'description' => '18. En los últimos 12 meses, ¿has sido suspendido/a de la escuela?',
+           'type' => 'varchar',
+           'length' => 255,
+           'not null' => FALSE,
+           'default' => ''),
 	 '20Hasrepetidoalgúncursoenlaescuela' => array(
            'description' => '40. ¿Has repetido algún curso en la escuela?',
            'type' => 'varchar',

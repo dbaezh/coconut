@@ -4,14 +4,12 @@
  * Install module for couchDB ETL process. Creates the couchDB tables.
  */
 
-// TBD: Move schema definitions in external files
-//require_once ( dirname(__FILE__) . '/regschema.inc'); //
-
 
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
 
 function ajetllog_schema() {
+
 
   $schema['ajetl_log'] = array(
       'description' => 'Used by AJ ETL modules to log errors and messages.',
