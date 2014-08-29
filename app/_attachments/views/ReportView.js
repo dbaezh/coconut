@@ -175,9 +175,12 @@ ReportView = (function(_super) {
         }
       }
       if (this["isActions"] !== void 0) {
+        sPassed = "";
         isSurveyExist = false;
         isExitExist = false;
         this.urlParams.push("uuid=" + result.get("uuid"));
+        this.urlParams.push("provider_id=" + result.get("provider_id"));
+        this.urlParams.push("provider_name=" + result.get("provider_name"));
         sPassed = "/" + this.urlParams.join("&");
         html += "<td>";
         if (!isSurveyExist) {
@@ -188,6 +191,8 @@ ReportView = (function(_super) {
         }
         html += "<a href=\"#view/result/" + result.id + sPassed + "\">Ver Registro</a></td>";
         this.urlParams.removeByValue("uuid=" + result.get("uuid"));
+        this.urlParams.removeByValue("provider_id=" + result.get("provider_id"));
+        this.urlParams.removeByValue("provider_name=" + result.get("provider_name"));
       }
       html += "</tr>";
     }

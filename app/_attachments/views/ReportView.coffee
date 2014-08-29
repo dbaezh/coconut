@@ -166,10 +166,15 @@ class ReportView extends Backbone.View
       
        #prepare parameters for the actions
        if this["isActions"] isnt undefined
+         sPassed = "";
          isSurveyExist = false
          isExitExist = false
          @urlParams.push "uuid=" + result.get("uuid")
+         @urlParams.push "provider_id=" + result.get("provider_id")
+         @urlParams.push "provider_name=" + result.get("provider_name")
+
          sPassed = "/" + @urlParams.join("&")
+
 
          html += "<td>"
          unless isSurveyExist
@@ -181,6 +186,8 @@ class ReportView extends Backbone.View
          html += "<a href=\"#view/result/" + result.id +  sPassed + "\">Ver Registro</a></td>"
 
          @urlParams.removeByValue "uuid=" + result.get("uuid")
+         @urlParams.removeByValue "provider_id=" + result.get("provider_id")
+         @urlParams.removeByValue "provider_name=" + result.get("provider_name")
 
        html += "</tr>"
 
