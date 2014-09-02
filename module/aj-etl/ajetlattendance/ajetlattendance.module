@@ -11,9 +11,9 @@ ini_set("display_errors", 1);
  * Cron job is creating the queue cron job.
  *
  */
-function ajetlregs_cron() {
+function ajetlattendance_cron() {
 
-    $queue = DrupalQueue::get('ajetlregs');
+    $queue = DrupalQueue::get('ajetlattendance');
     $queue->createItem("arg1");
 }
 
@@ -22,7 +22,7 @@ function ajetlregs_cron() {
  *
  * @return array
  */
-function ajetlregs_cron_queue_info()
+function ajetlattendance_cron_queue_info()
 {
 
     $queues = array();
@@ -30,8 +30,8 @@ function ajetlregs_cron_queue_info()
     //cron is run at 2:00am
     //if(date('G')==2)
     //{
-    $queues['ajetlregs'] = array(
-        'worker callback' => 'load_regs_worker',
+    $queues['ajetlattendance'] = array(
+        'worker callback' => 'load_attendance_worker',
         'time' => 300, // time in seconds, this is the duration that the job will be CALLED, e.g.
         // after it finish it will be called again until the time is up.
     );
@@ -45,17 +45,17 @@ function ajetlregs_cron_queue_info()
  * The queue job worker. Query registration from couchDB descending and load them into mySQL database.
  *
  */
-function load_regs_worker()
+function load_attendance_worker()
 {
-    ajetllog_log("ajetlregs", "MESSAGE", "PROCESSING STARTED");
+    ajetllog_log("ajetlattendance", "MESSAGE", "PROCESSING STARTED");
     global $base_url;
 
-    ajetlregs_setModuleVariables();
+    ajetlattendance_setModuleVariables();
 
-    $req_url = 'http://localhost:5984/coconut/_design/coconut/_view/resultsByQuestionAndComplete?startkey=%22Participant%20Registration-es%3Atrue%3Az%22&endkey=%22Participant%20Registration-es%3Atrue%22&descending=true&include_docs=false';
+    $req_url = 'http://localhost:5984/coconut/_design/coconut/_view/resultsByQuestionAndComplete?startkey=%22Attendance%20List%3Afalse%3Az%22&endkey=%22Attendance%20List%3Afalse%22&descending=true&include_docs=false';
 
     //TBD Uncomment when deploying to prod, the $base_url is not write when deploying on Windows because it has /drupal in the link
-    //$req_url = $base_url.':5984/coconut/_design/coconut/_view/resultsByQuestionAndComplete?startkey=%22Participant%20Registration-es%3Atrue%3Az%22&endkey=%22Participant%20Registration-es%3Atrue%22&descending=true&include_docs=false';
+    //$req_url = $base_url.':5984/coconut/_design/coconut/_view/resultsByQuestionAndComplete?startkey=%22Attendance%20List%3Afalse%3Az%22&endkey=%22Attendance%20List%3Afalse%22&descending=true&include_docs=false';
 
 
     // prepare the request options
@@ -73,36 +73,37 @@ function load_regs_worker()
 
     $size = sizeof($rows);
 
-    ajetllog_log("ajetlregs", "MESSAGE", "******Rows fetched:".$size);
+    ajetllog_log("ajetlattendance", "MESSAGE", "******Rows fetched:".$size);
 
     $i = 0;
 
     foreach ( $rows as $one_row ){
         list($type, $isCompleted, $lastModified1,$lastModified2, $lastModified3, $lastModified4) = explode(":", $one_row['key']);
 
+
         // lastModified is in format as 2014-08-11T13:50:41-03:00 so need to re-create
         $lastModified = $lastModified1.':'.$lastModified2.':'.$lastModified3.':'.$lastModified4;
 
         // check if the record with the same id and last modified date already exist
-        $record = ajetlregs_ajetlregs_getRegistrationByIdAndModifiedDate($one_row['id'], $lastModified);
+        $record = ajetlattendance_getAttendanceByIdAndModifiedDate($one_row['id'], $lastModified);
 
         if ($record != null) {
-                ajetllog_log("ajetlregs", "MESSAGE", "Found same exact record and stopped loading registrations for document is".$one_row['id']);
-                break;
+            ajetllog_log("ajetlattendance", "MESSAGE", "Found same exact record and stopped loading registrations for document is".$one_row['id']);
+            break;
         }
 
 
-            ajetlregs_loadRegistration($one_row['id'], $lastModified);
-            $i++;
+        ajetlattendance_loadAttendance($one_row['id'], $lastModified);
+        $i++;
 
         //if ($i === 10)
-          //  break;
+        //  break;
 
     }
 
-    ajetlregs_deleteModuleVariables();
+    ajetlattendance_deleteModuleVariables();
 
-    ajetllog_log("ajetlregs", "MESSAGE", "Document processed".$i);
+    ajetllog_log("ajetlattendance", "MESSAGE", "Document processed".$i);
 
 
 
@@ -113,10 +114,10 @@ function load_regs_worker()
 /**
  * Implement hook_enable()
  */
-function ajetlregs_enable() {
+function ajetlattendance_enable() {
     //Check if table exists, if not install the schema.
-    /* if(db_table_exists('aj_registration') == FALSE) {
-         drupal_install_schema('ajetlregs');
+    /* if(db_table_exists('aj_attendance') == FALSE) {
+         drupal_install_schema('ajetlattendance');
      }*/
 
 
@@ -128,7 +129,7 @@ function ajetlregs_enable() {
  *
  * @param $id
  */
-function ajetlregs_OpenRegById($id){
+function ajetlattendance_OpenRegById($id){
     // TBD: changed hard coded localhost link
     $req_url = 'http://localhost:5984/coconut/'.$id;
 
@@ -149,9 +150,9 @@ function ajetlregs_OpenRegById($id){
 /**
  * Delete module variables.
  */
-function ajetlregs_deleteModuleVariables(){
-    variable_del("ajRegsColumns");
-    
+function ajetlattendance_deleteModuleVariables(){
+    variable_del("ajAttendanceColumns");
+
 }
 
 /**
@@ -160,38 +161,36 @@ function ajetlregs_deleteModuleVariables(){
  *
  *
  */
-function ajetlregs_setModuleVariables()
+function ajetlattendance_setModuleVariables()
 {
     // retrieve aj-survey table columns
-    $ajRegsColumns = drupal_schema_fields_sql("aj_registration");
+    $ajAttendanceColumns = drupal_schema_fields_sql("aj_attendance");
     // set the columns as variable
-    variable_set("ajRegsColumns", $ajRegsColumns);
+    variable_set("ajAttendanceColumns", $ajAttendanceColumns);
 }
 
 /**
- * Generates the first insert query e.g. .(col1, col2, col3...). It's driven by the aj_registration table columns.
+ * Generates the first insert query e.g. .(col1, col2, col3...). It's driven by the aj_attendance table columns.
  *
  * @param $doc
  *
  */
-function ajetlregs_genInsertQueryPart1($doc){
+function ajetlattendance_genInsertQueryPart1($doc){
     $query = "";
-    $ajRegsColumns = variable_get("ajRegsColumns");
+    $ajAttendanceColumns = variable_get("ajAttendanceColumns");
 
 
 
-    foreach ($ajRegsColumns as $col){
-        if ($col === "id" || $col === "changed")
+    foreach ($ajAttendanceColumns as $col){
+        if ($col === "id" || $col === "changed" || $col === "uuid")
             continue;
 
         $query = $query.$col.", ";
 
-
     }
 
-    // clean the last ","
-    $len = strlen($query);
-    $query =substr($query, 0, $len-2);
+    // add uuid as last field
+    $query = $query." uuid";
 
     return $query;
 
@@ -204,28 +203,26 @@ function ajetlregs_genInsertQueryPart1($doc){
  * @param $doc
  *
  */
-function ajetlregs_genInsertQueryPart2($doc){
+function ajetlattendance_genInsertQueryPart2($doc, $uuid){
     $query = "";
     $key = "";
     $val = "";
 
-    $ajRegsColumns = variable_get("ajRegsColumns");
+    $ajAttendanceColumns = variable_get("ajAttendanceColumns");
 
-    foreach ($ajRegsColumns as $col) {
+    foreach ($ajAttendanceColumns as $col) {
         // skip these
-        if ($col === "id" || $col === "changed")
+        if ($col === "id" || $col === "changed" || $col === "uuid")
             continue;
+
 
         $key = $col;
 
         if ($key === "createdAt" || $key === "lastModifiedAt") {
-            $val = ajetlregs_couchDateTime2Mysql($doc[$key]);
+            $val = ajetlattendance_couchDateTime2Mysql($doc[$key]);
             $query = $query . $val . " ";
         }else if ($key === "created"){
             $val = " NOW() ";
-            $query = $query . $val . " ";
-        }else if ($key === "Fecha"){
-            $val = ajetlregs_couchDate2Mysql($doc[$key]);
             $query = $query . $val . " ";
         }else {
             if (array_key_exists($key, $doc)) {
@@ -235,7 +232,7 @@ function ajetlregs_genInsertQueryPart2($doc){
                     $val = str_replace("'", "\'", $val);
             }else
                 $val = "";
-            $query = $query . "'" . $val . "' ";
+            $query = $query."'". $val."' ";
         }
 
 
@@ -246,9 +243,8 @@ function ajetlregs_genInsertQueryPart2($doc){
 
     }
 
-    // clean the last ","
-    $len = strlen($query);
-    $query =substr($query, 0, $len-1);
+    // add the uuid as last value
+    $query = $query."'".$uuid."' ";
 
     return $query;
 
@@ -261,90 +257,34 @@ function ajetlregs_genInsertQueryPart2($doc){
  * @param $id
  * @param $lastModifiedDate
  */
-function ajetlregs_insertRegistration($doc){
+function ajetlattendance_insertAttendance($doc, $uuid){
 
-    $q1 = ajetlregs_genInsertQueryPart1($doc);
-    $q2 = ajetlregs_genInsertQueryPart2($doc);
-    $query = "INSERT INTO {aj_registration} (".$q1.") VALUES(".$q2.")";
+    $q1 = ajetlattendance_genInsertQueryPart1($doc);
+    $q2 = ajetlattendance_genInsertQueryPart2($doc, $uuid);
+    $query = "INSERT INTO {aj_attendance} (".$q1.") VALUES(".$q2.")";
 
     $result = db_query($query);
 
 }
 
 
-/**
- * Inserts data into aj_registration table.
- *
- * @param $id
- * @param $lastModifiedDate
- */
-function ajetlregs_insertRegistrationOld($doc){
 
-    // transform dates
-    $createdAt = ajetlregs_couchDateTime2Mysql($doc['createdAt']);
-    $lastModifiedAt = ajetlregs_couchDateTime2Mysql($doc['lastModifiedAt']);
-    $fetcha = ajetlregs_couchDate2Mysql($doc['Fecha']);
-
-
-    $query = "INSERT INTO {aj_registration}".
-        "(_id, _rev, createdAt, lastModifiedAt,created,uuid,Apellido,Apodo,Año,BarrioComunidad,Calleynumero ,".
-        "Casa,Celular,Completado,Direccióndecorreoelectrónico,Día,Fecha,Mes, Municipio,Nombre,".
-        "Nombredepersonadecontacto,NombredeusuariodeFacebook,Parentescoopersonarelacionada,".
-        "Provincia,Teléfono,provider_id,provider_name,question,user_name)".
-        " VALUES (:_id,:_rev,".$createdAt.",".$lastModifiedAt.", NOW(), :uuid, :Apellido, :Apodo, :Ano,:BarrioComunidad, :Calleynumero,".
-        ":Casa,:Celular,:Completado,:Direcciondecorreoelectronico,:Dia,".$fetcha.",:Mes, :Municipio,:Nombre,".
-        ":Nombredepersonadecontacto,:NombredeusuariodeFacebook, :Parentescoopersonarelacionada,".
-        ":Provincia, :Telefono, :provider_id,:provider_name, :question, :user_name)";
-
-
-
-    $result = db_query($query,
-        array(':_id' => $doc['_id'],
-            ':_rev' => $doc['_rev'],
-            ':uuid' => $doc['uuid'],
-            ':Apellido' => $doc['Apellido'],
-            ':Apodo' => $doc['Apodo'],
-            ':Ano' => $doc['Año'],
-            ':BarrioComunidad' => $doc['BarrioComunidad'],
-            ':Calleynumero' => $doc['Calleynumero'],
-            ':Casa' => $doc['Casa'],
-            ':Celular' => $doc['Celular'],
-            ':Completado' => $doc['Completado'],
-            ':Direcciondecorreoelectronico' => $doc['Direccióndecorreoelectrónico'],
-            ':Dia' => $doc['Día'],
-            ':Mes' => $doc['Mes'],
-            ':Municipio' => $doc['Municipio'],
-            ':Nombre' => $doc['Nombre'],
-            ':Nombredepersonadecontacto' => $doc['Nombredepersonadecontacto'],
-            ':NombredeusuariodeFacebook' => $doc['NombredeusuariodeFacebook'],
-            ':Parentescoopersonarelacionada' => $doc['Parentescoopersonarelacionada'],
-            ':Provincia' => $doc['Provincia'],
-            ':Telefono' => $doc['Teléfono'],
-            ':provider_id' => $doc['provider_id'],
-            ':provider_name' => $doc['provider_name'],
-            ':question' => $doc['question'],
-            ':user_name' => $doc['user_name']
-        )
-    );
-
-
-}
 
 /**
- * Query aj_registration table for record by _id and lastModifiedAt date.
+ * Query aj_attendance table for record by _id and lastModifiedAt date.
  *
  * @param $_id
  * @param $lastModifiedAt
  * @return null if record does not exist
  *         the record if exist
  */
-function ajetlregs_ajetlregs_getRegistrationByIdAndModifiedDate($_id, $lastModifiedAt)
+function ajetlattendance_getAttendanceByIdAndModifiedDate($_id, $lastModifiedAt)
 {
     $retRecord = null;
 
-    $sqlLastModifiedAt = ajetlregs_couchDateTime2Mysql($lastModifiedAt);
+    $sqlLastModifiedAt = ajetlattendance_couchDateTime2Mysql($lastModifiedAt);
 
-    $result = db_query("SELECT t.id FROM {aj_registration} t WHERE t._id = :_id AND t.lastModifiedAt=".$sqlLastModifiedAt, array(':_id' => $_id));
+    $result = db_query("SELECT t.id FROM {aj_attendance} t WHERE t._id = :_id AND t.lastModifiedAt=".$sqlLastModifiedAt, array(':_id' => $_id));
 
 
     if ($result == null) {
@@ -353,7 +293,7 @@ function ajetlregs_ajetlregs_getRegistrationByIdAndModifiedDate($_id, $lastModif
 
     foreach ($result as $record) {
         $retRecord = $record;
-        ajetllog_log("ajetlregs", "MESSAGE", 'Found existing doc for doc id='.$record->id);
+        ajetllog_log("ajetlattendance", "MESSAGE", 'Found existing doc for doc id='.$record->id);
         break;
     }
 
@@ -362,18 +302,18 @@ function ajetlregs_ajetlregs_getRegistrationByIdAndModifiedDate($_id, $lastModif
 }
 
 /**
- * Query aj_registration table by _id.
+ * Query aj_attendance table by _id.
  *
  * @param $_id
  * @return null if record not found
  *         the record if found
  */
-function ajetlregs_getRegistrationById($_id)
+function ajetlattendance_getAttendanceById($_id)
 {
     $retRecord = null;
 
 
-    $result = db_query('SELECT t.id, t._id, t.lastModifiedAt FROM {aj_registration} t WHERE t._id = :_id', array(':_id' => $_id));
+    $result = db_query('SELECT t.id, t._id, t.lastModifiedAt FROM {aj_attendance} t WHERE t._id = :_id', array(':_id' => $_id));
 
     var_dump($result);
 
@@ -383,7 +323,7 @@ function ajetlregs_getRegistrationById($_id)
 
     foreach ($result as $record) {
         $retRecord = $record;
-        ajetllog_log("ajetlregs", "MESSAGE", 'Found existing doc for doc id='.$record->id);
+        ajetllog_log("ajetlattendance", "MESSAGE", 'Found existing doc for doc id='.$record->id);
         break;
     }
 
@@ -394,18 +334,18 @@ function ajetlregs_getRegistrationById($_id)
 
 
 /**
- * Query aj_registration table by _id and lastModifiedAt DIFFERENT then the input $lastModifiedAt.
+ * Query aj_attendance table by _id and lastModifiedAt DIFFERENT then the input $lastModifiedAt.
  *
  * @param $_id
  * @param $lastModifiedAt
  * @return null if record is not found
  *         the record if found
  */
-function ajetlregs_getRegistrationByIdDifferentDate($_id, $lastModifiedAt)
+function ajetlattendance_getAttendanceByIdDifferentDate($_id, $lastModifiedAt)
 {
     $retRecord = null;
-    $sqlLastModifiedAt = ajetlregs_couchDateTime2Mysql($lastModifiedAt);
-    $result = db_query("SELECT t.id FROM {aj_registration} t WHERE t._id = :_id AND t.lastModifiedAt<>".$sqlLastModifiedAt, array(':_id' => $_id));
+    $sqlLastModifiedAt = ajetlattendance_couchDateTime2Mysql($lastModifiedAt);
+    $result = db_query("SELECT t.id FROM {aj_attendance} t WHERE t._id = :_id AND t.lastModifiedAt<>".$sqlLastModifiedAt, array(':_id' => $_id));
 
 
 
@@ -415,7 +355,7 @@ function ajetlregs_getRegistrationByIdDifferentDate($_id, $lastModifiedAt)
 
     foreach ($result as $record) {
         $retRecord = $record;
-        ajetllog_log("ajetlregs", "MESSAGE", 'Found existing doc for doc id='.$record->id);
+        ajetllog_log("ajetlattendance", "MESSAGE", 'Found existing doc for doc id='.$record->id);
         break;
     }
 
@@ -428,30 +368,43 @@ function ajetlregs_getRegistrationByIdDifferentDate($_id, $lastModifiedAt)
 /**
  * First it checks for same _id AND different lastModifiedAt date. If record found
  * deletes the record before inserting the modified document. If record is not found
- * insert the data into the aj_registration table.
+ * insert the data into the aj_attendance table.
  *
  * @param $id
  * @param $lastModifiedDate
  */
-function ajetlregs_loadRegistration($_id, $lastModifiedAt){
+function ajetlattendance_loadAttendance($_id, $lastModifiedAt){
 
     // check if the record with the same id but different modified date already exist
-    $record = ajetlregs_getRegistrationByIdDifferentDate($_id, $lastModifiedAt);
+    $record = ajetlattendance_getAttendanceByIdDifferentDate($_id, $lastModifiedAt);
 
     // TBD: Maybe need to update the existing document, not delete before inserting. However because
     // of the fast approaching deadline do this for now.
 
     // record has been changed so delete the old record before inserting
     if ($record != null) {
-        db_query("DELETE FROM {aj_registration} WHERE _id='".$_id."'");
+        db_query("DELETE FROM {aj_attendance} WHERE _id='".$_id."'");
     }
 
     // fetch the document from couch db
-    $doc = ajetlregs_OpenRegById($_id);
+    $doc = ajetlattendance_OpenRegById($_id);
 
+    // array if uuids
+    $uuids = array();
 
-    // insert the record
-    ajetlregs_insertRegistration($doc);
+    // identify uuids, uuids are key-value pair such as 3K13HYBTH:"true", KVADTCQRP:"true",
+    // these are the only "true" values so assume if value is true this is an UUID
+    foreach ($doc as $key=>$value){
+        if ($value === "true")
+            array_push($uuids, $key);
+    }
+
+    if (sizeof($uuids) > 0) {
+        foreach ($uuids as $key => $value) {
+            // insert the record
+            ajetlattendance_insertAttendance($doc, $value);
+        }
+    }
 
 }
 
@@ -462,12 +415,12 @@ function ajetlregs_loadRegistration($_id, $lastModifiedAt){
  * @param $id
  * @return bool
  */
-function ajetlregs_isDocumentValid($doc, $id){
+function ajetlattendance_isDocumentValid($doc, $id){
 
     // Check if Fetcha is valid, there is occasions where Fetcha is 20104-04-26
     $len = strlen($doc['Fecha']);
     if ($len != 10){
-        ajetllog_log("ajetlregs", "ERROR", 'Fecha is not correct for doc id='.$id);
+        ajetllog_log("ajetlattendance", "ERROR", 'Fecha is not correct for doc id='.$id);
         return false;
     }
 
@@ -485,7 +438,7 @@ function ajetlregs_isDocumentValid($doc, $id){
  * adds STR_TO_DATE so the final string will be STR_TO_DATE('2013-11-29T09:40:10', '%Y-%m-%dT%H:%i:%S').
  *
  */
-function ajetlregs_couchDateTime2Mysql($dt){
+function ajetlattendance_couchDateTime2Mysql($dt){
 
     // remove the last 6 chars, e.g. the couchDB time zone
     $len = strlen($dt);
@@ -506,7 +459,7 @@ function ajetlregs_couchDateTime2Mysql($dt){
  * 23/04/2014
  *
  */
-function ajetlregs_couchDate2Mysql($dt){
+function ajetlattendance_couchDate2Mysql($dt){
     if ($dt == null )
         return " null ";
 
