@@ -127,7 +127,7 @@
       "label": "14. ¿Has completado algún o algunos de estos programas estando en Alerta Joven? Marca todas las que apliquen.",
       "radio-options": "Participado, Completado, No participó",
       "repeatable": false,
-      "required": true,
+      "required": false,
       "type": "programnameslist"
     },
 	 {
