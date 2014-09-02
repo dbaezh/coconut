@@ -214,7 +214,6 @@ function ajetlregs_genInsertQueryPart2($doc){
     $val = "";
 
     $ajRegsColumns = variable_get("ajRegsColumns");
-    $surveyColumnMap = variable_get("surveyColumnMap");
 
     foreach ($ajRegsColumns as $col) {
         // skip these

@@ -294,8 +294,8 @@ function ajetlsurveys_genInsertQueryPart2($doc){
         if ($col === "id" || $col === "changed")
             continue;
 
-        if (array_key_exists($col, $ajSurveyColumns))
-            $key = $ajSurveyColumns[$col];
+        if (array_key_exists($col, $surveyColumnMap))
+            $key = $surveyColumnMap[$col];
         else
             $key = $col;
 
