@@ -3,6 +3,13 @@
     "collection": "question",
     "questions": [
         {
+            "_id": 988,
+            "label": "Fecha",
+            "repeatable": false,
+            "required": true,
+            "type": "date"
+        },
+        {
             "_id": 98,
             "label": "9. ¿Dónde naciste?",
             "radio-options": "República Dominicana, Haití,No responde,Otro",
@@ -35,14 +42,6 @@
             "required": true,
             "skip_logic": "ResultOfQuestion('10Tienesunactadenacimientodominicana') isnt 'Sí'",
             "type": "radio"
-        },
-        {
-            "_id": 10111,
-            "label": "10.2 ¿Cuál es tu número de cédula?",
-            "repeatable": false,
-            "required": false,
-            "skip_logic": "ResultOfQuestion('101Tienescédula') isnt 'Sí'",
-            "type": "text"
         },
         {
             "_id": 102,
@@ -135,7 +134,7 @@
         {
             "_id": 112,
             "label": "15. ¿Cuál es el nivel educativo más alto que has aprobado?",
-            "radio-options": "Básica, Bachillerato,Universitario,Post grado,No responde",
+            "radio-options": "Básica, Bachillerato,Universitario,Post grado,Ninguno,No responde",
             "repeatable": false,
             "required": true,
             "type": "radio"

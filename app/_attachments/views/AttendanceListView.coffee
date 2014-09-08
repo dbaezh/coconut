@@ -69,13 +69,14 @@ class AttendanceListView extends Backbone.View
           <thead>
             <tr>
               <th></th>
+              <th>Fecha de Creación</th>
               <th>Apellido</th>
               <th>Nombre</th>
               <th>Sexo</th>
               <th>Fecha de <br/>Nacimiento</th>
               <th>Barrio o Sector</th>
               <th>Teléfono</th>
-              <th>Correo Electrónico</th>
+              <th>Es Colateral</th>
             </tr></thead>
         <tbody>"
 
@@ -95,6 +96,7 @@ class AttendanceListView extends Backbone.View
 
       html += "<td>" + cbHTML + "</td>"
 
+      html += @createColumn(participantData.createdAt, participantData.uuid, true)
       html += @createColumn(participantData.Apellido, participantData.uuid, true)
       html += @createColumn(participantData.Nombre, participantData.uuid, true)
       html += @createColumn(participantData.Sexo, participantData.uuid, false)
@@ -102,7 +104,7 @@ class AttendanceListView extends Backbone.View
       html += @createColumn(birthday, participantData.uuid, false)
       html += @createColumn(participantData.BarrioComunidad, participantData.uuid, false)
       html += @createColumn(participantData.Teléfono, participantData.uuid, false)
-      html += @createColumn(participantData.Direccióndecorreoelectrónico, participantData.uuid, false)
+      html += @createColumn(participantData.Estecolateralparticipante, participantData.uuid, false)
 
       html += "</tr>"
 
