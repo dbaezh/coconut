@@ -22,7 +22,7 @@ class QuestionView extends Backbone.View
     (@[key] = value for key, value of options)
     Coconut.resultCollection ?= new ResultCollection()
     @autoscrollTimer = 0
-    window.duplicateLabels = ['Apellido','Nombre','BarrioComunidad','Sexo']
+    window.duplicateLabels = ['Apellido','Nombre','BarrioComunidad','Año','Día','Mes','Sexo']
 
   render: =>
 
@@ -387,10 +387,16 @@ class QuestionView extends Backbone.View
     community = (window.getValueCache['BarrioComunidad']() || '').toLowerCase().replace(spacePattern, '')
     sexo      = (window.getValueCache['Sexo']()            || '').toLowerCase().replace(spacePattern, '')
     dobDia      = (window.getValueCache['Día']()            || '').toLowerCase().replace(spacePattern, '')
+    #ensure Dia is always 2 characters so it matches the view, e.g. 01,02, etc..
+    dobDia = "0" + dobDia  if dobDia.length < 2
+
     dobMes      = (window.getValueCache['Mes']()            || '').toLowerCase().replace(spacePattern, '')
     dobAno      = (window.getValueCache['Año']()            || '').toLowerCase().replace(spacePattern, '')
 
-    key = [family, names, municipality, community, sexo, dobDia, dobMes, dobAno].join(":")
+    mesNum = spanishMonth2Number(dobMes)
+    mesNum = "0" + mesNum  if mesNum.length < 2
+    key = [family, names, municipality, community, sexo, dobDia, mesNum, dobAno].join(":")
+
 
     return if ~key.indexOf("::")
 

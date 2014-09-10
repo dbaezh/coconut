@@ -106,11 +106,11 @@
         },
         {
           "_id": 113,
-          "autocomplete-options": "enero,febrero,marzo,abril,mayo,junio,julio,agosto,septiembre,octubre,noviembre,diciembre",
           "label": "Mes",
           "repeatable": false,
           "required": true,
-          "type": "autocomplete from list"	   
+          "type": "number",
+          "validation": "return \"Mes debe ser de 1 al 12.\" if parseInt(value) < 1 || parseInt(value) > 12 "
         },        
 	{
           "_id": 114,

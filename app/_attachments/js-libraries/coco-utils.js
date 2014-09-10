@@ -336,3 +336,45 @@ function getSurveyFields(){
 
     return surveyFields;
 }
+
+/**
+ * Converts month in Spanish to a number, e.g. 01,12, etc..
+ *
+ * @param mes
+ * @returns {string}
+ */
+function spanishMonth2Number(mes){
+
+    var m = "";
+
+    switch (mes) {
+        case "enero":
+            m = "01";
+        case "febrero":
+            m = "02";
+        case "marzo":
+            m = "03";
+        case "abril":
+            m = "04";
+        case "mayo":
+            m = "05";
+        case "junio":
+            m = "06";
+        case "julio":
+            m = "07";
+        case "agosto":
+            m = "08";
+        case "septiembre":
+            m =  "09";
+        case "octubre":
+            m =  "10";
+        case "noviembre":
+            m =  "11";
+        case "diciembre":
+            m =  "12";
+        default:
+            m =mes;
+    }
+
+    return m;
+}
