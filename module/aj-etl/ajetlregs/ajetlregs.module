@@ -227,6 +227,15 @@ function ajetlregs_genInsertQueryPart2($doc){
         }else if ($key === "Fecha"){
             $val = ajetlregs_couchDate2Mysql($doc[$key]);
             $query = $query . $val . " ";
+        }else if ($key === "DOB"){
+            // construct DOB from Dia-Mes-Ano
+            $m = "";
+            if (!is_numeric($doc['Mes']))
+               $m = month2number($m);
+
+            $dob = $doc['Día'].'-'.$m.'-'.$doc['Año'];
+            $val = ajetlregs_couchDate2Mysql($dob);
+            $query = $query . $val . " ";
         }else {
             if (array_key_exists($key, $doc)) {
                 $val = $doc[$key];
@@ -560,6 +569,45 @@ function ajetlregs_couchDate2Mysql($dt){
         //assume date is in 14032014 format
         return " STR_TO_DATE('" . $dt . "', '%d%m%Y')";
     }
+}
+
+/**
+ * Converts month in Spanish to number. For example febrero will be converted to 02
+ * @param m $
+ *
+ */
+function month2number($m){
+
+
+    switch ($m) {
+        case "enero":
+            return "01";
+        case "febrero":
+            return "02";
+        case "marzo":
+            return "03";
+        case "abril":
+            return "04";
+        case "mayo":
+            return "05";
+        case "junio":
+            return "06";
+        case "julio":
+            return "07";
+        case "agosto":
+            return "08";
+        case "septiembre":
+            return "09";
+        case "octubre":
+            return "10";
+        case "noviembre":
+            return "11";
+        case "diciembre":
+            return "12";
+        default:
+            return "";
+    }
+
 }
 
 

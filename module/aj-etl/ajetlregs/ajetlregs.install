@@ -84,6 +84,11 @@ function ajetlregs_schema() {
            'mysql_type' => 'date',
            'length' => 2,
            'not null' => FALSE),
+        'DOB' => array(
+           'description' => 'Fecha de nacimiento, constructed from Dia-Mes-Ano in format dd-mm-yyyy)',
+           'mysql_type' => 'date',
+           'length' => 2,
+           'not null' => FALSE),
         'Apellido' => array(
            'description' => 'Apellido.',
            'type' => 'varchar',
@@ -241,6 +246,7 @@ function ajetlregs_schema() {
                 'ajregistration_Apelido'        => array('Apellido'),
                 'ajregistration_Nobre'          => array('Nombre'),
                 'ajregistration_Sexo'          => array('Sexo'),
+                'ajregistration_DOB'          => array('DOB'),
         ),
       'unique keys' => array(
         'id' => array('id')

@@ -85,6 +85,11 @@ function ajetlsurveys_schema() {
            'length' => 255,
            'not null' => FALSE,
            'default' => ''),
+     'Fecha' => array(
+                'description' => 'Fecha.',
+                'mysql_type' => 'date',
+                'length' => 2,
+                'not null' => FALSE),
 	 '9Dóndenaciste' => array(
            'description' => '9. ¿Dónde naciste?',
            'type' => 'varchar',
