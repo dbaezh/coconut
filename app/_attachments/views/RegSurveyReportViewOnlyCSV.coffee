@@ -113,7 +113,7 @@ class RegSurveyReportViewOnlyCSV extends Backbone.View
         continue
 
     csvContent = "\uFEFF";
-    csvContent += "Fecha,Nombre,Apellido,Apodo,Fecha de Nacimiento, Calleynumero,Provincia,Municipio,BarrioComunidad,"
+    csvContent += "Fecha de Registro,Nombre,Apellido,Apodo, Sexo,Fecha de Nacimiento, Calleynumero,Provincia,Municipio,BarrioComunidad,"
 
     i = 0
 
@@ -149,6 +149,7 @@ class RegSurveyReportViewOnlyCSV extends Backbone.View
           csvContent += '"' + regvals.Nombre + '"' + ','
           csvContent += '"' + regvals.Apellido + '"' + ','
           csvContent += '"' + regvals.Apodo + '"' + ','
+          csvContent += '"' + regvals.Sexo + '"' + ','
           birthday = regvals.Día + "/" + regvals.Mes + "/" + regvals.Año
           csvContent += '"' + birthday + '"' + ','
           csvContent += '"' + regvals.Calleynumero + '"' + ','

@@ -109,7 +109,7 @@ RegSurveyReportViewOnlyCSV = (function(_super) {
       }
     }
     csvContent = "\uFEFF";
-    csvContent += "Fecha,Nombre,Apellido,Apodo,Fecha de Nacimiento, Calleynumero,Provincia,Municipio,BarrioComunidad,";
+    csvContent += "Fecha de Registro,Nombre,Apellido,Apodo, Sexo,Fecha de Nacimiento, Calleynumero,Provincia,Municipio,BarrioComunidad,";
     i = 0;
     while (i < this.fields.length) {
       jsonField = this.fields[i];
@@ -144,6 +144,7 @@ RegSurveyReportViewOnlyCSV = (function(_super) {
           csvContent += '"' + regvals.Nombre + '"' + ',';
           csvContent += '"' + regvals.Apellido + '"' + ',';
           csvContent += '"' + regvals.Apodo + '"' + ',';
+          csvContent += '"' + regvals.Sexo + '"' + ',';
           birthday = regvals.Día + "/" + regvals.Mes + "/" + regvals.Año;
           csvContent += '"' + birthday + '"' + ',';
           csvContent += '"' + regvals.Calleynumero + '"' + ',';

@@ -4,6 +4,7 @@
   val += ',' + '"Nombre":"' + doc.Nombre + '"'
   val += ',' +'"Apellido":"' + doc.Apellido + '"'
   val += ',' +'"Apodo":"' + doc.Apodo + '"'
+  val += ',' +'"Sexo":"' + doc.Sexo + '"'
   val += ',' +'"Día":"' + doc['Día'] + '"'
   val += ',' +'"Mes":"' + doc.Mes + '"'
   val += ',' +'"Año":"' + doc['Año'] + '"'
