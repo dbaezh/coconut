@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-    <title> Process Incomplete Surveys</title>
+    <title> Process Incomplete Registrations</title>
 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
@@ -21,11 +21,18 @@
 
     <script language="JavaScript">
         //var requiredFields = ["user_name","provider_id","provider_name","uuid","Fecha","Nombre","Apellido","Apodo","Calleynumero","Provincia","Municipio","BarrioComunidad","Celular","Direccióndecorreoelectrónico","NombredeusuariodeFacebook","Nombredepersonadecontacto","Parentescoopersonarelacionada","Teléfono","Sexo","Tieneunnumerocelular","Tieneunnumerodetelefonoenlacasa","Tieneunadireccióndecorreoelectrónico","TieneunnombredeusuariodeFacebook"];
-        var requiredFields = ["provider_id","provider_name","uuid","Fecha","Nombre","Apellido","Provincia","Municipio","BarrioComunidad","Sexo"];
+        var requiredFields = ["provider_id","provider_name","uuid","Fecha","Nombre","Apellido","Provincia","Municipio","BarrioComunidad","Sexo", "Día", "Mes", "Año"];
         var headers = [ "_id","createdAt", "lastModifiedAt","user_name","provider_id","provider_name","uuid","Fecha","Nombre","Apellido","Apodo","Calleynumero","Provincia","Municipio","BarrioComunidad","Día","Mes","Año","Celular","Casa","Direccióndecorreoelectrónico","NombredeusuariodeFacebook","Nombredepersonadecontacto","Parentescoopersonarelacionada","Teléfono","Sexo","Tieneunnumerocelular","Tieneunadireccióndecorreoelectrónico","Tieneunnumerodetelefonoenlacasa","TieneunnombredeusuariodeFacebook"];
 
         var csvContent = "\uFEFF";
 
+        /**
+         * 1. Query the list of all registrations and creates list only of incomplete.
+         * 2. Iterates through the list of incomplete registrations and mark them complete if:
+         *    a) complete with this uuid already exist
+         *    b) has all required fields
+         *
+         * */
         function start(){
             var db = $.couch.db("coconut");
             var incompleteRegs = [];
