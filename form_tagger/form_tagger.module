@@ -43,6 +43,7 @@ echo '</pre>';
 */
 			} else {
 				// nobody else can do anything
+				unset($form['field_program_provider']['und']['#options']);
 			}
 			break;
 			
@@ -55,7 +56,9 @@ echo '</pre>';
 			if (in_array('System Administrator', $user->roles) || 
 				in_array('Evaluator', $user->roles)){
 				// do nothing. show all programs
-			} else if (in_array('Provider Administrator', $user->roles)) {
+			} else if (in_array('Provider Administrator', $user->roles) || 
+				in_array('Case Manager', $user->roles) || 
+				in_array('Data Entry', $user->roles)) {
 				// display only those programs for the provider id tied to the logged in user
 
 				$query = new EntityFieldQuery();
@@ -77,35 +80,72 @@ echo '</pre>';
 					foreach($programs as $program) {
 						$program_wrapper = entity_metadata_wrapper("program", $program);
 						$programNameId = $program->field_program_name['und'][0]['target_id'];
-//						$query = new EntityFieldQuery();
-//						$query->entityCondition("entity_type", "program_name")
-//							->entityCondition("bundle", "program_name")
-//							->fieldCondition("id", "target_id", "1", "=")
-//							;
-							
-//						$result = $query->execute();
 						$idArray = array();
 						$idArray[0] = $programNameId;
 						$programnames = entity_load("program_name", $idArray);
 						// The index of the returned array is the index of the id we just queried.
 						$programname = $programnames[$programNameId];
 						$programName_wrapper = entity_metadata_wrapper("program_name", $programname);
-/*						
-echo '<pre>'; 
-echo '*****************';
+						
+//echo '<pre>'; 
+//echo '*****************';
+//echo 'program:';
+//var_dump($program);
+//echo 'wrapper:';
 //var_dump($programName_wrapper);
 //echo $program_wrapper->id->value(); 
 //var_dump($programname->field_programname_name['und'][0]['value']); 
 //var_dump($programName_wrapper->field_programname_name->value()); 
-echo '</pre>';	  
-*/
+//echo '</pre>';	  
+
 						$form['field_activity_program']['und']['#options'][$program_wrapper->id->value()] = 
 							$programName_wrapper->field_programname_name->value();
+					}
+				}
+
+				// display only those case managers for the provider id tied to the logged in user
+
+				$result = getUsersByRoleNameAndProviderId("Case Manager");
+				$caseManagers = array();
+				if (isset($result) && isset($result["user"])) {
+					$caseManagers = entity_load("user", array_keys($result["user"]));
+				}
+
+						
+//echo '<pre>'; 
+//echo '*****************';
+//var_dump($result);
+//var_dump($caseManagers);
+//echo '</pre>';	  
+
+				
+				unset($form['field_activity_case_manager']['und']['#options']);
+				if (count($caseManagers) == 0) {
+					$form['field_activity_case_manager']['und']['#options']['_none'] = '- Select a value -';
+				} else {
+					foreach($caseManagers as $caseManager) {
+
+						if ($program_provider_id == $caseManager->field_user_provider['und'][0]['target_id']) {
+//							$cm_wrapper = entity_metadata_wrapper("user", $caseManager);
+//echo '<pre>'; 
+//echo '*****************';
+//echo $caseManager->uid;
+//echo $caseManager->name;
+//var_dump($caseManager);
+//var_dump($cm_wrapper);
+//echo '</pre>';	  
+
+							$form['field_activity_case_manager']['und']['#options'][$caseManager->uid] = 
+								$caseManager->name;
+							
+						}
 					}
 				}
 				
 			} else {
 				// nobody else can do anything
+				unset($form['field_activity_program']['und']['#options']);
+				unset($form['field_activity_case_manager']['und']['#options']);
 			}
 
 
@@ -216,6 +256,26 @@ echo '</pre>';
 	}
 
 } // END of form_tagger_form_alter
+
+function getUsersByRoleNameAndProviderId($rolename){
+  $query = new EntityFieldQuery;
+  $query->entityCondition('entity_type', 'user');
+  $query->addTag('rolequery');
+  $query->addMetaData('rolename', $rolename);
+
+  return $query->execute();
+}
+
+function form_tagger_query_rolequery_alter(QueryAlterableInterface $query) {
+  $rolename = $query->getMetaData('rolename');
+
+  $role_subquery = db_select("role", "role");
+  $role_subquery->condition('role.name', $rolename, '=');
+  $role_subquery->join('users_roles', "users_to_include", "role.rid = users_to_include.rid");
+  $role_subquery->fields('users_to_include', array('uid' => 'uid'));
+  $role_subquery->where('users_to_include.uid = users.uid');
+  $query->exists($role_subquery);
+}
 
 function validateuserupdate_function($form, &$form_state) {
 /*
