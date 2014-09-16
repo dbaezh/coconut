@@ -34,7 +34,9 @@
         var db = $.couch.db("coconut");
 
         // first process complete surveys
-        db.view("coconut/findCompletedNotConvertedSurveys",
+        //db.view("coconut/findCompletedNotConvertedSurveys",
+        // process incomplete surveys
+        db.view("coconut/resultsByQuestionAndComplete?startkey=%22Participant%20Survey-es%3Afalse%3Az%22&endkey=%22Participant%20Survey-es%3Afalse%22&descending=true&include_docs=false",
                 {
                     success:function(data){
                         var idx = 0;
@@ -58,71 +60,75 @@
                             db.openDoc(docId, {
                                 success: function (data) {
 
+                                    // check if the document is with the old structure by checking if this question exist
+                                    if (data['16Actualmenteestasasistiendoa'] === undefined) {
 
-                                    console.log("Processing DOC UUID = " + data.uuid);
+                                        console.log("Processing DOC UUID = " + data.uuid);
 
-                                    var html = '<tr>' + '<td>' + data._id + ',</td>' +
-                                            '<td>' + data.uuid + ',</td>' +
-                                            '<td>' + data.lastModifiedAt + '</td>' +
-                                            '</tr>';
+                                        var html = '<tr>' + '<td>' + data._id + ',</td>' +
+                                                '<td>' + data.uuid + ',</td>' +
+                                                '<td>' + data.lastModifiedAt + '</td>' +
+                                                '</tr>';
 
-                                    $("#listtbl").append(html);
+                                        $("#listtbl").append(html);
 
 
+                                        $.each(jsonQuestionMap, function (key, value) {
+                                            // console.log(key + "=" + value);
+                                            //console.log("old value=" + data[value]);
+                                            if (value === "16Estasactualmenteasistiendoaunaescuelaouniversidad")
+                                                processQuestion16(data);
+                                            else if (key === "19ActualmenteestasasistiendoaalgúnprogramadeeducaciónparajóvenesyadultosMarcalaopciónqueaplique")
+                                                processQuestion19(data);
+                                            else if (key === "54Enlosúltimos12meseshasllevadouncuchillopuñalomachete")
+                                                processQuestion54(data);
+                                            else if (key === "55Enlosúltimos12meseshasllevadounarmadefuego")
+                                                processQuestion55(data);
+                                            else if (key === "56Enlosúltimos12meseshasvistoaalguienqueestabasiendoapuñaladocortadoobaleado")
+                                                processQuestion56(data);
+                                            else if (key === "57Enlosúltimos12mesesalguientehaamenazadoconuncuchilloounapistola")
+                                                processQuestion57(data);
+                                            else if (key === "58Enlosúltimos12mesesalguientehacortadooapuñaladotangravementequetuvistequeiraunmédico")
+                                                processQuestion58(data);
+                                            else if (key === "59Enlosúltimos12mesesalguientehadisparadoconunarmadefuego")
+                                                processQuestion59(data);
+                                            else if (key === "60Enlosúltimos12meseshasamenazadoaalguienconcortarleapuñalarleodispararle")
+                                                processQuestion60(data);
+                                            else if (key === "61Enlosúltimos12meseshasamenazadoaalguienconuncuchillooarma")
+                                                processQuestion61(data);
+                                            else if (key === "62Enlosúltimos12meseshascortadooapuñaladoaalguien")
+                                                processQuestion62(data);
+                                            else if (key === "63Enlosúltimos12meseslehasdisparadoaalguien")
+                                                processQuestion63(data);
+                                            else if (key === "74Compartestiempooterelacionasconmiembrosdeunapandilla")
+                                                processQuestion74(data);
+                                            else if (key === "87LaúltimavezquetuvisterelacionessexualescuálmétodousasteotucompañeroaparaprevenirelembarazoSeleccionesólounaopción")
+                                                processQuestion87(data);
+                                            else if (key === "94Algunavezalguientehaenseñadoohabladoacercadelasinfeccionesdetransmisiónsexual")
+                                                processQuestion94(data);
+                                            else if (key === "95Algunavezlehanenseñadoacercadeprevencióndeembarazo")
+                                                processQuestion95(data);
+                                            else if (key === "96AlgunavezlehanenseñadoacercalainfecciónporVIHSida")
+                                                processQuestion96(data);
+                                            else
+                                                data[key] = data[value];
+                                        });
 
-                                    $.each(jsonQuestionMap, function (key, value) {
-                                       // console.log(key + "=" + value);
-                                        //console.log("old value=" + data[value]);
-                                        if (value === "16Estasactualmenteasistiendoaunaescuelaouniversidad")
-                                            processQuestion16(data);
-                                        else if (key === "19ActualmenteestasasistiendoaalgúnprogramadeeducaciónparajóvenesyadultosMarcalaopciónqueaplique")
-                                            processQuestion19(data);
-                                        else if (key === "54Enlosúltimos12meseshasllevadouncuchillopuñalomachete")
-                                            processQuestion54(data);
-                                        else if (key === "55Enlosúltimos12meseshasllevadounarmadefuego")
-                                            processQuestion55(data);
-                                        else if (key === "56Enlosúltimos12meseshasvistoaalguienqueestabasiendoapuñaladocortadoobaleado")
-                                            processQuestion56(data);
-                                        else if (key === "57Enlosúltimos12mesesalguientehaamenazadoconuncuchilloounapistola")
-                                            processQuestion57(data);
-                                        else if (key === "58Enlosúltimos12mesesalguientehacortadooapuñaladotangravementequetuvistequeiraunmédico")
-                                            processQuestion58(data);
-                                        else if (key === "59Enlosúltimos12mesesalguientehadisparadoconunarmadefuego")
-                                            processQuestion59(data);
-                                        else if (key === "60Enlosúltimos12meseshasamenazadoaalguienconcortarleapuñalarleodispararle")
-                                            processQuestion60(data);
-                                        else if (key === "61Enlosúltimos12meseshasamenazadoaalguienconuncuchillooarma")
-                                            processQuestion61(data);
-                                        else if (key === "62Enlosúltimos12meseshascortadooapuñaladoaalguien")
-                                            processQuestion62(data);
-                                        else if (key === "63Enlosúltimos12meseslehasdisparadoaalguien")
-                                            processQuestion63(data);
-                                        else if (key === "74Compartestiempooterelacionasconmiembrosdeunapandilla")
-                                            processQuestion74(data);
-                                        else if (key === "87LaúltimavezquetuvisterelacionessexualescuálmétodousasteotucompañeroaparaprevenirelembarazoSeleccionesólounaopción")
-                                            processQuestion87(data);
-                                        else if (key === "94Algunavezalguientehaenseñadoohabladoacercadelasinfeccionesdetransmisiónsexual")
-                                            processQuestion94(data);
-                                        else if (key === "95Algunavezlehanenseñadoacercadeprevencióndeembarazo")
-                                            processQuestion95(data);
-                                        else if (key === "96AlgunavezlehanenseñadoacercalainfecciónporVIHSida")
-                                            processQuestion96(data);
-                                        else
-                                            data[key] = data[value];
-                                    });
+                                        // just for testing
+                                        // outputdoc(data);
 
-                                    // just for testing
-                                   // outputdoc(data);
+                                        data['convertedDate'] = Date();
+                                        // save the document
+                                        db.saveDoc(data);
 
-                                    data['convertedDate'] = Date();
-                                    // save the document
-                                    db.saveDoc(data);
+                                    }//if (data['16Actualmenteestasasistiendoa'] != undefined)
                                 }
-
                             });
                         }
 
-                        },
+                    },
+
+
                     error:function(data){
                         alert("Someting wrong");
                     }

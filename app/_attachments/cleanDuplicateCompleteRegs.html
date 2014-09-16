@@ -1,9 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-    <!-- This did not work because the view did not order the documents for the logic to work-->
-    <!-- Use cleanDuplicateIncompleteSurveys.html and cleanDuplicateCompleteSurveys.html instead-->
-    <title> Clean Duplicate Incomplete Surveys. </title>
+    <title> Clean Duplicate Complete Registrations</title>
 
     <style>
         body {
@@ -23,18 +21,14 @@
 
         function start(){
             var db = $.couch.db("coconut");
-            db.view("coconut/findAllSurveys",
+            db.view("coconut/findCompleteRegs",
                     {
                         success:function(data){
 
                             for (i in data.rows) {
-                                var docIdToUpdate = "";
                                 var doc = data.rows[i];
-                                var keys = doc.key.split("$");
-
-                                var uuid = keys[0];
-                                var isComplete = keys[1];
-
+                                var idx = doc.key.indexOf("$");
+                                var uuid = doc.key.substring(0, idx);
 
                                 var numI = parseInt(i);
                                 // check if the end is reached
@@ -45,24 +39,16 @@
 
 
                                 var nextdoc = data.rows[nextId];
-                                var keysNext = nextdoc.key.split("$");
-                                var nextDocUuid = keysNext[0];
-                                var nextIsComplete = keysNext[1];
-
+                                idx = nextdoc.key.indexOf("$");
+                                var nextDocUuid = nextdoc.key.substring(0, idx);
 
                                 // check if the next document uuid is the same and if yes
                                 // update the document
                                 if(uuid === nextDocUuid){
 
-                                    if (isComplete === "false")
-                                        docIdToUpdate = doc.id;
-                                    else if (nextIsComplete === "false")
-                                        docIdToUpdate = nextdoc.id;
-
-                                    if (docIdToUpdate !== ""){
-                                        //fetch the document and update
-                                        db.openDoc(docIdToUpdate, {
-                                            success: function(data){
+                                    //fetch the document and update
+                                    db.openDoc(doc.id, {
+                                        success: function(data){
 
 
                                             var html = '<tr>' + '<td>' + data._id + ',</td>' +
@@ -72,7 +58,7 @@
                                             $("#listtbl").append(html);
 
                                             // update the provider name
-                                            data.question = "Participant Survey-es-DUPLICATE";
+                                            data.question = "Participant Registration-es-DUPLICATE";
                                             data.quid = "Participant Registration-es-DUPLICATE";
                                             data.collection = "result-DUPLICATE";
 
@@ -82,10 +68,11 @@
 
                                         }
                                     });
-                                  }
                                 }
 
                             }
+
+
                         },
                         error:function(data){
                             alert("Something wrong!!!");
@@ -100,7 +87,7 @@
 
 
 <body >
-<p>This will fetch ALL surveys and flag not completed to not show in the reports.</p>
+<p>This will fetch COMPLETE Registrations and flag duplicate to not show in the reports.</p>
 <input type="button" onclick="start()" id="start" value="Start">
 
 <p> Updating the documents.... </p>
