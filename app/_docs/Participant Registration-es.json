@@ -150,7 +150,7 @@
           "label": "Celular",
           "hint" : "p.ej. 809 123-4567",
           "repeatable": false,
-          "required": true,
+          "required": false,
           "skip_logic": "ResultOfQuestion('Tieneunnumerocelular') isnt 'Sí'",
           "type": "text",
           "validation": "val = value.replace(/[^0-9]/g,''); return \"Solo 809, 829, 849 se permiten.\" if val.indexOf('809') isnt 0 and val.indexOf('829') isnt 0 and val.indexOf('849') isnt 0; return \"Debe ser de 10 dígitos.\" if value.replace(/[^0-9]/g,'').length isnt 10"
@@ -160,7 +160,7 @@
           "label": "¿Tiene un numero de telefono en la casa?",
           "radio-options": "Sí,No",
           "repeatable": false,
-          "required": true,
+          "required": false,
           "type": "radio"
         },
         {
@@ -188,7 +188,7 @@
       "_id": 122,
       "label": "Dirección de correo electrónico",
       "repeatable": false,
-      "required": true,
+      "required": false,
       "skip_logic": "ResultOfQuestion('Tieneunadireccióndecorreoelectrónico') isnt 'Sí'",
       "type": "text"
     },
@@ -197,14 +197,14 @@
       "label": "¿Tiene un nombre de usuario de Facebook?",
       "radio-options": "Sí,No",
       "repeatable": false,
-      "required": true,
+      "required": false,
       "type": "radio"
     },
     {
       "_id": 124,
       "label": "Nombre de usuario de Facebook",
       "repeatable": false,
-      "required": true,
+      "required": false,
       "skip_logic": "ResultOfQuestion('TieneunnombredeusuariodeFacebook') isnt 'Sí'",
       "type": "text"
     },
