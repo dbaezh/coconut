@@ -146,7 +146,7 @@ function ajetlregs_schema() {
         'Día' => array(
            'description' => 'Día.',
            'type' => 'varchar',
-           'length' => 2,
+           'length' => 4,
            'not null' => FALSE,
            'default' => ''),
         'Mes' => array(

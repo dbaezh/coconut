@@ -199,7 +199,7 @@ function ajetlregs_genInsertQueryPart1($doc){
 
 
 /**
- * Generates the values() insert statement.
+ * Generates the values() insert statement. Returns ERROR if data are invalid.
  *
  * @param $doc
  *
@@ -227,14 +227,10 @@ function ajetlregs_genInsertQueryPart2($doc){
         }else if ($key === "Fecha"){
             $val = ajetlregs_couchDate2Mysql($doc[$key]);
             $query = $query . $val . " ";
-        }else if ($key === "DOB"){
-            // construct DOB from Dia-Mes-Ano
-            $m = "";
-            if (!is_numeric($doc['Mes']))
-               $m = month2number($m);
-
-            $dob = $doc['Día'].'-'.$m.'-'.$doc['Año'];
-            $val = ajetlregs_couchDate2Mysql($dob);
+        }else if ($key === "DOB") {
+            $val = ajetlregs_processDOB($doc);
+            if ($val === "ERROR")
+                return "ERROR";
             $query = $query . $val . " ";
         }else {
             if (array_key_exists($key, $doc)) {
@@ -263,6 +259,85 @@ function ajetlregs_genInsertQueryPart2($doc){
 
 }
 
+/**
+ * Validates the DOB and returns ERROR if date is missing or not valid.
+ * It's also log error message and CSV data for providers to fix.
+ *
+ * @param $doc
+ *
+ */
+function ajetlregs_processDOB($doc){
+ // construct DOB from Dia-Mes-Ano
+    $yyyy =  $doc['Año'];
+    if (strlen($yyyy) != 4) {
+        $dataCSV = constructCSVData($doc);
+        ajetllog_error("ajetlregs", "ERROR", "Año de nacimiento está mal.", $dataCSV, $doc['provider_id']);
+        return "ERROR";
+    }
+
+    $mm = $doc['Mes'];
+
+    // check if month is missing
+    // TBD: need to log the error and not insert this document
+    if ($mm == null || $mm == ''){
+        $dataCSV = constructCSVData($doc);
+        ajetllog_error("ajetlregs", "ERROR", "Mes falta.", $dataCSV, $doc['provider_id']);
+        return "ERROR";
+    }
+
+
+
+    if (!is_numeric($doc['Mes'])) {
+        $mm = ajetlregs_month2number($doc['Mes']);
+    }
+
+    $mm = (int)$mm;
+    // cases where $mm = "9" instead of "09"
+    if (strlen($mm) < 2) {
+        $mm = "0".$mm;
+    }
+
+    $dd = $doc['Día'];
+    // check if date is missing
+    if ($dd == null || $dd == ''){
+        $dataCSV = constructCSVData($doc);
+        ajetllog_error("ajetlregs", "ERROR", "Fecha de falta.", $dataCSV, $doc['provider_id']);
+        return "ERROR";
+    }
+
+    // convert day to number and check if valid date
+    $dd = (int)$dd;
+
+
+    // check if date is valid
+    if (!checkdate((int)$mm, (int)$dd, (int)$doc['Año'])){
+        $dataCSV = constructCSVData($doc);
+        ajetllog_error("ajetlregs", "ERROR", "Fecha de nacimiento no es válida - check mes, la fecha o el año", $dataCSV, $doc['provider_id']);
+        return "ERROR";
+    }
+
+    if (strlen($dd) < 2) {
+        $dd = "0".$dd;
+    }
+
+
+    $dob = $dd.'/'.$mm.'/'.$doc['Año'];
+    $val = ajetlregs_couchDate2Mysql($dob);
+
+    return $val;
+}
+
+/**
+ * Constructs data in format UUID, provider_id, Nombre, Apellido, Barrio/Comunidad, Mes, Dia, Ano
+ * @param $doc
+ *
+ */
+function constructCSVData($doc){
+    $dataCSV = $doc['uuid'].','.$doc['provider_id'].','.$doc['Nombre'].','.$doc['Apellido'].','
+               .$doc['BarrioComunidad'].','.$doc['Mes'].','.$doc['Día'].','.$doc['Año'];
+    return $dataCSV;
+
+}
 
 /**
  * Inserts data into aj_etlsurvey table.
@@ -274,6 +349,11 @@ function ajetlregs_insertRegistration($doc){
 
     $q1 = ajetlregs_genInsertQueryPart1($doc);
     $q2 = ajetlregs_genInsertQueryPart2($doc);
+
+    // check for error
+    if ($q2 === "ERROR")
+        return "ERROR";
+
     $query = "INSERT INTO {aj_registration} (".$q1.") VALUES(".$q2.")";
 
     $result = db_query($query);
@@ -576,7 +656,7 @@ function ajetlregs_couchDate2Mysql($dt){
  * @param m $
  *
  */
-function month2number($m){
+function ajetlregs_month2number($m){
 
 
     switch ($m) {
@@ -605,7 +685,7 @@ function month2number($m){
         case "diciembre":
             return "12";
         default:
-            return "";
+            return $m;
     }
 
 }

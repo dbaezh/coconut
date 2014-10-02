@@ -41,6 +41,18 @@ function ajetllog_schema() {
            'length' => 255,
            'not null' => FALSE,
            'default' => ''),
+        'data' => array(
+           'description' => 'Usually CSV data for sending to providers for correction',
+           'type' => 'varchar',
+           'length' => 1024,
+           'not null' => FALSE,
+           'default' => ''),
+        'provider_id' => array(
+           'description' => 'Provider Id.',
+           'type' => 'varchar',
+           'length' => 10,
+           'not null' => FALSE,
+           'default' => '')
 
        ),
       'indexes' => array(

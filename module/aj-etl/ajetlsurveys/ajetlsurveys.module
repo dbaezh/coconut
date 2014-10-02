@@ -308,6 +308,13 @@ function ajetlsurveys_genInsertQueryPart2($doc){
         }else if ($key === "Fecha"){
             $val = ajetlsurveys_couchDate2Mysql($doc);
             $query = $query . $val . " ";
+
+        }else if ($key === "27Mes"){
+            $val = $doc[$key];
+            if (strlen($val) > 16)
+                $val = "";
+
+            $query = $query . "'" . $val . "' ";
         }else {
             if (is_array($val)){
                 $val = $val[0];
@@ -475,12 +482,17 @@ function ajetlsurveys_loadSurvey($_id, $lastModifiedAt){
         db_query("DELETE FROM {aj_survey} WHERE _id='".$_id."'");
     }
 
+    ajetllog_log("ajetlsurveys", "MESSAGE", "Processing Doc id: ".$_id);
     // fetch the document from couch db
     $doc = ajetlsurveys_openDocById($_id);
 
-
-    // insert the record
-    ajetlsurveys_insertSurvey($doc);
+    // can not open the document
+    if (array_key_exists("error", $doc)){
+        ajetllog_log("ajetlsurveys", "MESSAGE", "Survey document DOES NOT EXIST: ".$_id);
+    }else {
+        // insert the record
+        ajetlsurveys_insertSurvey($doc);
+    }
 
 }
 
@@ -521,16 +533,14 @@ function ajetlsurveys_couchDateTime2Mysql($dt){
  *
  */
 function ajetlsurveys_couchDate2Mysql($doc){
+
+
+
+
     $dt = "";
     // if Fecha does not exist return createdAt date
-    if (!array_key_exists("Fecha", $doc) == null ) {
-        $dt = ajetlsurveys_couchDateTime2Mysql($doc["createdAt"]);
-        // remove the last 6 chars, e.g. the couchDB time zone
-        $len = strlen($dt);
-        $dt = substr($dt, 0, $len - 15);
-
-        return " STR_TO_DATE('".$dt."', '%Y-%m-%dT%H:%i:%S')";
-
+    if (!array_key_exists("Fecha", $doc) ) {
+      return ajetlsurveys_couchDateTime2Mysql($doc["createdAt"]);
     }
 
     $dt = $doc["Fecha"];
@@ -560,11 +570,12 @@ function ajetlsurveys_couchDate2Mysql($doc){
         if (strlen($dt) < 8)
             return " null ";
 
+        ajetllog_log("ajetlsurveys", "MESSAGE", "INSIDE FECHA BREAK 001 ");
+
         $pos1 = stripos($dt, "-");
         if ($pos1 === 2) // date is in format 23/05/2014
             return " STR_TO_DATE('" . $dt . "', '%d-%m-%Y')";
         else {
-
             $first5 = substr($dt, 0, 5);
             $last4 = substr($first5, 1);
 
@@ -576,7 +587,6 @@ function ajetlsurveys_couchDate2Mysql($doc){
                 $endDt = substr($dt, 5);
                 $dt = '2013'.$endDt;
             }
-
 
             return " STR_TO_DATE('" . $dt . "', '%Y-%m-%d')";
         }
