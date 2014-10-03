@@ -278,7 +278,7 @@ QuestionView = (function(_super) {
     $target = $(event.target);
     targetName = $target.attr("name");
     if (targetName === "Completado") {
-      if (this.changedComplete) {
+      if (this.changedComplete && this.isValidAll) {
         this.changedComplete = false;
         return;
       }
@@ -470,6 +470,7 @@ QuestionView = (function(_super) {
   QuestionView.prototype.validateAll = function() {
     var $button, $question, aPassed, completeButtonModel, hasOnComplete, html, isValid, key, link, onClick, onComplete, questionIsntValid, re, sPassed, v, _i, _j, _k, _l, _len, _len1, _len2, _len3, _ref1, _ref2, _ref3, _ref4;
     $button = $("[name=Completado]");
+    this.isValidAll = false;
     isValid = true;
     _ref1 = window.keyCache;
     for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
@@ -547,6 +548,9 @@ QuestionView = (function(_super) {
     }
     if (isValid) {
       $button.scrollTo();
+    }
+    if (isValid) {
+      this.isValidAll = true;
     }
     return isValid;
   };

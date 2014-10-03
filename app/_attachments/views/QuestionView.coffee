@@ -286,11 +286,14 @@ class QuestionView extends Backbone.View
     targetName = $target.attr("name")
 
     if targetName == "Completado"
-      if @changedComplete
+
+
+      if @changedComplete and @isValidAll
         @changedComplete = false
         return
 
       @validateAll()
+
       # Update the menu
       # Coconut.menuView.update()
     else
@@ -478,7 +481,7 @@ class QuestionView extends Backbone.View
   validateAll: () ->
 
     $button = $("[name=Completado]")
-
+    @isValidAll = false
     
    
     isValid = true
@@ -497,6 +500,8 @@ class QuestionView extends Backbone.View
 
       if isValid and questionIsntValid
         isValid = false
+        #alert("La forma no puede ser completa debido a un error. Por favor, volver atrás y corregir sus errores.")
+
 
     @completeButton isValid
 
@@ -553,6 +558,9 @@ class QuestionView extends Backbone.View
             $(".onComplete").scrollTo()
 
     $button.scrollTo() if isValid
+
+
+    @isValidAll = true if isValid
 
     return isValid
 

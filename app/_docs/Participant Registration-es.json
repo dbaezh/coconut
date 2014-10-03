@@ -224,7 +224,7 @@
           "label": "Parentesco o persona relacionada",
           "repeatable": false,
           "required": true,
-          "type": "autocomplete from previous entries"
+          "type": "text"
         },
         {
           "_id": 128,
