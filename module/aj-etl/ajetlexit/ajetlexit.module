@@ -311,8 +311,11 @@ function ajetlexit_insertExit($doc){
     $q2 = ajetlexit_genInsertQueryPart2($doc);
     $query = "INSERT INTO {aj_exit} (".$q1.") VALUES(".$q2.")";
 
-    $result = db_query($query);
-
+    try{
+        $result = db_query($query);
+    }catch(Exception $e){
+        ajetllog_error("ajetlexit", "MySQL ERROR", "MySQL error.", $e->getMessage(), "");
+    }
 }
 
 /**
@@ -342,7 +345,11 @@ function ajetlexit_insertExitParticipants($doc){
             $answer = $doc[$key];
             $query = "INSERT INTO {aj_exit_programs} (_id, uuid, provider_id, program_id, answer, created) VALUES('".$doc['_id']."','".$doc['uuid']."','".$doc['provider_id']."','".$programId."','".$answer."', NOW())";
 
-            $result = db_query($query);
+            try{
+                $result = db_query($query);
+            }catch(Exception $e){
+                ajetllog_error("ajetlexit", "MySQL ERROR", "MySQL error.", $e->getMessage(), "");
+            }
         }
     }
 

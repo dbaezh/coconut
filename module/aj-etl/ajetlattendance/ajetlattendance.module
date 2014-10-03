@@ -263,7 +263,11 @@ function ajetlattendance_insertAttendance($doc, $uuid){
     $q2 = ajetlattendance_genInsertQueryPart2($doc, $uuid);
     $query = "INSERT INTO {aj_attendance} (".$q1.") VALUES(".$q2.")";
 
-    $result = db_query($query);
+    try{
+        $result = db_query($query);
+    }catch(Exception $e){
+        ajetllog_error("ajetlattendance", "MySQL ERROR", "MySQL error.", $e->getMessage(), "");
+    }
 
 }
 

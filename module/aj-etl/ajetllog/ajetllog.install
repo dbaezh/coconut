@@ -42,11 +42,9 @@ function ajetllog_schema() {
            'not null' => FALSE,
            'default' => ''),
         'data' => array(
-           'description' => 'Usually CSV data for sending to providers for correction',
-           'type' => 'varchar',
-           'length' => 1024,
-           'not null' => FALSE,
-           'default' => ''),
+           'description' => 'CSV data for sending to providers for correction OR MySQL exception',
+           'type' => 'text',
+           'not null' => FALSE),
         'provider_id' => array(
            'description' => 'Provider Id.',
            'type' => 'varchar',

@@ -270,7 +270,7 @@ function ajetlregs_processDOB($doc){
  // construct DOB from Dia-Mes-Ano
     $yyyy =  $doc['Año'];
     if (strlen($yyyy) != 4) {
-        $dataCSV = constructCSVData($doc);
+        $dataCSV = ajetlregs_constructCSVData($doc);
         ajetllog_error("ajetlregs", "ERROR", "Año de nacimiento está mal.", $dataCSV, $doc['provider_id']);
         return "ERROR";
     }
@@ -280,7 +280,7 @@ function ajetlregs_processDOB($doc){
     // check if month is missing
     // TBD: need to log the error and not insert this document
     if ($mm == null || $mm == ''){
-        $dataCSV = constructCSVData($doc);
+        $dataCSV = ajetlregs_constructCSVData($doc);
         ajetllog_error("ajetlregs", "ERROR", "Mes falta.", $dataCSV, $doc['provider_id']);
         return "ERROR";
     }
@@ -300,7 +300,7 @@ function ajetlregs_processDOB($doc){
     $dd = $doc['Día'];
     // check if date is missing
     if ($dd == null || $dd == ''){
-        $dataCSV = constructCSVData($doc);
+        $dataCSV = ajetlregs_constructCSVData($doc);
         ajetllog_error("ajetlregs", "ERROR", "Fecha de falta.", $dataCSV, $doc['provider_id']);
         return "ERROR";
     }
@@ -311,7 +311,7 @@ function ajetlregs_processDOB($doc){
 
     // check if date is valid
     if (!checkdate((int)$mm, (int)$dd, (int)$doc['Año'])){
-        $dataCSV = constructCSVData($doc);
+        $dataCSV = ajetlregs_constructCSVData($doc);
         ajetllog_error("ajetlregs", "ERROR", "Fecha de nacimiento no es válida - check mes, la fecha o el año", $dataCSV, $doc['provider_id']);
         return "ERROR";
     }
@@ -332,7 +332,7 @@ function ajetlregs_processDOB($doc){
  * @param $doc
  *
  */
-function constructCSVData($doc){
+function ajetlregs_constructCSVData($doc){
     $dataCSV = $doc['uuid'].','.$doc['provider_id'].','.$doc['Nombre'].','.$doc['Apellido'].','
                .$doc['BarrioComunidad'].','.$doc['Mes'].','.$doc['Día'].','.$doc['Año'];
     return $dataCSV;
@@ -356,7 +356,13 @@ function ajetlregs_insertRegistration($doc){
 
     $query = "INSERT INTO {aj_registration} (".$q1.") VALUES(".$q2.")";
 
-    $result = db_query($query);
+
+
+    try {
+        $result = db_query($query);
+    }catch(Exception $e){
+        ajetllog_error("ajetlregs", "MySQL ERROR", "MySQL error.", $e->getMessage(), "");
+    }
 
 }
 
