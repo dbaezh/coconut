@@ -100,17 +100,19 @@
           "_id": 112,
           "label": "Día",
           "repeatable": false,
-          "required": true,
+          "required": false,
           "type": "number",
-          "validation": "return \"Dia debe ser de 1 al 31.\" if parseInt(value) < 1 || parseInt(value) > 31 "
+          "validation": "return if window.getValueCache['Estecolateralparticipante']() == 'Sí';min = 1;max = 31; valid = min <= parseInt(value) <= max; return \"Dia debe ser de 1 al 31.\" unless valid"
         },
         {
           "_id": 113,
           "label": "Mes",
           "repeatable": false,
-          "required": true,
+          "required": false,
           "type": "number",
-          "validation": "return \"Mes debe ser de 1 al 12.\" if parseInt(value) < 1 || parseInt(value) > 12 "
+          "validation": "return if window.getValueCache['Estecolateralparticipante']() == 'Sí';min = 1;max = 12; valid = min <= parseInt(value) <= max; return \"Mes debe ser de 1 al 12.\" unless valid"
+
+
         },        
 	{
           "_id": 114,

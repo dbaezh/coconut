@@ -52,7 +52,7 @@ function load_regs_worker()
 
     ajetlregs_setModuleVariables();
 
-    $req_url = 'http://localhost:5984/coconut/_design/coconut/_view/resultsByQuestionAndComplete?startkey=%22Participant%20Registration-es%3Atrue%3Az%22&endkey=%22Participant%20Registration-es%3Atrue%22&descending=true&include_docs=false';
+    $req_url = 'http://localhost:5984/coconut/_design/coconut/_view/resultsByQuestionAndCompleteWithCollateral?startkey=%22Participant%20Registration-es%3Atrue%3Az%22&endkey=%22Participant%20Registration-es%3Atrue%22&descending=true&include_docs=false';
 
     //TBD Uncomment when deploying to prod, the $base_url is not write when deploying on Windows because it has /drupal in the link
     //$req_url = $base_url.':5984/coconut/_design/coconut/_view/resultsByQuestionAndComplete?startkey=%22Participant%20Registration-es%3Atrue%3Az%22&endkey=%22Participant%20Registration-es%3Atrue%22&descending=true&include_docs=false';
@@ -267,6 +267,20 @@ function ajetlregs_genInsertQueryPart2($doc){
  *
  */
 function ajetlregs_processDOB($doc){
+
+    // process collateral
+    if ($doc['Estecolateralparticipante'] === 'Sí'){
+        // first check if exist
+        if ($doc['Año'] == null || $doc['Mes'] == null || $doc['Día'] == null )
+            return " null ";
+
+        // check if collateral and the dob is 1/1/1990
+        if ($doc['Año'] === '1990' && $doc['Mes'] === '1' && $doc['Mes'] === '1' && $doc['Día'] == '1'){
+            ajetllog_error("ajetlregs", "DEBUG", "FOUND COLLATERALL ", null, null);
+            return " null ";
+        }
+    }
+
  // construct DOB from Dia-Mes-Ano
     $yyyy =  $doc['Año'];
     if (strlen($yyyy) != 4) {
