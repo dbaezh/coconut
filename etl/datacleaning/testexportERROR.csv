@@ -1,0 +1,615 @@
+id,module,created,category,message,data,provider_id
+3,ajetlregs,"2014-10-02 17:40:40",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","JN57XM90W,22,JANIA ,LORA RODRIGUEZ ,BARRIO NUEVO,2,31,1994",22
+4,ajetlregs,"2014-10-02 17:40:40",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","T7H5V5M8W,22,YOHANNY ,AGRAMONTE LORA ,BARRIO NUEVO,2,29,1999",22
+5,ajetlregs,"2014-10-02 17:40:40",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","ZACWK203P,6,Cristhephe,Peralta,24 DE ABRIL,02,30,1991",6
+6,ajetlregs,"2014-10-02 17:40:48",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","AN2X57TCU,2,Luis Diego,Turbi Paulino ,VILLA MELLA,2000,06,2000",2
+7,ajetlregs,"2014-10-02 17:40:48",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","WE0W3QYXR,18,Victor ,Gil ,Baitoa,febrero,29,1990",18
+8,ajetlregs,"2014-10-02 17:40:52",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","567RDM6Z6,27,Marne Altagracia,Saldaña Nuñez,CAMPO LINDO,1995,18,1995",27
+9,ajetlregs,"2014-10-02 17:40:52",ERROR,"Año de nacimiento está mal.",",,,,,,,",NULL
+10,ajetlregs,"2014-10-02 17:40:54",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","HM4JBPPH3,4,BRAUNILDA,DE JESUS ,VISTA DEL VALLE,13,15,1993",4
+11,ajetlregs,"2014-10-02 17:40:54",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","2DGD1804A,18,Leory ,Diaz ,SABANA IGLESIA,febrero,29,1997",18
+12,ajetlregs,"2014-10-02 17:40:56",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","439KVZYJ$,6,Manuela ,Martinez ,BRISAS DEL OZAMA,15,28,1996",6
+13,ajetlregs,"2014-10-02 17:40:57",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","3SS3MA8ER,10,Richard ,Peña ,EL JAVILLAR,1120,9,2000",10
+14,ajetlregs,"2014-10-02 17:40:57",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","VVBQ91ZCW,22,JASMIN ALTAGRACIA ,FABIAN ROSA ,BARRIO NUEVO ,ENERO ,20,1999",22
+15,ajetlregs,"2014-10-02 17:40:58",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","FJY29DCB4,22,DARNE ,FERNANDEZ CRUZ ,BARRIO NUEVO ,FEBRERO ,20,1997",22
+16,ajetlregs,"2014-10-02 17:40:59",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","P7CNM5KGA,21,DAURY,BATISTA,LOS PEREZ,abril,31,2001",21
+17,ajetlregs,"2014-10-02 17:41:01",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","VEV01RTHF,6,Yunior Raul,Garcia Medrano,LOS MINA VIEJO,ab,21,1992",6
+18,ajetlregs,"2014-10-02 17:41:04",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","RHAND3GR4,22,JUAN CARLOS ,MORA DIAZ ,ARROYO HONDO,MARZO ,04,1996",22
+19,ajetlregs,"2014-10-02 17:41:04",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","WD85WN36E,22,JOSE ANTONIO ,CASTILLO ,ARROYO HONDO,MARZO ,24,1990",22
+20,ajetlregs,"2014-10-02 17:41:05",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","H1DMTKQMC,6,Lizmery Rocio,Salcedo Campusano,VILLAS AGRÍCOLAS,se,10,2001",6
+21,ajetlregs,"2014-10-02 17:41:06",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","QRHG3DSE2,22,RAYSA STHEFANY ,FLETE NUÑEZ ,ARROYO HONDO,MARZO ,07,1997",22
+22,ajetlregs,"2014-10-02 17:41:06",ERROR,"Fecha de falta.","WN7EWVT78,6,Eliezer ,Hernandez Alvares,GUALEY,07,,1997",6
+23,ajetlregs,"2014-10-02 17:41:07",ERROR,"Mes falta.","DCN66ECBY,6,Cristopher ,Nolberto Espinal,El Verde,,,1990",6
+24,ajetlregs,"2014-10-02 17:41:08",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","90MGPADW5,22,JOSSELY EVANGELISTA ,ROSARIO QUEZADA,CIENFUEGOS,ABRIL ,25,1995",22
+25,ajetlregs,"2014-10-02 17:41:08",ERROR,"Año de nacimiento está mal.","538R4GAZU,15,Cristopher ,Matrile,ERCILIA PEPIN,01,24,90",15
+26,ajetlregs,"2014-10-02 17:41:09",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","KMJMQ8NRZ,6,Victor Augusto,Perez,LA CIENAGA,no,20,1999",6
+27,ajetlregs,"2014-10-02 17:41:11",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","NSYHSNRNR,6,Nicaury, Reynoso,SIMON BOLIVAR,Febero,26,1997",6
+28,ajetlregs,"2014-10-02 17:41:12",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","S6DWY2N0Z,22,ANDRES ,CORDERO ,CIENFUEGOS,ABRIL ,01,1996",22
+29,ajetlregs,"2014-10-02 17:41:12",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","BXEEMSHDT,22,VICTOR MANUEL ,HAWARD ALMONTE ,CIENFUEGOS,ENERO ,13,1999",22
+30,ajetlregs,"2014-10-02 17:41:14",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","5V7MZM4X9,6,Lilivette Massiel,Paredes,LAS CAŇITAS,00,05,1998",6
+31,ajetlregs,"2014-10-02 17:41:15",ERROR,"Fecha de falta.","2S4KGAW2M,6,Bethania ,Felipe Hernandez,La Villa,11,,1998",6
+32,ajetlregs,"2014-10-02 17:41:16",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","YZ5MN11TH,6,Jhojari,Jimenez,LA ZURZA,20,02,2000",6
+33,ajetlregs,"2014-10-02 17:41:16",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","YX8RCW9NJ,6,Maria Ysabel ,Gomez Roja,24 DE ABRIL,A,21,2000",6
+34,ajetlregs,"2014-10-02 17:41:17",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","VSK970JT8,22,YAELIS,LUCIANO LUGO ,27 DE FEBRERO ,MARZO ,12,1995",22
+35,ajetlregs,"2014-10-02 17:41:17",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","66DS0ZTTC,22,MELINA ,VARGAS ,SAN LORENZO ,JUNIO ,10,2002",22
+36,ajetlregs,"2014-10-02 17:41:18",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","M6QVBXTZC,18,Gustavo Adolfo ,Martinez ,ENSANCHE HERMANAS MIRABAL,noviembre,31,2000",18
+37,ajetlregs,"2014-10-02 17:41:22",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","5B329PW0$,22,ISMAEL ,SILVERIO RODRIGUEZ ,CIENFUEGOS,MARZO ,01,2000",22
+38,ajetlregs,"2014-10-02 17:41:23",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","SJJG853ZU,4,IANDRA YOSMERIS,RAMIREZ,LOTES Y SERVICIOS,MAYO,4,1997",4
+39,ajetlregs,"2014-10-02 17:41:24",ERROR,"Fecha de falta.","TDZW6GR1A,20,Jennifer ,Sánchez Sánchez,LOS PLATANITOS,enero,,1999",20
+40,ajetlregs,"2014-10-02 17:41:26",ERROR,"Mes falta.","WB576BA1G,20,Danilsa ,Herrera López,HATO MAYOR,,,2000",20
+41,ajetlregs,"2014-10-02 17:41:27",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","HJW0WP6YJ,4,EANDY JOEL,ENCARNACION M,CIENFUEGOS,17,11,1998",4
+42,ajetlregs,"2014-10-02 17:41:28",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","X4MHDH4EH,4,LUILMER ,PAULINO MEDINA,CIENFUEGOS,26,02,1999",4
+43,ajetlregs,"2014-10-02 17:41:28",ERROR,"Año de nacimiento está mal.","6Q2NK7RST,6,Emely ,Guzman,24 de abril,01,01,85",6
+44,ajetlregs,"2014-10-02 17:41:28",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","T9CTS9A98,11,JONATHAN ,SANCHEZ,SAVICA,ENERO,21,2001",11
+45,ajetlregs,"2014-10-02 17:41:29",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","1HRGWSRHC,20,Rafael Isidro,Martínez,GURABO,Marzo ,15,1998",20
+46,ajetlregs,"2014-10-02 17:41:30",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","YWJHZ5YHS,4,ANEURI,FELIZ ,LA OTRA BANDA,17,5,1998",4
+47,ajetlregs,"2014-10-02 17:41:32",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","SZQGN3PTN,4,MARISABEL ,ROZO ,SABANA PERDIDA,06,31,2002",4
+48,ajetlregs,"2014-10-02 17:41:32",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","RCXQDJTPF,20,Juan Ramón ,Romero Araugo ,HATO MAYOR,septiembre,31,2000",20
+49,ajetlregs,"2014-10-02 17:41:33",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","2JB02HNKV,4,JOEL,SALAZAR,VISTA DEL VALLE,MAYO,30,1994",4
+50,ajetlregs,"2014-10-02 17:41:34",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","R96E5QMN9,4,BRAILIN,BONILLA,UGAMBA,OCTUBRE,18,2000",4
+51,ajetlregs,"2014-10-02 17:41:34",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","8P3MF8BV3,4,BRAYAN,VASQUEZ,UGAMBA,SEPTIEMBRE,7,1998",4
+52,ajetlregs,"2014-10-02 17:41:35",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","1PJBVTSG0,4,NICAURY,MANTERO,LOTES Y SERVICIOS,ENERO,5,1995",4
+53,ajetlregs,"2014-10-02 17:41:37",ERROR,"Fecha de falta.","CC9T8PKPR,6,Perla,Mota,Las Cañitas,No responde,,1998",6
+54,ajetlregs,"2014-10-02 17:41:37",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","9CCD1EWWC,6,Roy ,Pérez,Respuesta Invalida,No Responde,20,1999",6
+55,ajetlregs,"2014-10-02 17:41:38",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","2HRGGCK5=,6,josias benjamin,solano,LOS GUANDULES,31,20,1998",6
+56,ajetlregs,"2014-10-02 17:41:38",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","SGXEF3YWY,4,YAMILET,CHARLOS,GUARICANO,JULIO,20,1999",4
+57,ajetlregs,"2014-10-02 17:41:39",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","FZR3ATB0*,6,BRAYAN ,JESUS,SIMON BOLIVAR ,SEPTIEMBRE ,17,2000",6
+58,ajetlregs,"2014-10-02 17:41:39",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","H5KRMDDK*,6,Argeny Amaury,Caceres R.,VILLAS AGRÍCOLAS,0ctubre,18,1996",6
+59,ajetlregs,"2014-10-02 17:41:39",ERROR,"Año de nacimiento está mal.","9J2K77G52,6,Gregorio ,Tejeda  Corniel ,LA CIENAGA,08,30,",6
+60,ajetlregs,"2014-10-02 17:41:40",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","0DXCG60GS,4,SKARLEM,RODRIGUEZ BRITO,ENRIQUILLO,JULIO,13,2000",4
+61,ajetlregs,"2014-10-02 17:41:40",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","9WF1MDNKZ,6,Yisleidy,Agramonte ,CAPOTILLO,j,5,1997",6
+62,ajetlregs,"2014-10-02 17:41:41",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","8VZZPSA0W,6,Scarlet Angelica ,Peguero Hernandez,LOS GUANDULES,Abril,7,2000",6
+63,ajetlregs,"2014-10-02 17:41:42",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","SFSNE6PKZ,6,Berenice,Jueves,GUALEY,fe,5,1999",6
+64,ajetlregs,"2014-10-02 17:41:42",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","FV74JNFS4,4,VANESA ,DE OLEO MATEO,SABANA CENTRO,JUNIO,4,1997",4
+65,ajetlregs,"2014-10-02 17:41:43",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","5946XP1N3,6,Ruth ,Encarnacion ,Capotillo,enero ,26,1998",6
+66,ajetlregs,"2014-10-02 17:41:43",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","Y4WMZNJ4T,6,Kennin Enrrique,Gonzalez,GUALEY,ENERO,24,1997",6
+67,ajetlregs,"2014-10-02 17:41:44",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","QFB0EJXFN,6,Marla Honibel,Rodriguez Matias,LOS GUANDULES,0ctubre,29,1999",6
+68,ajetlregs,"2014-10-02 17:41:45",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","E3WPFGA5W,6,Anyeli Maciel ,Montilla Presinal.,Simon Bolivar,Agosto,17,2001",6
+69,ajetlregs,"2014-10-02 17:41:45",ERROR,"Año de nacimiento está mal.","0ZTVJWBNM,35,brigite de la cruz ovalle,de la cruz ovalle,villa liberacion sosua,11,24,",35
+70,ajetlregs,"2014-10-02 17:41:46",ERROR,"Año de nacimiento está mal.","A4KWAA8EZ,6,Rossmery,Cuevas ,La Zurza,05,03,",6
+71,ajetlregs,"2014-10-02 17:41:47",ERROR,"Año de nacimiento está mal.","X3WX5NCG~,6,Genesis ,Marrero Frias,Capotillo,5,23,",6
+72,ajetlregs,"2014-10-02 17:41:47",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","A2AH4EBA1,6,Oliber ,Ucena,Capotillo ,mayo ,7,1999",6
+73,ajetlregs,"2014-10-02 17:41:48",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","EX2M9XH9*,6,Niurka ,Rodriguez,Capotillo,enero ,6,1997",6
+74,ajetlregs,"2014-10-02 17:41:50",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","BC91QE3V2,6,Delson ,Nolosco ,BRISAS DEL OZAMA,27,02,1992",6
+75,ajetlregs,"2014-10-02 17:41:50",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","R3ZX43QY2,6,Andreina ,Siverio Patricio,LOS MINA VIEJO,99,25,1994",6
+76,ajetlregs,"2014-10-02 17:41:50",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","MPJKAF9J4,6,Kathrine ,Rodriguez ,Los Mina VIejo,Abril,9,1995",6
+77,ajetlregs,"2014-10-02 17:41:51",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","J5J1WRRTG,6,Olfa ,Lorenzo Pascual ,LA ZURZA,julio ,11,1993",6
+78,ajetlregs,"2014-10-02 17:41:51",ERROR,"Fecha de falta.","7BMVVSJWW,6,Ana Maria,Santana,Las Cañitas,Vacio,,1993",6
+79,ajetlregs,"2014-10-02 17:41:52",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","E12CZ1GKN,6,Raquel,Urena,LA ZURZA,Febrero,1,2000",6
+80,ajetlregs,"2014-10-02 17:41:52",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","5VKX34GV*,6,Lisset Mariel,Cleto German,GUACHUPITA,Junio,1,2000",6
+81,ajetlregs,"2014-10-02 17:41:52",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","YEA5VH0F4,6,Victor Manuel ,De La Cruz,CAPOTILLO,noviembre ,16,1996",6
+82,ajetlregs,"2014-10-02 17:41:53",ERROR,"Fecha de falta.","ZT59Z7ZFP,6,Estefania ,Guzman ,CAPOTILLO,julio,,1998",6
+83,ajetlregs,"2014-10-02 17:41:54",ERROR,"Fecha de falta.","5Y9JKXC6D,6,Arlendi Soribel ,Mariñez Diaz ,VILLAS AGRÍCOLAS,agosto,,1997",6
+84,ajetlregs,"2014-10-02 17:41:55",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","YJ1RBC2X6,4,ESMERLIN,FELIX CUEVAS,BATEY 1, LA CUARENTA, DISTRITO LA CANELA,JULIO,1,1997",4
+85,ajetlregs,"2014-10-02 17:41:56",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","Q3CKMSXE$,6,Paulina,Mejía Rosario ,VILLA LIBERACION,11,31,2002",6
+86,ajetlregs,"2014-10-02 17:41:57",ERROR,"Mes falta.","YE60AX35D,12,prueba,prueba,prueba,,,2000",12
+87,ajetlregs,"2014-10-02 17:41:57",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","2WY6X1J9G,4,DAUHARIS,CASTILLO,SANTA LUISA,SEPTIEMBRE,7,2001",4
+88,ajetlregs,"2014-10-02 17:41:58",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","2PVHMK7TD,4,RONELVY,REYNOSO,SANTA LUISA DE MORILLA,99,22,1998",4
+89,ajetlregs,"2014-10-02 17:41:58",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","VH7WRKBXV,4,PEDRO ANTONIO,ROSA MENA,SALVADOR THEN,ENERO,17,1998",4
+90,ajetlregs,"2014-10-02 17:41:58",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","NFDGKXK6M,22,DAVID GERALDO,CABRERA ALVAREZ ,BARRIO DUARTE ,JULIO ,20,1997",22
+91,ajetlregs,"2014-10-02 17:41:58",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","DJRKQENA5,4,ROSA,BURGOS FAÑA,SALVADOR THEN,JUNIO,24,2000",4
+92,ajetlregs,"2014-10-02 17:41:58",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","2GTVGCRRE,4,MARIELA,BRITO,SANTA LUISA,JUNIO,3,2001",4
+93,ajetlregs,"2014-10-02 17:41:59",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","RY8H4W824,22,MARIA DEL CARMEN ,FROMETA ROJAS,NAVARRETE ,OCTUBRE ,28,2000",22
+94,ajetlregs,"2014-10-02 17:41:59",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","GEFTQ4BW=,22,JOSE ARMANDO,FROMETA ROJAS ,NAVARRETE ,OCTUBRE ,13,1998",22
+95,ajetlregs,"2014-10-02 17:42:00",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","3FR25V7KS,6,Maria,Morillo Suero,El Verde,0,19,1995",6
+96,ajetlregs,"2014-10-02 17:42:00",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","ZZ6YZB7SN,4,YOSELYN,LIBERATO,SAN FRANCISCO DE ASIS,JUNIO,21,2002",4
+97,ajetlregs,"2014-10-02 17:42:00",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","X9VBAP9ZS,4,MICAELA,SIDISLA,UGAMBA,AGOSTO,13,2000",4
+98,ajetlregs,"2014-10-02 17:42:00",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","YB54F1SN5,4,FRANCHESCA,DULTE,UGAMBA,JULIO,19,1999",4
+99,ajetlregs,"2014-10-02 17:42:00",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","N6G64285H,6,Anderson Santiago,Rosario Restituyo,LOS GUANDULES,Febrero,21,1993",6
+100,ajetlregs,"2014-10-02 17:42:00",ERROR,"Fecha de falta.","C2DPDMB7T,6,Jorge Antonio ,Galvez,LOS GUANDULES,noviembre,,1998",6
+101,ajetlregs,"2014-10-02 17:42:01",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","3KVGFFF9V,6,Keila ,Peralta Gonsalez ,BRISAS DEL OZAMA,enero ,09,1992",6
+102,ajetlregs,"2014-10-02 17:42:02",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","NNT3043FH,6,Yeline Altagracia ,Peña ,BRISAS DEL OZAMA,enero ,21,1997",6
+103,ajetlregs,"2014-10-02 17:42:02",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","APB6S0EA~,6,Anyira Mishelle ,Rosario ,BRISAS DEL OZAMA,Diciembre ,14,2000",6
+104,ajetlregs,"2014-10-02 17:42:02",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","5A0R4X77A,6,Kimberli,Joseph ,BRISAS DEL OZAMA,enero ,13,2002",6
+105,ajetlregs,"2014-10-02 17:42:04",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","K5QVGJPZV,22,YULEYSY MARIANA ,NUÑEZ ,PEKIN,MARZO ,3,2001",22
+106,ajetlregs,"2014-10-02 17:42:04",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","1G9XNAQNA,22,YURIBEL ,FERNANDEZ ARIAS ,CRISTO REY ,AGOSTO ,16,2002",22
+107,ajetlregs,"2014-10-02 17:42:05",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","7X4V9ND5Q,22,CRISTOFER ,RODRIGUEZ ,NO TIENE ,OCTUBRE ,21,1996",22
+108,ajetlregs,"2014-10-02 17:42:05",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","WGVQZZ9R~,22,RAQUEL ALTAGRACIA ,RODRIGUEZ VERAS,CAMBIMBA ,MARZO ,25,1995",22
+109,ajetlregs,"2014-10-02 17:42:05",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","XYCYG65M$,22,RIGAN JOSE ,NO LO PUSO ,BATEY I,MARZO ,23,1997",22
+110,ajetlregs,"2014-10-02 17:42:05",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","WF3N6N21*,22,MELVIS ,MAMAPOR ,BATEY I ,AGOSTO ,2,1996",22
+111,ajetlregs,"2014-10-02 17:42:05",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","26346CSX9,22,MELISSA,LORA,PLATANAL ,ENERO ,7,2001",22
+112,ajetlregs,"2014-10-02 17:42:05",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","HZ40M34CD,22,STIVEN ,RODRIGUEZ GOMEZ ,NO TIENE ,MARZO ,12,2000",22
+113,ajetlregs,"2014-10-02 17:42:05",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","PGEV2D6QM,22,ARON DAVID ,PEREZ RODRIGUEZ,HATILLO SAN LORENZO ,ABRIL ,19,1999",22
+114,ajetlregs,"2014-10-02 17:42:05",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","65PHMJH30,22,SHANTEY ALINA ,MINAYA MARTE ,HATILLO SAN LORENZA ,OCTUBRE ,12,2002",22
+115,ajetlregs,"2014-10-02 17:42:05",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","BRXV98JY$,22,WRADY ,VASQUEZ ,SAN LORENZO ADENTRO ,MARZO ,09,2001",22
+116,ajetlregs,"2014-10-02 17:42:05",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","G8A4KPDN2,22,MAYELIS ,INFANTE ,SAN LORENZO ,JULIO ,7,2000",22
+117,ajetlregs,"2014-10-02 17:42:05",ERROR,"Mes falta.","CEGTKST2F,12,prueba,prueba,prueba,,,2000",12
+118,ajetlregs,"2014-10-02 17:42:05",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","W0H2W7KNJ,22,RAIMUNDO ANTONIO ,SANTANA ,GUAZUMAL ,MARZO ,15,1996",22
+119,ajetlregs,"2014-10-02 17:42:05",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","AFEXCGWS7,22,KARY ,SANTANA ,GUATAPANAL ,SEPTEIMBRE ,09,1991",22
+120,ajetlregs,"2014-10-02 17:42:05",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","E02FCW68G,22,ALCEDO ANTONIO ,TORRES ,SABANA GRANDE ,MARZO ,03,1993",22
+121,ajetlregs,"2014-10-02 17:42:06",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","MAES24J6Z,22,YESSICA YANETH,RAMOS LUNA,PLATANAL ,NOVIEMBRE ,26,1997",22
+122,ajetlregs,"2014-10-02 17:42:06",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","QKXBMDZ65,22,ADRIAN ABER ,PEÑA GUILLEN ,BATEY I,MARZO ,21,2000",22
+123,ajetlregs,"2014-10-02 17:42:06",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","17WM8X0PV,17,Johanndry,Reyes Espinal,Los Cocos,Noviembre,02,1998",17
+124,ajetlregs,"2014-10-02 17:42:06",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","V4AWCB53V,17,Johanndry,Reyes Espinal,Los Cocos,Noviembre,02,1998",17
+125,ajetlregs,"2014-10-02 17:42:07",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","VR6M8Y1RZ,22,YASMIN ESCARLET ,VAGAS INFANTE ,LA CANELA ,FEBRERO ,29,2000",22
+126,ajetlregs,"2014-10-02 17:42:07",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","47Q01Y9DP,22,ADRIAN ,RINCON ,HATILLO SAN LORENZO ,AGOSTO ,22,2000",22
+127,ajetlregs,"2014-10-02 17:42:07",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","PE75DX99F,22,ADEMI MICHEL ,GONZALEZ ,CIENFUEGOS,MARZO ,24,1997",22
+128,ajetlregs,"2014-10-02 17:42:08",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","0H9X31X7P,4,YELIZA LISBETH,SANCHEZ ,CIEN FUEGO ,021,28,1996",4
+129,ajetlregs,"2014-10-02 17:42:09",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","VNEJ937CV,38,Domingo ,Contreras ,CIENFUEGOS,septiembre,31,1999",38
+130,ajetlregs,"2014-10-02 17:42:09",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","YYCGEYF56,22,DEROLIN ,ROMAN MOREL ,NAVARRETE ,MARZO ,11,2003",22
+131,ajetlregs,"2014-10-02 17:42:09",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","97J3GM4RS,38,Yudy ,Morrobel,CIENFUEGOS,febrero,30,1999",38
+132,ajetlregs,"2014-10-02 17:42:09",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","EPC4R66GE,6,Ismael ,Riva Cuevas ,LOS GUANDULES,Febrero ,06,1995",6
+133,ajetlregs,"2014-10-02 17:42:10",ERROR,"Mes falta.","7X33128S3,12,prueba,prueba,prueba,,,2001",12
+134,ajetlregs,"2014-10-02 17:42:10",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","E2XEHESQ8,4,RAMON ,TEJADA,SABANA CENTRO,17,5,1999",4
+135,ajetlregs,"2014-10-02 17:42:10",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","F97G5ET2M,4,OBED MISAEL,ARENA,NO TIENE,SEPTIEMBRE,18,1995",4
+136,ajetlregs,"2014-10-02 17:42:11",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","SF3XPE7BA,4,GENESIS ,BAES,SABANA CENTRO,17,9,1998",4
+137,ajetlregs,"2014-10-02 17:42:11",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","H86EV8KX9,22,TANTA ANT.,MARTINEZ FERNANDEZ ,LOS POLANCOS ,AGOSTO ,29,1996",22
+138,ajetlregs,"2014-10-02 17:42:11",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","HQG3B4E6T,4,YANICES,NOVA MENDEZ,HERMANAS MIRABAL,SEPTIEMBRE,7,1995",4
+139,ajetlregs,"2014-10-02 17:42:11",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","8NMKD22KZ,22,HAMLER RARAEL ,RAMOS CABRERA,NAVARETE ,OCTUBRE ,7,1996",22
+140,ajetlregs,"2014-10-02 17:42:12",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","538GMSRZU,4,VALERI ARISLEIDI,HERRERA MORALES,BARRIO ALTAGRACIA,MAYO,15,1996",4
+141,ajetlregs,"2014-10-02 17:42:14",ERROR,"Fecha de falta.","H55M5YX4C,12,prueba,prueba,prueba,prueba,,1995",12
+142,ajetlregs,"2014-10-02 17:42:14",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","HAR3WG7N7,4,ARIEL,CABRAL,LIBERTAD,ABRIL,29,1997",4
+143,ajetlregs,"2014-10-02 17:42:14",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","WYTNCAH55,4,BRANLY FRANCISCO,RUMALDO SILVERIO,ALTOS DE SABANA,AGOSTO,9,1997",4
+144,ajetlregs,"2014-10-02 17:42:15",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","Q3YBR4WP6,6,Mari Luz,Vardez Javier,Losa Arroyos,septiembre,31,2001",6
+145,ajetlregs,"2014-10-02 17:42:15",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","FC6RA0DFZ,22,DARLIN KAROLINA ,MARTINEZ REYES ,TAMBORIL,AGOSTO ,17,1995",22
+146,ajetlregs,"2014-10-02 17:42:15",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","SN3H2VX8R,4,ANEURIS,GARCIA,ENRIQUILLO,JULIO,24,1992",4
+147,ajetlregs,"2014-10-02 17:42:15",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","ATYKARG5G,22,BRANDEN ,AGUILERA ATILES ,TAMBORIL,OCTUBRE ,15,2002",22
+148,ajetlregs,"2014-10-02 17:42:15",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","5QZ6PACHZ,4,SOFIA ,DEL PILAR PEREZ,SABANA PERDIDA,SEPTIEMBRE,17,1999",4
+149,ajetlregs,"2014-10-02 17:42:16",ERROR,"Año de nacimiento está mal.","AXW6ZXNQ~,22,JOSE ELIA ,SOSA MARTINEZ ,EL JOBO ,,,",22
+150,ajetlregs,"2014-10-02 17:42:16",ERROR,"Año de nacimiento está mal.","XD57KHYEC,22,CRISTOFER ,SANTANA ,TAMBORIL ,,,",22
+151,ajetlregs,"2014-10-02 17:42:16",ERROR,"Fecha de falta.","0269MG4M4,22,SSKART ,FILION CAPELLAN ,GURABO,diciembre,,2001",22
+152,ajetlregs,"2014-10-02 17:42:16",ERROR,"Fecha de falta.","S0A0WW4NP,22,YERENI ,BONILLA ALMONTE ,TAMBORIL ,octubre,,2002",22
+153,ajetlregs,"2014-10-02 17:42:16",ERROR,"Año de nacimiento está mal.","Y6EHEPFF*,12,,,,,,",12
+154,ajetlregs,"2014-10-02 17:42:16",ERROR,"Año de nacimiento está mal.","60SJ3H0RR,22,CRISTOFER ARISMENDI ,CAPELLAN TAVAREZ ,TAMBORIL,,,",22
+155,ajetlregs,"2014-10-02 17:42:16",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","SZTF63YY0,4,RAMON ,CASTILLO CASTILLO,LA OTRA BANDA,SEPTIEMBRE,15,1996",4
+156,ajetlregs,"2014-10-02 17:42:16",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","W1FGD8RN*,4,DANIEL,GONZALES ,LA OTRA BANDA,MAYO,8,1993",4
+157,ajetlregs,"2014-10-02 17:42:17",ERROR,"Año de nacimiento está mal.","1QZ2EEGZV,22,MONICA ,GABRIEL ,GUAZUAML, TAMBORIL ,,,",22
+158,ajetlregs,"2014-10-02 17:42:17",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","1ZV30A3EV,38,Suany Daniela ,Nuñez De la Cruz ,los guandules ,octubre ,26,2001",38
+159,ajetlregs,"2014-10-02 17:42:17",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","5JFQNWWWJ,22,MARIELA ,CAPELLAN PEÑA ,GUAZUMAL ABAJO,SEPTIEMBRE ,23,2002",22
+160,ajetlregs,"2014-10-02 17:42:18",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","QPJ9TDTGU,22,LUIS DAVID ,CAPELLAN HILARIO ,GUAZUMAL ABAJO ,MAYO ,17,2002",22
+161,ajetlregs,"2014-10-02 17:42:18",ERROR,"Año de nacimiento está mal.","DGPMDVTZY,22,KENDI,RODRIGUEZ TEJADA ,DOMINGO ALEGRE ,,,",22
+162,ajetlregs,"2014-10-02 17:42:18",ERROR,"Año de nacimiento está mal.","5EPN86GNZ,22,PEDRO ALEX ,PEÑA UREÑA ,LOS POLANCOS ,,,",22
+163,ajetlregs,"2014-10-02 17:42:18",ERROR,"Año de nacimiento está mal.","GFEBHBNMW,22,DELVIS DE JESUS ,PEÑA ,LOS POLANCOS,,,",22
+164,ajetlregs,"2014-10-02 17:42:18",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","4Q3V172F3,4,CARLA ,YINETTE HENRIQUEZ,SABANA PERDIDA,ABRIL,5,2000",4
+165,ajetlregs,"2014-10-02 17:42:18",ERROR,"Fecha de falta.","FXPQ5MA11,6,Marcos ,Otaños Vizcaino,LOS GUANDULES,julio,,1994",6
+166,ajetlregs,"2014-10-02 17:42:18",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","3DBW40B9N,6,Wendy  ,Rosario Martinez ,LOS GUANDULES,enero  ,08,1991",6
+167,ajetlregs,"2014-10-02 17:42:18",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","5CNRF2R7K,6,Brayan Cristopher ,Matias ,LA CIENAGA,Enero ,09,2001",6
+168,ajetlregs,"2014-10-02 17:42:18",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","DZY2H78JP,38,Mayelin ,Acevedo ,los guandules ,abril ,11,2000",38
+169,ajetlregs,"2014-10-02 17:42:18",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","RKAJC5QPW,38,Melvin Javier ,Mercedes Florentino ,HATO DEL YAQUE,noviembre,31,2001",38
+170,ajetlregs,"2014-10-02 17:42:18",ERROR,"Año de nacimiento está mal.","YMA6GSGMC,22,ROSAMNA ,GERMOSEN ,,,,",22
+171,ajetlregs,"2014-10-02 17:42:19",ERROR,"Año de nacimiento está mal.","EJBPPR055,23,Jose Enrique,Soriano Mercedes,ANDRES,julio,25,",23
+172,ajetlregs,"2014-10-02 17:42:19",ERROR,"Mes falta.","7R7N46K6E,22,FRANCHESCA ,ANGELICA,TAMBORIL ,,28,2001",22
+173,ajetlregs,"2014-10-02 17:42:19",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","83D0FP3VM,4,ALEXANDRA CELESTE,JIMENEZ REYES,SABANA PERDIDA,JUNIO,25,1990",4
+174,ajetlregs,"2014-10-02 17:42:19",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","E5VDCTN02,4,NISSAURI ,MARTINEZ ,LA CANELA,29,29,1996",4
+175,ajetlregs,"2014-10-02 17:42:20",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","J2CCY33HW,4,BRAIAN JESUS,ESMAILIN DE LA ROSA,SABANA PERDIDA,MARZO,22,2001",4
+176,ajetlregs,"2014-10-02 17:42:20",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","BGSFX2FA$,4,VANESSA, PUJOLS,EL 11,14,13,2001",4
+177,ajetlregs,"2014-10-02 17:42:20",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","W6D3W7Q84,22,MIRIAN DOLORES ,PEÑA MORILLO ,TAMBORIL,MARZO ,22,2002",22
+178,ajetlregs,"2014-10-02 17:42:21",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","5K8R8BM3V,4,DANIELA NICOL,GONZALEZ,LOS CIRUELITOS,JULIO,25,2000",4
+179,ajetlregs,"2014-10-02 17:42:21",ERROR,"Año de nacimiento está mal.","R3JGGK5HZ,22,ISABEL ,LOPEZ DIAZ ,TAMBORIL,,,",22
+180,ajetlregs,"2014-10-02 17:42:21",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","FWTC5VSH8,4,ANABEL,BELTRE,HOYO DE ELIAS,SEPTIEMBRE,9,2003",4
+181,ajetlregs,"2014-10-02 17:42:22",ERROR,"Año de nacimiento está mal.","M76M5ZNE1,18,Jairo de Jesús ,Ramos ,PUÑAL ADENTRO,,,",18
+182,ajetlregs,"2014-10-02 17:42:22",ERROR,"Año de nacimiento está mal.","0R5N24FG$,18,Alberto ,Corea ,PUÑAL ADENTRO,,,",18
+183,ajetlregs,"2014-10-02 17:42:22",ERROR,"Año de nacimiento está mal.","9Z3TA6AK3,18,Estiven ,Acosta Lantigua ,PUÑAL ADENTRO,,,",18
+184,ajetlregs,"2014-10-02 17:42:22",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","H0DDWWESH,4,EMELY,NUÑEZ,ENRIQUILLO,MARZO,15,1998",4
+185,ajetlregs,"2014-10-02 17:42:22",ERROR,"Año de nacimiento está mal.","7X9PXSXH6,22,DANIEL FIDEL ,ALCANTARA ,LA GRANJA ,agosto,25,",22
+186,ajetlregs,"2014-10-02 17:42:22",ERROR,"Año de nacimiento está mal.","R03A3F5JS,22,ORQUIDEA ,CARMONA ALCANTARA ,LA CANELA ,,,",22
+187,ajetlregs,"2014-10-02 17:42:22",ERROR,"Año de nacimiento está mal.","6AB197125,22,YULISSA ,CALMONA ALCANTARA ,LA CANELA ,,,",22
+188,ajetlregs,"2014-10-02 17:42:22",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","KVKC2JXS$,22,SCARLIN,VARGAS CRUZ ,VILLA TABACALERA ,OCTUBRE ,25,1997",22
+189,ajetlregs,"2014-10-02 17:42:22",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","ACTMRB6X$,22,CHERLINA ,VARGAS RODRIGUEZ ,NAVARRETE,ABRIL ,27,1998",22
+190,ajetlregs,"2014-10-02 17:42:23",ERROR,"Año de nacimiento está mal.","W9KYS3KRV,22,FELIX FRANCISCO ,GOMEZ BRUNO ,NAVARRETE ,abril,29,",22
+191,ajetlregs,"2014-10-02 17:42:23",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","V4NSZ4M98,22,CRISTOFER ESTARLIN,LORA PEREZ,NAVARRETE ,FEBRERO ,8,1998",22
+192,ajetlregs,"2014-10-02 17:42:23",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","GSJPSPR06,4,DARLIN ,MORALES GENAO,LOTES Y SERVICIOS 18,JUNIO,27,1999",4
+193,ajetlregs,"2014-10-02 17:42:23",ERROR,"Mes falta.","06XKW1WXJ,10,Miguel Artiles ,Suero,NUEVO RENACER,,29,1997",10
+194,ajetlregs,"2014-10-02 17:42:24",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","44B3BYRK9,22,LUIS ANTONIO,MARTINEZ,LA YAGUITA ,OCTUBRE ,26,1998",22
+195,ajetlregs,"2014-10-02 17:42:24",ERROR,"Año de nacimiento está mal.","2E5JGVVP3,4,,,,,,",4
+196,ajetlregs,"2014-10-02 17:42:24",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","ZH6C5HHZ2,22,JOSE STARLINS ,QUEZADA ,LA GALLERA ,MAYO ,27,1999",22
+197,ajetlregs,"2014-10-02 17:42:24",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","6KJFHZP0E,22,JOELY MARIA ,LIRANZO TORIBIO ,NAVARRETE ,ENERO ,08,1997",22
+198,ajetlregs,"2014-10-02 17:42:24",ERROR,"Mes falta.","9NWYWNPPU,10,Miguel Artiles ,Suero ,NUEVO RENACER,,29,1997",10
+199,ajetlregs,"2014-10-02 17:42:24",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","AP5NXDKBR,22,EDDINSON DE JESUS ,LOPEZ ,NAVARRETE ,OCTUBRE ,02,1999",22
+200,ajetlregs,"2014-10-02 17:42:24",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","14R5X266*,22,ISAMAR ,CRUZ DISLA ,NAVARRETE ,ABRIL,16,1998",22
+201,ajetlregs,"2014-10-02 17:42:24",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","5J7K0AEWA,22,ESTEFANY ,CABRERA HERNANDEZ ,NAVARRETE ,MARZO ,22,1998",22
+202,ajetlregs,"2014-10-02 17:42:24",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","B0APKJ22G,23,VBTEST03082014,apellido,VILLA DUARTE,july,3,1999",23
+203,ajetlregs,"2014-10-02 17:42:25",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","41TP2Y9CR,4,RAFY JUNIOR,ENCARNACION JIMENEZ,GUARICANOS, PONCE ADENTRO,16,16,1993",4
+204,ajetlregs,"2014-10-02 17:42:25",ERROR,"Año de nacimiento está mal.","7REQVP9MZ,18,Henry Luis ,Polanco Guzmán ,Los Santos Abajo,,,",18
+205,ajetlregs,"2014-10-02 17:42:26",ERROR,"Año de nacimiento está mal.","JTPC707XW,22,CHISTHIAN ,ALFONZO,CIENFUEGOS,octubre,31,",22
+206,ajetlregs,"2014-10-02 17:42:26",ERROR,"Año de nacimiento está mal.","VZRZRJWKK,23,VBTEST333,,,,,",23
+207,ajetlregs,"2014-10-02 17:42:27",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","AH00FZS7A,4,YENIFER MARIA,PIERRE HERNANDEZ,,MAYO,10,2001",4
+208,ajetlregs,"2014-10-02 17:42:27",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","G380HJE0A,4,ANANDY,LOPEZ,,JULIO,24,1994",4
+209,ajetlregs,"2014-10-02 17:42:27",ERROR,"Año de nacimiento está mal.","14S56AN6J,6,Auri Jasmin ,Gonsalez ,GUALEY,mayo,01,",6
+210,ajetlregs,"2014-10-02 17:42:28",ERROR,"Año de nacimiento está mal.","923YVJWG7,22,GABRIEL EDWARDO ,FERMIN ,,,,",22
+211,ajetlregs,"2014-10-02 17:42:28",ERROR,"Año de nacimiento está mal.","2RG173QPN,22,NAOMY ,FRIAS FERMIN ,LA CANELA,,,",22
+212,ajetlregs,"2014-10-02 17:42:28",ERROR,"Año de nacimiento está mal.","WHNDE4ZG1,4,,,,,,",4
+213,ajetlregs,"2014-10-02 17:42:28",ERROR,"Mes falta.","934JNME9R,18,Darwin ,Gómez Torres ,Los cocos, Puñal ,,,2002",18
+214,ajetlregs,"2014-10-02 17:42:28",ERROR,"Mes falta.","AK1HXN5TV,18,Fernando Antonio,Garcia Monegro ,Los cocos, Puñal ,,,2000",18
+215,ajetlregs,"2014-10-02 17:42:28",ERROR,"Año de nacimiento está mal.","WC2ACWE2J,22,JOSE ALMANDO,GERMOSO ,TAMBORIL,,,",22
+216,ajetlregs,"2014-10-02 17:42:29",ERROR,"Año de nacimiento está mal.","764SQXSAQ,18,Henry ,Pichardo Mata ,Los cocos, Puñal ,,,",18
+217,ajetlregs,"2014-10-02 17:42:29",ERROR,"Año de nacimiento está mal.","86Q8628BW,6,,,,,,",6
+218,ajetlregs,"2014-10-02 17:42:29",ERROR,"Año de nacimiento está mal.","DXQE7D9W~,6,Kelvin Joel ,Vertrez Feliz ,GUALEY,,,",6
+219,ajetlregs,"2014-10-02 17:42:29",ERROR,"Año de nacimiento está mal.","AY9PZYYNP,6,Misael ,Rodriguez ,GUALEY,,,",6
+220,ajetlregs,"2014-10-02 17:42:29",ERROR,"Año de nacimiento está mal.","3KJQ8G988,6,Femir Josue ,Castillo ,GUALEY,julio,24,",6
+221,ajetlregs,"2014-10-02 17:42:30",ERROR,"Mes falta.","8RZGR57E0,6,Jonathan Manuel,Hernandez,Caribe,,16,1998",6
+222,ajetlregs,"2014-10-02 17:42:31",ERROR,"Fecha de falta.","EJYKZ5R6A,10,Keila Massiel,Domínguez,NUEVO RENACER,noviembre,,1995",10
+223,ajetlregs,"2014-10-02 17:42:31",ERROR,"Año de nacimiento está mal.","BJ138JDTB,22,BRIAN ,CRUZ LOPEZ,TAMBORIL,octubre,30,",22
+224,ajetlregs,"2014-10-02 17:42:32",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","QZVW7HKC7,4,GERAL JAVIER,VARGAS HERNANDEZ,LOTES Y SERVICIOS,JUNIO,23,2000",4
+225,ajetlregs,"2014-10-02 17:42:32",ERROR,"Mes falta.","1E07WVPYF,6,Francis ,Cliverma Mejia,Caribe,,4,1994",6
+226,ajetlregs,"2014-10-02 17:42:32",ERROR,"Año de nacimiento está mal.","3Y5VBWP23,15,,,,,,",15
+227,ajetlregs,"2014-10-02 17:42:33",ERROR,"Mes falta.","DRS138S04,18,Francis Manuel,Martínez Martínez,Cienfuegos ,,,2002",18
+228,ajetlregs,"2014-10-02 17:42:33",ERROR,"Año de nacimiento está mal.","V7J1H320~,27,ESTEPHANY,CHJARLES GUZMAN,LOS COCOS,,0,",27
+229,ajetlregs,"2014-10-02 17:42:34",ERROR,"Mes falta.","MQ8WET2Q1,18,José Luis ,Osoria Núñez ,Cienfuegos ,,,2000",18
+230,ajetlregs,"2014-10-02 17:42:34",ERROR,"Mes falta.","W84XA0HD2,6,Danyer ,Nieces ,VILLAS AGRÍCOLAS,,,2002",6
+231,ajetlregs,"2014-10-02 17:42:34",ERROR,"Año de nacimiento está mal.","RZ2HV9QR7,23,Daniel,Gonzales,ANDRES,mayo,17,",23
+232,ajetlregs,"2014-10-02 17:42:35",ERROR,"Año de nacimiento está mal.","G18V1QV5N,21,Pedro Luis,Suero Almonte,Los Oliva,,,",21
+233,ajetlregs,"2014-10-02 17:42:35",ERROR,"Año de nacimiento está mal.","WQM2YTBM3,22,ODALIS ,CUSTODIO RODRIGUEZ,,,,",22
+234,ajetlregs,"2014-10-02 17:42:35",ERROR,"Año de nacimiento está mal.","G504CTH77,22,CRISTOPHER ,NUÑEZ ABREU ,LA CANELA,,,",22
+235,ajetlregs,"2014-10-02 17:42:35",ERROR,"Año de nacimiento está mal.","AQ2H54GHC,22,JOEL ,CUSTODIO ,LA CANELA,,,",22
+236,ajetlregs,"2014-10-02 17:42:36",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","PKVA6CQXU,38,Wesly Manuel ,Cabrera Rodríguez ,CIENFUEGOS,jun,16,2001",38
+237,ajetlregs,"2014-10-02 17:42:36",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","2V1SPKPAT,27,GABRIEL,RINCON,LOS TANQUECITOS,265,6,2000",27
+238,ajetlregs,"2014-10-02 17:42:37",ERROR,"Mes falta.","8BSFG73E$,18,Jhoan ,Rodríguez Torres ,Cienfuegos,,,2002",18
+239,ajetlregs,"2014-10-02 17:42:38",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","SFPCDMKRN,38,Luis Miguel ,Mora Santana ,Ensanche bermudez ,marzo ,26,1999",38
+240,ajetlregs,"2014-10-02 17:42:38",ERROR,"Año de nacimiento está mal.","GD6FGFMJN,6,Erix Antony ,Correa,GUALEY,,,",6
+241,ajetlregs,"2014-10-02 17:42:38",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","VXWYDJM41,38,Emeli ,Polanco ,hoyo de puchula ,marzo ,11,2001",38
+242,ajetlregs,"2014-10-02 17:42:38",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","SEAER9SD*,38,Cristian,García,Hoyo de puchula,marzo ,20,1997",38
+243,ajetlregs,"2014-10-02 17:42:38",ERROR,"Año de nacimiento está mal.","ERYK0Q6FQ,18,Elizabeth ,Malagán ,Bella Vista,,,",18
+244,ajetlregs,"2014-10-02 17:42:39",ERROR,"Año de nacimiento está mal.","8BFCCA2ZU,6,Rossy,Acosta,VILLA LIBERACION,,,",6
+245,ajetlregs,"2014-10-02 17:42:39",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","24S0VGXR2,23,VBNOMBRE,VBAPELLIDO,BBBBBBBB,july,1,1999",23
+246,ajetlregs,"2014-10-02 17:42:39",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","1JY75M788,18,Braylin ,Rosario Domínguez ,Las carreras ,oc,26,2002",18
+247,ajetlregs,"2014-10-02 17:42:39",ERROR,"Año de nacimiento está mal.","JCGDETXH*,22,MARIA ESTHER,PARRA ,LA CANELA,,,",22
+248,ajetlregs,"2014-10-02 17:42:39",ERROR,"Año de nacimiento está mal.","FJ57RPH0J,18,Reynaldo Isaac ,Núñez ,La herradura ,,,",18
+249,ajetlregs,"2014-10-02 17:42:40",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","8FMA8S3H8,4,MIGUEL ANGEL,VASQUEZ PEÑA,LA JOYA,JULIO,27,2000",4
+250,ajetlregs,"2014-10-02 17:42:40",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","AT08ZG5H*,38,Marianela ,Martinez Pallero ,cedefir,mayo ,4,2002",38
+251,ajetlregs,"2014-10-02 17:42:40",ERROR,"Año de nacimiento está mal.","BHJ0J7MCU,18,Dawin Miguel,Rodríguez,Los ciruelos,septiembre,29,",18
+252,ajetlregs,"2014-10-02 17:42:41",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","REJW9F3M2,4,YORKENIA,JAVIER,VISTA DEL VALLE,JUNIO,17,1994",4
+253,ajetlregs,"2014-10-02 17:42:41",ERROR,"Año de nacimiento está mal.","6FFZWNVT=,18,Raymundo César ,Taveras ,Entrada negro corea, Guayabal ,,,",18
+254,ajetlregs,"2014-10-02 17:42:41",ERROR,"Año de nacimiento está mal.","8TKJZR0J5,23,Alfredo,Montero,ANDRES,mayo,21,",23
+255,ajetlregs,"2014-10-02 17:42:41",ERROR,"Mes falta.","VW04HCH16,23,Junior Alexis,Suares,LA CALETA,,,1997",23
+256,ajetlregs,"2014-10-02 17:42:42",ERROR,"Mes falta.","6YKRVAC9Z,23,Simon,Garcia,ANDRES,,,1995",23
+257,ajetlregs,"2014-10-02 17:42:42",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","5P4WC8RYS,4,YAMILET BETANCES,GONZALES,MATA LARGA,09,31,1998",4
+258,ajetlregs,"2014-10-02 17:42:42",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","1MDCK3G4U,38,Juan De Dios , De la Cruz ,cedefir,otubre ,12,2001",38
+259,ajetlregs,"2014-10-02 17:42:43",ERROR,"Año de nacimiento está mal.","72MMJTYM3,6,Francis ,Familia,LAS CAŇITAS,agosto,12,",6
+260,ajetlregs,"2014-10-02 17:42:43",ERROR,"Mes falta.","3ZW058WP8,38,Jhon ,Alonso ,LA YAGUITA DE PASTOR,,,2001",38
+261,ajetlregs,"2014-10-02 17:42:43",ERROR,"Año de nacimiento está mal.","BWDY4PS0V,38,Lorenzo Ramon ,Rodriguez ,LA YAGUITA DE PASTOR,,,",38
+262,ajetlregs,"2014-10-02 17:42:43",ERROR,"Fecha de falta.","2FJ04925R,22,ALONDRA ,FERREIRA ,CIENFUEGOS,septiembre,,1989",22
+263,ajetlregs,"2014-10-02 17:42:43",ERROR,"Año de nacimiento está mal.","9GPX40EH7,38,Jose Miguel ,Rodriguez ,LA YAGUITA DE PASTOR,,,",38
+264,ajetlregs,"2014-10-02 17:42:43",ERROR,"Año de nacimiento está mal.","BH2VS83V5,38,Estefani,Bonilla,LA YAGUITA DE PASTOR,,,",38
+265,ajetlregs,"2014-10-02 17:42:43",ERROR,"Año de nacimiento está mal.","2BZPFYTWK,6,daisy,anjeles,BRISAS DEL YUNA,mayo,3,",6
+266,ajetlregs,"2014-10-02 17:42:44",ERROR,"Año de nacimiento está mal.","W3ECPK2XN,22,SETURA ,LANTIGUA LOPEZ ,CIENFUEGOS,,,",22
+267,ajetlregs,"2014-10-02 17:42:44",ERROR,"Año de nacimiento está mal.","7YHECBZWR,38,Luna ,Bonilla ,LA YAGUITA DE PASTOR,,,",38
+268,ajetlregs,"2014-10-02 17:42:45",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","GHEX9018E,38,Michael Enrique ,Vasquez Molina ,LA YAGUITA DE PASTOR,en,22,2002",38
+269,ajetlregs,"2014-10-02 17:42:45",ERROR,"Año de nacimiento está mal.","9FC02XXDZ,27,,,,,,",27
+270,ajetlregs,"2014-10-02 17:42:45",ERROR,"Año de nacimiento está mal.","Y88374ZSC,38,Erison De Jesus ,Martinez Lora ,LA YAGUITA DE PASTOR,,,",38
+271,ajetlregs,"2014-10-02 17:42:45",ERROR,"Año de nacimiento está mal.","3WHW19P90,38,Elianny ,Lora ,LA YAGUITA DE PASTOR,,,",38
+272,ajetlregs,"2014-10-02 17:42:45",ERROR,"Fecha de falta.","FNAGEHYTH,27,ALEXANDRA,ESPINAL GOMEZ,LOS COCOS,29,,2002",27
+273,ajetlregs,"2014-10-02 17:42:46",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","KMA8QH5K*,20,Brayan Alberto,Genocen Lopéz,El Edwardo,d,10,2002",20
+274,ajetlregs,"2014-10-02 17:42:47",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","9D4DN17Z*,38,Jesus Alberto ,Vasquez Peña ,yaguita del pastor ,abril ,17,2000",38
+275,ajetlregs,"2014-10-02 17:42:47",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","R0D39GHW~,4,GIOVANY,ELIA MARTE,EL TAMARINDO,JUNIO,20,1996",4
+276,ajetlregs,"2014-10-02 17:42:47",ERROR,"Año de nacimiento está mal.","YR9JPGERT,27,ESTEPHANY,CHARLES GUZMAN,LOS COCOS,,,",27
+277,ajetlregs,"2014-10-02 17:42:48",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","AR46EZ5G7,4,DIANA,ESPINAL ,LA HERRADURA,MARZO,19,1996",4
+278,ajetlregs,"2014-10-02 17:42:48",ERROR,"Año de nacimiento está mal.","8FBV5BJD2,18,Starlin de Jesús ,Rosario Castillo,Estancia Nueva ,09,21,",18
+279,ajetlregs,"2014-10-02 17:42:48",ERROR,"Año de nacimiento está mal.","TH6ET9XG~,38,Victor Mannuel ,Rodriguez ,los guandules ,,,",38
+280,ajetlregs,"2014-10-02 17:42:48",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","BSF98G7PR,27,JOSEFINA,JIMENEZ AMADOR,LOS COCOS,20,10,2001",27
+281,ajetlregs,"2014-10-02 17:42:48",ERROR,"Año de nacimiento está mal.","937N5ADBG,38,Daniela ,Alcantara Rodriguez ,los guandules ,,,",38
+282,ajetlregs,"2014-10-02 17:42:48",ERROR,"Año de nacimiento está mal.","1TB11Y3P6,18,Joel Antonio,Rodríguez Hidalgo ,Estancia Nueva ,07,26,",18
+283,ajetlregs,"2014-10-02 17:42:48",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","XKWETDQHH,38,Cerbin De Jesus ,Guzmán ,los guandules,enero ,21,2002",38
+284,ajetlregs,"2014-10-02 17:42:48",ERROR,"Año de nacimiento está mal.","0AN89R0Q~,38,Brailin,Morel ,HATO DEL YAQUE,,,",38
+285,ajetlregs,"2014-10-02 17:42:49",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","JY6SNE4K7,4,ROBERTH D JESUS,PERALTA,LOS JIMENEZ,16,16,1997",4
+286,ajetlregs,"2014-10-02 17:42:49",ERROR,"Año de nacimiento está mal.","WSF5EV14B,10,,,,,,",10
+287,ajetlregs,"2014-10-02 17:42:49",ERROR,"Año de nacimiento está mal.","8KK41REXC,10,Andres  Miguel ,Del Carmen,PLAYA OESTE,,,",10
+288,ajetlregs,"2014-10-02 17:42:50",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","PSK560WR2,27,JEISON,JIMENEZ RUIZ,LOS COCOS,13,13,1999",27
+289,ajetlregs,"2014-10-02 17:42:50",ERROR,"Año de nacimiento está mal.","5Z626MBG0,38,Edison Manuel ,Delgado Santos ,los guandules ,,,",38
+290,ajetlregs,"2014-10-02 17:42:50",ERROR,"Año de nacimiento está mal.","BAN5JD15F,18,Ario,Arias Mena ,San José,07,25,",18
+291,ajetlregs,"2014-10-02 17:42:50",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","EVXCQ543Y,4,ALENNI,GONZALEZ,LOS LLANOS DE BARRIO LINDO,19,11,1995",4
+292,ajetlregs,"2014-10-02 17:42:50",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","ZF91GZRRG,6,Claribel,Rodriguez Baez,VILLA LIBERACION,ma,16,1997",6
+293,ajetlregs,"2014-10-02 17:42:51",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","R02KF0QAZ,4,YEYSI JOEL,ARACENA,SAN ANTONIO,ABRIL,30,1999",4
+294,ajetlregs,"2014-10-02 17:42:51",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","R6JN5QXQ$,4,MARISLEIDI,MATOS GERMAN,SAN ANTONIO,6,31,2000",4
+295,ajetlregs,"2014-10-02 17:42:51",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","E6X6A271R,38,Juan Felix ,Capellan Reyes ,CIENFUEGOS,abril ,24,2000",38
+296,ajetlregs,"2014-10-02 17:42:51",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","2JTB7G5VH,4,JUAN ORLANDO,GUZMAN DE LA CRUZ,SAN ANTONIO,JUNIO,5,2000",4
+297,ajetlregs,"2014-10-02 17:42:51",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","VDKJ34RV4,22,Brailin Marleny ,Guzmán ,CIENFUEGOS,enero ,30,1997",22
+298,ajetlregs,"2014-10-02 17:42:51",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","F85WMDA4V,6,Elizabeth ,Garcia Lantigua ,el verde,61,2,1996",6
+299,ajetlregs,"2014-10-02 17:42:51",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","29117MY42,38,Darwin Samuel ,Reyes Payano ,CIENFUEGOS,nov,2,2000",38
+300,ajetlregs,"2014-10-02 17:42:52",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","ARBJ8NP3M,38,Antonio Manuel ,Polanco Pascual,las torres,junio ,20,2000",38
+301,ajetlregs,"2014-10-02 17:42:52",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","AYT95VB55,38,Luis Fernando ,Jiminian Guzmán ,las torres,abril ,20,2000",38
+302,ajetlregs,"2014-10-02 17:42:52",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","JNE6W0V9F,38,Kevin ,Valerio Polanco ,Las torres ,mayo ,27,2002",38
+303,ajetlregs,"2014-10-02 17:42:53",ERROR,"Año de nacimiento está mal.","ZY02E6RFM,18,,,,,,",18
+304,ajetlregs,"2014-10-02 17:42:53",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","YDG69ADQJ,18,Jose Ernesto,Guzman Tineo ,Estancia Nueva ,Diciembre ,2,1998",18
+305,ajetlregs,"2014-10-02 17:42:53",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","TWJMKA9SA,38,Giovisna Altagracia ,Ventura ,hoyo de puchula ,enero ,21,1999",38
+306,ajetlregs,"2014-10-02 17:42:53",ERROR,"Año de nacimiento está mal.","Z7HG4WG4Y,22,Laicha  ,Enantiel  ,CIENFUEGOS,,,",22
+307,ajetlregs,"2014-10-02 17:42:53",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","1SBXPJ541,38,Wilfred ,Ceballo Fermin ,hoyo de puchula ,mayo ,11,2001",38
+308,ajetlregs,"2014-10-02 17:42:53",ERROR,"Año de nacimiento está mal.","QW0VQQ9YR,22,Antony Manuel ,Aquino Meran ,CIENFUEGOS,,,",22
+309,ajetlregs,"2014-10-02 17:42:53",ERROR,"Año de nacimiento está mal.","526RKCG2Q,22,Anderson ,Parra,CIENFUEGOS,,,",22
+310,ajetlregs,"2014-10-02 17:42:53",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","WGMQ66JXP,38,Nicol,Almonte ,hoyo de puchula ,octubre ,23,1999",38
+311,ajetlregs,"2014-10-02 17:42:53",ERROR,"Año de nacimiento está mal.","9WXTZC4TD,22,Misael ,Espinal,Ensanche la Fe, Cienfuego,,,",22
+312,ajetlregs,"2014-10-02 17:42:53",ERROR,"Año de nacimiento está mal.","9W7K7YWP4,12,,,,,,",12
+313,ajetlregs,"2014-10-02 17:42:53",ERROR,"Año de nacimiento está mal.","NCJT7VC6F,12,,,,,,",12
+314,ajetlregs,"2014-10-02 17:42:53",ERROR,"Año de nacimiento está mal.","D2JE3B8J7,12,,,,,,",12
+315,ajetlregs,"2014-10-02 17:42:53",ERROR,"Mes falta.","PG5BZ1A28,12,,,,,,1988",12
+316,ajetlregs,"2014-10-02 17:42:53",ERROR,"Año de nacimiento está mal.","THV9550XB,22,Kelvin,Contreras ,,,,",22
+317,ajetlregs,"2014-10-02 17:42:53",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","HEJV5PYQ9,4,JUANE DALLI,ALBARADO,LA BARQUITA,21,4,1996",4
+318,ajetlregs,"2014-10-02 17:42:53",ERROR,"Año de nacimiento está mal.","TF7PVTHV0,22,Daury Miguel ,Sánchez ,CIENFUEGOS,,,",22
+319,ajetlregs,"2014-10-02 17:42:53",ERROR,"Año de nacimiento está mal.","BGT0HP6NR,22,Bryan,Estrella Gutierrez,CIENFUEGOS,,,",22
+320,ajetlregs,"2014-10-02 17:42:53",ERROR,"Año de nacimiento está mal.","ADAP7S6EZ,22,Misael,Jáquez ,CIENFUEGOS,,,",22
+321,ajetlregs,"2014-10-02 17:42:53",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","Q2Z99JZRF,4,CHARLENIS,GOMEZ,MAJAGUAL,AGOSTO,13,1997",4
+322,ajetlregs,"2014-10-02 17:42:53",ERROR,"Año de nacimiento está mal.","D08X7AQ50,22,Oslany,Carela Jimenez ,CIENFUEGOS,,,",22
+323,ajetlregs,"2014-10-02 17:42:54",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","439VAG765,10,Berenice ,Vásquez,Javillar ,Agosto ,15,1996",10
+324,ajetlregs,"2014-10-02 17:42:54",ERROR,"Año de nacimiento está mal.","7NHR3DBVC,22,Yaritza Michel ,Rodríguez Durán,CIENFUEGOS,,,",22
+325,ajetlregs,"2014-10-02 17:42:54",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","PJDFD1GRB,10,Marielis , González,Javillar ,Abril ,23,1996",10
+326,ajetlregs,"2014-10-02 17:42:54",ERROR,"Año de nacimiento está mal.","YWPQ88MB4,22,Yoskayris ,Rodriguez Conteras ,CIENFUEGOS,,,",22
+327,ajetlregs,"2014-10-02 17:42:54",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","EJQF3M8YH,10,Yaribel ,Noesi Gómez,Javillar ,Octubre ,23,1996",10
+328,ajetlregs,"2014-10-02 17:42:54",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","YRD4D1M18,4,BRAYAN MIGUEL,CABRAL,,31,15,1995",4
+329,ajetlregs,"2014-10-02 17:42:54",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","XBRD81W6W,10,Ceneida Maria ,Feliz Capellán ,Javillar ,Abril ,04,1996",10
+330,ajetlregs,"2014-10-02 17:42:54",ERROR,"Año de nacimiento está mal.","GPAWXKNMT,22,Nayelis ,Fernández Gómez ,Cienfuegos  ,,,",22
+331,ajetlregs,"2014-10-02 17:42:54",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","BBPHF8JR$,10,Orquídea, Contreras,NUEVO RENACER,Marzo ,13,1998",10
+332,ajetlregs,"2014-10-02 17:42:56",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","FT3A6QE0D,27,MANUEL ANTONIO,FELIZ SOTO,LOS TANQUECITOS,21,10,2001",27
+333,ajetlregs,"2014-10-02 17:42:56",ERROR,"Año de nacimiento está mal.","CWZQEKX7N,10,Clandy ,Vásquez,PLAYA OESTE,septiembre,03,",10
+334,ajetlregs,"2014-10-02 17:42:57",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","00C4XPXAB,4,YANGEL ,DE JESUS POLANCO,LA JAVIELA,19,5,1997",4
+335,ajetlregs,"2014-10-02 17:42:57",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","XZZHEXZ05,10,Richal ,Almonte ,NUEVO RENACER,Octubre ,13,1996",10
+336,ajetlregs,"2014-10-02 17:42:58",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","W3DXY4THH,10,Yolanda ,Vázquez,NUEVO RENACER,febrero ,02,1990",10
+337,ajetlregs,"2014-10-02 17:42:58",ERROR,"Año de nacimiento está mal.","8TKJFASVP,10,,,,,,",10
+338,ajetlregs,"2014-10-02 17:42:58",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","1X417GMVE,10,genesis,Gonzalez,PLAYA OESTE,septiempbre,1,1996",10
+339,ajetlregs,"2014-10-02 17:42:59",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","FJHBY1JGE,6,Jean Carlos ,Sirverio ,GUACHUPITA,enero ,28,2002",6
+340,ajetlregs,"2014-10-02 17:43:00",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","6275ZKQ2U,6,Oni Michael ,Susaña Santana,GUACHUPITA,Octubre ,23,2001",6
+341,ajetlregs,"2014-10-02 17:43:00",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","YV8F2J8BW,6,Juan Fran Carlo,Perez Ventura,La Ciénega ,17,15,1993",6
+342,ajetlregs,"2014-10-02 17:43:00",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","EQWKG2S34,6,Carlos ,Dominguez,Guachupita,Julio,19,1992",6
+343,ajetlregs,"2014-10-02 17:43:00",ERROR,"Año de nacimiento está mal.","WT15PXZQY,21,Roseri,Mundeci,PANCHO MATEO,,,",21
+344,ajetlregs,"2014-10-02 17:43:02",ERROR,"Año de nacimiento está mal.","1R3E48HP=,6,Wascar ,Balbuena Doñe,VILLAS AGRÍCOLAS,marzo,04,",6
+345,ajetlregs,"2014-10-02 17:43:03",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","FVGVCWZ2T,10,Luisa María,Gómez Rodríguez ,EL JAVILLAR,Septiembre,29,2001",10
+346,ajetlregs,"2014-10-02 17:43:03",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","EF51Q4CC=,10,Daniel ,Lugo,el Jvillar,Octubre,08,2002",10
+347,ajetlregs,"2014-10-02 17:43:03",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","4GQ9YZVWU,10,José Alberto,Salvador ,el Javillar,Noviembre,08,1999",10
+348,ajetlregs,"2014-10-02 17:43:03",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","JE4WHDZPB,10,Carlos Daniel,Gorge Santo,el Javillar,Junio,7,2001",10
+349,ajetlregs,"2014-10-02 17:43:03",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","S74CWQEA4,10,Crismeli Guadalupe ,Cabrera  Pérez,Playa Oeste,Agosto,24,2002",10
+350,ajetlregs,"2014-10-02 17:43:03",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","A5BEAVN7*,10,Andreina ,Burgos López,el Javillar,Octubre,11,2001",10
+351,ajetlregs,"2014-10-02 17:43:03",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","BBNK76HP$,10,Gefrell David ,Torrez valdez,el Javillar,Julio,7,2002",10
+352,ajetlregs,"2014-10-02 17:43:03",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","HZEKYDP41,10,Maciel,Domínguez Castillo,Playa Oeste ,Mayo,20,2000",10
+353,ajetlregs,"2014-10-02 17:43:03",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","C5H8NAV9E,10,Cristina,Rivas Mora,el Javillar,Junio,26,2000",10
+354,ajetlregs,"2014-10-02 17:43:03",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","7W1ZPN4BV,10,Jean Carlos ,Domínguez,el Javillar,Diciembre,21,2000",10
+355,ajetlregs,"2014-10-02 17:43:03",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","FKJKH83Q8,10,Juan Jordy,Cuz Marte,el Javillar,Junio,10,1999",10
+356,ajetlregs,"2014-10-02 17:43:03",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","G41KM1RVJ,10,Emerin,Rodríguez Muñoz,el Javillar,Julio,10,1993",10
+357,ajetlregs,"2014-10-02 17:43:03",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","DZA5YNBDH,10,Jaruzelski ,Martínez,el Javillar,Febrero,01,1992",10
+358,ajetlregs,"2014-10-02 17:43:03",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","7HQHHDGFZ,10,Verónica,De la Rosa,el Javillar,Octubre,30,1995",10
+359,ajetlregs,"2014-10-02 17:43:03",ERROR,"Año de nacimiento está mal.","TJ77A0RNA,10,,,,,,",10
+360,ajetlregs,"2014-10-02 17:43:03",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","RG01KS5SS,10,Yulissa,Marmolejo Cid,el Javillar,Diciembre,10,1996",10
+361,ajetlregs,"2014-10-02 17:43:03",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","FJPNYBVAE,10,Carlos Alberto,Medina ,Playa Oeste,Enero,13,2013",10
+362,ajetlregs,"2014-10-02 17:43:04",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","MVP2XQ4MM,10,Arianny Milagros,Brisso Rojas,el Javillar,Agosto,11,2001",10
+363,ajetlregs,"2014-10-02 17:43:04",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","NPDQKQN9Q,10,Esmarli,Almonte Ventura,Playa Oeste,Agosto,21,2002",10
+364,ajetlregs,"2014-10-02 17:43:04",ERROR,"Año de nacimiento está mal.","6AQ4EJMT$,10,Ordalina,,,,,",10
+365,ajetlregs,"2014-10-02 17:43:04",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","6P9R2N9NS,10,Juanileidry ,Rodríguez Alejo,Playa Oeste,Abril,04,2000",10
+366,ajetlregs,"2014-10-02 17:43:04",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","K3PBQ37VH,10,Yanibel ,Bravo Vásquez,Nuevo Renacer,Julio,20,1998",10
+367,ajetlregs,"2014-10-02 17:43:04",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","99CFRNJQH,10,Yensi Manuel ,Peralta Almonte,Playa Oeste,Diciembre,25,2001",10
+368,ajetlregs,"2014-10-02 17:43:04",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","GECZNW4KH,10,Jose Luis,Gonzalez,Nuevo Renacer,d,10,2000",10
+369,ajetlregs,"2014-10-02 17:43:04",ERROR,"Año de nacimiento está mal.","8RTPM0GAH,10,Angeli ,Ureña Pujol ,PLAYA OESTE,junio,22,",10
+370,ajetlregs,"2014-10-02 17:43:04",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","9Q8XN4NTA,10,Altagracia ,Del Carmen Cabrera,Playa Oeste,Enero,21,2002",10
+371,ajetlregs,"2014-10-02 17:43:04",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","85Z4RWS5K,10,Cheuly Adrián,Almonte Hiraldo,Playa Oeste,Julio,3,2001",10
+372,ajetlregs,"2014-10-02 17:43:04",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","KS2JY0X9B,10,Yeremi Antonio ,Santos Collado,Playa Oeste,Febrero,23,2000",10
+373,ajetlregs,"2014-10-02 17:43:04",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","7QP965XF=,10,Aneudi ,Vázquez Díaz,Playa Oeste,Septiembre,19,2001",10
+374,ajetlregs,"2014-10-02 17:43:04",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","PT044P68D,10,Joel,Alvarez Rosario ,el Javillar,Julio,01,1995",10
+375,ajetlregs,"2014-10-02 17:43:04",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","D2DM2M9G4,10,Keyla Massiel,Acevedo Francisco,el Javillar,Agosto,13,1995",10
+376,ajetlregs,"2014-10-02 17:43:04",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","BM1W69D8E,10,Keyla Massiel ,Acevedo Francisco,el Javillar,Agosto,13,1995",10
+377,ajetlregs,"2014-10-02 17:43:04",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","3JXYX2MTT,10,Antonia,De Jesús Hernández,Nuevo Renacer,Septiembre,15,1990",10
+378,ajetlregs,"2014-10-02 17:43:04",ERROR,"Fecha de falta.","PZRCMSQV5,10,Yamin ,Felix Enrriquez ,NUEVO RENACER,enero,,2002",10
+379,ajetlregs,"2014-10-02 17:43:04",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","WYP57EK73,10,Marien Marleni,Polanco  Domínguez,el Javillar,Noviembre,19,1993",10
+380,ajetlregs,"2014-10-02 17:43:04",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","MYA4FQHH7,10,Rainieri ,Polanco Mercado ,el Javillar,Octubre,13,1996",10
+381,ajetlregs,"2014-10-02 17:43:04",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","C1ZKP3AM2,10,Rainier ,Polanco  Mercado ,el Javillar,Octubre,13,1996",10
+382,ajetlregs,"2014-10-02 17:43:05",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","A6TX2ZGPH,10,Yamery ,Martínez Rivera,el Javillar,Marzo,07,1994",10
+383,ajetlregs,"2014-10-02 17:43:05",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","M0STX1KMR,10,Wanda ,Domínguez,el Javillar,Diciembre,22,1994",10
+384,ajetlregs,"2014-10-02 17:43:05",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","DXH16NFP*,10,Daniel ,Fernández,el Javillar,Diciembre,09,1991",10
+385,ajetlregs,"2014-10-02 17:43:05",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","N5FFZNSA4,10,Nicol Odalis ,Almonte,el Javillar,Noviembre,29,1993",10
+386,ajetlregs,"2014-10-02 17:43:05",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","C6XFT491S,10,Alfred ,Domínguez,el Javillar,Noviembre,01,1995",10
+387,ajetlregs,"2014-10-02 17:43:05",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","3G255W92T,10,Alfred ,Domínguez,el Javillar ,Noviembre,01,1995",10
+388,ajetlregs,"2014-10-02 17:43:05",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","XA78B0HT1,10,José Rafael , Vásquez,el Javillar ,Julio,04,1991",10
+389,ajetlregs,"2014-10-02 17:43:05",ERROR,"Año de nacimiento está mal.","CPRVFWY86,10,juan carlos ,sanchez ,NUEVO RENACER,abril,18,",10
+390,ajetlregs,"2014-10-02 17:43:06",ERROR,"Año de nacimiento está mal.","35Q5XBQS=,6,Walkiri Altagracia,Balbuena Noñe,VILLAS AGRÍCOLAS,septiembre,05,",6
+391,ajetlregs,"2014-10-02 17:43:06",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","6RY4RMXS7,6,Nelson Ariel ,Rodriguez ,VILLAS AGRÍCOLAS,agosto ,30,1990",6
+392,ajetlregs,"2014-10-02 17:43:07",ERROR,"Mes falta.","VWBW8J115,27,LEONI,CASTRO CARMONA,LOS TANQUECITOS,,,2001",27
+393,ajetlregs,"2014-10-02 17:43:07",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","T039XSDGP,6,Nayelis Eliana ,Espinal ,24 DE ABRIL,febre,03,2003",6
+394,ajetlregs,"2014-10-02 17:43:08",ERROR,"Año de nacimiento está mal.","2W07AZXYR,6,Dayri Julissa,Cruz Sanchez,VILLA PROGRESO,octubre,31,",6
+395,ajetlregs,"2014-10-02 17:43:08",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","EBYYMHH9B,4,MARGARET ,MUÑOS LINAREZ ,SABANA PERDIDA,0812,19,1997",4
+396,ajetlregs,"2014-10-02 17:43:08",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","J5D3E6WBT,6,Arnol Joer ,Carrasco ,24 DE ABRIL,febrero ,07,1998",6
+397,ajetlregs,"2014-10-02 17:43:09",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","9W3K9FYEN,6,Lazaro ,Polonia Disla,VILLA LIBERACION,Julio,9,1989",6
+398,ajetlregs,"2014-10-02 17:43:09",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","J7EMDZ4BK,4,FRANK JEYSON ,DE LA CRUZ ORTEGA,,25,02,1998",4
+399,ajetlregs,"2014-10-02 17:43:09",ERROR,"Mes falta.","BZ6ZG3AFZ,6,Eduardo Miguel,Ayala Cama.,VILLA LIBERACION,,,1996",6
+400,ajetlregs,"2014-10-02 17:43:10",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","ZMZHDC5N*,4,SHAROLIS,YIRENDY SANCHEZ,LOTES Y SERVICIOS,MARZ,05,1997",4
+401,ajetlregs,"2014-10-02 17:43:10",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","1M4P19H0R,4,DARRY,VENTURA MENDEZ,SABANA CENTRO,JUNIO,18,1993",4
+402,ajetlregs,"2014-10-02 17:43:10",ERROR,"Año de nacimiento está mal.","2B6JSDGSG,6,Eusenio ,Ortiz,VILLA LIBERACION,,,",6
+403,ajetlregs,"2014-10-02 17:43:10",ERROR,"Año de nacimiento está mal.","YN1MZ73ZH,6,Leidi,Fernandez,VILLA LIBERACION,,,",6
+404,ajetlregs,"2014-10-02 17:43:10",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","94NJ0JXT6,4,ANGEL DARIO ,ALEMAN RAMOS,SABANA CENTRO,JUNIO,16,1996",4
+405,ajetlregs,"2014-10-02 17:43:11",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","N7D4S2GDM,6,Kelvin,Sanchez,VILLA PROGRESO,qbril,15,1992",6
+406,ajetlregs,"2014-10-02 17:43:11",ERROR,"Fecha de falta.","BZD0YDS97,6,Yohan ,Pujols Abad,VILLA LIBERACION,noviembre,,1998",6
+407,ajetlregs,"2014-10-02 17:43:11",ERROR,"Fecha de falta.","WNE2ADQD8,6,Deivy ,Gonzalez Macea,VILLA LIBERACION,5,,1998",6
+408,ajetlregs,"2014-10-02 17:43:11",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","R3RV2XWFV,10,Pedro Alberto ,Comprez ,PLAYA OESTE,mayo 1,12,1996",10
+409,ajetlregs,"2014-10-02 17:43:11",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","VY0YZR4N2,4,ROSANNA ,ALMONTE NUÑEZ,ENRIQUILLO,MARZO,09,1997",4
+410,ajetlregs,"2014-10-02 17:43:11",ERROR,"Año de nacimiento está mal.","YJFVNQ88S,6,Yulinet,De la Cruz,VILLA LIBERACION,,,",6
+411,ajetlregs,"2014-10-02 17:43:11",ERROR,"Año de nacimiento está mal.","YS68P4S6E,6,Enmanuel,De la Cruz,VILLA LIBERACION,,,",6
+412,ajetlregs,"2014-10-02 17:43:11",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","BNJQV7FDU,6,Jauren ,Melendez ,SIMON BOLIVAR,Junio ,25,1994",6
+413,ajetlregs,"2014-10-02 17:43:11",ERROR,"Año de nacimiento está mal.","06B61DD7$,6,Yuri Nairoby,Martinez ,LAS CAŇITAS,noviembre,08,",6
+414,ajetlregs,"2014-10-02 17:43:11",ERROR,"Año de nacimiento está mal.","YK1D6SS7Q,6,Paola Mariel ,Ramirez,LA CIENAGA,enero,2,",6
+415,ajetlregs,"2014-10-02 17:43:11",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","6S1CEPNBZ,4,LADY AURELINA,MATEO CEUVAS,SABANA CENTRO,JUNIO,28,1997",4
+416,ajetlregs,"2014-10-02 17:43:11",ERROR,"Año de nacimiento está mal.","3FF8096WA,4,FIORDALIZA ,HILARIO ACOSTA ,SABANA PERDIDA,,,",4
+417,ajetlregs,"2014-10-02 17:43:12",ERROR,"Año de nacimiento está mal.","C1ZQKAXV4,6,Nathaly,Ramirez,Caribe,,,",6
+418,ajetlregs,"2014-10-02 17:43:12",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","4K9TQ9M3K,6,Esreffanie Diojanny ,Cruz,SIMON BOLIVAR,julio ,23,1998",6
+419,ajetlregs,"2014-10-02 17:43:12",ERROR,"Año de nacimiento está mal.","N6XT89PJ0,4,ABINADER  ,MIESES ,SABANA PERDIDA,,,",4
+420,ajetlregs,"2014-10-02 17:43:12",ERROR,"Mes falta.","P83P9DH88,4,GABRIEL ,MARTE ,SABANA PERDIDA,,17,1999",4
+421,ajetlregs,"2014-10-02 17:43:12",ERROR,"Año de nacimiento está mal.","XM8WSPBDF,4,ELIZANDRA ,CABRERA ,SABANA PERDIDA,,,",4
+422,ajetlregs,"2014-10-02 17:43:12",ERROR,"Mes falta.","HRGA0DDX9,4,MIGUEL ANGEL ,NUÑEZ MARTE ,SABANA PERDIDA,,30,1995",4
+423,ajetlregs,"2014-10-02 17:43:12",ERROR,"Año de nacimiento está mal.","ENAPJVQF7,6,,,,,,",6
+424,ajetlregs,"2014-10-02 17:43:12",ERROR,"Año de nacimiento está mal.","QFYPWQA6*,6,Edison ,Enrique,SIMON BOLIVAR,,,",6
+425,ajetlregs,"2014-10-02 17:43:12",ERROR,"Año de nacimiento está mal.","81ZCXRD9P,4,carlos farael ,de la santos abreu ,SABANA PERDIDA,,,",4
+426,ajetlregs,"2014-10-02 17:43:13",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","ZHT2X7PR9,4,NATHANAEL,DE LA CRUZ,SABANA CENTRO,ABRIL,17,1999",4
+427,ajetlregs,"2014-10-02 17:43:13",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","NHBSMRGP6,6,Nicaurys,Padilla Nicasio,SIMON BOLIVAR,Abril,8,2000",6
+428,ajetlregs,"2014-10-02 17:43:13",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","4F92TT881,4,ANYI ARISLEIDY,MADURO,SABANA CENTRO,SEPTIEMBRE,1,1995",4
+429,ajetlregs,"2014-10-02 17:43:13",ERROR,"Mes falta.","X6NH54C7N,6,Diomedes,Reyes Lora,El verde,,5,1995",6
+430,ajetlregs,"2014-10-02 17:43:13",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","A2D5JM0NJ,6,Rosmeilin ,Peguero,Simon Bolivar,Julio,14,2001",6
+431,ajetlregs,"2014-10-02 17:43:13",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","CDZ95NH6U,6,Carolina,Reyes Aracena,Simon Bolivar,Agosto,28,2000",6
+432,ajetlregs,"2014-10-02 17:43:13",ERROR,"Fecha de falta.","4SX7RQ72U,27,YACKENDY,DELOSSNTE,MONTE ADENTRO,AGOSTO,,2002",27
+433,ajetlregs,"2014-10-02 17:43:14",ERROR,"Año de nacimiento está mal.","G2Q1A3215,4,RAIDYLYS ,COLLADO PEREZ ,SABANA PERDIDA,,,",4
+434,ajetlregs,"2014-10-02 17:43:14",ERROR,"Año de nacimiento está mal.","QMQS45Z17,4, JUAN ,PEREZ ,SABANA PERDIDA,,,",4
+435,ajetlregs,"2014-10-02 17:43:14",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","8HBRKHNVT,4,JHOAN ENRIQUEZ,FELIZ HERRERA,LOS PALMARES,MARZO,7,2013",4
+436,ajetlregs,"2014-10-02 17:43:14",ERROR,"Fecha de falta.","124GZ1KSP,17,manuel,perez lara,por la cancha,junio,,1998",17
+437,ajetlregs,"2014-10-02 17:43:14",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","N2R88S7W6,6,Johelis ,Valdes Dias ,VILLAS AGRÍCOLAS,Abril ,11,1996",6
+438,ajetlregs,"2014-10-02 17:43:15",ERROR,"Año de nacimiento está mal.","7J1Q5Y5J7,6,Paula Rosa ,Rodriguez ,24 DE ABRIL,abril,08,",6
+439,ajetlregs,"2014-10-02 17:43:16",ERROR,"Año de nacimiento está mal.","AM66HWY04,4,angel ,lara ,SABANA PERDIDA,,,",4
+440,ajetlregs,"2014-10-02 17:43:16",ERROR,"Año de nacimiento está mal.","MV7M0VAA3,4,DANEZA,NUÑEZ,,,,",4
+441,ajetlregs,"2014-10-02 17:43:16",ERROR,"Año de nacimiento está mal.","8V7Q03H8E,4,elizabeth ,vazque,SABANA PERDIDA,,,",4
+442,ajetlregs,"2014-10-02 17:43:16",ERROR,"Año de nacimiento está mal.","92SYCZCW1,4,ESMIRNA,OLIVERO MATOS,,,,",4
+443,ajetlregs,"2014-10-02 17:43:16",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","A5CYA51P$,6,Katherine Altagracia,Asencio Guerrero ,24 DE ABRIL,Octube ,05,1992",6
+444,ajetlregs,"2014-10-02 17:43:17",ERROR,"Año de nacimiento está mal.","C02HA6GS7,21,Manuela,Diaz Hernandez,LAS CIENAGAS,06,26,200",21
+445,ajetlregs,"2014-10-02 17:43:17",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","R87Q3V9PJ,4,MARTIN,RIVAS,7,1989,8,1989",4
+446,ajetlregs,"2014-10-02 17:43:17",ERROR,"Año de nacimiento está mal.","9J2EC3VS2,6,Walkiria LTAGRACIAS ,Balbuena Doñe ,VILLAS AGRÍCOLAS,septiembre,05,",6
+447,ajetlregs,"2014-10-02 17:43:18",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","2Z31QVKD3,4,RIKY,LUGO ,SABANA PERDIDA,15,12,1996",4
+448,ajetlregs,"2014-10-02 17:43:18",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","F7PNYD9F1,4,GABRIER ,HERNANDEZ ,SABANA PERDIDA,15,7,1994",4
+449,ajetlregs,"2014-10-02 17:43:18",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","RRFNVAQH7,4,LEURIS , JHONSON,GUARICANO,MARZO,26,1994",4
+450,ajetlregs,"2014-10-02 17:43:18",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","14NNHFJ13,4,DENSEL RANCES,JHONSON,GUARICANO,JUNIO,30,1995",4
+451,ajetlregs,"2014-10-02 17:43:18",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","VD0Q818D6,10,Paola Del Carmen ,Abreu Toribio ,EL JAVILLAR,mayo ,21,2002",10
+452,ajetlregs,"2014-10-02 17:43:18",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","X3FV7QWAD,6,Nataly Alesandra ,Sanchez Lopez ,LA ZURZA,julio ,07,1994",6
+453,ajetlregs,"2014-10-02 17:43:18",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","1TJE5K6G1,6,Nataly Alexandra ,Sanchez Lopez ,LA ZURZA,julio ,02,1994",6
+454,ajetlregs,"2014-10-02 17:43:19",ERROR,"Mes falta.","B2D7AD571,4,BELLANIRIS,MONTERO GARCIA,LA MINA,,9,2000",4
+455,ajetlregs,"2014-10-02 17:43:19",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","QKR9QB859,6,Cristina ,Alejandro Sanchez ,LA ZURZA,Abril ,04,1989",6
+456,ajetlregs,"2014-10-02 17:43:19",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","T2E3HRW3A,4,AMANDA MARIA ,JAVIER ROSARIO ,LOTES Y SERVICIOS ,41,27,1997",4
+457,ajetlregs,"2014-10-02 17:43:20",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","86DPEHVVY,4,KEVIN,DIAZ MONTERO,SABANA CENTRO,MAYO,03,1995",4
+458,ajetlregs,"2014-10-02 17:43:20",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","F9GW232NN,4,YANELIN,MATEO,SABANA CENTRO,0219,24,1992",4
+459,ajetlregs,"2014-10-02 17:43:20",ERROR,"Fecha de falta.","K7TB9HA1H,4,YULEISI,NOLASCO,LOS CASABES,12,,1994",4
+460,ajetlregs,"2014-10-02 17:43:21",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","T40A36237,4,MILLY SCARLET,MATOS,ENRIQUILLO,20,10,1997",4
+461,ajetlregs,"2014-10-02 17:43:21",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","THMRBSCF5,4,STANLEY,JAVIER ALMANZAR,LOTES Y SERVICIOS,MAYO,5,1989",4
+462,ajetlregs,"2014-10-02 17:43:21",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","RKXS8BBRK,4,SORY ESTHER,MENDEZ,LOS CASABES,MAYO,31,1996",4
+463,ajetlregs,"2014-10-02 17:43:21",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","V56C0XFXR,4,ITILDA MARIA,RUIZ JAVIER,LOS CASABES,MARZO,20,1992",4
+464,ajetlregs,"2014-10-02 17:43:21",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","47ZYN8DM~,4,ADALGIZA ,ARACENA DE LA CRUZ,LOS CASABES,MARZO,17,1996",4
+465,ajetlregs,"2014-10-02 17:43:21",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","ZQJPZPS4U,4,RAQUELITO,MONTERO GARCIA,LA MINA,17,09,1995",4
+466,ajetlregs,"2014-10-02 17:43:21",ERROR,"Mes falta.","9APK2QFV$,4,ADONIS JOSE,VILLA NUEVA,LOTES Y SERVICIOS,,,1996",4
+467,ajetlregs,"2014-10-02 17:43:22",ERROR,"Año de nacimiento está mal.","P62YBATCC,21,Fidelina,,,,,",21
+468,ajetlregs,"2014-10-02 17:43:22",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","RXWDENFM3,6,Jose Antonio ,De la Rosa ,LA ZURZA,noviembre ,11,1999",6
+469,ajetlregs,"2014-10-02 17:43:22",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","ZKV36C9S5,4,RIAIRY,PORTOREAL MENDOZA,UGAMBA,JULIO,31,1995",4
+470,ajetlregs,"2014-10-02 17:43:22",ERROR,"Año de nacimiento está mal.","AK4BMDCBR,6,Sandy Jacobo ,,LA ZURZA,marzo,22,",6
+471,ajetlregs,"2014-10-02 17:43:23",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","N267CZYZ2,6,Angel Daniel ,Mejia ,LA ZURZA,abril ,18,2002",6
+472,ajetlregs,"2014-10-02 17:43:23",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","F443TDJ9J,4,REYNA MEZON,LEBRON,BUENOS AIRES,SEPTIEMBRE,19,1995",4
+473,ajetlregs,"2014-10-02 17:43:23",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","V0G358M88,6,Cristiam Miguel  ,Romero ,VILLAS AGRÍCOLAS,noviembre ,24,2000",6
+474,ajetlregs,"2014-10-02 17:43:23",ERROR,"Año de nacimiento está mal.","2TZJF88HS,4,,,,,,",4
+475,ajetlregs,"2014-10-02 17:43:23",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","5RS9ZNHV5,4,RAFELINA ANABELKIS,RODRIGUEZ QUEZADA,LA JOYA,MAYO,04,1992",4
+476,ajetlregs,"2014-10-02 17:43:23",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","M8NB5DE92,4,LUIS JAVIER,FABIAN,LOS ESPINOLA,MAYO,9,1995",4
+477,ajetlregs,"2014-10-02 17:43:23",ERROR,"Año de nacimiento está mal.","2V3FZT9XH,4,JOSE MIGUEL,DIAZ,UGAMBA,,11,0",4
+478,ajetlregs,"2014-10-02 17:43:24",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","DJ9FAAXM*,4,BRAYAN LUIS,ALVARADO POLANCO,JUNA ALBERO ESPINOLA,OCTUBRE,14,2002",4
+479,ajetlregs,"2014-10-02 17:43:25",ERROR,"Año de nacimiento está mal.","3JEQ5RJFA,12,,,,,,",12
+480,ajetlregs,"2014-10-02 17:43:25",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","8QD12ESS*,20,Angela,González Rodríguez,GURABO,s,21,2001",20
+481,ajetlregs,"2014-10-02 17:43:25",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","DMPH46XSU,4,YOMERY PILAR,CRUZ,PUEBLO NUEVO,DICIEMBRE,20,1994",4
+482,ajetlregs,"2014-10-02 17:43:26",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","MJ9RN0XXY,6,Jefry Antonio  ,Mejia,LA ZURZA,junio ,07,2001",6
+483,ajetlregs,"2014-10-02 17:43:26",ERROR,"Fecha de falta.","H7A56SMZG,4,FRANCILENY,CRUZ MENA ,LOS GRULLONES,09,,1995",4
+484,ajetlregs,"2014-10-02 17:43:26",ERROR,"Año de nacimiento está mal.","B2RA8C4XH,4,KIRSY ,AVARADO,,07,25,07",4
+485,ajetlregs,"2014-10-02 17:43:26",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","2Q7BF6JS3,4,KIRSY, AVARADA,,JUNIO,25,1997",4
+486,ajetlregs,"2014-10-02 17:43:26",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","V80Z50SZH,6,Carolina , de los Santos ,LA ZURZA,febrero ,15,2003",6
+487,ajetlregs,"2014-10-02 17:43:26",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","EXEHG5DJP,4,YONATAN ,VELEZ ALMONTE,VISTA DEL VALLE,ABRIL,05,1998",4
+488,ajetlregs,"2014-10-02 17:43:26",ERROR,"Año de nacimiento está mal.","B0CEAK15S,20,Wilson José,Méndez,GURABO,agosto,30,",20
+489,ajetlregs,"2014-10-02 17:43:28",ERROR,"Año de nacimiento está mal.","QX7Z7WHB5,4,,,,,,",4
+490,ajetlregs,"2014-10-02 17:43:28",ERROR,"Mes falta.","7GSQ9T3X$,4,RADIRYS TINEO,DE JESUS,LOS ESPINOLA,,,1994",4
+491,ajetlregs,"2014-10-02 17:43:28",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","AXV6PW5B$,4,ROSA MARIA ,BRITO,LOS ESPINOLA,JULIO,16,1991",4
+492,ajetlregs,"2014-10-02 17:43:28",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","PG543EZBW,4,ANA,PICHARDO,LOS ESPINOLA,ABRIL,12,1991",4
+493,ajetlregs,"2014-10-02 17:43:28",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","FWM4BTKPZ,4,WILSON,PEREZ,,15,8,1997",4
+494,ajetlregs,"2014-10-02 17:43:28",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","RWQZAXMPG,6,Mauricio ,De la Cruz Ventura ,VILLAS AGRÍCOLAS,Febrero ,26,1996",6
+495,ajetlregs,"2014-10-02 17:43:29",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","JRJ2Q6ANH,4,EDUARDO ,MARIA REYES,GREGORIO LUPERON,19,09,1996",4
+496,ajetlregs,"2014-10-02 17:43:29",ERROR,"Fecha de falta.","PXRYAKYVE,6,Daihana ,Guzman ,CAPOTILLO,abril,,2002",6
+497,ajetlregs,"2014-10-02 17:43:29",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","F04HKH9GM,6,Maribel ,Paulino Capellan ,CAPOTILLO,enero ,27,2002",6
+498,ajetlregs,"2014-10-02 17:43:29",ERROR,"Año de nacimiento está mal.","2P9Y5BDDC,6,Wendoly ,Castillo Peña ,CAPOTILLO,,,",6
+499,ajetlregs,"2014-10-02 17:43:29",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","QGNJ7JS59,4,SULEIDY ,ESTEBAN TORIBIO ,VILLA DUARTE,AGOSTO,16,1999",4
+500,ajetlregs,"2014-10-02 17:43:29",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","MJ48VYCX5,4,LORANYELII,DIAZ FAVIAN,UGAMBA,MAYO,22,2000",4
+501,ajetlregs,"2014-10-02 17:43:29",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","GQJK8ZSTU,4,VICTORIA MARDALENA,TAVAREZ DISLA ,UGAMBA,JULIO,2,2000",4
+502,ajetlregs,"2014-10-02 17:43:29",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","09XV2XVM6,4,NICOL MARIA,JAVIER FIGUEROA,UGAMBA,JULIO,30,1999",4
+503,ajetlregs,"2014-10-02 17:43:29",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","F68J4SCA~,4,JUAN ANTONIO ,RUIZ,UGAMBA,MAYO,15,1995",4
+504,ajetlregs,"2014-10-02 17:43:29",ERROR,"Mes falta.","WFVBDT2J4,4,ENMANUEL ,GRULLON,LA ALTAGRACIA,,,1996",4
+505,ajetlregs,"2014-10-02 17:43:30",ERROR,"Mes falta.","8KSBSMX3B,4,JEFRI MARIZAN ,PAYANO,VISTA DEL VALLE,,,1995",4
+506,ajetlregs,"2014-10-02 17:43:30",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","E79Z78R5G,4,MARIELYS,FERMIN DE LA ROSA,BUENOS AIRES,MAYO,26,1996",4
+507,ajetlregs,"2014-10-02 17:43:30",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","S76RGF0B=,4,ESMERALDA,SANCHEZ,BUENOS AIRES,AGOSTO,23,1997",4
+508,ajetlregs,"2014-10-02 17:43:31",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","3FB82VXA$,4,RICKY,REYES,VILLA LIBERACIÓN,NOVIEMBRE,4,1996",4
+509,ajetlregs,"2014-10-02 17:43:31",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","GCGM86P6J,4,JUAN DIEGO,RODRIGUEZ,VILLA LIBERACIÓN,JUNIO,25,1996",4
+510,ajetlregs,"2014-10-02 17:43:31",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","4XX5VPYAS,4,LEODIS,RODRIGUEZ,VILLA LIBERACIÓN,ABRIL,22,1995",4
+511,ajetlregs,"2014-10-02 17:43:31",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","Q6VPXTNB*,4,LUIS DAVID,TAVAREZ ,VILLA LIBERACIÓN,AGOSTO,2,2000",4
+512,ajetlregs,"2014-10-02 17:43:31",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","XKV23W06*,4,WARLENNY,MONCIÓN,VILLA LIBERACIÓN,JUNIO,9,1998",4
+513,ajetlregs,"2014-10-02 17:43:31",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","DZ3CDJ6RB,4,ESTARLIN,COLLADO,LA OTRA BANDA,02,29,1997",4
+514,ajetlregs,"2014-10-02 17:43:31",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","M6EAJ0VPS,4,ANGEL MIGUEL,FLORES QUEZADA,LA JOYA,NOVIEMBRE,09,1998",4
+515,ajetlregs,"2014-10-02 17:43:32",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","BR8G5T9VN,4,INORLY ,GERMOSEN,VILLA LIBERACIÓN(LA OTRA BANDA),SEPTIEMBRE,18,1993",4
+516,ajetlregs,"2014-10-02 17:43:32",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","BEXG5P9E~,4,ARIS MARIA,VERAS PORTILLO,BARACOA,JULIO,15,1998",4
+517,ajetlregs,"2014-10-02 17:43:32",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","2DNHMWY5Z,4,CORALIS,ROSARIO,BUENOS AIRES,FEBRERO,1,1996",4
+518,ajetlregs,"2014-10-02 17:43:32",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","K71V0RF0R,6,Esther  ,Robles,CAPOTILLO,Febrero ,30,1999",6
+519,ajetlregs,"2014-10-02 17:43:32",ERROR,"Mes falta.","S0HRA3CMP,6,Robelin Manuel ,Macer Montero ,CAPOTILLO,,30,1996",6
+520,ajetlregs,"2014-10-02 17:43:32",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","RPY2P0Z7M,4,FRANCIS,TRINIDAD,LA OTRA BANDA,DI,16,1998",4
+521,ajetlregs,"2014-10-02 17:43:32",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","8FPFSKRED,4,VICTOR RAMON,OZORIA,BUENOS AIRES,ENERO,04,1993",4
+522,ajetlregs,"2014-10-02 17:43:32",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","ZM2FEXG9T,4,ROSA AISME,JIMENEZ T.,LA OTRA BANDA,AGOSTO,30,1994",4
+523,ajetlregs,"2014-10-02 17:43:33",ERROR,"Año de nacimiento está mal.","3NHH6BNT6,15,Yoeli ,Mercedes Frías,LOS ESPINOLA,,,",15
+524,ajetlregs,"2014-10-02 17:43:33",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","XVW8N2P6Z,4,ANGEL MANUEL,MORILLO,LOS CIRUELITOS,OCTUBRE,2,1999",4
+525,ajetlregs,"2014-10-02 17:43:33",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","KJ1W251NS,4,JAVIER SANTIAGO,SANTIAGO,CAMBOYA,SEPTIEMBRE,06,1988",4
+526,ajetlregs,"2014-10-02 17:43:33",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","EJP2XY4YZ,4,JOEL ,MELENDEZ ,CAMBOYA,ENERO,30,1996",4
+527,ajetlregs,"2014-10-02 17:43:33",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","A3843JJAZ,4,PAMELA,MARTINEZ ,BARRIOS SEDEFIL,AGOSTO,28,1999",4
+528,ajetlregs,"2014-10-02 17:43:33",ERROR,"Año de nacimiento está mal.","R93NN4D3G,,,,,,,",NULL
+529,ajetlregs,"2014-10-02 17:43:34",ERROR,"Año de nacimiento está mal.","ZDMJE5N1$,15,Johan Ramsel,Hidalgo Ventura,LOS ESPINOLA,,,",15
+530,ajetlregs,"2014-10-02 17:43:34",ERROR,"Año de nacimiento está mal.","5NB9E2T1D,4,DENNY,BOLIBAR,CAMBOYA,,,",4
+531,ajetlregs,"2014-10-02 17:43:34",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","7VT4GC2VW,4,JESUS ENMANUEL,TEJADA PEÑA ,LAS FLORES,14,14,2001",4
+532,ajetlregs,"2014-10-02 17:43:35",ERROR,"Fecha de falta.","BHD3Y4AZ9,4,YORDENY, TORIBIO BIL,CAMBOYA,ABRIL,,1997",4
+533,ajetlregs,"2014-10-02 17:43:35",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","GVZ7TGDBW,6,Nayi Alejandra,Amancion ,LA ZURZA,mayo ,30,1998",6
+534,ajetlregs,"2014-10-02 17:43:35",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","1Z6MSNNG5,4,RICARDO ANTONIO,TAVAREZ,BUENOS AIRES,JUNIO,22,1992",4
+535,ajetlregs,"2014-10-02 17:43:35",ERROR,"Fecha de falta.","1QYVV2PB4,6,Josefina ,Vanlezuela ,LA ZURZA,octubre,,1994",6
+536,ajetlregs,"2014-10-02 17:43:35",ERROR,"Año de nacimiento está mal.","CWN795D9M,15,Cindy Esther,Roja Vasquez,,,,",15
+537,ajetlregs,"2014-10-02 17:43:35",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","BMVT5XXKS,4,JORGE LUIS,DE LOS SANTOS,,JUNIO,28,1996",4
+538,ajetlregs,"2014-10-02 17:43:35",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","GHR5PWN7R,4,DANNI MASIEL,PEÑA,VILLA LIBERACIÓN,JUNIO,23,1989",4
+539,ajetlregs,"2014-10-02 17:43:35",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","6YGKJRYMJ,4,YOISI,RAMOS,VILLA LIBERACIÓN, LA OTRA BANDA,ABRIL,11,1999",4
+540,ajetlregs,"2014-10-02 17:43:36",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","28C7VD35G,4,DAVID,TAVAREZ,VILLA LIBERACIÓN,AGOSTO,2,1999",4
+541,ajetlregs,"2014-10-02 17:43:36",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","HPMA76J43,4,JOSE MIGUEL,GONZALEZ,VLLA LIBERACIÓN,19,17,1999",4
+542,ajetlregs,"2014-10-02 17:43:36",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","88HSNH9BP,4,MANUELA JOSE,CRUZ MERCEDEZ,LA OTRA BANDA,AGOSTO,31,1995",4
+543,ajetlregs,"2014-10-02 17:43:36",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","T7A8WAXY1,4,KELVIN JOSE,DOMINGUEZ,LA OTRA BANDA,ABRIL,29,1992",4
+544,ajetlregs,"2014-10-02 17:43:36",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","H460R9QTW,4,JOSE MANUEL,GARCIA,LA OTRA BANDA,MAYO,3,2000",4
+545,ajetlregs,"2014-10-02 17:43:36",ERROR,"Año de nacimiento está mal.","2BQRNH74Z,15,Marlyn Gisselle,Muñoz Beato,Madeja,,,",15
+546,ajetlregs,"2014-10-02 17:43:37",ERROR,"Año de nacimiento está mal.","B65R6WFAG,,,,,,,",NULL
+547,ajetlregs,"2014-10-02 17:43:37",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","J7PN018M3,4,RAMON ANTONIO,REYES ,LA OTRA BANDA,MAYO,8,1992",4
+548,ajetlregs,"2014-10-02 17:43:37",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","ADGJY9NF0,4,DILENIA ,GARCIA,LA OTRA BANDA, VILLA LIBERACION,SEPTIEMBRE,11,1999",4
+549,ajetlregs,"2014-10-02 17:43:37",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","0CAS06C2W,4,INORLY,GERMOSEN ,LA OTRA BANDA # 28,SEPTIEMBRE,18,1993",4
+550,ajetlregs,"2014-10-02 17:43:37",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","A3R11R6MH,4,FOLY JUNIOR ,MOTA,LA JOYA,JULIO,17,1994",4
+551,ajetlregs,"2014-10-02 17:43:37",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","AFN107XSC,4,JUNIIOR ,REYES,LA JOYA,OCTUBRE,5,1998",4
+552,ajetlregs,"2014-10-02 17:43:37",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","RVRSS607F,6,Keilin Francisco,Gonsalez ,VILLAS AGRÍCOLAS,abril ,04,1997",6
+553,ajetlregs,"2014-10-02 17:43:37",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","4AX1DYDZ1,15,Starlin,Santos Ortega,LA ALTAGRACIA,14,13,1999",15
+554,ajetlregs,"2014-10-02 17:43:37",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","YPYS1QF9Z,4,BRAYNA JOSE,NUÑEZ ,LA JOYA,MAYO,30,1997",4
+555,ajetlregs,"2014-10-02 17:43:37",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","9CQZ680X7,6,albari ,de leon ,VILLAS AGRÍCOLAS,junio ,25,2013",6
+556,ajetlregs,"2014-10-02 17:43:38",ERROR,"Mes falta.","M42M3S1KK,18,Starcy Altagracia,Morel López,Boca de Bao,,2,1999",18
+557,ajetlregs,"2014-10-02 17:43:38",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","PQCGTJQKQ,6,Danny Banifacio ,Tarres ,VILLAS AGRÍCOLAS,noviembre ,6,2013",6
+558,ajetlregs,"2014-10-02 17:43:38",ERROR,"Año de nacimiento está mal.","8QFBACEES,18,Kelvin Daniel,Diaz,Las Cayenas Abajo,,,",18
+559,ajetlregs,"2014-10-02 17:43:38",ERROR,"Año de nacimiento está mal.","GN81W2KB6,15,Rebeca,Bautista Barrera,LOS ESPINOLA,,,",15
+560,ajetlregs,"2014-10-02 17:43:38",ERROR,"Año de nacimiento está mal.","F2CE0M8ZM,15,,,,,,",15
+561,ajetlregs,"2014-10-02 17:43:38",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","NGDNZBJ2Q,4,YENIFER GOMEZ,ARACENA,SAN ANTONIO,SEPTEIMBRE,2,1995",4
+562,ajetlregs,"2014-10-02 17:43:38",ERROR,"Año de nacimiento está mal.","TXQCKK0D4,18,ElizabethM,Martínez,El Flaire, La Zanja,,,",18
+563,ajetlregs,"2014-10-02 17:43:38",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","FMJPFB569,4,ALEXANDRA RAFAEL,ARIAS KINGS,SAN ANTONIO,AGOSTO,28,1995",4
+564,ajetlregs,"2014-10-02 17:43:38",ERROR,"Año de nacimiento está mal.","M7J99YD8G,18,Jeraldo Jesús,Peña,Los Santos Arriba,,,",18
+565,ajetlregs,"2014-10-02 17:43:38",ERROR,"Año de nacimiento está mal.","9B33DDXY=,18,Juan Elias,Jiminian Diaz,Ensanche Bolívar,8,10,",18
+566,ajetlregs,"2014-10-02 17:43:38",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","D08EDCNVN,4,MARIA ESTHER,VENTURA VARGAS,SAN ANTONIO,SEPTIEMBRE,10,1997",4
+567,ajetlregs,"2014-10-02 17:43:38",ERROR,"Mes falta.","YJ6YEM076,18,Emerling,Peña Cabrera,Los Santos,,19,2000",18
+568,ajetlregs,"2014-10-02 17:43:38",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","MHJT5XKM$,4,WANDERSON ,MELLA ,,ABRIL,7,1998",4
+569,ajetlregs,"2014-10-02 17:43:38",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","XGMR9DVTB,4,CAROLINA,ALMONTE ,EL MADRIGAL,JUNIO,20,1996",4
+570,ajetlregs,"2014-10-02 17:43:39",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","G7EAFTTQZ,4,ROSA IRYS,VARGAS CRUZ,PUEBLO NUEVO,MAYO,19,1997",4
+571,ajetlregs,"2014-10-02 17:43:39",ERROR,"Año de nacimiento está mal.","DE85BQ37Z,15,Emilio,De la Cruz Severino,Ensanche Olimpia,,,",15
+572,ajetlregs,"2014-10-02 17:43:39",ERROR,"Año de nacimiento está mal.","RH9EBYAAW,18,Raimundo César,Taveras,Entrada negro corea, Guayabal,,,",18
+573,ajetlregs,"2014-10-02 17:43:39",ERROR,"Mes falta.","6AVWE6SVV,23,Yensi,Jean Pierre,ALTOS DE CHAVON,,,1999",23
+574,ajetlregs,"2014-10-02 17:43:40",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","QCCNGRC5A,4,KIRSY,MELLA,RIVERA DEL JAYA,MAYO,24,1999",4
+575,ajetlregs,"2014-10-02 17:43:40",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","VAJN6261P,4,MAYRENI JINNET,PEREZ,RIBERA DEL JAYA,SEPTIEMBRE,26,1994",4
+576,ajetlregs,"2014-10-02 17:43:40",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","JZCRD5AP2,4,JOSE LUIS,LOPEZ CORTOREAL,ENSANCHE LIBERTAD,ABRIL,25,1999",4
+577,ajetlregs,"2014-10-02 17:43:40",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","8J8HHPEE*,4,LENICE,ANTIAGUA,ENSANCHE LIBERTAD,NOVIEMBRE,19,1991",4
+578,ajetlregs,"2014-10-02 17:43:40",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","J1SVXHFA~,4,AMAURYS ,GUZMAN TEJADA,ENSANCHE LIBERTAD,SEPTIEMBRE,28,1999",4
+579,ajetlregs,"2014-10-02 17:43:40",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","3P9CGWHY1,4,BRYAN MANUEL,SALDAÑA HERNANDEZ,PUEBLO NUEVO,MARZO,22,1998",4
+580,ajetlregs,"2014-10-02 17:43:40",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","W2R7PMMG4,4,FERNANDO JOSE,CHIKI DURAN,PUEBLO NUEVO,OCTUBRE,1,1999",4
+581,ajetlregs,"2014-10-02 17:43:40",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","1FAVKBGVA,4,SAMANTHA,URBANO BONILLA,PUEBLO NUEVO,NOVIEMBRE,27,1999",4
+582,ajetlregs,"2014-10-02 17:43:40",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","4T4JZPP5B,4,REYLIN ,ROSARIO ROSADO,PUEBLO NUEVO,AGOSTO,05,1992",4
+583,ajetlregs,"2014-10-02 17:43:40",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","BY132MVB7,4,JOHN LUIS,HICIANO DE JESUS,PUEBLO NUEVO,AGOSTO,11,1999",4
+584,ajetlregs,"2014-10-02 17:43:40",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","S2VWVGKYZ,4,YEWDY,GARCIA,PUEBLO NUEVO,JUNIO,7,1997",4
+585,ajetlregs,"2014-10-02 17:43:40",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","5BR46SECG,4,ERICK,MASSALLO,,SEPTIEMBRE,27,1997",4
+586,ajetlregs,"2014-10-02 17:43:40",ERROR,"Año de nacimiento está mal.","P9B826ZNV,4,MILDREA,SANCHEZ,CRISTO REY,06,28,",4
+587,ajetlregs,"2014-10-02 17:43:41",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","PZQVD1CV~,23,Rey Rafael,Batista,LOS COQUITOS,ene,6,1999",23
+588,ajetlregs,"2014-10-02 17:43:41",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","G3P3X8HPF,4,DAHIANNA,REINOSO NUÑEZ,,MAYO,12,1998",4
+589,ajetlregs,"2014-10-02 17:43:41",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","BE4CGQZ54,4,YEURI JOSÉ ,CACERES VIZCAINO,VISTA DEL VALLE,SEPTIEMBRE,17,1997",4
+590,ajetlregs,"2014-10-02 17:43:41",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","VBG2NNPVN,4,JOSELAYNE,GOMEZ MEDINA,LOS MAESTROS,MARZO,17,1997",4
+591,ajetlregs,"2014-10-02 17:43:41",ERROR,"Año de nacimiento está mal.","VHDDC1H6M,4,LUIS RAFAEL,ACOSTA,BUENOS AIRES,1,05,",4
+592,ajetlregs,"2014-10-02 17:43:41",ERROR,"Año de nacimiento está mal.","3V1THDVXZ,4,DARLENY,LUNA RODRIGUEZ,LA YAGUITA DEL PASTOR,,23,",4
+593,ajetlregs,"2014-10-02 17:43:42",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","MTWKT4BH$,4,JOSE ALEJANDRO,ROMERO LUNA,BUENOS AIRES,ABRIL,30,1998",4
+594,ajetlregs,"2014-10-02 17:43:42",ERROR,"Año de nacimiento está mal.","6CZWN7S91,12,,,,,,",12
+595,ajetlregs,"2014-10-02 17:43:42",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","CQGW0CZS8,4,WENDY,SANTOS,BUENOS AIRES,JULIO,25,1997",4
+596,ajetlregs,"2014-10-02 17:43:42",ERROR,"Año de nacimiento está mal.","A28R244QJ,15,Enyer Samuel,Rivera Perez,Espinola II,,,",15
+597,ajetlregs,"2014-10-02 17:43:42",ERROR,"Año de nacimiento está mal.","1VCZXQPHV,15,,,,,,",15
+598,ajetlregs,"2014-10-02 17:43:43",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","CMB80DQSM,15,Alex Rafael,Amesquita García,LOS ESPINOLA,Marzo,27,2001",15
+599,ajetlregs,"2014-10-02 17:43:43",ERROR,"Año de nacimiento está mal.","7DY141M23,15,,,,,,",15
+600,ajetlregs,"2014-10-02 17:43:43",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","V6VAQZNWC,15,Paola,Gómez Jimenez,Olimpia,ab,23,2001",15
+601,ajetlregs,"2014-10-02 17:43:43",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","WCRD8YSW5,15,Arianny,Acosta Gil,Los Espínola,o,2,2000",15
+602,ajetlregs,"2014-10-02 17:43:43",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","BMNMNSZH0,15,María Elisa,Durán GIl,Los Espínola,JULI,17,2000",15
+603,ajetlregs,"2014-10-02 17:43:43",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","C5Q1SQM7M,15,Yismarlin,Valdez Estévez,Los Espínola,may,12,2000",15
+604,ajetlregs,"2014-10-02 17:43:43",ERROR,"Año de nacimiento está mal.","ZZKC67TDF,15,Pedro Luis,Contreras Guzman,Espinola,,,",15
+605,ajetlregs,"2014-10-02 17:43:43",ERROR,"Año de nacimiento está mal.","056PS0TN=,12,,,,,,",12
+606,ajetlregs,"2014-10-02 17:43:43",ERROR,"Año de nacimiento está mal.","F1PARRK9Q,12,,,,,,",12
+607,ajetlregs,"2014-10-02 17:43:44",ERROR,"Año de nacimiento está mal.","W09BXHNNB,12,,,bella ,,8,",12
+608,ajetlregs,"2014-10-02 17:43:44",ERROR,"Año de nacimiento está mal.","33MD76KG4,38,Nicole Yenaris ,Jimenes Capellán  ,Pastor ,enero,,",38
+609,ajetlregs,"2014-10-02 17:43:44",ERROR,"Año de nacimiento está mal.","M8GA243J9,22,,,,,,",22
+610,ajetlregs,"2014-10-02 17:43:44",ERROR,"Año de nacimiento está mal.","VN35YJMV1,20,,,,,,",20
+611,ajetlregs,"2014-10-02 17:43:44",ERROR,"Año de nacimiento está mal.","35NR2MH9J,12,,,,,,",12
+612,ajetlregs,"2014-10-02 17:43:44",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","Y4JR6RFCU,18,Robert ,Váldez Corsino,La Zanja,Abril ,04,2000",18
+613,ajetlregs,"2014-10-02 17:43:44",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","9X591K0H~,18,Anisha,Delgado Placensia,La Zanja Arriba,Enero,5,2001",18
+614,ajetlregs,"2014-10-02 17:43:44",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","WPYDRRFYR,38,Rosa Paola,Recio,CHato del Yaque,Enero,18,2002",38
+615,ajetlregs,"2014-10-02 17:43:44",ERROR,"Año de nacimiento está mal.","9VPN8PYCE,34,,,,,,",34
+616,ajetlregs,"2014-10-02 17:43:44",ERROR,"Fecha de nacimiento no es válida - check mes, la fecha o el año","DD8JN8A56,9,Jose Carlos ,De Dios Toribio ,VILLA PROGRESO,Noviembre,25,2013",9
