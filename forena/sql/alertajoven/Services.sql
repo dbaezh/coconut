@@ -25,7 +25,7 @@ where 1 = 1
 -- don't really need the 1 = 1 but if the other where's go away, it IS needed.
 -- 
 --IF=:provider_id
-and pp.entity_id = :provider_id  
+and pp.field_program_provider_target_id = :provider_id  
 --END
 
 --IF=:program_id
