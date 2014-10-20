@@ -69,12 +69,17 @@ function coconut_block_view( $delta = '' )
   $user_name = isset($user->name) ? $user->name : '';
   $user_roles = $user->roles;
   $isEvaluator = false;
+  $isDataEntry = "false";
 
   foreach ($user_roles as $role){
     if($role == "Evaluator"){
       $isEvaluator = true;
-      break;
+	  break;
     }
+	if($role == "Data Entry"){
+	  $isDataEntry = "true";
+	  break;
+	}
   }   
   
 // Get provider name and id
@@ -183,9 +188,9 @@ function coconut_block_view( $delta = '' )
     
     if ( user_access('access content') ){
      if (!$isEvaluator){
-      $html = $html."<iframe id='coconut_iframe' width='100%' height='600px' src='$base_url:5984/coconut/_design/coconut/index.html#reports/Participant Registration-es/isActions=true/provider_id=$provider_id/user_name=$user_name/provider_name=$provider_name'></iframe>";
+      $html = $html."<iframe id='coconut_iframe' width='100%' height='600px' src='$base_url:5984/coconut/_design/coconut/index.html#reports/Participant Registration-es/isActions=true/provider_id=$provider_id/user_name=$user_name/provider_name=$provider_name/isDataEntry=$isDataEntry'></iframe>";
 }else{
-	  $html = $html."<iframe id='coconut_iframe' width='100%' height='600px' src='$base_url:5984/coconut/_design/coconut/index.html#reports/Participant Registration-es/isActions=true/user_name=$user_name/isEvaluator=true'></iframe>";
+	  $html = $html."<iframe id='coconut_iframe' width='100%' height='600px' src='$base_url:5984/coconut/_design/coconut/index.html#reports/Participant Registration-es/isActions=true/user_name=$user_name/isEvaluator=true/isDataEntry=$isDataEntry'></iframe>";
 }
       $block['content'] = $html;
     }

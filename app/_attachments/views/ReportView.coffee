@@ -173,6 +173,7 @@ class ReportView extends Backbone.View
          @urlParams.push "provider_id=" + result.get("provider_id")
          @urlParams.push "provider_name=" + result.get("provider_name")
 
+         isDataEntry = this["isDataEntry"];
          sPassed = "/" + @urlParams.join("&")
 
 
@@ -183,6 +184,9 @@ class ReportView extends Backbone.View
          unless isExitExist
            html += "<a href=\"#new/result/Exit Survey-es" + sPassed + "\">Salida</a><br>"
 
+         if isDataEntry is "false"
+           html += "<a href=\"#marp/MARP-es" + sPassed + "\">MARP</a><br>"
+			
          html += "<a href=\"#view/result/" + result.id +  sPassed + "\">Ver Registro</a></td>"
 
          @urlParams.removeByValue "uuid=" + result.get("uuid")

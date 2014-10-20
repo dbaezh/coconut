@@ -47,6 +47,7 @@ class Router extends Backbone.Router
     "summary/:client_id": "summary"
     "update/inactive/:result_id": "markInactive"
     "attendancelist/:question_id/*options": "attendancelist"
+    "marp/:question_id/:options": "marpData"
     "": "default"
 
   route: (route, name, callback) ->
@@ -536,6 +537,47 @@ class Router extends Backbone.Router
                   Coconut.attendanceListView.model.fetch
                     success: ->
                       Coconut.attendanceListView.render()
+
+  marpData: (question_id, s_options = '') ->
+
+    quid = unescape decodeURIComponent question_id
+
+    standard_values = {}
+    s_options.replace(/([^=&]+)=([^&]*)/g, (m, key, value) -> standard_values[key] = value)
+    participant_id = standard_values['uuid']
+
+    db = undefined
+    db = $.couch.db("coconut")
+    db.view "coconut/findMARPByUUID?key=\"" + participant_id + "\"",
+      success: (marpList) ->
+        if marpList.rows.length is 0
+          # create
+          standard_values['question'] = quid
+          question = new Question "id" : quid
+          question.fetch
+            success: ->
+              Coconut.questionView = new QuestionView
+                standard_values : _(standard_values).omit('question')
+                result          : new Result standard_values
+                model           : question
+                wsData          : {'participant_id': participant_id}
+              Coconut.questionView.render()
+        else
+          # edit the existing one
+          result = marpList.rows[0]
+          Coconut.questionView ?= new QuestionView
+          Coconut.questionView.standard_values = standard_values
+          Coconut.questionView.wsData = {'participant_id': participant_id}
+
+          Coconut.questionView.result = new Result
+            _id: result.id
+          Coconut.questionView.result.fetch
+            success: ->
+              Coconut.questionView.model = new Question
+                id: Coconut.questionView.result.question()
+              Coconut.questionView.model.fetch
+                success: ->
+                  Coconut.questionView.render()
 
 
 

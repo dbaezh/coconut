@@ -842,7 +842,7 @@ QuestionView = (function(_super) {
     }
     html = '';
     _(questions).each(function(question) {
-      var groupTitle, isRepeatable, labelHeader, name, option, options, program, programString, questionProgramId, questionProgramName, question_id, repeatButton, validation, warning;
+      var cbChecked, cbValue, groupTitle, isRepeatable, labelHeader, name, option, options, program, programString, questionProgramId, questionProgramName, question_id, repeatButton, validation, warning;
       labelHeader = question.type() === "label" ? ["<h2>", "</h2>"] : ["", ""];
       if (question.has('warning')) {
         warning = "        data-warning='" + (_.escape(question.warning())) + "'      ";
@@ -932,6 +932,18 @@ QuestionView = (function(_super) {
                 return "<input name='" + name + "' type='text' id='" + question_id + "' value='" + (_.escape(question.value())) + "'></input>";
               } else {
                 return "<input style='display:none' name='" + name + "' id='" + question_id + "' type='checkbox' value='true'></input>";
+              }
+              break;
+            case "checkboxpreselected":
+              if (this.readonly) {
+                return "<input name='" + name + "' type='text' id='" + question_id + "' value='" + (_.escape(question.value())) + "'></input>";
+              } else {
+                cbChecked = "";
+                cbValue = this.result.safeGet(name, '');
+                if (cbValue === 'true') {
+                  cbChecked = " checked='checked' ";
+                }
+                return "<input style='display:none' name='" + name + "' id='" + question_id + "' type='checkbox' value='true' " + cbChecked + "></input>";
               }
               break;
             case "autocomplete from list":

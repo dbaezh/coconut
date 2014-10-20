@@ -979,6 +979,15 @@ class QuestionView extends Backbone.View
                   "<input name='#{name}' type='text' id='#{question_id}' value='#{_.escape(question.value())}'></input>"
                 else
                   "<input style='display:none' name='#{name}' id='#{question_id}' type='checkbox' value='true'></input>"
+              when "checkboxpreselected"
+                if @readonly
+                  "<input name='#{name}' type='text' id='#{question_id}' value='#{_.escape(question.value())}'></input>"
+                else
+                  cbChecked = ""
+                  cbValue = this.result.safeGet(name, '')
+                  if cbValue in ['true']
+                    cbChecked = " checked='checked' "
+                  "<input style='display:none' name='#{name}' id='#{question_id}' type='checkbox' value='true' #{cbChecked}></input>"
               when "autocomplete from list", "autocomplete from previous entries"
                 "
                   <!-- autocomplete='off' disables browser completion -->

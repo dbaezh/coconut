@@ -1,0 +1,30 @@
+{
+  "_id": "MARP-es",
+  "collection": "question",
+  "questions": [
+	  {
+		  "_id": 100,
+		  "label": "Hombres que tienen sexo con hombres",
+		  "repeatable": false,
+		  "required": false,
+		  "type": "checkboxpreselected"
+	  },
+	  {
+		  "_id": 101,
+		  "label": "Los trabajadores del sexo",
+		  "repeatable": false,
+		  "required": false,
+		  "type": "checkboxpreselected"
+	  },
+	  {
+		  "_id": 102,
+		  "label": "Usuarios de drogas intravenosas",
+		  "repeatable": false,
+		  "required": false,
+		  "type": "checkboxpreselected"
+	  }
+
+	],
+  "required": false,
+  "type": "group"
+}

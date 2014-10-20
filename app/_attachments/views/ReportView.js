@@ -124,7 +124,7 @@ ReportView = (function(_super) {
   };
 
   ReportView.prototype.render = function() {
-    var field, headers, html, isExitExist, isSurveyExist, result, sPassed, total, _i, _j, _k, _l, _len, _len1, _len2, _len3, _ref1, _ref2, _ref3, _ref4;
+    var field, headers, html, isDataEntry, isExitExist, isSurveyExist, result, sPassed, total, _i, _j, _k, _l, _len, _len1, _len2, _len3, _ref1, _ref2, _ref3, _ref4;
     this.searchRows = {};
     total = 0;
     headers = [];
@@ -181,6 +181,7 @@ ReportView = (function(_super) {
         this.urlParams.push("uuid=" + result.get("uuid"));
         this.urlParams.push("provider_id=" + result.get("provider_id"));
         this.urlParams.push("provider_name=" + result.get("provider_name"));
+        isDataEntry = this["isDataEntry"];
         sPassed = "/" + this.urlParams.join("&");
         html += "<td>";
         if (!isSurveyExist) {
@@ -188,6 +189,9 @@ ReportView = (function(_super) {
         }
         if (!isExitExist) {
           html += "<a href=\"#new/result/Exit Survey-es" + sPassed + "\">Salida</a><br>";
+        }
+        if (isDataEntry === "false") {
+          html += "<a href=\"#marp/MARP-es" + sPassed + "\">MARP</a><br>";
         }
         html += "<a href=\"#view/result/" + result.id + sPassed + "\">Ver Registro</a></td>";
         this.urlParams.removeByValue("uuid=" + result.get("uuid"));

@@ -52,6 +52,7 @@ Router = (function(_super) {
     "summary/:client_id": "summary",
     "update/inactive/:result_id": "markInactive",
     "attendancelist/:question_id/*options": "attendancelist",
+    "marp/:question_id/:options": "marpData",
     "": "default"
   };
 
@@ -728,6 +729,69 @@ Router = (function(_super) {
             }
           }
         });
+      }
+    });
+  };
+
+  Router.prototype.marpData = function(question_id, s_options) {
+    var db, participant_id, quid, standard_values;
+    if (s_options == null) {
+      s_options = '';
+    }
+    quid = unescape(decodeURIComponent(question_id));
+    standard_values = {};
+    s_options.replace(/([^=&]+)=([^&]*)/g, function(m, key, value) {
+      return standard_values[key] = value;
+    });
+    participant_id = standard_values['uuid'];
+    db = void 0;
+    db = $.couch.db("coconut");
+    return db.view("coconut/findMARPByUUID?key=\"" + participant_id + "\"", {
+      success: function(marpList) {
+        var question, result;
+        if (marpList.rows.length === 0) {
+          standard_values['question'] = quid;
+          question = new Question({
+            "id": quid
+          });
+          return question.fetch({
+            success: function() {
+              Coconut.questionView = new QuestionView({
+                standard_values: _(standard_values).omit('question'),
+                result: new Result(standard_values),
+                model: question,
+                wsData: {
+                  'participant_id': participant_id
+                }
+              });
+              return Coconut.questionView.render();
+            }
+          });
+        } else {
+          result = marpList.rows[0];
+          if (Coconut.questionView == null) {
+            Coconut.questionView = new QuestionView;
+          }
+          Coconut.questionView.standard_values = standard_values;
+          Coconut.questionView.wsData = {
+            'participant_id': participant_id
+          };
+          Coconut.questionView.result = new Result({
+            _id: result.id
+          });
+          return Coconut.questionView.result.fetch({
+            success: function() {
+              Coconut.questionView.model = new Question({
+                id: Coconut.questionView.result.question()
+              });
+              return Coconut.questionView.model.fetch({
+                success: function() {
+                  return Coconut.questionView.render();
+                }
+              });
+            }
+          });
+        }
       }
     });
   };
