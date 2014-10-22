@@ -1,0 +1,88 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title> Update Provider Name and Id</title>
+
+    <style>
+        body {
+            font: 100% helvetica, arial, sans-serif;
+            line-height: 1.625;
+        }
+
+    </style>
+
+    <script type="text/javascript" src="js-libraries/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="js-libraries/jquery.couch.js"></script>
+    <script type="text/javascript" src="js-libraries/moment.min.js"></script>
+
+
+
+
+    <script language="JavaScript">
+      
+
+        function startUpdate(){
+
+            var db = $.couch.db("coconut");
+            db.view("coconut/resultsByQuestionAndComplete?startkey=%22Participant%20Registration-es%3Atrue%3Az%22&endkey=%22Participant%20Registration-es%3Atrue%22&descending=true&include_docs=false",
+                    {
+                        success:function(data){
+
+                            for (i in data.rows) {
+                                d = data.rows[i];
+
+
+                                    //fetch the document
+                                    db.openDoc(d.id, {
+                                        success: function(doc){
+                                            // check if this is Participant or a Survey and the provider is 6,
+                                            // IDDI (Santo Domingo#Distrito Nacional)
+                                            if (doc.provider_id === "6") {
+                                                html = '<tr>' + '<td>' + doc._id + '</td>' +
+                                                        '<td>' + doc.uuid + '</td>' +
+                                                        '<td>' + doc.provider_id + '</td>' +
+                                                        '<td>' + doc.provider_name + '</td>' +
+                                                        '</tr>';
+
+                                                $("#listtbl").append(html);
+
+                                                // update the provider name
+                                                doc.provider_name = "IDDI (Bonao)";
+                                                doc.provider_id = "9";
+                                                // date format is retrieved from coconut.config document
+                                                doc.lastModifiedAt = moment(new Date()).format(undefined);
+                                                // save the document
+                                               // db.saveDoc(doc);
+                                            }
+                                         }
+                                    });
+
+                            }
+                        },
+                        error:function(data){
+                            alert("Something wrong");
+                        }
+                    });
+        }
+
+        
+
+
+
+    </script>
+
+</head>
+
+
+<body >
+<p>This will fetch documents where provider name is "undefined" by using a view and will update these documents with the correct provider name.</p>
+<input type="button" onclick="startUpdate()" id="start" value="Start">
+
+<p> Updating the documents.... </p>
+<table id="listtbl" style = "border:1;cellpadding:4" ><tr><th>Doc Id</th><th>UUID</th><th>Provider Id</th><th>Provider Name</th></tr></table>
+
+
+
+</body>
+
+</html>
