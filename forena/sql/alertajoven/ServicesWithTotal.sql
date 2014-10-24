@@ -39,4 +39,4 @@ and adate.field_activity_date_value <= :to_date
 --END
 
 group by aname.field_activity_name_value
---WITH ROLLUP
+WITH ROLLUP

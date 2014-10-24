@@ -144,7 +144,7 @@
           "label": "¿Tiene un numero celular?",
           "radio-options": "Sí,No",
           "repeatable": false,
-          "required": true,
+          "required": false,
           "type": "radio"
         },
         {
@@ -183,7 +183,7 @@
       "label": "¿Tiene una dirección de correo electrónico?",
       "radio-options": "Sí,No",
       "repeatable": false,
-      "required": true,
+      "required": false,
       "type": "radio"
     },
     {
@@ -218,14 +218,14 @@
           "_id": 126,
           "label": "Nombre de persona de contacto",
           "repeatable": false,
-          "required": true,
+          "required": false,
           "type": "text"
         },
         {
           "_id": 127,
           "label": "Parentesco o persona relacionada",
           "repeatable": false,
-          "required": true,
+          "required": false,
           "type": "text"
         },
         {
@@ -233,8 +233,7 @@
           "label": "Teléfono",
           "hint" : "p.ej. 809 123-4567",
           "repeatable": false,
-          "required": true,
-          "validation": "val = value.replace(/[^0-9]/g,''); return \"Solo 809, 829, 849 se permiten.\" if val.indexOf('809') isnt 0 and val.indexOf('829') isnt 0 and val.indexOf('849') isnt 0; return \"Debe ser de 10 dígitos.\" if value.replace(/[^0-9]/g,'').length isnt 10"
+          "required": false
         }
       ],
       "repeatable": false,

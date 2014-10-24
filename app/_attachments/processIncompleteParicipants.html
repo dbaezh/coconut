@@ -15,6 +15,7 @@
 
     <script type="text/javascript" src="js-libraries/jquery-1.7.2.min.js"></script>
     <script type="text/javascript" src="js-libraries/jquery.couch.js"></script>
+    <script type="text/javascript" src="js-libraries/moment.min.js"></script>
 
 
 
@@ -89,6 +90,9 @@
                                                                 if (isAllRequiredFieldsExist(doc)){
                                                                     // update to complete
                                                                     doc.Completado = "true";
+
+                                                                    // update so the etl program insert this record into Drupal db
+                                                                    doc.lastModifiedAt = moment(new Date()).format(undefined);
 
                                                                     if (doc.Celular == undefined || doc.Celular == null)
                                                                         doc.Celular = "809-000-0000";
