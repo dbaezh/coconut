@@ -23,6 +23,7 @@ class QuestionView extends Backbone.View
     Coconut.resultCollection ?= new ResultCollection()
     @autoscrollTimer = 0
     window.duplicateLabels = ['Apellido','Nombre','BarrioComunidad','Año','Día','Mes','Sexo']
+    @showSuccess = true
 
   render: =>
 
@@ -36,7 +37,7 @@ class QuestionView extends Backbone.View
 
     questionsName = "<h1>#{@model.id}</h1>" unless "module" is Coconut.config.local.get("mode")
 
-    
+
 
     if "module" is Coconut.config.local.get("mode")
   
@@ -513,6 +514,14 @@ class QuestionView extends Backbone.View
     onComplete = completeButtonModel.get("onComplete") if hasOnComplete
 
     if hasOnComplete and isValid
+      #TBD: find a better way to distinguish b/n registration and survey forms
+      if onComplete.showSuccess isnt undefined
+        uuid = window.getValueCache['uuid']()
+
+        if @showSuccess
+          alert('¡Enhorabuena! Has completado correctamente el formulario. El UUID para esta forma es "'+ uuid + '". Tome nota de este número para referencia futura.');
+          @showSuccess = false
+
       switch onComplete.type
         when "redirect"
           # requirement for redirect

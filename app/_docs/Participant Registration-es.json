@@ -245,6 +245,7 @@
       "label": "Completado",
       "onComplete" : {
         "type" : "choice",
+        "showSuccess": "true",
         "message" : "Gracias, el impresso está completado. ¿Qué quiere hacer proxima?",
         "links" : [
           {

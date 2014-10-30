@@ -167,6 +167,9 @@ class ReportView extends Backbone.View
        #prepare parameters for the actions
        if this["isActions"] isnt undefined
          sPassed = "";
+         #these are always false since the existence of the forms is checked outside this code
+         #to improve the performance and not fetch and load all these documents in the memory as
+         #it was done before
          isSurveyExist = false
          isExitExist = false
          @urlParams.push "uuid=" + result.get("uuid")

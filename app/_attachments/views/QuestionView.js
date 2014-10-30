@@ -51,7 +51,8 @@ QuestionView = (function(_super) {
       Coconut.resultCollection = new ResultCollection();
     }
     this.autoscrollTimer = 0;
-    return window.duplicateLabels = ['Apellido', 'Nombre', 'BarrioComunidad', 'Año', 'Día', 'Mes', 'Sexo'];
+    window.duplicateLabels = ['Apellido', 'Nombre', 'BarrioComunidad', 'Año', 'Día', 'Mes', 'Sexo'];
+    return this.showSuccess = true;
   };
 
   QuestionView.prototype.render = function() {
@@ -468,7 +469,7 @@ QuestionView = (function(_super) {
   };
 
   QuestionView.prototype.validateAll = function() {
-    var $button, $question, aPassed, completeButtonModel, hasOnComplete, html, isValid, key, link, onClick, onComplete, questionIsntValid, re, sPassed, v, _i, _j, _k, _l, _len, _len1, _len2, _len3, _ref1, _ref2, _ref3, _ref4;
+    var $button, $question, aPassed, completeButtonModel, hasOnComplete, html, isValid, key, link, onClick, onComplete, questionIsntValid, re, sPassed, uuid, v, _i, _j, _k, _l, _len, _len1, _len2, _len3, _ref1, _ref2, _ref3, _ref4;
     $button = $("[name=Completado]");
     this.isValidAll = false;
     isValid = true;
@@ -496,6 +497,13 @@ QuestionView = (function(_super) {
       onComplete = completeButtonModel.get("onComplete");
     }
     if (hasOnComplete && isValid) {
+      if (onComplete.showSuccess !== void 0) {
+        uuid = window.getValueCache['uuid']();
+        if (this.showSuccess) {
+          alert('¡Enhorabuena! Has completado correctamente el formulario. El UUID para esta forma es "' + uuid + '". Tome nota de este número para referencia futura.');
+          this.showSuccess = false;
+        }
+      }
       switch (onComplete.type) {
         case "redirect":
           if (onComplete.route != null) {
