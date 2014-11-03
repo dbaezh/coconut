@@ -22,8 +22,10 @@ class QuestionView extends Backbone.View
     (@[key] = value for key, value of options)
     Coconut.resultCollection ?= new ResultCollection()
     @autoscrollTimer = 0
-    window.duplicateLabels = ['Apellido','Nombre','BarrioComunidad','Año','Día','Mes','Sexo']
     @showSuccess = true
+
+    window.duplicateLabels = ['Apellido','Nombre','BarrioComunidad','Año','Día','Mes','Sexo']
+
 
   render: =>
 

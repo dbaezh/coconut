@@ -51,8 +51,8 @@ QuestionView = (function(_super) {
       Coconut.resultCollection = new ResultCollection();
     }
     this.autoscrollTimer = 0;
-    window.duplicateLabels = ['Apellido', 'Nombre', 'BarrioComunidad', 'Año', 'Día', 'Mes', 'Sexo'];
-    return this.showSuccess = true;
+    this.showSuccess = true;
+    return window.duplicateLabels = ['Apellido', 'Nombre', 'BarrioComunidad', 'Año', 'Día', 'Mes', 'Sexo'];
   };
 
   QuestionView.prototype.render = function() {

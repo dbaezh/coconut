@@ -39,7 +39,7 @@
             "label": "10.1 ¿Tienes cédula?",
             "radio-options": "Sí, No, No responde",
             "repeatable": false,
-            "required": true,
+            "required": false,
             "skip_logic": "ResultOfQuestion('10Tienesunactadenacimientodominicana') isnt 'Sí'",
             "type": "radio"
         },
@@ -48,7 +48,7 @@
             "label": "11. ¿Cuál es tu idioma principal?",
             "radio-options": "Español, Creole,No responde,Otro",
             "repeatable": false,
-            "required": true,
+            "required": false,
             "type": "radio"
         },
         {
@@ -64,7 +64,7 @@
             "label": "12. ¿Cuál es tu estado civil?",
             "radio-options": "Soltero(a), Unión Libre, Casado(a), Divorciado(a), Viudo(a), No responde",
             "repeatable": false,
-            "required": true,
+            "required": false,
             "type": "radio"
         },
         {
@@ -72,7 +72,7 @@
             "label": "13. ¿Tienes hijos?",
             "radio-options": "Sí,No,No responde",
             "repeatable": false,
-            "required": true,
+            "required": false,
             "type": "radio"
         },
         {
@@ -128,7 +128,7 @@
             "label": "14. ¿Sabes leer y escribir?",
             "radio-options": "Sí,No,No responde",
             "repeatable": false,
-            "required": true,
+            "required": false,
             "type": "radio"
         },
         {
@@ -136,7 +136,7 @@
             "label": "15. ¿Cuál es el nivel educativo más alto que has aprobado?",
             "radio-options": "Básica, Bachillerato,Universitario,Post grado,Ninguno,No responde",
             "repeatable": false,
-            "required": true,
+            "required": false,
             "type": "radio"
         },
         {
@@ -144,7 +144,7 @@
             "label": "16. Actualmente estas asistiendo a...",
             "radio-options": "Escuela, Universidad, Ninguno,No responde",
             "repeatable": false,
-            "required": true,
+            "required": false,
             "type": "radio"
         },
         {
@@ -176,7 +176,7 @@
             "label": "16C. ¿Cuál nivel?",
             "radio-options": "Básica,Bachillerato,No responde",
             "repeatable": false,
-            "required": true,
+            "required": false,
             "skip_logic": "ResultOfQuestion('16Actualmenteestasasistiendoa') isnt 'Escuela'",
             "type": "radio"
         },
@@ -185,7 +185,7 @@
             "label": "16D. ¿A qué tanda asistes?",
             "radio-options": "Mañana,Tarde,Mañana y Tarde,Noche, No responde",
             "repeatable": false,
-            "required": true,
+            "required": false,
             "skip_logic": "ResultOfQuestion('16Actualmenteestasasistiendoa') isnt 'Escuela'",
             "type": "radio"
         },
@@ -194,7 +194,7 @@
             "label": "17. En el último año, ¿cuántas veces has faltado a la escuela por un día completo sin excusa?",
             "radio-options": "0, 1 o 2, 3 a 10, Más de 10,No responde",
             "repeatable": false,
-            "required": true,
+            "required": false,
             "skip_logic": "ResultOfQuestion('16Actualmenteestasasistiendoa') isnt 'Escuela'",
             "type": "radio"
         },
@@ -203,7 +203,7 @@
             "label": "18. En los últimos 12 meses, ¿has sido suspendido/a de la escuela?",
             "radio-options": "Sí, No,No responde",
             "repeatable": false,
-            "required": true,
+            "required": false,
             "skip_logic": "ResultOfQuestion('16Actualmenteestasasistiendoa') isnt 'Escuela'",
             "type": "radio"
         },
@@ -212,7 +212,7 @@
             "label": "19. ¿Actualmente estas asistiendo a algún programa de educación para jóvenes y adultos? Marca la opción que aplique:",
             "radio-options": "Alfabetización de jóvenes y adultos, Educación Básica para Adultos (EBA), Educación Secundaria para Adultos (PREPARA), No estoy inscrito en ninguno de estos,No responde",
             "repeatable": false,
-            "required": true,
+            "required": false,
             "skip_logic": "ResultOfQuestion('16Actualmenteestasasistiendoa') isnt 'Escuela'",
             "type": "radio"
         },
@@ -221,7 +221,7 @@
             "label": "20. ¿Has repetido algún curso en la escuela?",
             "radio-options": "Sí, No,No responde",
             "repeatable": false,
-            "required": true,
+            "required": false,
             "type": "radio"
         },
         {
@@ -237,7 +237,7 @@
             "label": "21. ¿Has completado algún curso técnico?",
             "radio-options": "Sí, No,No responde",
             "repeatable": false,
-            "required": true,
+            "required": false,
             "type": "radio"
         },
         {
@@ -261,7 +261,7 @@
             "label": "23. ¿Has sido suspendido/a de la escuela alguna vez?",
             "radio-options": "Sí, No,No responde",
             "repeatable": false,
-            "required": true,
+            "required": false,
             "type": "radio"
         },
         {
@@ -397,7 +397,7 @@
             "label": "25. ¿Has realizado alguna vez un trabajo por paga o ganancia?",
             "radio-options": "Sí, No,No responde",
             "repeatable": false,
-            "required": true,
+            "required": false,
             "type": "radio"
         },
         {
@@ -405,7 +405,7 @@
             "label": "26. Durante la última semana, ¿realizaste algún trabajo por paga o ganancia?",
             "radio-options": "Sí, No,No responde",
             "repeatable": false,
-            "required": true,
+            "required": false,
             "skip_logic": "ResultOfQuestion('25Hasrealizadoalgunavezuntrabajoporpagaoganancia') isnt 'Sí'",
             "type": "radio"
         },
@@ -448,7 +448,7 @@
             "label": "28. ¿En qué lugar realizas este trabajo?",
             "radio-options": "En mi casa,En la casa del jefe/patrón,En la calle,Maquiladora/fabrica,Colmado/Tienda/Mercado/Kiosco/Almacén,Plantación/rancho/jardín,Sitio de construcción,Sitio de cantera/una mina,No responde,Otros",
             "repeatable": false,
-            "required": true,
+            "required": false,
             "skip_logic": "ResultOfQuestion('26Durantelaúltimasemanarealizastealgúntrabajoporpagaoganancia') isnt 'Sí'",
             "type": "radio"
         },
@@ -489,7 +489,7 @@
             "label": "32. ¿En este trabajo tú eres...?",
             "radio-options": "Empleado con salario, Jefe, Ayudante familiar, Ayudante general, Por cuenta propia,No responde,Otro",
             "repeatable": false,
-            "required": true,
+            "required": false,
             "skip_logic": "ResultOfQuestion('26Durantelaúltimasemanarealizastealgúntrabajoporpagaoganancia') isnt 'Sí' ",
             "type": "radio"
         },
@@ -506,7 +506,7 @@
             "label": "33. Actualmente, ¿realizas algún trabajo en el que no se te paga o no recibes ganancia?",
             "radio-options": "Sí, No,No responde",
             "repeatable": false,
-            "required": true,
+            "required": false,
             "type": "radio"
         },
         {
@@ -549,7 +549,7 @@
             "label": "35. ¿En qué lugar realizas este trabajo?",
             "radio-options": "En mi casa,En la casa del jefe/patrón,En la calle,Maquiladora/fabrica,Colmado/Tienda/Mercado/Kiosco/Almacén, Plantación/rancho/jardín,Sitio de construcción,Sitio de cantera/una mina,No responde,Otros (especifica):",
             "repeatable": false,
-            "required": true,
+            "required": false,
             "skip_logic": "ResultOfQuestion('33Actualmenterealizasalgúntrabajoenelquenosetepagaonorecibesganancia') isnt 'Sí'",
             "type": "radio"
         },
@@ -582,7 +582,7 @@
             "label": "38. ¿En este trabajo tú eres...?",
             "radio-options": "Empleado sin salario, Jefe, Ayudante familiar, Ayudante general, Por cuenta propia,No responde, Otro",
             "repeatable": false,
-            "required": true,
+            "required": false,
             "skip_logic": "ResultOfQuestion('33Actualmenterealizasalgúntrabajoenelquenosetepagaonorecibesganancia') isnt 'Sí'",
             "type": "radio"
         },
@@ -599,7 +599,7 @@
             "label": "39. ¿Has buscado un nuevo o mejor empleo en el último mes?",
             "radio-options": "Sí, No,No responde",
             "repeatable": false,
-            "required": true,
+            "required": false,
             "type": "radio"
         },
         {
@@ -608,7 +608,7 @@
             "label": "40. ¿Has participado en algún programa de desarrollo de empleo?",
             "radio-options": "Sí, No,No responde",
             "repeatable": false,
-            "required": true,
+            "required": false,
             "type": "radio"
         },
         {
@@ -623,7 +623,7 @@
             "label": "41. ¿Con qué frecuencia te preocupa ser víctima de la delincuencia en tu barrio?",
             "radio-options": "Muy a menudo, Algo a menudo, Rara vez, Nunca, No Sé,No responde",
             "repeatable": false,
-            "required": true,
+            "required": false,
             "type": "radio"
         },
         {
@@ -631,7 +631,7 @@
             "label": "42. ¿Con qué frecuencia te preocupa ser víctima de la delincuencia en tu escuela o universidad?",
             "radio-options": "Muy a menudo, Algo a menudo, Rara vez, Nunca, No Sé,No responde",
             "repeatable": false,
-            "required": true,
+            "required": false,
             "type": "radio"
         },
         {
@@ -648,7 +648,7 @@
             "label": "44. En tu opinión, ¿la delincuencia es un problema grave en tu barrio?",
             "radio-options": "Sí, No,No responde",
             "repeatable": false,
-            "required": true,
+            "required": false,
             "type": "radio"
         },
         {
@@ -656,7 +656,7 @@
             "label": "45. ¿Te preocupa la presencia de pandillas en tu barrio?",
             "radio-options": "Muy a menudo, Algo a menudo, Rara vez, Nunca, No Sé,No responde",
             "repeatable": false,
-            "required": true,
+            "required": false,
             "type": "radio"
         },
         {
@@ -664,7 +664,7 @@
             "label": "46. La preocupación por la delincuencia o crimen, ¿te impide realizar las cosas que deseas hacer en tu barrio?",
             "radio-options": "Muy a menudo, Algo a menudo, Rara vez, Nunca, No Sé,No responde",
             "repeatable": false,
-            "required": true,
+            "required": false,
             "type": "radio"
         },
         {
@@ -676,7 +676,7 @@
                     "label": "47A. Un policía me amenazó verbalmente.",
                     "radio-options": "Sí, No,No responde",
                     "repeatable": false,
-                    "required": true,
+                    "required": false,
                     "type": "radio"
                 },
                 {
@@ -684,7 +684,7 @@
                     "label": "47B. Un policía me cobró dinero sin justificación.",
                     "radio-options": "Sí, No,No responde",
                     "repeatable": false,
-                    "required": true,
+                    "required": false,
                     "type": "radio"
                 },
                 {
@@ -692,7 +692,7 @@
                     "label": "47C. Un policía me quitó algo que me pertenecia.",
                     "radio-options": "Sí, No,No responde",
                     "repeatable": false,
-                    "required": true,
+                    "required": false,
                     "type": "radio"
                 },
                 {
@@ -700,7 +700,7 @@
                     "label": "47D. Un policía me maltrató físicamente.",
                     "radio-options": "Sí, No,No responde",
                     "repeatable": false,
-                    "required": true,
+                    "required": false,
                     "type": "radio"
                 }
             ],
@@ -721,7 +721,7 @@
             "label": "48. ¿Has sido transportado en una patrulla policial por una redada o por sospecha de la policía hacia ti?",
             "radio-options": "Sí, No,No responde",
             "repeatable": false,
-            "required": true,
+            "required": false,
             "type": "radio"
         },
         {
@@ -729,7 +729,7 @@
             "label": "49. ¿Has sido detenido por la policía por algún motivo?",
             "radio-options": "Sí, No,No responde",
             "repeatable": false,
-            "required": true,
+            "required": false,
             "type": "radio"
         },
         {
@@ -737,7 +737,7 @@
             "label": "49A. ¿Sucedió esto en los últimos 12 meses?",
             "radio-options": "Sí, No,No responde",
             "repeatable": false,
-            "required": true,
+            "required": false,
             "skip_logic": "ResultOfQuestion('49Hassidodetenidoporlapolicíaporalgúnmotivo') isnt 'Sí'",
             "type": "radio"
         },
@@ -746,7 +746,7 @@
             "label": "50. ¿Has sido detenido por la Policía acusado de cometer algún delito?",
             "radio-options": "Sí, No,No responde",
             "repeatable": false,
-            "required": true,
+            "required": false,
             "type": "radio"
         },
         {
@@ -754,7 +754,7 @@
             "label": "50A. ¿Sucedió esto en los últimos 12 meses?",
             "radio-options": "Sí, No,No responde",
             "repeatable": false,
-            "required": true,
+            "required": false,
             "skip_logic": "ResultOfQuestion('50HassidodetenidoporlaPolicíaacusadodecometeralgúndelito') isnt 'Sí'",
             "type": "radio"
         },
@@ -763,7 +763,7 @@
             "label": "51. Alguno de tus amigos ¿ha sido detenido alguna vez por la Policía?",
             "radio-options": "Sí, No,No responde",
             "repeatable": false,
-            "required": true,
+            "required": false,
             "type": "radio"
         },
         {
@@ -771,7 +771,7 @@
             "label": "51A. ¿Sucedió esto en los últimos 12 meses?",
             "radio-options": "Sí, No,No responde",
             "repeatable": false,
-            "required": true,
+            "required": false,
             "skip_logic": "ResultOfQuestion('51AlgunodetusamigoshasidodetenidoalgunavezporlaPolicía') isnt 'Sí'",
             "type": "radio"
         },
@@ -780,7 +780,7 @@
             "label": "52. En los últimos 12 meses, ¿has tomado algo de una tienda sin pagar por ella?",
             "radio-options": "Sí, No,No responde",
             "repeatable": false,
-            "required": true,
+            "required": false,
             "type": "radio"
         },
         {
@@ -788,7 +788,7 @@
             "label": "53. En los últimos 12 meses, ¿has participado en alguna pelea o riña?",
             "radio-options": "Sí, No,No responde",
             "repeatable": false,
-            "required": true,
+            "required": false,
             "type": "radio"
         },
         {
@@ -796,7 +796,7 @@
             "label": "54. En los últimos 12 meses, ¿has llevado un cuchillo, puñal o machete?",
             "radio-options": "Sí, No,No responde",
             "repeatable": false,
-            "required": true,
+            "required": false,
             "type": "radio"
         },
         {
@@ -835,7 +835,7 @@
             "label": "55. En los últimos 12 meses, ¿has llevado un arma de fuego?",
             "radio-options": "Sí, No,No responde",
             "repeatable": false,
-            "required": true,
+            "required": false,
             "type": "radio"
         },
         {
@@ -874,7 +874,7 @@
             "label": "56. En los últimos 12 meses, ¿has visto a alguien que estaba siendo apuñalado, cortado o baleado?",
             "radio-options": "Sí, No,No responde",
             "repeatable": false,
-            "required": true,
+            "required": false,
             "type": "radio"
         },
         {
@@ -913,7 +913,7 @@
             "label": "57. En los últimos 12 meses, ¿alguien te ha amenazado con un cuchillo o una pistola?",
             "radio-options": "Sí, No,No responde",
             "repeatable": false,
-            "required": true,
+            "required": false,
             "type": "radio"
         },
         {
@@ -952,7 +952,7 @@
             "label": "58. En los últimos 12 meses, ¿alguien te ha cortado o apuñalado tan gravemente que tuviste que ir a un médico?",
             "radio-options": "Sí, No,No responde",
             "repeatable": false,
-            "required": true,
+            "required": false,
             "type": "radio"
         },
         {
@@ -991,7 +991,7 @@
             "label": "59. En los últimos 12 meses, ¿alguien te ha disparado con un arma de fuego?",
             "radio-options": "Sí, No,No responde",
             "repeatable": false,
-            "required": true,
+            "required": false,
             "type": "radio"
         },
         {
@@ -1030,7 +1030,7 @@
             "label": "60. En los últimos 12 meses ¿has amenazado a alguien con cortarle, apuñalarle o dispararle?",
             "radio-options": "Sí, No,No responde",
             "repeatable": false,
-            "required": true,
+            "required": false,
             "type": "radio"
         },
         {
@@ -1069,7 +1069,7 @@
             "label": "61. En los últimos 12 meses, ¿has amenazado a alguien con un cuchillo o arma?",
             "radio-options": "Sí, No,No responde",
             "repeatable": false,
-            "required": true,
+            "required": false,
             "type": "radio"
         },
         {
@@ -1108,7 +1108,7 @@
             "label": "62. En los últimos 12 meses, ¿has cortado o apuñalado a alguien?",
             "radio-options": "Sí, No,No responde",
             "repeatable": false,
-            "required": true,
+            "required": false,
             "type": "radio"
         },
         {
@@ -1147,7 +1147,7 @@
             "label": "63. En los últimos 12 meses, ¿le has disparado a alguien?",
             "radio-options": "Sí, No,No responde",
             "repeatable": false,
-            "required": true,
+            "required": false,
             "type": "radio"
         },
         {
@@ -1186,7 +1186,7 @@
             "label": "64. En los últimos 12 meses, ¿has tenido algún amigo o miembro de tu familia que le han disparado, cortado o apuñalado?",
             "radio-options": "Sí, No,No responde",
             "repeatable": false,
-            "required": true,
+            "required": false,
             "type": "radio"
         },
         {
@@ -1194,7 +1194,7 @@
             "label": "65. ¿Has dañado o destruido a propósito artículos que no te pertenecen?",
             "radio-options": "Sí, No,No responde",
             "repeatable": false,
-            "required": true,
+            "required": false,
             "type": "radio"
         },
         {
@@ -1202,7 +1202,7 @@
             "label": "66. ¿Alguna vez has sido atacado o robado? ",
             "radio-options": "Sí, No,No responde",
             "repeatable": false,
-            "required": true,
+            "required": false,
             "type": "radio"
         },
         {
@@ -1210,7 +1210,7 @@
             "label": "67. ¿Alguna vez has atacado o robado a alguien?",
             "radio-options": "Sí, No,No responde",
             "repeatable": false,
-            "required": true,
+            "required": false,
             "type": "radio"
         },
         {
@@ -1218,7 +1218,7 @@
             "label": "68. ¿Alguna vez has sido secuestrado?",
             "radio-options": "Sí, No,No responde",
             "repeatable": false,
-            "required": true,
+            "required": false,
             "type": "radio"
         },
         {
@@ -1226,7 +1226,7 @@
             "label": "69. ¿Alguna vez has secuestrado a alguien?",
             "radio-options": "Sí, No,No responde",
             "repeatable": false,
-            "required": true,
+            "required": false,
             "type": "radio"
         },
         {
@@ -1234,7 +1234,7 @@
             "label": "70. ¿Alguna vez has robado algo de una tienda o algo que no te pertenecía que tenía un valor menor de RD$200?",
             "radio-options": "Sí, No,No responde",
             "repeatable": false,
-            "required": true,
+            "required": false,
             "type": "radio"
         },
         {
@@ -1242,7 +1242,7 @@
             "label": "71. ¿Alguna vez ha robado algo de una tienda o algo que no te pertenecía que tenía un valor mayor de RD$200 (incluyendo carros)?",
             "radio-options": "Sí, No,No responde",
             "repeatable": false,
-            "required": true,
+            "required": false,
             "type": "radio"
         },
         {
@@ -1250,7 +1250,7 @@
             "label": "72. ¿Alguna vez has vendido o ayudado a vender drogas?",
             "radio-options": "Sí, No,No responde",
             "repeatable": false,
-            "required": true,
+            "required": false,
             "type": "radio"
         },
         {
@@ -1258,7 +1258,7 @@
             "label": "73. ¿Has estado involucrado en una pandilla?",
             "radio-options": "Sí, No,No responde",
             "repeatable": false,
-            "required": true,
+            "required": false,
             "type": "radio"
         },
         {
@@ -1266,7 +1266,7 @@
             "label": "73A. ¿Actualmente, estás involucrado en una pandilla?",
             "radio-options": "Sí, No,No responde",
             "repeatable": false,
-            "required": true,
+            "required": false,
             "skip_logic": "ResultOfQuestion('73Hasestadoinvolucradoenunapandilla') isnt 'Sí'",
             "type": "radio"
         },
@@ -1275,7 +1275,7 @@
             "label": "74. ¿Compartes tiempo o te relacionas con miembros de una pandilla?",
             "radio-options": "Sí, No,No responde",
             "repeatable": false,
-            "required": true,
+            "required": false,
             "type": "radio"
         },
         {
@@ -1321,7 +1321,7 @@
             "label": "75. En los últimos 12 meses, ¿has hablado o compartido con alguien borracho o drogado?",
             "radio-options": "Sí, No,No responde",
             "repeatable": false,
-            "required": true,
+            "required": false,
             "type": "radio"
         },
         {
@@ -1329,7 +1329,7 @@
             "label": "76. ¿Alguna vez has tomado una bebida alcohólica – una copa/vaso entero, no sólo un sorbo-?",
             "radio-options": "Sí, No,No responde",
             "repeatable": false,
-            "required": true,
+            "required": false,
             "type": "radio"
         },
         {
@@ -1337,7 +1337,7 @@
             "label": "76A. En los últimos 12 meses, ¿has consumido alcohol?",
             "radio-options": "Sí, No,No responde",
             "repeatable": false,
-            "required": true,
+            "required": false,
             "skip_logic": "ResultOfQuestion('76Algunavezhastomadounabebidaalcohólicaunacopavasoenteronosólounsorbo') isnt 'Sí'",
             "type": "radio"
         },
@@ -1346,7 +1346,7 @@
             "label": "76B. En los últimos 12 meses, ¿has tomado cinco vasos/copas o más de bebidas alcohólicas en el mismo día?",
             "radio-options": "Sí, No,No responde",
             "repeatable": false,
-            "required": true,
+            "required": false,
             "skip_logic": "ResultOfQuestion('76Algunavezhastomadounabebidaalcohólicaunacopavasoenteronosólounsorbo') isnt 'Sí'",
             "type": "radio"
         },
@@ -1355,7 +1355,7 @@
             "label": "77. ¿Has probado alguna vez cualquiera de estas drogas: marihuana, cocaína,  heroína, pastillas, crack, cemento o cualquier otra cosa para drogarse?",
             "radio-options": "Sí, No,No responde",
             "repeatable": false,
-            "required": true,
+            "required": false,
             "type": "radio"
         },
         {
@@ -1363,7 +1363,7 @@
             "label": "78. ¿Has usado en alguna ocasión una aguja para inyectarte droga?",
             "radio-options": "Sí, No,No responde",
             "repeatable": false,
-            "required": true,
+            "required": false,
             "skip_logic": "ResultOfQuestion('77Hasprobadoalgunavezcualquieradeestasdrogasmarihuanacocaínaheroínapastillascrackcementoocualquierotracosaparadrogarse') isnt 'Sí'",
             "type": "radio"
         },
@@ -1510,7 +1510,7 @@
             ],
             "repeatable": false,
             "skip_logic": "ResultOfQuestion('77Hasprobadoalgunavezcualquieradeestasdrogasmarihuanacocaínaheroínapastillascrackcementoocualquierotracosaparadrogarse') isnt 'Sí'",
-            "required": true,
+            "required": false,
             "type": "group"
         },
         {
@@ -1599,7 +1599,7 @@
             "label": "82. ¿Alguna vez has tenido relaciones sexuales?",
             "radio-options": "Sí, No,No responde",
             "repeatable": false,
-            "required": true,
+            "required": false,
             "type": "radio"
         },
         {
@@ -1634,7 +1634,7 @@
             "label": "86. La última vez que tuviste relaciones sexuales, ¿tu o tu compañero/a utilizó un condón?",
             "radio-options": "Si, No,No responde",
             "repeatable": false,
-            "required": true,
+            "required": false,
             "skip_logic": "ResultOfQuestion('82Algunavezhastenidorelacionessexuales') isnt 'Sí'",
             "type": "radio"
         },
@@ -1753,7 +1753,7 @@
             "label": "88. ¿Alguna vez alguien te ha obligado a tener relaciones sexuales?",
             "radio-options": "Sí, No,No responde",
             "repeatable": false,
-            "required": true,
+            "required": false,
             "skip_logic": "ResultOfQuestion('82Algunavezhastenidorelacionessexuales') isnt 'Sí'",
             "type": "radio"
         },
@@ -1762,7 +1762,7 @@
             "label": "89. ¿Alguna vez has tenido relaciones sexuales por dinero, bienes (celulares, vivienda, etc.) o servicios (protección, comida, etc.)?",
             "radio-options": "Sí, No,No responde",
             "repeatable": false,
-            "required": true,
+            "required": false,
             "skip_logic": "ResultOfQuestion('82Algunavezhastenidorelacionessexuales') isnt 'Sí'",
             "type": "radio"
         },
@@ -1780,7 +1780,7 @@
             "label": "90. Si quisieras comprar un condón, ¿crees que podrías encontrarlo?",
             "radio-options": "Sí, No,No responde",
             "repeatable": false,
-            "required": true,
+            "required": false,
             "type": "radio"
         },
         {
@@ -1788,7 +1788,7 @@
             "label": "91. Si quisieras tener sexo, ¿crees que podrias convencer a tu pareja de que use condón en caso de que él/ella se niegue a usarlo? ",
             "radio-options": "Sí, No,No responde",
             "repeatable": false,
-            "required": true,
+            "required": false,
             "type": "radio"
         },
         {
@@ -1796,7 +1796,7 @@
             "label": "92. ¿Te sientes capaz de tener una conversación abierta y honesta sobre sexo con sus padres?",
             "radio-options": "Sí, No,No responde",
             "repeatable": false,
-            "required": true,
+            "required": false,
             "type": "radio"
         },
         {
@@ -1804,7 +1804,7 @@
             "label": "93. ¿Alguna vez has tenido una conversación abierta y honesta sobre sexo con tus padres?",
             "radio-options": "Sí, No,No responde",
             "repeatable": false,
-            "required": true,
+            "required": false,
             "type": "radio"
         },
         {
@@ -1812,7 +1812,7 @@
             "label": "94. ¿Alguna vez alguien te ha enseñado (o hablado) acerca de las infecciones de transmisión sexual?",
             "radio-options": "Sí, No,No responde",
             "repeatable": false,
-            "required": true,
+            "required": false,
             "type": "radio"
         },
         {
@@ -1880,7 +1880,7 @@
             "label": "95. ¿Alguna vez le han enseñado acerca de prevención de embarazo?",
             "radio-options": "Sí, No,No responde",
             "repeatable": false,
-            "required": true,
+            "required": false,
             "type": "radio"
         },
         {
@@ -1949,7 +1949,7 @@
             "label": "96. ¿Alguna vez le han enseñado acerca la infección por VIH/Sida?",
             "radio-options": "Sí, No,No responde",
             "repeatable": false,
-            "required": true,
+            "required": false,
             "type": "radio"
         },
         {
