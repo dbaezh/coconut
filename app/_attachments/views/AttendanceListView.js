@@ -119,9 +119,9 @@ AttendanceListView = (function(_super) {
     html += "<button id='completeButton' name='completeButton' type='button'>Guardar</button>";
     this.$el.html(html);
     $('#participants').dataTable({
-      "bPaginate": true,
+      "bPaginate": false,
       "bSort": true,
-      "bFilter": true
+      "bFilter": false
     });
     $('#completeButton').click(this.save);
   };

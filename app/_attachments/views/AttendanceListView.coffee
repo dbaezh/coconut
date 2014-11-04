@@ -116,9 +116,9 @@ class AttendanceListView extends Backbone.View
     @$el.html html
 
     $('#participants').dataTable({
-      "bPaginate": true,
+      "bPaginate": false,
       "bSort": true,
-      "bFilter": true
+      "bFilter": false
     });
 
     # make rows display in different colors
