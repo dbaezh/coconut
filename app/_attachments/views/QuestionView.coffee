@@ -22,7 +22,7 @@ class QuestionView extends Backbone.View
     (@[key] = value for key, value of options)
     Coconut.resultCollection ?= new ResultCollection()
     @autoscrollTimer = 0
-    @showSuccess = true
+    window.showSuccess = true
 
     window.duplicateLabels = ['Apellido','Nombre','BarrioComunidad','Año','Día','Mes','Sexo']
 
@@ -520,9 +520,9 @@ class QuestionView extends Backbone.View
       if onComplete.showSuccess isnt undefined
         uuid = window.getValueCache['uuid']()
 
-        if @showSuccess
+        if window.showSuccess
           alert('¡Enhorabuena! Has completado correctamente el formulario. El UUID para esta forma es "'+ uuid + '". Tome nota de este número para referencia futura.');
-          @showSuccess = false
+          window.showSuccess = false
 
       switch onComplete.type
         when "redirect"

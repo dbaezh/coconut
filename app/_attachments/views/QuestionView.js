@@ -51,7 +51,7 @@ QuestionView = (function(_super) {
       Coconut.resultCollection = new ResultCollection();
     }
     this.autoscrollTimer = 0;
-    this.showSuccess = true;
+    window.showSuccess = true;
     return window.duplicateLabels = ['Apellido', 'Nombre', 'BarrioComunidad', 'Año', 'Día', 'Mes', 'Sexo'];
   };
 
@@ -499,9 +499,9 @@ QuestionView = (function(_super) {
     if (hasOnComplete && isValid) {
       if (onComplete.showSuccess !== void 0) {
         uuid = window.getValueCache['uuid']();
-        if (this.showSuccess) {
+        if (window.showSuccess) {
           alert('¡Enhorabuena! Has completado correctamente el formulario. El UUID para esta forma es "' + uuid + '". Tome nota de este número para referencia futura.');
-          this.showSuccess = false;
+          window.showSuccess = false;
         }
       }
       switch (onComplete.type) {
