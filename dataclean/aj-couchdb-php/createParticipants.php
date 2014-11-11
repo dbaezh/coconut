@@ -69,6 +69,13 @@ if ($inputCSVAry != null) {
     print2file($outputCSVFileName, $dataWithUUIDS);
 }
 
+if (updateUUIDsDoc($client, $uuids, $UUIDS_DOC_ID) !== false){
+    echo "ERROR: Could not update uuids...";
+    exit(-1);
+}
+
+
+
 echo $numProcessed."DATA SUCCESSFULLY PROCESSED....."."/n";
 
 
@@ -184,6 +191,7 @@ function createParticipants($dataAry){
         if ($valAry['UUID'] != "") {
             $dataWithUUIDS[$idx++] = $valAry;
             $numProcessed++;
+            echo $numProcessed." processed\n";
             continue;
         }
 
@@ -193,6 +201,7 @@ function createParticipants($dataAry){
             $valAry['UUID'] = $uuid;
             $dataWithUUIDS[$idx++] = $valAry;
             $numProcessed++;
+            echo $numProcessed." processed\n";
             continue;
         }
 
@@ -282,7 +291,7 @@ function createParticipant($client, $values){
     try {
         $doc = new stdClass();
         /**** Initialize system fields ****/
-        $doc->_id = "in_the_meantime";
+        //$doc->_id = "in_the_meantime";
         $doc->lastModifiedAt = getCouchCurrentDate();
         $doc->createdAt = getCouchCurrentDate();
         $doc->uuid = $uuid;
@@ -336,7 +345,7 @@ function createParticipant($client, $values){
 
 
         // create document
-       // $response = $client->storeDoc($doc);
+        $response = $client->storeDoc($doc);
 
     } catch (Exception $e) {
         echo "Error: ".$e->getMessage()." (errcode=".$e->getCode().")\n";
@@ -355,18 +364,15 @@ function createParticipant($client, $values){
  * @param $newVals
  *
  */
-function updateCouchDoc($client, $values){
+function updateUUIDsDoc($client, $uuidsAry, $docId){
     $status = true;
 
     try {
-        $doc = $client->getDoc($values['_id']);
-
-        if (array_key_exists('Completado', $values))
-            $doc->Completado = "true";
-        else
-            $doc->question = $values['question'];
-
+        $doc = $client->getDoc($docId);
         $doc->lastModifiedAt = getCouchCurrentDate();
+
+        $commaSeparatedUuids = implode(",", $uuidsAry);
+        $doc->uuids = $commaSeparatedUuids;
 
         $response = $client->storeDoc($doc);
     } catch (Exception $e) {
@@ -407,9 +413,6 @@ function print2file($outputCSVFileName, $dataAry){
 }
 
 
-function printOutputFile($outputCSVFileName, $inputCSVAry){
-
-}
 
 
 ?>
