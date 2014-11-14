@@ -37,7 +37,7 @@ $client = new couchClient($couch_dsn,$couch_db);
 
 
 $inputCSVFileName = 'input/testAttendanceDEV1.csv';
-$outputCSVFileName = 'output/testAttendanceDEV_WITH_UUIDS.csv';
+$outputCSVFileName = 'output/testAttendanceDEV1_WITH_UUIDS.csv';
 
 
 
@@ -69,14 +69,16 @@ if ($inputCSVAry != null) {
     print2file($outputCSVFileName, $dataWithUUIDS);
 }
 
-if (updateUUIDsDoc($client, $uuids, $UUIDS_DOC_ID) !== false){
+if (updateUUIDsDoc($client, $uuids, $UUIDS_DOC_ID) === true){
+    echo $numProcessed." RECORDS SUCCESSFULLY PROCESSED....."."/n";
+}else{
     echo "ERROR: Could not update uuids...";
     exit(-1);
 }
 
 
 
-echo $numProcessed."DATA SUCCESSFULLY PROCESSED....."."/n";
+
 
 
 
@@ -160,11 +162,11 @@ function loadCSV($inputCSVFileName){
         $lineAry['CASA'] = $lineOfText[17];
         $lineAry['CORREO_ELECTONICO'] = $lineOfText[18];
         $lineAry['NOMBRE_DE_ACTIVIDAD'] = $lineOfText[19];
-        $lineAry['TIPO'] = $lineOfText[19];
-        $lineAry['ADMINISTRATOR_DE_CASSO'] = $lineOfText[20];
-        $lineAry['PROGRAMA'] = $lineOfText[21];
-        $lineAry['FECHA'] = $lineOfText[22];
-        $lineAry['DESCRIPTION'] = $lineOfText[23];
+        $lineAry['TIPO'] = $lineOfText[20];
+        $lineAry['ADMINISTRATOR_DE_CASSO'] = $lineOfText[21];
+        $lineAry['PROGRAMA'] = $lineOfText[22];
+        $lineAry['FECHA'] = $lineOfText[23];
+        $lineAry['DESCRIPTION'] = $lineOfText[24];
 
         $retAry[$i++] = $lineAry;
     }
@@ -403,7 +405,7 @@ function print2file($outputCSVFileName, $dataAry){
             .','.$lineAry['UUID'].','.$lineAry['APODO'].','.$lineAry['CALLE_Y_NUMERO'].','.$lineAry['PROVINCIA'].','.$lineAry['MUNICIPIO'].','.$lineAry['BARRIO']
             .','.$lineAry['ES_COLATERAL'].','.$lineAry['DIA'].','.$lineAry['MES'].','.$lineAry['ANO'].','.$lineAry['SEXO'].','.$lineAry['CELULAR']
             .','.$lineAry['CASA'].','.$lineAry['CORREO_ELECTONICO'].',"'.$lineAry['NOMBRE_DE_ACTIVIDAD']
-            .'","'.$lineAry['TIPO'].'","'.$lineAry['ADMINISTRATOR_DE_CASSO'].'","'.$lineAry['PROGRAMA'].'",'.$lineAry['FECHA'].','.$lineAry['DESCRIPTION'];
+            .'","'.$lineAry['TIPO'].'","'.$lineAry['ADMINISTRATOR_DE_CASSO'].'","'.$lineAry['PROGRAMA'].'",'.$lineAry['FECHA'].',"'.$lineAry['DESCRIPTION'].'"';
 
 
         fwrite($file, $line);

@@ -23,6 +23,11 @@
 /****** DEVELOPMENT *****************/
 $couch_dsn = "http://54.204.20.212:5984/";
 
+/****** THESE NEED TO BE ADJUSTED *******/
+$USER_NAME = "Digitador RTI";
+$PROVIDER_ID = "6";
+$PROVIDER_NAME = "IDDI (Santo Domingo#Distrito Nacional)";
+
 $couch_db = "coconut";
 
 require_once "./lib/couch.php";
@@ -32,13 +37,14 @@ require_once "./lib/couchDocument.php";
 // open client connection with couchDB
 $client = new couchClient($couch_dsn,$couch_db);
 
-// test update couch doc
-//testUpdateCouchDoc($client);
 
-$activitiesCSVFileName = 'input/SantoDomingoActivitiesDEV.csv';
-$inputCSVFileName = 'output/testAttendanceDEV.csv';
-$outputCSVFileName = 'output/testAttendanceDEV_PROCESSED.csv';
+$activitiesCSVFileName = 'input/SantoDomingoActivitiesDEVWithDates.csv';
+$inputCSVFileName = 'output/testAttendanceDEV2_WITH_UUIDS.csv';
+$outputCSVFileName = 'output/testAttendanceDEV2_WITH_UUIDS_PROCESSED.csv';
 
+
+//load existing in CouchDB activities
+$couchActivities = loadCouchActivities();
 
 
 $outputCSVAry = array();
@@ -50,23 +56,26 @@ echo "START PROCESSING.....";
 // set timezone to user timezone
 date_default_timezone_set("EST");
 
-//$uuid = getUUID();
-
-phpinfo();
-
-/*
 $activitiesAry = loadActivities($activitiesCSVFileName);
 
 $inputCSVAry = loadCSV($inputCSVFileName);
 
-if ($inputCSVAry != null) {
-    $outputCSVAry= updateDocs($inputCSVAry);
+$sortedAry = array();
 
-    print2file($outputCSVFileName, $outputCSVAry);
+if ($inputCSVAry != null) {
+    $activitiesAttendees = sortByActivityId($inputCSVAry);
+
+    // assign participants to activities
+    $status = processActivities($client, $activitiesAttendees, $couchActivities);
+    if (!$status)
+        exit(-1);
+
+    //$outputCSVAry= updateDocs($inputCSVAry);
+    //print2file($outputCSVFileName, $outputCSVAry);
 }
 
 echo $numProcessed."DATA SUCCESSFULLY PROCESSED....."."/n";
-*/
+
 
 /**
  * Load the activities CSV file into array of records.
@@ -96,10 +105,12 @@ function loadActivities($activitiesCSVFileName){
             $cntLn++;
             continue;
         }
-        // first column is the protocol id, second is the protocol name
-        $lineAry['ACTIVITY_NAME'] = $lineOfText[0];
-        $lineAry['PROVIDER_ID'] = $lineOfText[2];
-        $lineAry['ACTIVITY_ID'] = $lineOfText[3];
+
+        $lineAry['SERVICE_NAME'] = $lineOfText[0];
+        $lineAry['SERVICE_DATE'] = $lineOfText[1];
+        $lineAry['PROGRAM_NAME'] = $lineOfText[2];
+        $lineAry['PROVIDER_ID'] = $lineOfText[3];
+        $lineAry['ACTIVITY_ID'] = $lineOfText[4];
 
         $retAry[$i++] = $lineAry;
     }
@@ -138,33 +149,25 @@ function loadCSV($inputCSVFileName){
             continue;
         }
 
+        if ($lineOfText[0] == null && $lineOfText[1] == null && $lineOfText[2] == null)
+            break;
 
         // load line
         $lineAry['USER_NAME'] = $lineOfText[0];
         $lineAry['REGISTRATION DATE'] = $lineOfText[1];
-        $lineAry['NOMBRE'] = $lineOfText[7];
-        $lineAry['APELLIDO'] = $lineOfText[0];
-        $lineAry['NOMBRE_COMPLETADO'] = $lineOfText[1];
-        $lineAry['UUID'] = $lineOfText[7];
-        $lineAry['APODO'] = $lineOfText[0];
-        $lineAry['CALLE_Y_NUMERO'] = $lineOfText[1];
-        $lineAry['PROVINCIA'] = $lineOfText[7];
-        $lineAry['MUNICIPIO'] = $lineOfText[0];
-        $lineAry['BARRIO'] = $lineOfText[1];
-        $lineAry['ES_COLATERAL'] = $lineOfText[7];
-        $lineAry['DIA'] = $lineOfText[0];
-        $lineAry['MES'] = $lineOfText[1];
-        $lineAry['ANO'] = $lineOfText[7];
-        $lineAry['SEXO'] = $lineOfText[0];
-        $lineAry['CELULAR'] = $lineOfText[1];
-        $lineAry['CASA'] = $lineOfText[7];
-        $lineAry['CORREO_ELECTONICO'] = $lineOfText[0];
-        $lineAry['NOMBRE_DE_ACTIVIDAD'] = $lineOfText[1];
-        $lineAry['TIPO'] = $lineOfText[7];
-        $lineAry['ADMINISTRATOR_DE_CASSO'] = $lineOfText[0];
-        $lineAry['PROGRAMA'] = $lineOfText[1];
-        $lineAry['FECHA'] = $lineOfText[7];
-        $lineAry['DESCRIPTION'] = $lineOfText[7];
+        $lineAry['UUID'] = $lineOfText[5];
+        $lineAry['NOMBRE_DE_ACTIVIDAD'] = $lineOfText[19];
+        $lineAry['TIPO'] = $lineOfText[20];
+        $lineAry['ADMINISTRATOR_DE_CASSO'] = $lineOfText[21];
+        $lineAry['PROGRAMA'] = $lineOfText[22];
+        $lineAry['FECHA'] = $lineOfText[23];
+        $lineAry['DESCRIPTION'] = $lineOfText[24];
+
+        $activityId = getActivityId($lineAry['NOMBRE_DE_ACTIVIDAD'], $lineAry['FECHA']);
+        if ($activityId != "")
+            $lineAry['ACTIVITY_ID'] = $activityId;
+        else
+            $lineAry['ACTIVITY_ID'] = "ACTIVITY_NOT_FOUND";
 
         $retAry[$i++] = $lineAry;
     }
@@ -176,33 +179,206 @@ function loadCSV($inputCSVFileName){
 }
 
 /**
- * Iterate the array and create missing participants.
  *
- * @param $dataAry
+ * @param $activitiesAttendees
+ * @param $activities
  */
-function createParticipants($dataAry){
-    global $client,  $numProcessed;
-    $outputCSVAry = array();
-    $outputCSVAry['header'] = '_id,' . 'uuid' . ',' . 'status';
-
-    foreach($dataAry as $valAry) {
-        //if uuid exist no ned to create one
-        if ($valAry['UUID'] != "")
-            continue;
-
-        $createOK = createParticipant($client, $valAry);
-
-        if ($createOK) {
-            echo $numProcessed." processed\n";
-            $numProcessed++;
-
-        }
-
+function processActivities($client, $activitiesAttendees, $couchActivities){
+   foreach($activitiesAttendees as $activityId=>$attendees){
+       if ($activityId === "ACTIVITY_NOT_FOUND"){
+           continue;
+       }else {
+           $existingActivity = getActivity($couchActivities, strval($activityId));
+           if ($existingActivity == null) {
+               $status = createActivity($client, $activityId, $attendees);
+               if (!$status){
+                   echo "ERROR: when creating activity. Exiting...";
+                   return false;
+               }
+           } else {
+               $status = updateActivity($client, $existingActivity, $attendees);
+               if (!$status){
+                   echo "ERROR: when updating activity. Exiting...";
+                   return false;
+               }
+           }
+       }
     }
-    return $outputCSVAry;
+    return true;
 }
 
 
+/**
+ * Create couchDB activity document and assign uuids to this activity.
+ *
+ */
+function createActivity($client, $activityId, $activityAttendees){
+    global $PROVIDER_ID, $PROVIDER_NAME,  $USER_NAME;
+
+    try {
+        $doc = new stdClass();
+        $doc->activity_id = strval($activityId);
+        $doc->activity_name = getActivityNamebyId($activityId);
+        $doc->lastModifiedAt = getCouchCurrentDate();
+        $doc->createdAt = getCouchCurrentDate();
+        $doc->provider_id = $PROVIDER_ID;
+        $doc->provider_name = $PROVIDER_NAME;
+        $doc->rti_system_created = "true";
+        $doc->question = "Attendance List";
+        $doc->collection = "result";
+        $doc->user_name = $USER_NAME;
+
+        foreach($activityAttendees as $attendee){
+          $uuid =  $attendee['UUID'];
+          $doc->$uuid = "true";
+        }
+
+        // create document
+       // $response = $client->storeDoc($doc);
+
+    } catch (Exception $e) {
+        echo "Error: ".$e->getMessage()." (errcode=".$e->getCode().")\n";
+        return false;
+    }
+
+    return true;
+
+}
+
+function updateActivity($client, $existingActivity, $activityAttendees){
+    try {
+        $doc = $client->getDoc($existingActivity->id);
+
+        $doc->lastModifiedAt = getCouchCurrentDate();
+        $doc->rti_system_updated = "true";
+
+        foreach($activityAttendees as $attendee){
+            $uuid =  $attendee['UUID'];
+            $doc->$uuid = "true";
+        }
+
+        // update document
+        $response = $client->storeDoc($doc);
+
+    } catch (Exception $e) {
+        echo "Error: ".$e->getMessage()." (errcode=".$e->getCode().")\n";
+        return false;
+    }
+
+    return true;
+
+}
+
+
+/**
+ *
+ */
+function getActivity($couchActivities, $activityId){
+    $retActivity = null;
+
+    $rows = $couchActivities->rows;
+    foreach($rows as $existingActivity){
+       if ($existingActivity->key == $activityId){
+           $retActivity = $existingActivity;
+           break;
+       }
+   }
+
+    return $retActivity;
+}
+
+
+/**
+ * Converts from 9/1/2013 to 2014-01-31 date format.
+ *
+ * @param $inputDt
+ */
+function convertDate($inputDt){
+    $outputDt = "";
+
+    list($mm, $dd, $yyyy) = explode("/", $inputDt);
+    if (strlen($dd) == 1)
+        $dd = '0'.$dd;
+
+    if (strlen($mm) == 1)
+        $mm = '0'.$mm;
+
+    $outputDt = $yyyy.'-'.$mm.'-'.$dd;
+
+    return trim($outputDt);
+}
+
+
+/**
+ * @param $activityName
+ * @param $activityDate - the date is in format 9/1/2013
+ */
+function getActivityId($activityName, $activityDate){
+  global $activitiesAry;
+  $retActivityId = "";
+
+  $activityName = trim($activityName);
+
+  // Activity date is in format 2014-01-31 so need to convert $activityDate
+  $convertedActDt = convertDate($activityDate);
+
+
+  foreach($activitiesAry as $lineAry){
+      $activityName2 = trim($lineAry['SERVICE_NAME']);
+      $activityDt2 = trim($lineAry['SERVICE_DATE']);
+      if (($activityName2 === $activityName) &&  ($activityDt2 === $convertedActDt)){
+          $retActivityId = $lineAry['ACTIVITY_ID'];
+          break;
+      }
+  }
+
+    return $retActivityId;
+}
+
+
+/**
+ * @param $activityName
+ * @param $activityDate - the date is in format 9/1/2013
+ */
+function getActivityNameById($inputActivityId){
+    global $activitiesAry;
+    $retActivityName = "";
+
+
+    foreach($activitiesAry as $lineAry){
+        $activityId = trim($lineAry['ACTIVITY_ID']);
+
+        if ($inputActivityId == $activityId ){
+            $retActivityName = $lineAry['SERVICE_NAME'];
+            break;
+        }
+    }
+
+    return trim($retActivityName);
+}
+
+
+
+/**
+ * Return array where first index is activity Id and second is array of activity data.
+ *
+ * @param $dataAry
+ *
+ */
+function sortByActivityId($dataAry){
+    $retAry = array();
+
+    foreach($dataAry as $lineAry){
+        if (array_key_exists($lineAry['ACTIVITY_ID'], $retAry)){
+            array_push($retAry[$lineAry['ACTIVITY_ID']], $lineAry);
+        }else{
+            $retAry[$lineAry['ACTIVITY_ID']] = array();
+            array_push($retAry[$lineAry['ACTIVITY_ID']], $lineAry);
+        }
+    }
+
+    return $retAry;
+}
 
 /**
  * Date need to  be in format 2014-10-23T16:25:16-04:00.
@@ -221,36 +397,14 @@ function getCouchCurrentDate(){
     return $retDateStr;
 }
 
-/*
- * Retrieves UUID from coconut URL.
- *
- */
-function getUUID(){
+function loadCouchActivities(){
+    global $client;
 
-  //  $body = file_get_contents('http://localhost:5984/coconut/_design/coconut/getUUID.html');
-    //echo $body;
+    $data = $client->getView ( "coconut",  "findAttendanceByActivity");
 
-    /*$obj = json_decode($json);
-    echo $obj->access_token;*/
-
-    $req_url = 'http://localhost:5984/coconut/_design/coconut/_view/resultsByQuestionAndCompleteWithCollateral?startkey=%22Participant%20Registration-es%3Atrue%3Az%22&endkey=%22Participant%20Registration-es%3Atrue%22&descending=true&include_docs=false';
-
-    //TBD Uncomment when deploying to prod, the $base_url is not write when deploying on Windows because it has /drupal in the link
-    //$req_url = $base_url.':5984/coconut/_design/coconut/_view/resultsByQuestionAndComplete?startkey=%22Participant%20Registration-es%3Atrue%3Az%22&endkey=%22Participant%20Registration-es%3Atrue%22&descending=true&include_docs=false';
-
-
-
-
-    $response = http_get("http://localhost:5984/coconut/_design/coconut/getUUID.html", array("timeout"=>1), $info);
-
-    //$response = http_get_request_body_stream("http://localhost:5984/coconut/_design/coconut/getUUID.html");
-// prepare the request options
-
-
-
-
-   //print_r($info);
+    return $data;
 }
+
 /**
  *
  * Create participant.
