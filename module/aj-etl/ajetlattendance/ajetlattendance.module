@@ -224,6 +224,9 @@ function ajetlattendance_genInsertQueryPart2($doc, $uuid){
         }else if ($key === "created"){
             $val = " NOW() ";
             $query = $query . $val . " ";
+        }else if ($key === "activity_id"){
+            $val = ajetlattendance_couchString2Int($doc[$key]);
+            $query = $query . $val . " ";
         }else {
             if (array_key_exists($key, $doc)) {
                 $val = $doc[$key];
@@ -451,6 +454,21 @@ function ajetlattendance_couchDateTime2Mysql($dt){
     return " STR_TO_DATE('".$dt."', '%Y-%m-%dT%H:%i:%S')";
 }
 
+
+/**
+ *
+ * Removes the any comma and converts the string to number.
+ *
+ * Example: converts activity_id=1,023 to 1023 int
+ */
+function ajetlattendance_couchString2Int($val){
+
+    // remove all commas
+    $valNoComma = str_replace(",", "", $val);
+
+
+    return (int)$valNoComma;
+}
 
 /**
  *

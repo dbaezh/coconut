@@ -49,10 +49,10 @@ function ajetlattendance_schema() {
            'default' => ''),               
         'activity_id' => array(
            'description' => 'Activity Id.',
-           'type' => 'varchar',
-           'length' => 10,
+           'type' => 'int',
+           'unsigned' => TRUE,
            'not null' => TRUE,
-           'default' => ''),           
+           'default' => 0),
         'uuid' => array(
            'description' => 'Universal unique id.',
            'type' => 'varchar',
