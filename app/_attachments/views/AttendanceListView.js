@@ -90,7 +90,7 @@ AttendanceListView = (function(_super) {
       }).call(this)).join("")) + "      ";
     }
     html += ("" + (standard_value_table || '') + "<div style='font-size: 14pt;font-weight: bold'>") + this.standard_values.activity_name + "</div><br>";
-    html += "<div id='attendanceForm' style='overflow:auto;'><table id='participants'>          <thead>            <tr>              <th></th>              <th>Fecha de Creación</th>              <th>Apellido</th>              <th>Nombre</th>              <th>Sexo</th>              <th>Fecha de <br/>Nacimiento</th>              <th>Barrio o Sector</th>              <th>Teléfono</th>              <th>Es Colateral</th>            </tr></thead>        <tbody>";
+    html += "<div id='attendanceForm' style='overflow:auto;'><table id='participants'>          <thead>            <tr>              <th></th>              <th>UUID</th>              <th>Fecha de Creación</th>              <th>Apellido</th>              <th>Nombre</th>              <th>Sexo</th>              <th>Fecha de <br/>Nacimiento</th>              <th>Barrio o Sector</th>              <th>Teléfono</th>              <th>Es Colateral</th>              <th>Facebook</th>            </tr></thead>        <tbody>";
     participantsSorted = caseInsensitiveSortJSONData(this.wsData.participants.rows, "Apellido", true);
     for (_i = 0, _len = participantsSorted.length; _i < _len; _i++) {
       participant = participantsSorted[_i];
@@ -104,6 +104,7 @@ AttendanceListView = (function(_super) {
       }
       cbHTML = "<input name='" + participantData.uuid + "' id='" + participantData.uuid + "' type='checkbox' value='true' " + cbChecked + "></input>";
       html += "<td>" + cbHTML + "</td>";
+      html += this.createColumn(participantData.uuid, participantData.uuid, true);
       html += this.createColumn(participantData.createdAt, participantData.uuid, true);
       html += this.createColumn(participantData.Apellido, participantData.uuid, true);
       html += this.createColumn(participantData.Nombre, participantData.uuid, true);
@@ -113,6 +114,7 @@ AttendanceListView = (function(_super) {
       html += this.createColumn(participantData.BarrioComunidad, participantData.uuid, false);
       html += this.createColumn(participantData.Teléfono, participantData.uuid, false);
       html += this.createColumn(participantData.Estecolateralparticipante, participantData.uuid, false);
+      html += this.createColumn(participantData.NombredeusuariodeFacebook, participantData.uuid, false);
       html += "</tr>";
     }
     "</tbody></table></div>";
