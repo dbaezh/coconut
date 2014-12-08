@@ -28,6 +28,14 @@ where 1 = 1
 and pp.field_program_provider_target_id = :provider_id  
 --END
 
+--SWITCH=:collateral
+-- estecolateralparticipante can have 1 of 4 values: No, Si, No Sabe (which means Don't know), blank (which means no value, not set)
+--CASE=collateral
+and reg.Estecolateralparticipante = 'Sí'
+--CASE=nonCollateral
+and reg.Estecolateralparticipante != 'Sí'
+--END
+
 --IF=:program_id
 and aprog.field_activity_program_target_id = :program_id  
 --END

@@ -43,6 +43,18 @@
 				"bSort": true,
 				"bFilter": false
 			});
+		}else if ($('#ajProgramParticipantOverview').length){
+			$('#ajProgramParticipantOverview').dataTable({
+				"bPaginate": true,
+				"bSort": true,
+				"bFilter": false
+			});
+		}else if ($('#ajParticipantActivitiesReceived').length){
+			$('#ajParticipantActivitiesReceived').dataTable({
+				"bPaginate": true,
+				"bSort": true,
+				"bFilter": true
+			});
 		}
     }
   };
