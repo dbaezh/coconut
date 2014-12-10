@@ -1,0 +1,3 @@
+name = AJ Export Data to CSV
+description = Extracts data from CouchDB and generates CSV files.
+core = 7.x
