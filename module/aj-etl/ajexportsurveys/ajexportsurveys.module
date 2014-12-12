@@ -29,8 +29,8 @@ function ajexportsurveys_cron_queue_info()
     $queues = array();
 
     $queues['ajexportsurveys'] = array(
-        'worker callback' => 'load_export_worker',
-        'time' => 3000, // time in seconds, this is the duration that the job will be CALLED, e.g.
+        'worker callback' => 'load_export_surveys_worker',
+        'time' => 300, // time in seconds, this is the duration that the job will be CALLED, e.g.
         // after it finish it will be called again until the time is up.
     );
 
@@ -42,9 +42,10 @@ function ajexportsurveys_cron_queue_info()
  * The queue job worker. Query registration from couchDB descending and load them into mySQL database.
  *
  */
-function load_export_worker()
+function load_export_surveys_worker()
 {
-    $CHUNK_SIZE = 200;
+    $SURVEYS_CHUNK_SIZE = 200;
+    $REGS_CHUNK_SIZE = 200;
 
     try{
         ajetllog_log("ajexportsurveys", "MESSAGE", "PROCESSING STARTED");
@@ -54,13 +55,20 @@ function load_export_worker()
         $surveyKeys = variable_get("ajSurveyKeys");
 
         /*********************** Retrieve Registrations **************************/
-        $regLines = ajexportsurveys_getRegLines($regKeys, $CHUNK_SIZE);
+        $regLines = ajexportsurveys_getRegLines($regKeys, $REGS_CHUNK_SIZE);
+        $numRegs = sizeof($regLines);
+        ajetllog_error("ajexportsurveys", "MESSAGE", "*************REGS LINES", $numRegs, "");
 
         /*********************** Retrieve Surveys by UUID **************************/
-        $surveyLines = ajexportsurveys_getSurveyLines($surveyKeys, $CHUNK_SIZE);
+        $surveyLines = ajexportsurveys_getSurveyLines($surveyKeys, $SURVEYS_CHUNK_SIZE);
+        $numSurveys = sizeof($surveyLines);
+        ajetllog_error("ajexportsurveys", "MESSAGE", "*************SURVEY LINES", $numSurveys, "");
 
         // append survey lines to registration lines
         $linesAry = addSurveys2Regs($regLines, $surveyLines);
+
+        $numLines = sizeof($linesAry);
+        ajetllog_log("ajexportsurveys", "MESSAGE", "****** COMBINED LINES:".$numLines);
 
         // write header line
         $headerLine =ajexportsurveys_writeHeader($regKeys, $surveyKeys);
@@ -102,7 +110,7 @@ function ajexportsurveys_getRegLines($regKeys, $CHUNK_SIZE){
     // prepare the request options
     $req_options = array(
         'method' => 'GET',
-        'timeout' => 300.0,
+        'timeout' => 60.0,
         'headers' => array(
             'Content-Type' => 'application/json'
         ));
@@ -112,8 +120,8 @@ function ajexportsurveys_getRegLines($regKeys, $CHUNK_SIZE){
 
     // decode to json objects
     $rows = drupal_json_decode( $couch_response->data)['rows'];
-    $size = sizeof($rows);
-    ajetllog_log("ajexportsurveys", "MESSAGE", "****** Regs rows fetched:".$size);
+    $numRows = sizeof($rows);
+    ajetllog_log("ajexportsurveys", "MESSAGE", "****** Regs rows fetched:".$numRows);
 
 
     $i = 0;
@@ -123,7 +131,10 @@ function ajexportsurveys_getRegLines($regKeys, $CHUNK_SIZE){
     foreach ( $rows as $one_row ){
         array_push($docIdsAry,$one_row['id']);
 
-        if ($i <= $CHUNK_SIZE) {
+        $tempSize = sizeof($docIdsAry);
+        $cnt = $docProcessed + $tempSize;
+
+        if ( $i < $CHUNK_SIZE -1 && $cnt < $numRows -1  ) {
             $i++;
             continue;
         }
@@ -132,6 +143,7 @@ function ajexportsurveys_getRegLines($regKeys, $CHUNK_SIZE){
         // open all docs from this chunk
         $allDocs = ajexportsurveys_openDocs($docIdsAry);
         $docIdsAry = array();
+        $docProcessed += sizeof($allDocs);
         $i = 0;
 
         foreach ( $allDocs as $doc ) {
@@ -141,17 +153,18 @@ function ajexportsurveys_getRegLines($regKeys, $CHUNK_SIZE){
             // push to the final array
             $regLines[$doc['doc']['uuid']]= $line;
 
-            //$result = varDumpToString($doc['doc']);
+            //$result = ajexportsurveys_varDumpToString($doc['doc']);
             //ajetllog_error("ajexportsurveys", "MESSAGE0000", "doc=", $result, "");
         }
 
-        $docProcessed += $CHUNK_SIZE;
+
         ajetllog_error("ajexportsurveys", "MESSAGE", "Document Processed", $docProcessed, "");
 
-        if ($docProcessed > 200)
-            break;
+        //if ($docProcessed > 600)
+          //  break;
 
     }
+
 
     return $regLines;
 }
@@ -184,41 +197,49 @@ $couch_response = drupal_http_request( $req_url, $req_options );
 // decode to json objects
 $rows = drupal_json_decode( $couch_response->data)['rows'];
 
-$size = sizeof($rows);
+$maxRows = sizeof($rows);
 
-ajetllog_log("ajexportsurveys", "MESSAGE", "******Surveys fetched:".$size);
+ajetllog_log("ajexportsurveys", "MESSAGE", "******Surveys fetched:".$maxRows);
 $surveyLines = array();
 
 $i = 0;
 $docProcessed = 0;
+$docIdsAry = array();
 
 //load completed surveys ids by uuid
 foreach ( $rows as $one_row ){
     // prepare the ids chunk
     array_push($docIdsAry,$one_row['id']);
-    if ($i <= $CHUNK_SIZE) {
+    $tempSize = sizeof($docIdsAry);
+    $cnt = $docProcessed + $tempSize;
+
+    if ( $i < $CHUNK_SIZE -1 && $cnt < $maxRows -1  ) {
         $i++;
         continue;
     }
 
     // open all docs from this chunk
     $allSurveyDocs = ajexportsurveys_openDocs($docIdsAry);
+    $docProcessed += sizeof($allSurveyDocs);
     $docIdsAry = array();
     $i = 0;
 
 
     foreach ( $allSurveyDocs as $doc ) {
-        // convert document to CSV line
-        $line = ajexportsurveys_Doc2CSVLine($surveyKeys, $doc['doc']);
+        if (array_key_exists("uuid", $doc['doc'])) {
+            // convert document to CSV line
+            $line = ajexportsurveys_Doc2CSVLine($surveyKeys, $doc['doc']);
 
-        // push to the final array
-        $surveyLines[$doc['doc']['uuid']]= $line;
+            // push to the final array
+            $surveyLines[$doc['doc']['uuid']] = $line;
+        }
     }
 
-    $docProcessed += $CHUNK_SIZE;
+
     ajetllog_error("ajexportsurveys", "MESSAGE", "Surveys Processed", $docProcessed, "");
 
   }
+
 
   return $surveyLines;
 }
@@ -242,6 +263,7 @@ function ajexportsurveys_openDocs($docIds){
 
     $req_url = $req_url.$urlIds."]&include_docs=true";
 
+    //ajetllog_error("ajexportsurveys", "MESSAGE", "req_url", $req_url, "");
 
     // prepare the request options
     $req_options = array(
@@ -264,7 +286,7 @@ function ajexportsurveys_openDocs($docIds){
     return $rows;
 }
 
-function varDumpToString($var) {
+function ajexportsurveys_varDumpToString($var) {
     ob_start();
     var_dump($var);
     $result = ob_get_clean();
@@ -334,13 +356,15 @@ function ajexportsurveys_Doc2CSVLine($keys, $doc){
 
     $start = true;
     foreach ($keys as $k=>$key) {
-        if (!array_key_exists($key, $doc))
+        if (!array_key_exists($key, $doc)) {
+            $line = $line . ',';
             continue;
+        }
 
 
         if ($start){
             $start = false;
-            $line = '"'.$doc[$key].'"';
+            $line = $doc[$key];
         }else {
             $line = $line . ',"' . $doc[$key].'"';
         }
@@ -382,7 +406,7 @@ function addSurveys2Regs($regLines, $surveyLines){
  */
 function ajexportsurveys_generateFile($data, $save_mode = FILE_EXISTS_REPLACE) {
     try{
-        $uri  =  'public://ajexport/AJRegistrations.csv';
+        $uri  =  'public://ajexport/AJCombined.csv';
 
         //Need to remove the filename from the uri
         $uri_target = file_uri_target($uri);
@@ -423,9 +447,6 @@ function ajexportsurveys_setModuleVariables()
 
 
         $surveyFields = array(
-            "uuid"=> "uuid",
-            "provider_id"=> "provider_id",
-            "provider_name"=> "provider_name",
             "createdAt"=> "createdAt",
             "lastModifiedAt"=> "lastModifiedAt",
             "Fecha"=> "Fecha",

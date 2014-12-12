@@ -29,8 +29,8 @@ function ajexportregs_cron_queue_info()
     $queues = array();
 
     $queues['ajexportregs'] = array(
-        'worker callback' => 'load_export_worker',
-        'time' => 3000, // time in seconds, this is the duration that the job will be CALLED, e.g.
+        'worker callback' => 'load_export_regs_worker',
+        'time' => 300, // time in seconds, this is the duration that the job will be CALLED, e.g.
     // after it finish it will be called again until the time is up.
     );
 
@@ -42,7 +42,7 @@ function ajexportregs_cron_queue_info()
  * The queue job worker. Query registration from couchDB descending and load them into mySQL database.
  *
  */
-function load_export_worker()
+function load_export_regs_worker()
 {
     $CHUNK_SIZE = 200;
 
@@ -53,7 +53,7 @@ function load_export_worker()
 
     ajexportregs_setModuleVariables();
 
-    $regKeys = variable_get("regKeys");
+    $regKeys = variable_get("ajRegKeys");
 
     // retrieve all registrations
     $req_url = 'http://localhost:5984/coconut/_design/coconut/_view/resultsByQuestionAndComplete?startkey=%22Participant%20Registration-es%3Atrue%3Az%22&endkey=%22Participant%20Registration-es%3Atrue%22&descending=true&include_docs=false';
@@ -75,34 +75,30 @@ function load_export_worker()
     $rows = drupal_json_decode( $couch_response->data)['rows'];
 
     $size = sizeof($rows);
-
+    $numRows = sizeof($rows);
     ajetllog_log("ajexportregs", "MESSAGE", "******Rows fetched:".$size);
 
 
     $i = 0;
     $docProcessed = 0;
-
     $line = ajexportregs_writeHeader();
-
     array_push($linesAry, $line);
 
-     $docIdsAry = array();
+    $docIdsAry = array();
 
     foreach ( $rows as $one_row ){
-
-        // open the document
-        //$doc = ajexportregs_OpenRegById($one_row['id']);
-
         array_push($docIdsAry,$one_row['id']);
+        $tempSize = sizeof($docIdsAry);
+        $cnt = $docProcessed + $tempSize;
 
-        if ($i <= $CHUNK_SIZE) {
+        if ( $i < $CHUNK_SIZE -1 && $cnt < $numRows -1  ) {
             $i++;
             continue;
         }
 
-
         // open all docs from this chunk
         $allDocs = openDocs($docIdsAry);
+        $docProcessed += sizeof($allDocs);
         $docIdsAry = array();
         $i = 0;
 
@@ -113,17 +109,17 @@ function load_export_worker()
             // push to the final array
             array_push($linesAry, $line);
 
-            //$result = varDumpToString($doc['doc']);
+            //$result = ajexportregs_varDumpToString($doc['doc']);
 
             //ajetllog_error("ajexportregs", "MESSAGE0000", "doc=", $result, "");
 
         }
 
-        $docProcessed += $CHUNK_SIZE;
+
         ajetllog_error("ajexportregs", "MESSAGE", "Document Processed", $docProcessed, "");
 
-        if ($docProcessed > 200)
-          break;
+        //if ($docProcessed > 200)
+          //break;
 
     }
 
@@ -152,6 +148,9 @@ function openDocs($docIds){
    $req_url = "http://localhost:5984/coconut/_all_docs?keys=[";
    $urlIds = "";
    $start = true;
+
+  $size = sizeof($docIds);
+  ajetllog_log("ajexportregs", "MESSAGE", "DOCIDs:".$size);
 
    foreach($docIds as $id){
        if ($start) {
@@ -186,7 +185,7 @@ function openDocs($docIds){
     return $rows;
 }
 
-function varDumpToString($var) {
+function ajexportregs_varDumpToString($var) {
     ob_start();
     var_dump($var);
     $result = ob_get_clean();
@@ -219,7 +218,7 @@ function ajexportregs_OpenRegById($id){
  * Writes header line for the CSV file.
  */
 function ajexportregs_writeHeader(){
-    $regKeys = variable_get("regKeys");
+    $regKeys = variable_get("ajRegKeys");
     $line = "";
 
     // write header
@@ -247,19 +246,20 @@ function ajexportregs_writeHeader(){
  * @return string
  */
 function ajexportregs_Doc2CSVLine($doc){
-    $regKeys = variable_get("regKeys");
+    $regKeys = variable_get("ajRegKeys");
     $line = "";
 
 
     $start = true;
     foreach ($regKeys as $k=>$key) {
-        if (!array_key_exists($key, $doc))
-          continue;
-
+        if (!array_key_exists($key, $doc)) {
+            $line = $line . ',';
+            continue;
+        }
 
         if ($start){
                 $start = false;
-                $line = '"'.$doc[$key].'"';
+                $line = $doc[$key];
         }else {
                 $line = $line . ',"' . $doc[$key].'"';
         }
@@ -319,7 +319,7 @@ function ajexportregs_setModuleVariables()
             "Tieneunnumerocelular","Tieneunnumerodetelefonoenlacasa");
         
       // set the columns as variable
-      variable_set("regKeys", $regKeys);
+      variable_set("ajRegKeys", $regKeys);
     }catch(Exception $e){
         ajetllog_log("ajexportregs", "ERROR", $e->getMessage());
 
@@ -336,6 +336,6 @@ function ajexportregs_enable() {
  * Delete module variables.
  */
 function ajexportregs_deleteModuleVariables(){
-    variable_del("regKeys");
+    variable_del("ajRegKeys");
 
 }
