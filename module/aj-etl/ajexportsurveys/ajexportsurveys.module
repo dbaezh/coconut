@@ -57,18 +57,19 @@ function load_export_surveys_worker()
         /*********************** Retrieve Registrations **************************/
         $regLines = ajexportsurveys_getRegLines($regKeys, $REGS_CHUNK_SIZE);
         $numRegs = sizeof($regLines);
-        ajetllog_error("ajexportsurveys", "MESSAGE", "*************REGS LINES", $numRegs, "");
 
         /*********************** Retrieve Surveys by UUID **************************/
         $surveyLines = ajexportsurveys_getSurveyLines($surveyKeys, $SURVEYS_CHUNK_SIZE);
         $numSurveys = sizeof($surveyLines);
-        ajetllog_error("ajexportsurveys", "MESSAGE", "*************SURVEY LINES", $numSurveys, "");
 
         // append survey lines to registration lines
         $linesAry = addSurveys2Regs($regLines, $surveyLines);
 
+        //free some memory
+        $regLines = array();
+        $surveyLines = array();
+
         $numLines = sizeof($linesAry);
-        ajetllog_log("ajexportsurveys", "MESSAGE", "****** COMBINED LINES:".$numLines);
 
         // write header line
         $headerLine =ajexportsurveys_writeHeader($regKeys, $surveyKeys);
@@ -76,20 +77,84 @@ function load_export_surveys_worker()
         // add header line on the top
         array_unshift($linesAry, $headerLine);
 
-        // convert array to string
-        $data = implode("\r\n", $linesAry);
+        // generate all data
+        ajexporsurveys_generateAllData($linesAry);
 
-        // dump data to the file
-        ajexportsurveys_generateFile($data);
+        // export data by provider
+        ajexportsurveys_generateDataByProvider(variable_get("ajProviderIds"), $linesAry);
 
         // clean
         ajexportsurveys_deleteModuleVariables();
 
-        ajetllog_log("ajexportsurveys", "MESSAGE", "Data exported.");
+        ajetllog_log("ajexportsurveys", "MESSAGE", "*****Survey data successfully exported.");
     }catch(Exception $e){
         ajetllog_log("ajexportsurveys", "ERROR", $e->getMessage());
 
     }
+}
+
+/**
+ * Export all data to CSV.
+ *
+ * @param $lineAry
+ *
+ */
+function ajexporsurveys_generateAllData($linesAry){
+    // convert array to string
+    $data = implode("\r\n", $linesAry);
+
+    //free some memory
+    $linesAry = array();
+
+    // dump data to the file
+    ajexportsurveys_generateFile(null,$data);
+
+}
+
+/**
+ * Export all data to CSV.
+ *
+ * @param $lineAry
+ *
+ */
+function ajexportsurveys_generateDataByProvider($providerIds, $linesAry){
+    $lineAryByProvider = array();
+
+    // push the header
+    foreach ($providerIds as $pId) {
+        $lineAryByProvider[$pId] = array();
+        array_push($lineAryByProvider[$pId],$linesAry[0]);
+    }
+
+
+
+    // skip the header and start from the 2nd element
+    for($i = 1; $i < sizeof($linesAry); $i++) {
+        $lnAry = explode(',', $linesAry[$i]);
+
+        // remove "" from provider id
+        $id = trim($lnAry[1], '"');
+
+        if ($id == "" || $id == null)
+            continue;
+
+        // push the line into the array
+        if (array_key_exists($id, $lineAryByProvider)) {
+            array_push($lineAryByProvider[$id], $linesAry[$i]);
+        }
+
+    }
+
+
+    foreach($lineAryByProvider as $providerId=>$lines) {
+
+        // convert array to string
+        $data = implode("\r\n", $lines);
+
+        // dump data to the file
+        ajexportsurveys_generateFile($providerId, $data);
+    }
+
 }
 
 /**
@@ -100,6 +165,7 @@ function load_export_surveys_worker()
  * @return array
  */
 function ajexportsurveys_getRegLines($regKeys, $CHUNK_SIZE){
+
     // registration lines
     $regLines = array();
 
@@ -127,6 +193,7 @@ function ajexportsurveys_getRegLines($regKeys, $CHUNK_SIZE){
     $i = 0;
     $docProcessed = 0;
     $docIdsAry = array();
+    $providerIds = array();
 
     foreach ( $rows as $one_row ){
         array_push($docIdsAry,$one_row['id']);
@@ -147,6 +214,14 @@ function ajexportsurveys_getRegLines($regKeys, $CHUNK_SIZE){
         $i = 0;
 
         foreach ( $allDocs as $doc ) {
+
+            // save provider id
+            if(array_key_exists('provider_id', $doc['doc'])){
+                if (!array_key_exists($doc['doc']['provider_id'], $providerIds))
+                    $key = strval($doc['doc']['provider_id']);
+                $providerIds[$key] = $key;
+            }
+
             // convert document to CSV line
             $line = ajexportsurveys_Doc2CSVLine($regKeys,$doc['doc']);
 
@@ -157,14 +232,13 @@ function ajexportsurveys_getRegLines($regKeys, $CHUNK_SIZE){
             //ajetllog_error("ajexportsurveys", "MESSAGE0000", "doc=", $result, "");
         }
 
-
-        ajetllog_error("ajexportsurveys", "MESSAGE", "Document Processed", $docProcessed, "");
-
         //if ($docProcessed > 600)
           //  break;
 
     }
 
+    // set the columns as variable
+    variable_set("ajProviderIds", $providerIds);
 
     return $regLines;
 }
@@ -235,10 +309,10 @@ foreach ( $rows as $one_row ){
         }
     }
 
+    //if ($docProcessed > 600)
+      //  break;
 
-    ajetllog_error("ajexportsurveys", "MESSAGE", "Surveys Processed", $docProcessed, "");
-
-  }
+}
 
 
   return $surveyLines;
@@ -263,8 +337,6 @@ function ajexportsurveys_openDocs($docIds){
 
     $req_url = $req_url.$urlIds."]&include_docs=true";
 
-    //ajetllog_error("ajexportsurveys", "MESSAGE", "req_url", $req_url, "");
-
     // prepare the request options
     $req_options = array(
         'method' => 'GET',
@@ -281,7 +353,7 @@ function ajexportsurveys_openDocs($docIds){
 
     $size = sizeof($rows);
 
-    ajetllog_log("ajexportsurveys", "MESSAGE", "******Rows fetched FROM CHUNK:".$size);
+    //ajetllog_log("ajexportsurveys", "MESSAGE", "******Rows fetched FROM CHUNK:".$size);
 
     return $rows;
 }
@@ -404,9 +476,12 @@ function addSurveys2Regs($regLines, $surveyLines){
  *      int $save_mode
  *    File save mode from drupal core, ex FILE_EXISTS_REPLACE
  */
-function ajexportsurveys_generateFile($data, $save_mode = FILE_EXISTS_REPLACE) {
+function ajexportsurveys_generateFile($pId,$data, $save_mode = FILE_EXISTS_REPLACE) {
     try{
-        $uri  =  'public://ajexport/AJCombined.csv';
+        if ($pId != null)
+            $uri  =  'public://ajexport/AJCombined_'.$pId.'.csv';
+        else
+            $uri  =  'public://ajexport/AJCombined.csv';
 
         //Need to remove the filename from the uri
         $uri_target = file_uri_target($uri);
@@ -699,5 +774,5 @@ function ajexportsurveys_enable() {
 function ajexportsurveys_deleteModuleVariables(){
     variable_del("ajRegKeys");
     variable_del("ajSurveyFields");
-
+    variable_get("ajProviderIds");
 }

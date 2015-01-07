@@ -76,7 +76,7 @@ function load_export_regs_worker()
 
     $size = sizeof($rows);
     $numRows = sizeof($rows);
-    ajetllog_log("ajexportregs", "MESSAGE", "******Rows fetched:".$size);
+    ajetllog_log("ajexportregs", "MESSAGE", "******Registration rows fetched:".$size);
 
 
     $i = 0;
@@ -85,6 +85,7 @@ function load_export_regs_worker()
     array_push($linesAry, $line);
 
     $docIdsAry = array();
+    $providerIds = array();
 
     foreach ( $rows as $one_row ){
         array_push($docIdsAry,$one_row['id']);
@@ -102,7 +103,16 @@ function load_export_regs_worker()
         $docIdsAry = array();
         $i = 0;
 
+
+
         foreach ( $allDocs as $doc ) {
+            // save provider id
+            if(array_key_exists('provider_id', $doc['doc'])){
+                if (!array_key_exists($doc['doc']['provider_id'], $providerIds))
+                    $key = strval($doc['doc']['provider_id']);
+                    $providerIds[$key] = $key;
+            }
+
             // convert document to CSV line
             $line = ajexportregs_Doc2CSVLine($doc['doc']);
 
@@ -116,28 +126,90 @@ function load_export_regs_worker()
         }
 
 
-        ajetllog_error("ajexportregs", "MESSAGE", "Document Processed", $docProcessed, "");
+       // ajetllog_error("ajexportregs", "MESSAGE", "Document Processed", $docProcessed, "");
 
-        //if ($docProcessed > 200)
-          //break;
+        //if ($docProcessed > 300)
+        //  break;
 
     }
 
+     // export all data
+     ajexportregs_generateAllData($linesAry);
 
-    // convert array to string
-    $data = implode("\r\n", $linesAry);
-
-    // dump data to the file
-    ajexportregs_generateFile($data);
+     // export data by provider
+     ajexportregs_generateDataByProvider($providerIds, $linesAry);
 
     // clean
     ajexportregs_deleteModuleVariables();
     
-    ajetllog_log("ajexportregs", "MESSAGE", "Data exported.");
+    ajetllog_log("ajexportregs", "MESSAGE", "*****Registrations data successfully exported.");
  }catch(Exception $e){
      ajetllog_log("ajexportregs", "ERROR", $e->getMessage());
 
  }
+}
+
+
+/**
+ * Export all data to CSV.
+ *
+ * @param $lineAry
+ *
+ */
+function ajexportregs_generateAllData($linesAry){
+    // convert array to string
+    $data = implode("\r\n", $linesAry);
+
+    // dump data to the file
+    ajexportregs_generateFile(null,$data);
+
+}
+
+
+/**
+ * Export all data to CSV.
+ *
+ * @param $lineAry
+ *
+ */
+function ajexportregs_generateDataByProvider($providerIds, $linesAry){
+    $lineAryByProvider = array();
+
+    // push the header
+    foreach ($providerIds as $pId) {
+        $lineAryByProvider[$pId] = array();
+        array_push($lineAryByProvider[$pId],$linesAry[0]);
+    }
+
+
+
+        // skip the header and start from the 2nd element
+        for($i = 1; $i < sizeof($linesAry); $i++) {
+            $lnAry = explode(',', $linesAry[$i]);
+
+            // remove "" from provider id
+            $id = trim($lnAry[1], '"');
+
+            if ($id == "" || $id == null)
+                continue;
+
+            // push the line into the array
+            if (array_key_exists($id, $lineAryByProvider)) {
+                array_push($lineAryByProvider[$id], $linesAry[$i]);
+            }
+
+        }
+
+
+        foreach($lineAryByProvider as $providerId=>$lines) {
+
+            // convert array to string
+            $data = implode("\r\n", $lines);
+
+            // dump data to the file
+            ajexportregs_generateFile($providerId, $data);
+        }
+
 }
 
 /**
@@ -150,7 +222,7 @@ function openDocs($docIds){
    $start = true;
 
   $size = sizeof($docIds);
-  ajetllog_log("ajexportregs", "MESSAGE", "DOCIDs:".$size);
+
 
    foreach($docIds as $id){
        if ($start) {
@@ -180,7 +252,7 @@ function openDocs($docIds){
 
     $size = sizeof($rows);
 
-    ajetllog_log("ajexportregs", "MESSAGE", "******Rows fetched FROM CHUNK:".$size);
+   // ajetllog_log("ajexportregs", "MESSAGE", "******Rows fetched FROM CHUNK:".$size);
 
     return $rows;
 }
@@ -271,6 +343,9 @@ function ajexportregs_Doc2CSVLine($doc){
 }
 
 
+
+
+
 /**
  * Generates the CSV file. The location for the file is
  *
@@ -280,9 +355,12 @@ function ajexportregs_Doc2CSVLine($doc){
  *      int $save_mode
  *    File save mode from drupal core, ex FILE_EXISTS_REPLACE
  */
-function ajexportregs_generateFile($data, $save_mode = FILE_EXISTS_REPLACE) {
+function ajexportregs_generateFile($pId, $data, $save_mode = FILE_EXISTS_REPLACE) {
     try{
-        $uri  =  'public://ajexport/AJRegistrations.csv';
+        if ($pId != null)
+          $uri  =  'public://ajexport/AJRegistrations_'.$pId.'.csv';
+        else
+          $uri  =  'public://ajexport/AJRegistrations.csv';
 
         //Need to remove the filename from the uri
         $uri_target = file_uri_target($uri);
@@ -301,7 +379,6 @@ function ajexportregs_generateFile($data, $save_mode = FILE_EXISTS_REPLACE) {
         ajetllog_log("ajexportregs", "ERROR", $e->getMessage());
     }
 }
-
 
 
 /**
