@@ -329,7 +329,7 @@ function ajetlexit_insertExit($doc){
 function ajetlexit_insertExitParticipants($doc){
     $programQ = "14HascompletadoalgúnoalgunosdeestosprogramasestandoenAlertaJovenMarcatodaslasqueapliquen";
 
-    ajetllog_log("ajetlexit", "DEBUG", "Inside insertParticipants");
+    //ajetllog_log("ajetlexit", "DEBUG", "Inside insertParticipants");
 
     // first delete in case of records for this uuid already exist
     $dq ="DELETE FROM {aj_exit_programs} WHERE uuid='".$doc['uuid']."'";
