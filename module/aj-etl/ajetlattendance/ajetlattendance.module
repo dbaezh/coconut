@@ -85,12 +85,12 @@ function load_attendance_worker()
         $lastModified = $lastModified1.':'.$lastModified2.':'.$lastModified3.':'.$lastModified4;
 
         // check if the record with the same id and last modified date already exist
-        $record = ajetlattendance_getAttendanceByIdAndModifiedDate($one_row['id'], $lastModified);
+       // $record = ajetlattendance_getAttendanceByIdAndModifiedDate($one_row['id'], $lastModified);
 
-        if ($record != null) {
-            ajetllog_log("ajetlattendance", "MESSAGE", "Found same exact record and stopped loading registrations for document is".$one_row['id']);
-            break;
-        }
+       // if ($record != null) {
+       //     ajetllog_log("ajetlattendance", "MESSAGE", "Found same exact record and stopped loading registrations for document is".$one_row['id']);
+       //     break;
+       // }
 
 
         ajetlattendance_loadAttendance($one_row['id'], $lastModified);
@@ -372,6 +372,9 @@ function ajetlattendance_getAttendanceByIdDifferentDate($_id, $lastModifiedAt)
 
 }
 
+
+
+
 /**
  * First it checks for same _id AND different lastModifiedAt date. If record found
  * deletes the record before inserting the modified document. If record is not found
@@ -383,15 +386,18 @@ function ajetlattendance_getAttendanceByIdDifferentDate($_id, $lastModifiedAt)
 function ajetlattendance_loadAttendance($_id, $lastModifiedAt){
 
     // check if the record with the same id but different modified date already exist
-    $record = ajetlattendance_getAttendanceByIdDifferentDate($_id, $lastModifiedAt);
+    //$record = ajetlattendance_getAttendanceByIdDifferentDate($_id, $lastModifiedAt);
 
     // TBD: Maybe need to update the existing document, not delete before inserting. However because
     // of the fast approaching deadline do this for now.
 
     // record has been changed so delete the old record before inserting
-    if ($record != null) {
-        db_query("DELETE FROM {aj_attendance} WHERE _id='".$_id."'");
-    }
+    //if ($record != null) {
+    //    db_query("DELETE FROM {aj_attendance} WHERE _id='".$_id."'");
+    //}
+
+    // delete all records for this id if already exist
+    db_query("DELETE FROM {aj_attendance} WHERE _id='".$_id."'");
 
     // fetch the document from couch db
     $doc = ajetlattendance_OpenRegById($_id);
