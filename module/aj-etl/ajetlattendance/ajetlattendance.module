@@ -84,13 +84,16 @@ function load_attendance_worker()
         // lastModified is in format as 2014-08-11T13:50:41-03:00 so need to re-create
         $lastModified = $lastModified1.':'.$lastModified2.':'.$lastModified3.':'.$lastModified4;
 
-        // check if the record with the same id and last modified date already exist
-       // $record = ajetlattendance_getAttendanceByIdAndModifiedDate($one_row['id'], $lastModified);
+        // ignore if the date is in the future
+        if (!ajetlattendance_isDateInFuture($lastModified)) {
+            // check if the record with the same id and last modified date already exist
+            $record = ajetlattendance_getAttendanceByIdAndModifiedDate($one_row['id'], $lastModified);
 
-       // if ($record != null) {
-       //     ajetllog_log("ajetlattendance", "MESSAGE", "Found same exact record and stopped loading registrations for document is".$one_row['id']);
-       //     break;
-       // }
+            if ($record != null) {
+                ajetllog_log("ajetlattendance", "MESSAGE", "Found same exact record and stopped loading registrations for document is" . $one_row['id']);
+                break;
+            }
+        }
 
 
         ajetlattendance_loadAttendance($one_row['id'], $lastModified);
@@ -386,18 +389,18 @@ function ajetlattendance_getAttendanceByIdDifferentDate($_id, $lastModifiedAt)
 function ajetlattendance_loadAttendance($_id, $lastModifiedAt){
 
     // check if the record with the same id but different modified date already exist
-    //$record = ajetlattendance_getAttendanceByIdDifferentDate($_id, $lastModifiedAt);
+    $record = ajetlattendance_getAttendanceByIdDifferentDate($_id, $lastModifiedAt);
 
     // TBD: Maybe need to update the existing document, not delete before inserting. However because
     // of the fast approaching deadline do this for now.
 
     // record has been changed so delete the old record before inserting
-    //if ($record != null) {
-    //    db_query("DELETE FROM {aj_attendance} WHERE _id='".$_id."'");
-    //}
+    if ($record != null) {
+       db_query("DELETE FROM {aj_attendance} WHERE _id='".$_id."'");
+    }
 
     // delete all records for this id if already exist
-    db_query("DELETE FROM {aj_attendance} WHERE _id='".$_id."'");
+    //db_query("DELETE FROM {aj_attendance} WHERE _id='".$_id."'");
 
     // fetch the document from couch db
     $doc = ajetlattendance_OpenRegById($_id);
@@ -459,6 +462,28 @@ function ajetlattendance_couchDateTime2Mysql($dt){
 
     return " STR_TO_DATE('".$dt."', '%Y-%m-%dT%H:%i:%S')";
 }
+
+
+/**
+ *
+ * Checks if the date is in the future.
+ *
+ * @param $dt
+ */
+function ajetlattendance_isDateInFuture($dt)
+{
+    // remove the last 6 chars, e.g. the couchDB time zone
+    $dt = substr($dt, 0, 10);
+
+
+    if (strtotime($dt) > strtotime('today'))
+        return true;
+
+
+    return false;
+}
+
+
 
 
 /**

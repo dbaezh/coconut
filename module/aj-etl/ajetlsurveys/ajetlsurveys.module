@@ -95,13 +95,16 @@ function load_surveys_worker()
         // lastModified is in format as 2014-08-11T13:50:41-03:00 so need to re-create
         $lastModified = $lastModified1.':'.$lastModified2.':'.$lastModified3.':'.$lastModified4;
 
-        // check if the record with the same id and last modified date already exist
-        $record = ajetlsurveys_ajetlsurveys_getSurveyByIdAndModifiedDate($one_row['id'], $lastModified);
+        // ignore if the date is in the future - not sure how that happened
+        if (!ajetlsurveys_isDateInFuture($lastModified)){
+          // check if the record with the same id and last modified date already exist
+         $record = ajetlsurveys_ajetlsurveys_getSurveyByIdAndModifiedDate($one_row['id'], $lastModified);
 
-        if ($record != null) {
-           ajetllog_log("ajetlsurveys", "MESSAGE", "Found same exact record and stopped loading surveys.");
-           break;
-        }
+         if ($record != null) {
+            ajetllog_log("ajetlsurveys", "MESSAGE", "Found same exact record and stopped loading surveys.");
+            break;
+         }
+       }
 
 
         ajetlsurveys_loadSurvey($one_row['id'], $lastModified);
@@ -502,6 +505,24 @@ function ajetlsurveys_loadSurvey($_id, $lastModifiedAt){
 }
 
 
+/**
+ *
+ * Checks if the date is in the future.
+ *
+ * @param $dt
+ */
+function ajetlsurveys_isDateInFuture($dt)
+{
+    // remove the last 6 chars, e.g. the couchDB time zone
+    $dt = substr($dt, 0, 10);
+
+
+    if (strtotime($dt) > strtotime('today'))
+        return true;
+
+
+    return false;
+}
 
 
 

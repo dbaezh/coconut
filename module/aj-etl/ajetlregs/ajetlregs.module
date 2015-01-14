@@ -83,12 +83,15 @@ function load_regs_worker()
         // lastModified is in format as 2014-08-11T13:50:41-03:00 so need to re-create
         $lastModified = $lastModified1.':'.$lastModified2.':'.$lastModified3.':'.$lastModified4;
 
-        // check if the record with the same id and last modified date already exist
-        $record = ajetlregs_ajetlregs_getRegistrationByIdAndModifiedDate($one_row['id'], $lastModified);
+        // ignore if the date is in the future - not sure how that happened
+        if (!ajetlregs_isDateInFuture($lastModified)) {
+            // check if the record with the same id and last modified date already exist
+            $record = ajetlregs_ajetlregs_getRegistrationByIdAndModifiedDate($one_row['id'], $lastModified);
 
-        if ($record != null) {
-                ajetllog_log("ajetlregs", "MESSAGE", "Found same exact record and stopped loading registrations for document is".$one_row['id']);
+            if ($record != null) {
+                ajetllog_log("ajetlregs", "MESSAGE", "Found same exact record and stopped loading registrations for document is" . $one_row['id']);
                 break;
+            }
         }
 
 
@@ -108,6 +111,26 @@ function load_regs_worker()
 
 }
 
+
+
+/**
+ *
+ * Checks if the date is in the future.
+ *
+ * @param $dt
+ */
+function ajetlregs_isDateInFuture($dt)
+{
+    // remove the last 6 chars, e.g. the couchDB time zone
+    $dt = substr($dt, 0, 10);
+
+
+    if (strtotime($dt) > strtotime('today'))
+        return true;
+
+
+    return false;
+}
 
 
 /**
