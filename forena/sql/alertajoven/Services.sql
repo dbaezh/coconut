@@ -46,5 +46,6 @@ and adate.field_activity_date_value >= :from_date
 and adate.field_activity_date_value <= :to_date
 --END
 
-group by aname.field_activity_name_value
+group by atten.activity_id
+--group by aname.field_activity_name_value
 --WITH ROLLUP
