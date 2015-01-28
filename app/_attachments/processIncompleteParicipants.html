@@ -45,7 +45,7 @@
 
             writeHeaders2CSV();
 
-            db.view("coconut/resultsByQuestionAndComplete",
+            db.view("coconut/resultsByQuestionAndCompleteWithCollateral",
                     {
                         success:function(data) {
                             // filter data and keep only registrations
