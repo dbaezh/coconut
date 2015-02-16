@@ -248,7 +248,8 @@ function ajetlregs_genInsertQueryPart2($doc){
             $val = " NOW() ";
             $query = $query . $val . " ";
         }else if ($key === "Fecha"){
-            $val = ajetlregs_couchDate2Mysql($doc[$key]);
+           // $val = ajetlregs_couchDate2Mysql($doc[$key]);
+            $val = ajetlregs_processFecha($doc);
             $query = $query . $val . " ";
         }else if ($key === "DOB") {
             $val = ajetlregs_processDOB($doc);
@@ -282,96 +283,21 @@ function ajetlregs_genInsertQueryPart2($doc){
 
 }
 
-/**
- * Validates the DOB and returns ERROR if date is missing or not valid.
- * It's also log error message and CSV data for providers to fix.
- *
- * @param $doc
- *
- */
-function ajetlregs_processDOB($doc){
 
-    // process collateral
-    if ($doc['Estecolateralparticipante'] === 'Sí'){
-        // first check if exist
-        if ($doc['Año'] == null || $doc['Mes'] == null || $doc['Día'] == null )
-            return " null ";
-
-        // check if collateral and the dob is 1/1/1990
-        if ($doc['Año'] === '1990' && $doc['Mes'] === '1' && $doc['Mes'] === '1' && $doc['Día'] == '1'){
-            ajetllog_error("ajetlregs", "DEBUG", "FOUND COLLATERALL ", null, null);
-            return " null ";
-        }
-    }
-
- // construct DOB from Dia-Mes-Ano
-    $yyyy =  $doc['Año'];
-    if (strlen($yyyy) != 4) {
-        $dataCSV = ajetlregs_constructCSVData($doc);
-        ajetllog_error("ajetlregs", "ERROR", "Año de nacimiento está mal.", $dataCSV, $doc['provider_id']);
-        return "ERROR";
-    }
-
-    $mm = $doc['Mes'];
-
-    // check if month is missing
-    // TBD: need to log the error and not insert this document
-    if ($mm == null || $mm == ''){
-        $dataCSV = ajetlregs_constructCSVData($doc);
-        ajetllog_error("ajetlregs", "ERROR", "Mes falta.", $dataCSV, $doc['provider_id']);
-        return "ERROR";
-    }
-
-
-
-    if (!is_numeric($doc['Mes'])) {
-        $mm = ajetlregs_month2number($doc['Mes']);
-    }
-
-    $mm = (int)$mm;
-    // cases where $mm = "9" instead of "09"
-    if (strlen($mm) < 2) {
-        $mm = "0".$mm;
-    }
-
-    $dd = $doc['Día'];
-    // check if date is missing
-    if ($dd == null || $dd == ''){
-        $dataCSV = ajetlregs_constructCSVData($doc);
-        ajetllog_error("ajetlregs", "ERROR", "Fecha de falta.", $dataCSV, $doc['provider_id']);
-        return "ERROR";
-    }
-
-    // convert day to number and check if valid date
-    $dd = (int)$dd;
-
-
-    // check if date is valid
-    if (!checkdate((int)$mm, (int)$dd, (int)$doc['Año'])){
-        $dataCSV = ajetlregs_constructCSVData($doc);
-        ajetllog_error("ajetlregs", "ERROR", "Fecha de nacimiento no es válida - check mes, la fecha o el año", $dataCSV, $doc['provider_id']);
-        return "ERROR";
-    }
-
-    if (strlen($dd) < 2) {
-        $dd = "0".$dd;
-    }
-
-
-    $dob = $dd.'/'.$mm.'/'.$doc['Año'];
-    $val = ajetlregs_couchDate2Mysql($dob);
-
-    return $val;
-}
 
 /**
  * Constructs data in format UUID, provider_id, Nombre, Apellido, Barrio/Comunidad, Mes, Dia, Ano
  * @param $doc
  *
  */
-function ajetlregs_constructCSVData($doc){
+function ajetlregs_constructCSVData($doc, $mm,  $dd, $yyyy){
     $dataCSV = $doc['uuid'].','.$doc['provider_id'].','.$doc['Nombre'].','.$doc['Apellido'].','
                .$doc['BarrioComunidad'].','.$doc['Mes'].','.$doc['Día'].','.$doc['Año'];
+
+
+    //$dataCSV = $doc['uuid'].','.$doc['provider_id'].','.$doc['Nombre'].','.$doc['Apellido'].','
+      //  .$doc['BarrioComunidad'].','.$mm.','.$dd.','.$yyyy;
+
     return $dataCSV;
 
 }
@@ -415,7 +341,7 @@ function ajetlregs_insertRegistrationOld($doc){
     // transform dates
     $createdAt = ajetlregs_couchDateTime2Mysql($doc['createdAt']);
     $lastModifiedAt = ajetlregs_couchDateTime2Mysql($doc['lastModifiedAt']);
-    $fetcha = ajetlregs_couchDate2Mysql($doc['Fecha']);
+    $fetcha = ajetlregs_processFecha($doc);
 
 
     $query = "INSERT INTO {aj_registration}".
@@ -642,21 +568,13 @@ function ajetlregs_couchDate2Mysql($dt){
     if ($dt == null )
         return " null ";
 
-    $pos = stripos($dt, "octubre");
 
-    if ($pos > 0){
-        list($dd, $mm, $y) = explode("-", $dt);
-        if (strlen($dd) == 1)
-            $dd = '0'.$dd;
-        if($mm === "octubre")
-            $mm = '10';
-        $newDt = $dd.'-'.$mm.'-'.$y;
-        return " STR_TO_DATE('".$newDt."', '%d-%m-%Y')";
-    }
 
 
     // date is in dd/mm/YYYY format
     $pos = stripos($dt, "/");
+
+    // check the year
 
     if ($pos > 0)
         return " STR_TO_DATE('".$dt."', '%d/%m/%Y')";
@@ -669,9 +587,10 @@ function ajetlregs_couchDate2Mysql($dt){
             return " null ";
 
         $pos1 = stripos($dt, "-");
-        if ($pos1 === 2) // date is in format 23/05/2014
+
+        if ($pos1 === 2) { // date is in format 23/05/2014
             return " STR_TO_DATE('" . $dt . "', '%d-%m-%Y')";
-        else {
+        }else {
 
             $first5 = substr($dt, 0, 5);
             $last4 = substr($first5, 1);
@@ -694,44 +613,295 @@ function ajetlregs_couchDate2Mysql($dt){
     }
 }
 
-/**
- * Converts month in Spanish to number. For example febrero will be converted to 02
- * @param m $
- *
- */
-function ajetlregs_month2number($m){
 
 
-    switch ($m) {
-        case "enero":
-            return "01";
-        case "febrero":
-            return "02";
-        case "marzo":
-            return "03";
-        case "abril":
-            return "04";
-        case "mayo":
-            return "05";
-        case "junio":
-            return "06";
-        case "julio":
-            return "07";
-        case "agosto":
-            return "08";
-        case "septiembre":
-            return "09";
-        case "octubre":
-            return "10";
-        case "noviembre":
-            return "11";
-        case "diciembre":
-            return "12";
-        default:
-            return $m;
+
+
+function ajetlregs_processYear($yyyy){
+ if (strlen($yyyy) == 4)
+     return ($yyyy);
+
+
+    // it means the year has one additional character on front, e.g. 22014, 32014, etc..
+    if (stripos($yyyy, "3") > 0){
+        return "2013";
+    }else if (stripos($yyyy, "4") > 0){
+        return "2014";
+    }else if (stripos($yyyy, "5") > 0) {
+        return "2015";
     }
+   return $yyyy;
 
 }
 
+
+function ajetlregs_startsWith($haystack, $needle)
+{
+    $length = strlen($needle);
+    return (substr($haystack, 0, $length) === $needle);
+}
+
+
+
+    /**
+     * Converts month in Spanish to number. For example febrero will be converted to 02
+     * @param m $
+     *
+     */
+    function ajetlregs_month2number($m){
+
+        $m = strtolower($m);
+
+        //enero, febrero, marzo, abril, mayo,junio, julio, agosto, septiembre, octubre, noviembre, diciembre
+
+        if (ajetlregs_startsWith($m, "e"))
+            return "01";
+        else if (ajetlregs_startsWith($m, "f"))
+            return "02";
+        else if (ajetlregs_startsWith($m, "mar"))
+            return "03";
+        else if (ajetlregs_startsWith($m, "ab"))
+            return "04";
+        else if (ajetlregs_startsWith($m, "m"))
+            return "05";
+        else if (ajetlregs_startsWith($m, "jun"))
+            return "06";
+        else if (ajetlregs_startsWith($m, "jul"))
+            return "07";
+        else if (ajetlregs_startsWith($m, "a"))
+            return "08";
+        else if (ajetlregs_startsWith($m, "s"))
+            return "09";
+        else if (ajetlregs_startsWith($m, "o"))
+            return "10";
+        else if (ajetlregs_startsWith($m, "n"))
+            return "11";
+        else if (ajetlregs_startsWith($m, "d"))
+            return "12";
+
+
+        return '00';
+
+    }
+
+
+    /**
+     *
+
+     * Example: converts 23/10/2013 to STR_TO_DATE('23/10/2013', '%d/%m/%Y').
+     *
+     * Handle different date formats. The input date might be in format:
+     * 23-07-2014
+     * 2014-07-23
+     * 23/04/2014
+     *
+     */
+    function ajetlregs_processFecha($doc){
+        $dt = $doc['Fecha'];
+
+        if ($dt == null ) {
+            $dataCSV = ajetlregs_constructCSVData($doc, $doc['Mes'], $doc['Día'], "");
+            ajetllog_error("ajetlregs", "ERROR", "Fecha is missing.", $dataCSV, $doc['provider_id']);
+            return " null ";
+        }
+
+
+        // date is in dd/mm/YYYY format
+        $pos = stripos($dt, "/");
+
+        if ($pos > 0) {
+            list($dd, $mm, $yyyy) = explode("/", $dt);
+
+            $yyyy = ajetlregs_processYear($yyyy);
+
+            // check if date is valid
+            if (!checkdate((int)$mm, (int)$dd, (int)$yyyy)){
+                $dataCSV = ajetlregs_constructCSVData($doc, $mm, $dd, $yyyy);
+                ajetllog_error("ajetlregs", "INVALID DATE", "Fecha de nacimiento no es válida - check mes, la fecha o el año", $dataCSV, $doc['provider_id']);
+                return " null ";
+            }
+
+            return " STR_TO_DATE('" . $dt . "', '%d/%m/%Y')";
+        }
+
+        $pos = stripos($dt, "-");
+
+        if ($pos > 0) {
+
+            list($dd, $mm, $yyyy) = explode("-", $dt);
+            $yyyy = ajetlregs_processYear($yyyy);
+
+            // check if date is valid
+            if (!checkdate((int)$mm, (int)$dd, (int)$yyyy)){
+
+                // check for 2014-06-26
+                list($yyyy, $mm, $dd ) = explode("-", $dt);
+                $yyyy = ajetlregs_processYear($yyyy);
+
+                if (!checkdate((int)$mm, (int)$dd, (int)$yyyy)) {
+                    $dataCSV = ajetlregs_constructCSVData($doc, $mm, $dd, $yyyy);
+                    ajetllog_error("ajetlregs", "INVALID DATE", "Fecha de nacimiento no es válida - check mes, la fecha o el año", $dataCSV, $doc['provider_id']);
+                    return " null ";
+                }
+            }
+
+            return " STR_TO_DATE('" . $dt . "', '%Y-%m-%d')";
+        }else{
+            //assume date is in 14032014 format
+            $dd = substr($dt,0,2);
+            $mm = substr($dt,2,2);
+            $yyyy = substr($dt,4);
+
+            $yyyy = ajetlregs_processYear($yyyy);
+
+            // check if date is valid
+            if (!checkdate((int)$mm, (int)$dd, (int)$yyyy)){
+                $dataCSV = ajetlregs_constructCSVData($doc, $mm, $dd, $yyyy);
+                ajetllog_error("ajetlregs", "INVALID DATE", "Fecha de nacimiento no es válida - check mes, la fecha o el año", $dataCSV, $doc['provider_id']);
+                return " null ";
+            }
+
+
+            return " STR_TO_DATE('" . $dt . "', '%d%m%Y') ";
+        }
+
+
+
+        $dataCSV = ajetlregs_constructCSVData($doc, "", "", "");
+        ajetllog_error("ajetlregs", "INVALID DATE", "Fecha de nacimiento no es válida", $dataCSV, $doc['provider_id']);
+
+        return " null ";
+
+
+    }
+
+    /**
+     * Validates the DOB and returns ERROR if date is missing or not valid.
+     * It's also log error message and CSV data for providers to fix.
+     *
+     * NOTE: Changed 02/13/2015 to load registrations with null DOB and trim DOB month and check for 31.
+     *
+     * @param $doc
+     *
+     */
+    function ajetlregs_processDOB($doc){
+
+        // process collateral
+        // TBD: first check if the index exist
+        if (array_key_exists('Estecolateralparticipante', $doc) && $doc['Estecolateralparticipante'] === 'Sí'){
+            // first check if exist
+            if ($doc['Año'] == null || $doc['Mes'] == null || $doc['Día'] == null )
+                return " null ";
+
+            // check if collateral and the dob is 1/1/1990
+            if ($doc['Año'] === '1990' && $doc['Mes'] === '1' && $doc['Mes'] === '1' && $doc['Día'] == '1'){
+                //ajetllog_error("ajetlregs", "DEBUG", "FOUND COLLATERALL ", null, null);
+                return " null ";
+            }
+        }
+
+        // still load regs with no DOB
+        if ($doc['Año'] == null || $doc['Mes'] == null || $doc['Día'] == null )
+            return " null ";
+
+        // construct DOB from Dia-Mes-Ano
+        $yyyy =  $doc['Año'];
+
+        $yyyy =  ajetlregs_processYear($yyyy);
+
+        // check for 98, 99, etc.. 2 digits for the year
+        if (strlen($yyyy) == 2) {
+            $yyyy = '19'.$yyyy;
+        }
+
+        if (strlen($yyyy) != 4) {
+            $dataCSV = ajetlregs_constructCSVData($doc, $doc['Mes'], $doc['Día'], $yyyy);
+            ajetllog_error("ajetlregs", "ERROR", "Año de nacimiento está mal.", $dataCSV, $doc['provider_id']);
+            return "ERROR";
+        }
+
+        // remove whitespaces
+        $mm = trim($doc['Mes']);
+
+        // remove "0" if starts with 0
+        $mm = ltrim($mm, '0');
+
+        // check if month is missing
+        // TBD: need to log the error and not insert this document
+        if ($mm == null || $mm == ''){
+            $dataCSV = ajetlregs_constructCSVData($doc, $mm, $doc['Día'], $yyyy);
+            ajetllog_error("ajetlregs", "INVALID DATE", "Meses falta.", $dataCSV, $doc['provider_id']);
+            return " null ";
+        }
+
+
+
+        if (!is_numeric($mm)) {
+            $mm = ajetlregs_month2number($mm);
+        }
+
+        $mm = (int)$mm;
+
+        if ( $mm > 12)
+            $mm = 1;
+
+        // cases where $mm = "9" instead of "09"
+        if (strlen($mm) < 2) {
+            $mm = "0".$mm;
+        }
+
+        // trim white spaces
+        $dd = trim($doc['Día']);
+
+        // trim leading zeros
+        $dd =ltrim($dd, '0');
+
+        if ($dd == '31' && ( $mm == '04' || $mm == '06' || $mm == '09' || $mm == '11')){
+            $dd='30';
+        }
+
+        if (($dd == '29' || $dd == '30' || $dd == '31') &&  $mm == '02'){
+            $dd='28';
+        }
+
+        // check if date is missing
+        if ($dd == null || $dd == ''){
+            $dataCSV = ajetlregs_constructCSVData($doc, $mm, $dd, $yyyy);
+            ajetllog_error("ajetlregs", "ERROR", "Fecha de falta.", $dataCSV, $doc['provider_id']);
+            return " ";
+        }
+
+
+
+
+
+        // convert day to number and check if valid date
+        $dd = (int)$dd;
+
+
+
+
+
+        // check if date is valid
+        if (!checkdate((int)$mm, (int)$dd, (int)$doc['Año'])){
+            $dataCSV = ajetlregs_constructCSVData($doc, $mm, $dd, $yyyy);
+            ajetllog_error("ajetlregs", "INVALID DATE", "Fecha de nacimiento no es válida - check mes, la fecha o el año", $dataCSV, $doc['provider_id']);
+            return " null ";
+        }
+
+        if (strlen($dd) < 2) {
+            $dd = "0".$dd;
+        }
+
+
+        $dob = $dd.'/'.$mm.'/'.$yyyy;
+
+
+        return " STR_TO_DATE('" . $dob . "', '%d/%m/%Y')";
+
+
+
+
+    }
 
 
