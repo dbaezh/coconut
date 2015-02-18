@@ -248,7 +248,6 @@ function ajetlregs_genInsertQueryPart2($doc){
             $val = " NOW() ";
             $query = $query . $val . " ";
         }else if ($key === "Fecha"){
-           // $val = ajetlregs_couchDate2Mysql($doc[$key]);
             $val = ajetlregs_processFecha($doc);
             $query = $query . $val . " ";
         }else if ($key === "DOB") {
@@ -291,7 +290,7 @@ function ajetlregs_genInsertQueryPart2($doc){
  *
  */
 function ajetlregs_constructCSVData($doc, $mm,  $dd, $yyyy){
-    $dataCSV = $doc['uuid'].','.$doc['provider_id'].','.$doc['Nombre'].','.$doc['Apellido'].','
+    $dataCSV = $doc['Fecha'].','.$doc['uuid'].','.$doc['Nombre'].','.$doc['Apellido'].','
                .$doc['BarrioComunidad'].','.$doc['Mes'].','.$doc['Día'].','.$doc['Año'];
 
 
@@ -324,7 +323,7 @@ function ajetlregs_insertRegistration($doc){
     try {
         $result = db_query($query);
     }catch(Exception $e){
-        ajetllog_error("ajetlregs", "MySQL ERROR", "MySQL error.",$doc['_id'] , "");
+        ajetllog_error("ajetlregs", "MySQL ERROR", "MySQL error.",$doc['_id'].':'.$doc['Fecha'] , $doc['provider_id']);
         ajetllog_error("ajetlregs", "MySQL ERROR", "MySQL error.", $e->getMessage(), "");
     }
 
@@ -579,24 +578,24 @@ function ajetlregs_couchDate2Mysql($dt){
 
 
 function ajetlregs_processYear($yyyy){
- // check for "-" and "/"
- if (stripos($yyyy, "/") > 0 || stripos($yyyy, "-") > 0) {
-     //make some wrong year
+    // check for "-" and "/"
+    if (stripos($yyyy, "/") > 0 || stripos($yyyy, "-") > 0) {
+        //make some wrong year
 
-     return '999999';
- }
+        return '999999';
+    }
     //0013-11-14
 
- // check if starts with '00'
+    // check if starts with '00'
 
- if (ajetlregs_startsWith($yyyy, '0')){
-     $yyyy = 'XYZ'.$yyyy;
- }
+    if (ajetlregs_startsWith($yyyy, '0')){
+        $yyyy = 'XYZ'.$yyyy;
+    }
 
- if (strlen($yyyy) == 4) {
+    if (strlen($yyyy) == 4) {
 
-     return ($yyyy);
- }
+        return ($yyyy);
+    }
 
 
     // it means the year has one additional character on front, e.g. 22014, 32014, etc..
@@ -610,10 +609,37 @@ function ajetlregs_processYear($yyyy){
         return "2016";
     }
 
-   return $yyyy;
+    if (strlen($yyyy) != 4)
+        $yyyy = "NOTVALID";
+
+    return $yyyy;
 
 }
 
+
+
+function ajetlregs_trim($val){
+    $patterns = array();
+    $patterns[0] = '/\//';
+    $patterns[1] = '/\(/';
+    $patterns[2] = '/\)/';
+    $patterns[3] = '/\\\/';
+    $patterns[4] = '/\%/';
+    $patterns[5] = '/ /';
+    $patterns[6] = '/-/';
+
+
+    $replacements = array();
+    $replacements[0] = '';
+    $replacements[1] = '';
+    $replacements[2] = '';
+    $replacements[3] = '';
+    $replacements[4] = '';
+    $replacements[5] = '';
+    $replacements[6] = '';
+
+    return preg_replace($patterns, $replacements, $val);
+}
 
 function ajetlregs_startsWith($haystack, $needle)
 {
@@ -665,124 +691,127 @@ function ajetlregs_startsWith($haystack, $needle)
     }
 
 
-    /**
-     *
+/**
+ *
 
-     * Example: converts 23/10/2013 to STR_TO_DATE('23/10/2013', '%d/%m/%Y').
-     *
-     * Handle different date formats. The input date might be in format:
-     * 23-07-2014
-     * 2014-07-23
-     * 23/04/2014
-     *
-     */
-    function ajetlregs_processFecha($doc){
-        $dt = $doc['Fecha'];
-
-
-
-        if ($dt == null ) {
-            $dataCSV = ajetlregs_constructCSVData($doc, $doc['Mes'], $doc['Día'], "");
-            ajetllog_error("ajetlregs", "INVALID DATE", "Fecha is missing.", $dataCSV, $doc['provider_id']);
-            return " null ";
-        }
-
-        // first search if date is in format 2014-11-12T12:45:58-04:0 and strip all after "T"
-        $pos = stripos($dt, 'T');
-        if ( $pos > 0){
-            $dt = substr($dt, 0, $pos -1);
-        }
-
-        // date is in dd/mm/YYYY format
-        $pos = stripos($dt, "/");
-
-        if ($pos > 0) {
-            list($dd, $mm, $yyyy) = explode("/", $dt);
+ * Example: converts 23/10/2013 to STR_TO_DATE('23/10/2013', '%d/%m/%Y').
+ *
+ * Handle different date formats. The input date might be in format:
+ * 0002-05-25
+ * 23-05-2013
+ * 19-2-14
+ * 0014-02-20
+ * 23-07-2014
+ * 2014-07-23
+ * 23/04/2014
+ *
+ */
+function ajetlregs_processFecha($doc){
+    $dt = $doc['Fecha'];
 
 
+
+    if ($dt == null ) {
+        //$dataCSV = ajetlregs_constructCSVData($doc, "", "", "");
+        //ajetllog_error("ajetlregs", "INVALID DATE", "Fecha is missing.", $dataCSV, $doc['provider_id']);
+        return " null ";
+    }
+
+    // first search if date is in format 2014-11-12T12:45:58-04:0 and strip all after "T"
+    $pos = stripos($dt, 'T');
+    if ( $pos > 0){
+        $dt = substr($dt, 0, $pos -1);
+    }
+
+    // date is in dd/mm/YYYY format
+    $pos = stripos($dt, "/");
+
+    if ($pos > 0) {
+        list($dd, $mm, $yyyy) = explode("/", $dt);
+
+
+        $yyyy = ajetlregs_processYear($yyyy);
+
+        // check if date is valid
+        if (!checkdate((int)$mm, (int)$dd, (int)$yyyy)){
+
+            // check for 2014-06-26
+            list($yyyy, $mm, $dd ) = explode("/", $dt);
             $yyyy = ajetlregs_processYear($yyyy);
 
-            // check if date is valid
-            if (!checkdate((int)$mm, (int)$dd, (int)$yyyy)){
-
-                // check for 2014-06-26
-                list($yyyy, $mm, $dd ) = explode("/", $dt);
-                $yyyy = ajetlregs_processYear($yyyy);
-
-                if (!checkdate((int)$mm, (int)$dd, (int)$yyyy)) {
-                    $dataCSV = ajetlregs_constructCSVData($doc, $mm, $dd, $yyyy);
-                    ajetllog_error("ajetlregs", "INVALID DATE", "Fecha de nacimiento no es válida - check mes, la fecha o el año", $dataCSV, $doc['provider_id']);
-                    return " null ";
-                }
-
-                $dt = $yyyy.'/'.$mm.'/'.$dd;
-                return " STR_TO_DATE('" . $dt . "', '%Y/%m/%d')";
-            }
-
-            $dt = $dd.'/'.$mm.'/'.$yyyy;
-            return " STR_TO_DATE('" . $dt . "', '%d/%m/%Y')";
-        }
-
-        $pos = stripos($dt, "-");
-
-        if ($pos > 0) {
-
-
-            //0013-11-14
-
-            //2014-11-0013
-
-            list($dd, $mm, $yyyy) = explode("-", $dt);
-            $yyyy = ajetlregs_processYear($yyyy);
-
-            // check if date is valid
-            if (!checkdate((int)$mm, (int)$dd, (int)$yyyy)){
-
-                // check for 2014-06-26
-                list($yyyy, $mm, $dd ) = explode("-", $dt);
-                $yyyy = ajetlregs_processYear($yyyy);
-
-                if (!checkdate((int)$mm, (int)$dd, (int)$yyyy)) {
-                    $dataCSV = ajetlregs_constructCSVData($doc, $mm, $dd, $yyyy);
-                    ajetllog_error("ajetlregs", "INVALID DATE", "Fecha de nacimiento no es válida - check mes, la fecha o el año", $dataCSV, $doc['provider_id']);
-                    return " null ";
-                }
-
-                $dt = $yyyy.'-'.$mm.'-'.$dd;
-                return " STR_TO_DATE('" . $dt . "', '%Y-%m-%d')";
-            }
-
-            $dt = $yyyy.'-'.$mm.'-'.$dd;
-            return " STR_TO_DATE('" . $dt . "', '%d-%m-%y')";
-        }else{
-            //assume date is in 14032014 format
-            $dd = substr($dt,0,2);
-            $mm = substr($dt,2,2);
-            $yyyy = substr($dt,4);
-
-            $yyyy = ajetlregs_processYear($yyyy);
-
-            // check if date is valid
-            if (!checkdate((int)$mm, (int)$dd, (int)$yyyy)){
+            if (!checkdate((int)$mm, (int)$dd, (int)$yyyy)) {
                 $dataCSV = ajetlregs_constructCSVData($doc, $mm, $dd, $yyyy);
-                ajetllog_error("ajetlregs", "INVALID DATE", "Fecha de nacimiento no es válida - check mes, la fecha o el año", $dataCSV, $doc['provider_id']);
+                ajetllog_error("ajetlregs", "INVALID DATE", "Fecha  no es válida ", $dataCSV, $doc['provider_id']);
                 return " null ";
             }
 
+            $dt = $yyyy.'/'.$mm.'/'.$dd;
+            return " STR_TO_DATE('" . $dt . "', '%Y/%m/%d')";
+        }
 
-            return " STR_TO_DATE('" . $dt . "', '%d%m%Y') ";
+        $dt = $dd.'/'.$mm.'/'.$yyyy;
+        return " STR_TO_DATE('" . $dt . "', '%d/%m/%Y')";
+    }
+
+    $pos = stripos($dt, "-");
+
+    if ($pos > 0) {
+
+
+        //0013-11-14
+
+        //2014-11-0013
+
+        list($dd, $mm, $yyyy) = explode("-", $dt);
+        $yyyy = ajetlregs_processYear($yyyy);
+
+        // check if date is valid
+        if (!checkdate((int)$mm, (int)$dd, (int)$yyyy) || strlen($dd) > 2 ){
+
+            // check for 2014-06-26
+            list($yyyy, $mm, $dd ) = explode("-", $dt);
+            $yyyy = ajetlregs_processYear($yyyy);
+
+            if (!checkdate((int)$mm, (int)$dd, (int)$yyyy)) {
+                $dataCSV = ajetlregs_constructCSVData($doc, $mm, $dd, $yyyy);
+                ajetllog_error("ajetlregs", "INVALID DATE", "Fecha  no es válida", $dataCSV, $doc['provider_id']);
+                return " null ";
+            }
+
+            $dt = $yyyy.'-'.$mm.'-'.$dd;
+            return " STR_TO_DATE('" . $dt . "', '%Y-%m-%d')";
+        }
+
+        $dt = $yyyy.'-'.$mm.'-'.$dd;
+        return " STR_TO_DATE('" . $dt . "', '%Y-%m-%d')";
+    }else{
+        //assume date is in 14032014 format
+        $dd = substr($dt,0,2);
+        $mm = substr($dt,2,2);
+        $yyyy = substr($dt,4);
+
+        $yyyy = ajetlregs_processYear($yyyy);
+
+        // check if date is valid
+        if (!checkdate((int)$mm, (int)$dd, (int)$yyyy)){
+            $dataCSV = ajetlregs_constructCSVData($doc, $mm, $dd, $yyyy);
+            ajetllog_error("ajetlregs", "INVALID DATE", "Fecha  no es válida", $dataCSV, $doc['provider_id']);
+            return " null ";
         }
 
 
-
-        $dataCSV = ajetlregs_constructCSVData($doc, "", "", "");
-        ajetllog_error("ajetlregs", "INVALID DATE", "Fecha de nacimiento no es válida", $dataCSV, $doc['provider_id']);
-
-        return " null ";
-
-
+        return " STR_TO_DATE('" . $dt . "', '%d%m%Y') ";
     }
 
+
+
+    $dataCSV = ajetlregs_constructCSVData($doc, "", "", "");
+    ajetllog_error("ajetlregs", "INVALID DATE", "Fecha  no es válida", $dataCSV, $doc['provider_id']);
+
+    return " null ";
+
+
+}
     /**
      * Validates the DOB and returns ERROR if date is missing or not valid.
      * It's also log error message and CSV data for providers to fix.
@@ -808,6 +837,9 @@ function ajetlregs_startsWith($haystack, $needle)
             }
         }
 
+        if ($doc['Día'] == '0')
+            return ' null ';
+
         // still load regs with no DOB
         if ($doc['Año'] == null || $doc['Mes'] == null || $doc['Día'] == null )
             return " null ";
@@ -829,7 +861,7 @@ function ajetlregs_startsWith($haystack, $needle)
         }
 
         // remove whitespaces
-        $mm = trim($doc['Mes']);
+        $mm = ajetlregs_trim($doc['Mes']);
 
         // remove "0" if starts with 0
         $mm = ltrim($mm, '0');
@@ -859,7 +891,7 @@ function ajetlregs_startsWith($haystack, $needle)
         }
 
         // trim white spaces
-        $dd = trim($doc['Día']);
+        $dd = ajetlregs_trim($doc['Día']);
 
         // trim leading zeros
         $dd =ltrim($dd, '0');

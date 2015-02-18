@@ -8,3 +8,10 @@
 /*
 //@ sourceMappingURL=map.map
 */
+
+
+(function(doc) {
+  if (doc.question === "Participant Survey-es" && (doc.provider_id == "undefined" || doc.provider_id == null ) ) {
+    return emit(doc.uuid, doc.id);
+  }
+});

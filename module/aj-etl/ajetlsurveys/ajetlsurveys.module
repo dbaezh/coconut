@@ -309,7 +309,7 @@ function ajetlsurveys_genInsertQueryPart2($doc){
             $val = " NOW() ";
             $query = $query . $val . " ";
         }else if ($key === "Fecha"){
-            $val = ajetlsurveys_couchDate2Mysql($doc);
+            $val = ajetlsurveys_processFecha($doc);
             $query = $query . $val . " ";
 
         }else if ($key === "27Mes"){
@@ -621,6 +621,197 @@ function ajetlsurveys_couchDate2Mysql($doc){
     }
 }
 
+/**
+ *
+
+ * Example: converts 23/10/2013 to STR_TO_DATE('23/10/2013', '%d/%m/%Y').
+ *
+ * Handle different date formats. The input date might be in format:
+ * 0002-05-25
+ * 23-05-2013
+ * 19-2-14
+ * 0014-02-20
+ * 23-07-2014
+ * 2014-07-23
+ * 23/04/2014
+ *
+ */
+function ajetlsurveys_processFecha($doc){
+    if (!array_key_exists('Fecha', $doc))
+        return " null ";
+
+    $dt = $doc['Fecha'];
+
+
+
+    if ($dt == null ) {
+        //$dataCSV = ajetlsurveys_constructCSVData($doc, "", "", "");
+        //ajetllog_error("ajetlsurveys", "INVALID DATE", "Fecha is missing.", $dataCSV, $doc['provider_id']);
+        return " null ";
+    }
+
+    // first search if date is in format 2014-11-12T12:45:58-04:0 and strip all after "T"
+    $pos = stripos($dt, 'T');
+    if ( $pos > 0){
+        $dt = substr($dt, 0, $pos -1);
+    }
+
+    // date is in dd/mm/YYYY format
+    $pos = stripos($dt, "/");
+
+    if ($pos > 0) {
+        list($dd, $mm, $yyyy) = explode("/", $dt);
+
+
+        $yyyy = ajetlsurveys_processYear($yyyy);
+
+        // check if date is valid
+        if (!checkdate((int)$mm, (int)$dd, (int)$yyyy)){
+
+            // check for 2014-06-26
+            list($yyyy, $mm, $dd ) = explode("/", $dt);
+            $yyyy = ajetlsurveys_processYear($yyyy);
+
+            if (!checkdate((int)$mm, (int)$dd, (int)$yyyy)) {
+                $dataCSV = ajetlsurveys_constructCSVData($doc, $mm, $dd, $yyyy);
+                ajetllog_error("ajetlsurveys", "INVALID DATE", "Fecha  no es válida ", $dataCSV, $doc['provider_id']);
+                return " null ";
+            }
+
+            $dt = $yyyy.'/'.$mm.'/'.$dd;
+            return " STR_TO_DATE('" . $dt . "', '%Y/%m/%d')";
+        }
+
+        $dt = $dd.'/'.$mm.'/'.$yyyy;
+        return " STR_TO_DATE('" . $dt . "', '%d/%m/%Y')";
+    }
+
+    $pos = stripos($dt, "-");
+
+    if ($pos > 0) {
+
+
+        //0013-11-14
+
+        //2014-11-0013
+
+        list($dd, $mm, $yyyy) = explode("-", $dt);
+        $yyyy = ajetlsurveys_processYear($yyyy);
+
+        // check if date is valid
+        if (!checkdate((int)$mm, (int)$dd, (int)$yyyy) || strlen($dd) > 2 ){
+
+            // check for 2014-06-26
+            list($yyyy, $mm, $dd ) = explode("-", $dt);
+            $yyyy = ajetlsurveys_processYear($yyyy);
+
+            if (!checkdate((int)$mm, (int)$dd, (int)$yyyy)) {
+                $dataCSV = ajetlsurveys_constructCSVData($doc, $mm, $dd, $yyyy);
+                ajetllog_error("ajetlsurveys", "INVALID DATE", "Fecha  no es válida", $dataCSV, $doc['provider_id']);
+                return " null ";
+            }
+
+            $dt = $yyyy.'-'.$mm.'-'.$dd;
+            return " STR_TO_DATE('" . $dt . "', '%Y-%m-%d')";
+        }
+
+        $dt = $yyyy.'-'.$mm.'-'.$dd;
+        return " STR_TO_DATE('" . $dt . "', '%Y-%m-%d')";
+    }else{
+        //assume date is in 14032014 format
+        $dd = substr($dt,0,2);
+        $mm = substr($dt,2,2);
+        $yyyy = substr($dt,4);
+
+        $yyyy = ajetlsurveys_processYear($yyyy);
+
+        // check if date is valid
+        if (!checkdate((int)$mm, (int)$dd, (int)$yyyy)){
+            $dataCSV = ajetlsurveys_constructCSVData($doc, $mm, $dd, $yyyy);
+            ajetllog_error("ajetlsurveys", "INVALID DATE", "Fecha no es válida", $dataCSV, $doc['provider_id']);
+            return " null ";
+        }
+
+
+        return " STR_TO_DATE('" . $dt . "', '%d%m%Y') ";
+    }
+
+
+
+    $dataCSV = ajetlsurveys_constructCSVData($doc, "", "", "");
+    ajetllog_error("ajetlsurveys", "INVALID DATE", "Fecha de nacimiento no es válida", $dataCSV, $doc['provider_id']);
+
+    return " null ";
+
+
+}
+
+
+/**
+ * Constructs data in format UUID, provider_id, Nombre, Apellido, Barrio/Comunidad, Mes, Dia, Ano
+ * @param $doc
+ *
+ */
+function ajetlsurveys_constructCSVData($doc){
+    $dataCSV = "";
+
+    if (array_key_exists('Fecha', $doc)) {
+        $dataCSV = $doc['Fecha'] . ',' . $doc['uuid'] . ',' . $doc['_id'];
+    }else{
+        $dataCSV = $doc['uuid'] . ',' . $doc['_id'];
+    }
+
+
+
+    return $dataCSV;
+
+}
+
+function ajetlsurveys_startsWith($haystack, $needle)
+{
+    $length = strlen($needle);
+    return (substr($haystack, 0, $length) === $needle);
+}
+
+
+function ajetlsurveys_processYear($yyyy){
+    // check for "-" and "/"
+    if (stripos($yyyy, "/") > 0 || stripos($yyyy, "-") > 0) {
+        //make some wrong year
+
+        return '999999';
+    }
+    //0013-11-14
+
+    // check if starts with '00'
+
+    if (ajetlsurveys_startsWith($yyyy, '0')){
+        $yyyy = 'XYZ'.$yyyy;
+    }
+
+    if (strlen($yyyy) == 4) {
+
+        return ($yyyy);
+    }
+
+
+    // it means the year has one additional character on front, e.g. 22014, 32014, etc..
+    if (stripos($yyyy, "3") > 0){
+        return "2013";
+    }else if (stripos($yyyy, "4") > 0){
+        return "2014";
+    }else if (stripos($yyyy, "5") > 0) {
+        return "2015";
+    } else if (stripos($yyyy, "6") > 0) {
+        return "2016";
+    }
+
+    if (strlen($yyyy) != 4)
+        $yyyy = "NOTVALID";
+
+    return $yyyy;
+
+}
 
 
 

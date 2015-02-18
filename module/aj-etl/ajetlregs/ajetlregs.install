@@ -104,7 +104,7 @@ function ajetlregs_schema() {
         'Año' => array(
            'description' => 'Año.',
            'type' => 'varchar',
-           'length' => 4,
+           'length' => 6,
            'not null' => FALSE,
            'default' => ''),
         'BarrioComunidad' => array(
@@ -146,7 +146,7 @@ function ajetlregs_schema() {
         'Día' => array(
            'description' => 'Día.',
            'type' => 'varchar',
-           'length' => 4,
+           'length' => 6,
            'not null' => FALSE,
            'default' => ''),
         'Mes' => array(
@@ -194,7 +194,7 @@ function ajetlregs_schema() {
         'Teléfono' => array(
            'description' => 'Teléfono.',
            'type' => 'varchar',
-           'length' => 20,
+           'length' => 255,
            'not null' => FALSE,
            'default' => ''),
         'Estecolateralparticipante' => array(
