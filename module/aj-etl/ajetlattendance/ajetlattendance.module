@@ -90,8 +90,9 @@ function load_attendance_worker()
             $record = ajetlattendance_getAttendanceByIdAndModifiedDate($one_row['id'], $lastModified);
 
             if ($record != null) {
-                ajetllog_log("ajetlattendance", "MESSAGE", "Found same exact record and stopped loading registrations for document is" . $one_row['id']);
-                break;
+                //ajetllog_log("ajetlattendance", "MESSAGE", "Found same exact record and stopped loading activities for document is" . $one_row['id']);
+                ajetllog_log("ajetlattendance", "MESSAGE", "Found same exact record and did not load activity for document: " . $one_row['id']);
+                continue;
             }
         }
 

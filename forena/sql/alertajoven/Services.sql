@@ -1,5 +1,5 @@
 -- ACCESS=access content
-SELECT ifnull(aname.field_activity_name_value, "Total") as 'ServiceName',
+SELECT ifnull(aname.field_activity_name_value, "Total") as 'ServiceName', DATE_FORMAT(adate.field_activity_date_value,'%m-%d-%Y')  as 'ActivityDate',
 SUM(case when reg.Sexo = 'M' then 1 else 0 end) as 'Male', 
 SUM(case when reg.Sexo = 'F' then 1 else 0 end) as 'Female',
 SUM(case when reg.Sexo = 'M' then 0 when reg.Sexo = 'F' then 0 else 1 end) as 'Unknown',
