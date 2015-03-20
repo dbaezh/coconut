@@ -91,7 +91,7 @@ function load_attendance_worker()
 
             if ($record != null) {
                 //ajetllog_log("ajetlattendance", "MESSAGE", "Found same exact record and stopped loading activities for document is" . $one_row['id']);
-                ajetllog_log("ajetlattendance", "MESSAGE", "Found same exact record and did not load activity for document: " . $one_row['id']);
+                //ajetllog_log("ajetlattendance", "MESSAGE", "Found same exact record and did not load activity for document: " . $one_row['id']);
                 continue;
             }
         }
@@ -304,7 +304,7 @@ function ajetlattendance_getAttendanceByIdAndModifiedDate($_id, $lastModifiedAt)
 
     foreach ($result as $record) {
         $retRecord = $record;
-        ajetllog_log("ajetlattendance", "MESSAGE", 'Found existing doc for doc id='.$record->id);
+        //ajetllog_log("ajetlattendance", "MESSAGE", 'Found existing doc for doc id='.$record->id);
         break;
     }
 
