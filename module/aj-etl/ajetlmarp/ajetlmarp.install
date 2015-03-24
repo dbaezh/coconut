@@ -1,0 +1,104 @@
+<?php
+/**
+ * @file
+ * Install module for couchDB ETL process. Creates the couchDB tables.
+ */
+
+// TBD: Move schema definitions in external files
+//require_once ( dirname(__FILE__) . '/regschema.inc'); //
+
+
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
+
+function ajetlmarp_schema() {
+
+  $schema['aj_marp'] = array(
+      'description' => 'AJ MARP form entered in CouchDB.',
+      'fields' => array(
+        'id' => array(
+          'description' => 'The primary identifier.',
+          'type' => 'serial',
+          'unsigned' => TRUE,
+          'not null' => TRUE),
+        '_id' => array(
+          'description' => 'CouchDB document id.',
+          'type' => 'varchar',
+          'length' => 255,
+          'not null' => TRUE,
+          'default' => ''),
+        '_rev' => array(
+          'description' => 'CouchDB revision.',
+          'type' => 'varchar',
+          'length' => 255,
+          'not null' => TRUE,
+          'default' => ''),
+        'createdAt' => array(
+          'description' => 'CouchDb created date',
+          'mysql_type' => 'datetime',
+          'not null' => TRUE),
+        'lastModifiedAt' => array(
+                  'description' => 'CouchDb last modified date',
+                  'mysql_type' => 'datetime',
+                  'not null' => TRUE),
+        'provider_id' => array(
+           'description' => 'Provider Id.',
+           'type' => 'varchar',
+           'length' => 10,
+           'not null' => FALSE,
+           'default' => ''),
+        'user_name' => array(
+           'description' => 'User name who entered the data.',
+           'type' => 'varchar',
+           'length' => 255,
+           'not null' => FALSE,
+           'default' => ''),
+        'uuid' => array(
+           'description' => 'Universal unique id.',
+           'type' => 'varchar',
+           'length' => 12,
+           'not null' => TRUE,
+           'default' => ''),
+        'created' => array(
+          'description' => 'The Unix timestamp when the record was created.',
+          'mysql_type' => 'datetime',
+          'not null' => TRUE),
+        'changed' => array(
+          'description' => 'The Unix timestamp when the record was updated.',
+          'mysql_type' => 'datetime',
+          'not null' => FALSE),
+        'Hombresquetienensexoconhombres' => array(
+           'description' => 'Hombres que tienen sexo con hombres',
+           'type' => 'varchar',
+           'length' => 6,
+           'not null' => FALSE,
+           'default' => ''),
+        'Lostrabajadoresdelsexo' => array(
+           'description' => 'Los trabajadores del sexo',
+           'type' => 'varchar',
+           'length' => 6,
+           'not null' => FALSE,
+           'default' => ''),
+        'Usuariosdedrogasintravenosas' => array(
+           'description' => 'Usuarios de drogas intravenosas.',
+           'type' => 'varchar',
+           'length' => 6,
+           'not null' => FALSE,
+           'default' => ''),
+        
+
+       ),
+      'indexes' => array(
+                'ajetlmarp_uuid'           => array('uuid'),
+                'ajetlmarp_provider_id'    => array('provider_id'),
+                'ajetlmarp_lastModifiedAt' => array('lastModifiedAt'),
+                'ajetlmarp_createdAt'      => array('createdAt'),
+        ),
+      'unique keys' => array(
+        'id' => array('id')
+        ),
+      'primary key' => array('id'),
+    );
+
+  return $schema;
+}
