@@ -101,8 +101,9 @@ function load_surveys_worker()
          $record = ajetlsurveys_ajetlsurveys_getSurveyByIdAndModifiedDate($one_row['id'], $lastModified);
 
          if ($record != null) {
-            ajetllog_log("ajetlsurveys", "MESSAGE", "Found same exact record and stopped loading surveys.");
-            break;
+            //ajetllog_log("ajetlsurveys", "MESSAGE", "Found same exact record and stopped loading surveys.");
+            //break;
+             continue;
          }
        }
 

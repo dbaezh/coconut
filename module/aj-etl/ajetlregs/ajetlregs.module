@@ -54,6 +54,7 @@ function load_regs_worker()
 
     $req_url = 'http://localhost:5984/coconut/_design/coconut/_view/resultsByQuestionAndCompleteWithCollateral?startkey=%22Participant%20Registration-es%3Atrue%3Az%22&endkey=%22Participant%20Registration-es%3Atrue%22&descending=true&include_docs=false';
 
+
     //TBD Uncomment when deploying to prod, the $base_url is not write when deploying on Windows because it has /drupal in the link
     //$req_url = $base_url.':5984/coconut/_design/coconut/_view/resultsByQuestionAndComplete?startkey=%22Participant%20Registration-es%3Atrue%3Az%22&endkey=%22Participant%20Registration-es%3Atrue%22&descending=true&include_docs=false';
 
@@ -61,12 +62,15 @@ function load_regs_worker()
     // prepare the request options
     $req_options = array(
         'method' => 'GET',
+        'timeout'=> 600,
         'headers' => array(
             'Content-Type' => 'application/json'
         ));
 
     // query couchdb data
     $couch_response = drupal_http_request( $req_url, $req_options );
+
+   // ajetllog_error("ajetlregs", "HTTP_ERROR", "HTTP_ERROR",$couch_response->error , null);
 
     // decode to json objects
     $rows = drupal_json_decode( $couch_response->data)['rows'];
@@ -89,8 +93,9 @@ function load_regs_worker()
             $record = ajetlregs_ajetlregs_getRegistrationByIdAndModifiedDate($one_row['id'], $lastModified);
 
             if ($record != null) {
-                ajetllog_log("ajetlregs", "MESSAGE", "Found same exact record and stopped loading registrations for document is" . $one_row['id']);
-                break;
+                //ajetllog_log("ajetlregs", "MESSAGE", "Found same exact record and skipped loading registrations for document is" . $one_row['id']);
+                //break;
+                continue;
             }
         }
 
@@ -355,7 +360,7 @@ function ajetlregs_ajetlregs_getRegistrationByIdAndModifiedDate($_id, $lastModif
 
     foreach ($result as $record) {
         $retRecord = $record;
-        ajetllog_log("ajetlregs", "MESSAGE", 'Found existing doc for doc id='.$record->id);
+       // ajetllog_log("ajetlregs", "MESSAGE", 'Found existing doc for doc id='.$record->id);
         break;
     }
 
