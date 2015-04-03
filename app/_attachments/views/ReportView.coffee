@@ -190,7 +190,8 @@ class ReportView extends Backbone.View
          if isDataEntry is "false"
            html += "<a href=\"#marp/MARP-es" + sPassed + "\">MARP</a><br>"
 			
-         html += "<a href=\"#view/result/" + result.id +  sPassed + "\">Ver Registro</a></td>"
+         # html += "<a href=\"#view/result/" + result.id +  sPassed + "\">Ver Registro</a></td>"
+         html += "</td>"
 
          @urlParams.removeByValue "uuid=" + result.get("uuid")
          @urlParams.removeByValue "provider_id=" + result.get("provider_id")
