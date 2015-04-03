@@ -193,7 +193,7 @@ ReportView = (function(_super) {
         if (isDataEntry === "false") {
           html += "<a href=\"#marp/MARP-es" + sPassed + "\">MARP</a><br>";
         }
-        html += "<a href=\"#view/result/" + result.id + sPassed + "\">Ver Registro</a></td>";
+        html += "</td>";
         this.urlParams.removeByValue("uuid=" + result.get("uuid"));
         this.urlParams.removeByValue("provider_id=" + result.get("provider_id"));
         this.urlParams.removeByValue("provider_name=" + result.get("provider_name"));
