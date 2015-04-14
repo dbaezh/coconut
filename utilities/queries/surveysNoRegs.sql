@@ -1,0 +1,2 @@
+select count(*),uuid, provider_id,entity_id, aname.field_agency_name_value from field_data_field_agency_name aname, aj_survey srv where 
+aname.entity_id=srv.provider_id and uuid not in (select uuid from aj_registration) order by aname.field_agency_name_value
