@@ -176,7 +176,7 @@ function ajexportsurveys_getRegLines($regKeys, $CHUNK_SIZE){
     // prepare the request options
     $req_options = array(
         'method' => 'GET',
-        'timeout' => 60.0,
+        'timeout' => 300.0,
         'headers' => array(
             'Content-Type' => 'application/json'
         ));
