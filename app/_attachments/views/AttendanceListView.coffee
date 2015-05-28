@@ -35,6 +35,14 @@ class AttendanceListView extends Backbone.View
 
   save: ->
     currentData = $('#attendanceForm').toObject(skipEmpty: true)
+    # Check if uuid was unchecked and initialize it to false if any like that found.
+    # This is to fix the bug where unchecked were not unchecked.
+    i = 0
+    while i < Coconut.attendanceListView.initialCheckedUUIDs.length
+      initialUUID = Coconut.attendanceListView.initialCheckedUUIDs[i]
+      if !currentData.hasOwnProperty(initialUUID)
+        currentData[initialUUID] = 'false'
+      i++
 
     # Make sure lastModifiedAt is always updated on save
     currentData.lastModifiedAt = moment(new Date()).format(Coconut.config.get "datetime_format")
@@ -84,6 +92,8 @@ class AttendanceListView extends Backbone.View
 
     participantsSorted = caseInsensitiveSortJSONData @wsData.participants.rows, "Apellido", true
 
+    Coconut.attendanceListView.initialCheckedUUIDs = []
+
     for participant in participantsSorted
       participantData = participant.value
       html += "<tr class='row-#{participantData.uuid}'>"
@@ -92,6 +102,7 @@ class AttendanceListView extends Backbone.View
       cbChecked = ""
       cbValue = this.result.safeGet(participantData.uuid, '')
       if cbValue in ['true']
+        Coconut.attendanceListView.initialCheckedUUIDs.push participantData.uuid
         cbChecked = " checked='checked' "
 
       cbHTML = "<input name='#{participantData.uuid}' id='#{participantData.uuid}' type='checkbox' value='true' #{cbChecked}></input>"
