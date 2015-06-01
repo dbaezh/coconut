@@ -50,8 +50,13 @@ join bitnami_drupal7.field_data_field_program_name pname on pname.entity_id=pp.e
 join bitnami_drupal7.field_data_field_programname_name pnamename on pnamename.entity_id=pname.field_program_name_target_id
 
 where 1 = 1 
+--SWITCH=:collateral
+-- estecolateralparticipante can have 1 of 4 values: No, Si, No Sabe (which means Don't know), blank (which means no value, not set)
+--CASE=collateral
+and reg.Estecolateralparticipante = 'Sí'
+--CASE=nonCollateral
 and reg.Estecolateralparticipante != 'Sí'
-
+--END
 and atten.provider_id in (:provider_id)
 --IF=:program_id
 and pnamename.entity_id in (:program_id)
