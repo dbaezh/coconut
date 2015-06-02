@@ -1,5 +1,11 @@
 -- ACCESS=access content
-SELECT reg.Nombre, reg.Apellido, reg.Sexo, reg.Provincia, reg.DOB, COUNT(atten.uuid) as "Services Received"
+SELECT
+		reg.Nombre, 
+		reg.Apellido,
+		reg.Sexo,
+		reg.Provincia,
+		DATE_FORMAT(FROM_DAYS(DATEDIFF(DATE_FORMAT(NOW(), '%Y-%m-%d'), reg.DOB)), '%Y')+0 AS age,
+		COUNT(atten.uuid) as "Services Received"
 FROM
 	bitnami_drupal7.aj_attendance atten 
 join bitnami_drupal7. aj_registration reg ON reg.uuid = atten.uuid
