@@ -29,11 +29,15 @@ require_once "./lib/couchDocument.php";
 // open client connection with couchDB
 $client = new couchClient($couch_dsn,$couch_db);
 
-$uuidsCSVFileName = 'input/updateCollaterals.csv';
+//$uuidsCSVFileName = 'input/updateCollaterals.csv';
+
+$uuidsCSVFileName = 'input/Update2NonCollatFromVirginia';
 
 //$uuidsCSVFileName = 'input/updateCollateralsTEST.csv';
 
-$outputCSVFileName = 'output/updatedCollateralsUUIDS.csv';
+//$outputCSVFileName = 'output/updatedCollateralsUUIDS.csv';
+$outputCSVFileName = 'output/updatedCollsUUIDSFromV.csv';
+
 
 $uuidsAry = loadUUIDs($uuidsCSVFileName);
 
@@ -74,7 +78,7 @@ function loadUUIDs($uuidsCSVFileName){
         if ($uuid == "")
             break;
         // remove the leading '?' character
-        $retAry[$i++] = substr($uuid,1);
+        //$retAry[$i++] = substr($uuid,1);
     }
 
     fclose($file_handle);
@@ -184,3 +188,5 @@ function print2file($outputCSVFileName, $udatedUUIDs){
     }
     fclose($file);
 }
+
+?>
