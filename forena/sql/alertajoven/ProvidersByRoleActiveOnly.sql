@@ -1,10 +1,11 @@
 -- ACCESS=access content
-select provider.entity_id, provider.field_agency_name_value 
+select distinct provider.entity_id, provider.field_agency_name_value, activeProvider.field_agency_active_value
 	from bitnami_drupal7.field_data_field_agency_name provider
-	join bitnami_drupal7.field_data_field_agency_active activeProvider
-	join bitnami_drupal7.field_data_field_user_provider userProvider
+	join bitnami_drupal7.field_data_field_agency_active activeProvider on provider.entity_id = activeProvider.entity_id
+	join bitnami_drupal7.field_data_field_user_provider userProvider 
 	join bitnami_drupal7.users_roles userRoles 
-	where userProvider.entity_id =  :current_user
+	where 
+	userProvider.entity_id =  :current_user
 	and activeProvider.field_agency_active_value = 1
 	and userRoles.uid =  :current_user
 	and IF(userRoles.rid = 4, -- provider admin
