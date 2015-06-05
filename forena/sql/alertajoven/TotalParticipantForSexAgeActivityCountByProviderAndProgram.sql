@@ -1,7 +1,5 @@
 select
-		provider_id,
 		provider_name,
-		program_id,
 		program_name,
 --IF=:activity_type_id
  		(select group_concat(field_activitytype_name_value) from bitnami_drupal7.field_data_field_activitytype_name where entity_id in (:activity_type_id)) as target_activities,
@@ -21,7 +19,7 @@ from
 (SELECT 
 		provider.entity_id as provider_id,
 		provider.field_agency_name_value as provider_name,
-		pp.entity_id as program_id,
+		pnamename.entity_id as program_id,
 		pnamename.field_programname_name_value as program_name,
 		count(aname.entity_id) as activities_count,
 		reg.uuid,
@@ -71,7 +69,7 @@ and adate.field_activity_date_value <= :to_date
 
 GROUP BY 
 	provider.entity_id,
-	pname.entity_id,
+	pnamename.entity_id,
 	atten.uuid
 order by reg.Apellido) as activityCounts
 group by provider_id,

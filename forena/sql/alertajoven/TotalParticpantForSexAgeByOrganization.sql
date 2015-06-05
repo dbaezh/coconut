@@ -1,5 +1,15 @@
 select provider_id,
 		provider_name,
+--IF=:program_id
+ 		(select group_concat(field_programname_name_value) from bitnami_drupal7.field_data_field_programname_name where entity_id in (:program_id)) as target_programs,
+--ELSE
+ 		'All Programs' as target_programs,
+--END
+--IF=:activity_type_id
+ 		(select group_concat(field_activitytype_name_value) from bitnami_drupal7.field_data_field_activitytype_name where entity_id in (:activity_type_id)) as target_activities,
+--ELSE
+ 		'All activities' as target_activities,
+--END
 		sum(case when sexo = 'F' then 1 else 0 end) as Fem_Total,
 		sum(case when sexo = 'M' then 1 else 0 end) as Mas_Total,
 		SUM(case when Sexo != 'M' and Sexo != 'F' then 1 else 0 end) as Unk_Total,
