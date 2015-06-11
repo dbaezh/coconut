@@ -76,6 +76,9 @@
                                             data.quid = "Participant Registration-es-DUPLICATE";
                                             data.collection = "result-DUPLICATE";
 
+											// update so the etl program insert this record into Drupal db
+                                            data.lastModifiedAt = moment(new Date()).format(undefined);
+
                                             // save the document
                                             db.saveDoc(data);
 
