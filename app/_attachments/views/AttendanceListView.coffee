@@ -76,7 +76,7 @@ class AttendanceListView extends Backbone.View
     html += "<div id='attendanceForm' style='overflow:auto;'><table id='participants'>
           <thead>
             <tr>
-              <th></th>
+              <th>Order by Checked</th>
               <th>UUID</th>
               <th>Fecha de Creación</th>
               <th>Apellido</th>
@@ -134,8 +134,33 @@ class AttendanceListView extends Backbone.View
     $('#participants').dataTable({
       "bPaginate": false,
       "bSort": true,
-      "bFilter": false
+      "bFilter": true
     });
+
+    $.tablesorter.addParser
+      id: 'checkbox'
+      is: (s, table, cell) ->
+        v = $(cell).find('input[type=checkbox]').length > 0
+        v
+      format: (s, table, cell) ->
+        v = if $(cell).find('input:checked').length > 0 then 1 else 0
+        v
+      type: 'numeric'
+
+    sorting = [ [
+                  0
+                  1
+                ] ]
+    $('input[type="checkbox"]').change ->
+      $('#participants').trigger 'update'
+      return
+
+    sorter = $('#participants').tablesorter('headers': '0': 'sorter': 'checkbox')
+    sorter.bind 'sortStart', (sorter) ->
+      $('#participants').trigger 'update'
+      return
+
+    $('#participants').trigger 'sorton', [ sorting ]
 
     # make rows display in different colors
     #$('table tr').each (index, row) =>

@@ -79,7 +79,7 @@ AttendanceListView = (function(superClass) {
   };
 
   AttendanceListView.prototype.render = function() {
-    var birthday, cbChecked, cbHTML, cbValue, html, j, len, participant, participantData, participantsSorted, standard_value_table;
+    var birthday, cbChecked, cbHTML, cbValue, html, j, len, participant, participantData, participantsSorted, sorter, sorting, standard_value_table;
     this.searchRows = {};
     html = "";
     if ("module" === Coconut.config.local.get("mode")) {
@@ -97,7 +97,7 @@ AttendanceListView = (function(superClass) {
       }).call(this)).join("")) + "      ";
     }
     html += ((standard_value_table || '') + "<div style='font-size: 14pt;font-weight: bold'>") + this.standard_values.activity_name + "</div><br>";
-    html += "<div id='attendanceForm' style='overflow:auto;'><table id='participants'> <thead> <tr> <th></th> <th>UUID</th> <th>Fecha de Creación</th> <th>Apellido</th> <th>Nombre</th> <th>Sexo</th> <th>Fecha de <br/>Nacimiento</th> <th>Barrio o Sector</th> <th>Teléfono</th> <th>Es Colateral</th> <th>Facebook</th> </tr></thead> <tbody>";
+    html += "<div id='attendanceForm' style='overflow:auto;'><table id='participants'> <thead> <tr> <th>Order by Checked</th> <th>UUID</th> <th>Fecha de Creación</th> <th>Apellido</th> <th>Nombre</th> <th>Sexo</th> <th>Fecha de <br/>Nacimiento</th> <th>Barrio o Sector</th> <th>Teléfono</th> <th>Es Colateral</th> <th>Facebook</th> </tr></thead> <tbody>";
     participantsSorted = caseInsensitiveSortJSONData(this.wsData.participants.rows, "Apellido", true);
     Coconut.attendanceListView.initialCheckedUUIDs = [];
     for (j = 0, len = participantsSorted.length; j < len; j++) {
@@ -132,8 +132,37 @@ AttendanceListView = (function(superClass) {
     $('#participants').dataTable({
       "bPaginate": false,
       "bSort": true,
-      "bFilter": false
+      "bFilter": true
     });
+    $.tablesorter.addParser({
+      id: 'checkbox',
+      is: function(s, table, cell) {
+        var v;
+        v = $(cell).find('input[type=checkbox]').length > 0;
+        return v;
+      },
+      format: function(s, table, cell) {
+        var v;
+        v = $(cell).find('input:checked').length > 0 ? 1 : 0;
+        return v;
+      },
+      type: 'numeric'
+    });
+    sorting = [[0, 1]];
+    $('input[type="checkbox"]').change(function() {
+      $('#participants').trigger('update');
+    });
+    sorter = $('#participants').tablesorter({
+      'headers': {
+        '0': {
+          'sorter': 'checkbox'
+        }
+      }
+    });
+    sorter.bind('sortStart', function(sorter) {
+      $('#participants').trigger('update');
+    });
+    $('#participants').trigger('sorton', [sorting]);
     $('#completeButton').click(this.save);
   };
 
