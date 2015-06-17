@@ -1,5 +1,5 @@
 -- ACCESS=access content
-SELECT reg.Nombre, reg.Apellido, reg.Sexo, reg.Provincia, reg.DOB, COUNT(atten.uuid) as "Health Services Received"
+SELECT reg.uuid, reg.Nombre, reg.Apellido, reg.Sexo, reg.Provincia, reg.DOB, COUNT(atten.uuid) as "Health Services Received"
 FROM
 	bitnami_drupal7.aj_attendance atten 
 join bitnami_drupal7. aj_registration reg ON reg.uuid = atten.uuid

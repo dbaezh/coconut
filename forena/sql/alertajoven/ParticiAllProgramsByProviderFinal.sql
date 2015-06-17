@@ -1,5 +1,11 @@
 -- ACCESS=access content
-SELECT provider.field_agency_name_value,provider.entity_id,reg.Nombre, reg.Apellido, reg.Sexo, reg.Provincia, reg.DOB, 
+SELECT provider.field_agency_name_value,
+		provider.entity_id,reg.Nombre, 
+		reg.uuid,
+		reg.Apellido, 
+		reg.Sexo, 
+		reg.Provincia, 
+		reg.DOB, 
 
 SUM(case when pnamename.entity_id = 16 then 1 else 0 end) as 'N/A - No es parte de ningun programa',
 SUM(case when pnamename.entity_id = 1 then 1 else 0 end) as 'Alfabetizacion Adultos',
@@ -40,7 +46,7 @@ and pp.field_program_provider_target_id = :provider_id
 
 
  
---SWiTCH=:collateral
+--SWITCH=:collateral
 -- estecolateralparticipante can have 1 of 4 values: No, Si, No Sabe (which means Don't know), blank (which means no value, not set)
 --CASE=collateral
 and reg.Estecolateralparticipante = 'Si'

@@ -1,5 +1,6 @@
 -- ACCESS=access content
 SELECT
+		reg.uuid,
 		reg.Nombre, 
 		reg.Apellido,
 		reg.Sexo,
@@ -26,9 +27,9 @@ and atten.provider_id = :provider_id
 --SWITCH=:collateral
 -- estecolateralparticipante can have 1 of 4 values: No, Si, No Sabe (which means Don't know), blank (which means no value, not set)
 --CASE=collateral
-and reg.Estecolateralparticipante = 'Sí'
+and reg.Estecolateralparticipante = 'SÃ­'
 --CASE=nonCollateral
-and reg.Estecolateralparticipante != 'Sí'
+and reg.Estecolateralparticipante != 'SÃ­'
 --END
 
 --IF=:program_id
