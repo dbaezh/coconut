@@ -8,6 +8,7 @@ class AttendanceListView extends Backbone.View
   initialize: (options) ->
     (@[key] = value for key, value of options)
     Coconut.resultCollection ?= new ResultCollectionWithCollateral()
+    @$el.append '<div id="reportloader"><marquee ALIGN="Top" LOOP="infinite"  DIRECTION="right" style="font-size:24px; color:#FF8000">Cargando el informe. Por favor espera ...</marquee></div>'
 
 
   filter: (event) ->
@@ -56,7 +57,9 @@ class AttendanceListView extends Backbone.View
 
     @searchRows = {}
 
+
     html = ""
+
     if "module" is Coconut.config.local.get("mode")
 
       # support for "/" character that might be part of the provider name; it's encoded as "#"
@@ -76,7 +79,7 @@ class AttendanceListView extends Backbone.View
     html += "<div id='attendanceForm' style='overflow:auto;'><table id='participants'>
           <thead>
             <tr>
-              <th>Order by Checked</th>
+              <th>Ordenar por Cotejo</th>
               <th>UUID</th>
               <th>Fecha de Creación</th>
               <th>Apellido</th>
@@ -161,6 +164,7 @@ class AttendanceListView extends Backbone.View
       return
 
     $('#participants').trigger 'sorton', [ sorting ]
+    $('#reportloader').hide();
 
     # make rows display in different colors
     #$('table tr').each (index, row) =>

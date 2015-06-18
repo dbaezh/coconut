@@ -18,7 +18,10 @@ AttendanceListView = (function(superClass) {
       value = options[key];
       this[key] = value;
     }
-    return Coconut.resultCollection != null ? Coconut.resultCollection : Coconut.resultCollection = new ResultCollectionWithCollateral();
+    if (Coconut.resultCollection == null) {
+      Coconut.resultCollection = new ResultCollectionWithCollateral();
+    }
+    return this.$el.append('<div id="reportloader"><marquee ALIGN="Top" LOOP="infinite"  DIRECTION="right" style="font-size:24px; color:#FF8000">Cargando el informe. Por favor espera ...</marquee></div>');
   };
 
   AttendanceListView.prototype.filter = function(event) {
@@ -97,7 +100,7 @@ AttendanceListView = (function(superClass) {
       }).call(this)).join("")) + "      ";
     }
     html += ((standard_value_table || '') + "<div style='font-size: 14pt;font-weight: bold'>") + this.standard_values.activity_name + "</div><br>";
-    html += "<div id='attendanceForm' style='overflow:auto;'><table id='participants'> <thead> <tr> <th>Order by Checked</th> <th>UUID</th> <th>Fecha de Creación</th> <th>Apellido</th> <th>Nombre</th> <th>Sexo</th> <th>Fecha de <br/>Nacimiento</th> <th>Barrio o Sector</th> <th>Teléfono</th> <th>Es Colateral</th> <th>Facebook</th> </tr></thead> <tbody>";
+    html += "<div id='attendanceForm' style='overflow:auto;'><table id='participants'> <thead> <tr> <th>Ordenar por Cotejo</th> <th>UUID</th> <th>Fecha de Creación</th> <th>Apellido</th> <th>Nombre</th> <th>Sexo</th> <th>Fecha de <br/>Nacimiento</th> <th>Barrio o Sector</th> <th>Teléfono</th> <th>Es Colateral</th> <th>Facebook</th> </tr></thead> <tbody>";
     participantsSorted = caseInsensitiveSortJSONData(this.wsData.participants.rows, "Apellido", true);
     Coconut.attendanceListView.initialCheckedUUIDs = [];
     for (j = 0, len = participantsSorted.length; j < len; j++) {
@@ -163,6 +166,7 @@ AttendanceListView = (function(superClass) {
       $('#participants').trigger('update');
     });
     $('#participants').trigger('sorton', [sorting]);
+    $('#reportloader').hide();
     $('#completeButton').click(this.save);
   };
 
