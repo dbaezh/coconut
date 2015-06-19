@@ -260,6 +260,22 @@ function ajetlregs_genInsertQueryPart2($doc){
             if ($val === "ERROR")
                 return "ERROR";
             $query = $query . $val . " ";
+        } else if ($key === "Estecolateralparticipante"){
+            	if (array_key_exists($key, $doc)) {
+            		$val = $doc[$key];
+            		switch($val) {
+            			case "Directo":
+            				$val = "No";
+            				break;
+            			case "Indirecto";
+            				$val = "Sí";
+            				break;
+            			default:
+            				// Leave $val as is
+            		}
+            	} else
+            		$val = "";
+            	$query = $query . "'" . $val . "' ";
         }else {
             if (array_key_exists($key, $doc)) {
                 $val = $doc[$key];

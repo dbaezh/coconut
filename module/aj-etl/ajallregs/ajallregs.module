@@ -267,19 +267,34 @@ function ajallregs_genInsertQueryPart2($doc){
         if ($key === "created"){
             $val = " NOW() ";
             $query = $query . $val . " ";
-        }else {
+            
+        } else if ($key === "Estecolateralparticipante"){  
+        	if (array_key_exists($key, $doc)) {
+        		$val = $doc[$key];
+        		switch($val) {
+        			case "Directo":
+        				$val = "No";
+        				break;
+        			case "Indirecto";
+        				$val = "Sí";
+        				break;
+        			default:
+        				// Leave $val as is
+        		}
+        	} else
+        		$val = "";
+        	$query = $query . "'" . $val . "' ";
+        	
+        } else {
             if (array_key_exists($key, $doc)) {
                 $val = $doc[$key];
                 $pos = stripos($val, "'");
-                if ($pos > 0)
+                 if ($pos > 0)
                     $val = str_replace("'", "\'", $val);
-            }else
+            } else
                 $val = "";
             $query = $query . "'" . $val . "' ";
         }
-
-
-
 
         $query = $query.",";
 
