@@ -518,11 +518,18 @@ class QuestionView extends Backbone.View
     if hasOnComplete and isValid
       #TBD: find a better way to distinguish b/n registration and survey forms
       if onComplete.showSuccess isnt undefined
-        uuid = window.getValueCache['uuid']()
+        #uuid = window.getValueCache['uuid']()
+        uuid = Coconut.questionView.result.get("uuid")
 
-        if window.showSuccess
+        if window.showSuccess and window.Coconut.questionView.model.id == 'Participant Registration-es'
           alert('¡Enhorabuena! Has completado correctamente el formulario. El UUID para esta forma es "'+ uuid + '". Tome nota de este número para referencia futura.');
           window.showSuccess = false
+
+
+        if window.showSuccess and window.Coconut.questionView.model.id == 'Participant Survey-es'
+          alert('¡Felicitaciones! Has completado la Encuesta de Participante para UUID=' + uuid);
+          window.showSuccess = false
+
 
       switch onComplete.type
         when "redirect"
