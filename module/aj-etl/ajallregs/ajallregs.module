@@ -276,7 +276,7 @@ function ajallregs_genInsertQueryPart2($doc){
         				$val = "No";
         				break;
         			case "Indirecto";
-        				$val = "Sí";
+        				$val = "SÃ­";
         				break;
         			default:
         				// Leave $val as is
