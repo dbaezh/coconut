@@ -84,6 +84,7 @@ class AttendanceListView extends Backbone.View
               <th>Fecha de Creación</th>
               <th>Apellido</th>
               <th>Nombre</th>
+              <th>Apodo</th>
               <th>Sexo</th>
               <th>Fecha de <br/>Nacimiento</th>
               <th>Barrio o Sector</th>
@@ -116,6 +117,7 @@ class AttendanceListView extends Backbone.View
       html += @createColumn(participantData.createdAt, participantData.uuid, true)
       html += @createColumn(participantData.Apellido, participantData.uuid, true)
       html += @createColumn(participantData.Nombre, participantData.uuid, true)
+      html += @createColumn(participantData.Apodo, participantData.uuid, true)
       html += @createColumn(participantData.Sexo, participantData.uuid, false)
       birthday = participantData.Día + "/" + participantData.Mes + "/" + participantData.Año
       html += @createColumn(birthday, participantData.uuid, false)

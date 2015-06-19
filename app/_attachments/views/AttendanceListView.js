@@ -100,7 +100,7 @@ AttendanceListView = (function(superClass) {
       }).call(this)).join("")) + "      ";
     }
     html += ((standard_value_table || '') + "<div style='font-size: 14pt;font-weight: bold'>") + this.standard_values.activity_name + "</div><br>";
-    html += "<div id='attendanceForm' style='overflow:auto;'><table id='participants'> <thead> <tr> <th>Ordenar por Cotejo</th> <th>UUID</th> <th>Fecha de Creación</th> <th>Apellido</th> <th>Nombre</th> <th>Sexo</th> <th>Fecha de <br/>Nacimiento</th> <th>Barrio o Sector</th> <th>Teléfono</th> <th>Es Colateral</th> <th>Facebook</th> </tr></thead> <tbody>";
+    html += "<div id='attendanceForm' style='overflow:auto;'><table id='participants'> <thead> <tr> <th>Ordenar por Cotejo</th> <th>UUID</th> <th>Fecha de Creación</th> <th>Apellido</th> <th>Nombre</th> <th>Apodo</th> <th>Sexo</th> <th>Fecha de <br/>Nacimiento</th> <th>Barrio o Sector</th> <th>Teléfono</th> <th>Es Colateral</th> <th>Facebook</th> </tr></thead> <tbody>";
     participantsSorted = caseInsensitiveSortJSONData(this.wsData.participants.rows, "Apellido", true);
     Coconut.attendanceListView.initialCheckedUUIDs = [];
     for (j = 0, len = participantsSorted.length; j < len; j++) {
@@ -120,6 +120,7 @@ AttendanceListView = (function(superClass) {
       html += this.createColumn(participantData.createdAt, participantData.uuid, true);
       html += this.createColumn(participantData.Apellido, participantData.uuid, true);
       html += this.createColumn(participantData.Nombre, participantData.uuid, true);
+      html += this.createColumn(participantData.Apodo, participantData.uuid, true);
       html += this.createColumn(participantData.Sexo, participantData.uuid, false);
       birthday = participantData.Día + "/" + participantData.Mes + "/" + participantData.Año;
       html += this.createColumn(birthday, participantData.uuid, false);
