@@ -102,7 +102,7 @@
           "repeatable": false,
           "required": false,
           "type": "number",
-          "validation": "return if window.getValueCache['Estecolateralparticipante']() == 'Sí';min = 1;max = 31; valid = min <= parseInt(value) <= max; return \"Dia debe ser de 1 al 31.\" unless valid"
+          "validation": "return if false;  min = 1;max = 31; valid = min <= parseInt(value) <= max; return \"Dia debe ser de 1 al 31.\" unless valid"
         },
         {
           "_id": 113,
@@ -110,7 +110,7 @@
           "repeatable": false,
           "required": false,
           "type": "number",
-          "validation": "return if window.getValueCache['Estecolateralparticipante']() == 'Sí';min = 1;max = 12; valid = min <= parseInt(value) <= max; return \"Mes debe ser de 1 al 12.\" unless valid"
+          "validation": "return if false; min = 1;max = 12; valid = min <= parseInt(value) <= max; return \"Mes debe ser de 1 al 12.\" unless valid"
 
 
         },        
@@ -120,7 +120,7 @@
           "repeatable": false,
           "required": false,
           "type": "number",
-	       "validation": "return if window.getValueCache['Estecolateralparticipante']() == 'Sí';min = moment().year()-24;max = moment().year()-11; valid = min <= parseInt(value) <= max; return \"Advertencia, el año normalmente es entre #{moment().year()-24} y #{moment().year()-11}\" unless valid"
+	       "validation": "return if window.getValueCache['Estecolateralparticipante']() == 'Indirecto';min = moment().year()-24;max = moment().year()-11; valid = min <= parseInt(value) <= max; return \"Advertencia, el año normalmente es entre #{moment().year()-24} y #{moment().year()-11}\" unless valid"
         }
       ],
       "repeatable": false,
