@@ -851,7 +851,7 @@ function ajetlregs_processFecha($doc){
 
         // process collateral
         // TBD: first check if the index exist
-        if (array_key_exists('Estecolateralparticipante', $doc) && $doc['Estecolateralparticipante'] === 'Sí'){
+        if (array_key_exists('Estecolateralparticipante', $doc) && ($doc['Estecolateralparticipante'] === 'Sí' || $doc['Estecolateralparticipante'] === 'Indirecto')){
             // first check if exist
             if ($doc['Año'] == null || $doc['Mes'] == null || $doc['Día'] == null )
                 return " null ";

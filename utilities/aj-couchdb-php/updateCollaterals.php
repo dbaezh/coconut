@@ -176,8 +176,6 @@ function updateCouchDoc($docId){
     array_push($updatedUUIDs,$doc->uuid);
     return true;
 
-
-
 }
 
 
