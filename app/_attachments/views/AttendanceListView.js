@@ -136,7 +136,7 @@ AttendanceListView = (function(superClass) {
     $('#participants').dataTable({
       "bPaginate": false,
       "bSort": true,
-      "bFilter": true
+      "bFilter": false
     });
     $.tablesorter.addParser({
       id: 'checkbox',
