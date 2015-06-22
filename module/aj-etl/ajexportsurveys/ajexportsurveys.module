@@ -232,7 +232,7 @@ function ajexportsurveys_getRegLines($regKeys, $CHUNK_SIZE){
             //ajetllog_error("ajexportsurveys", "MESSAGE0000", "doc=", $result, "");
         }
 
-        //if ($docProcessed > 600)
+        //if ($docProcessed > 500)
           //  break;
 
     }
@@ -309,8 +309,8 @@ foreach ( $rows as $one_row ){
         }
     }
 
-    //if ($docProcessed > 600)
-      //  break;
+    //if ($docProcessed > 100)
+      // break;
 
 }
 
@@ -424,7 +424,8 @@ function ajexportsurveys_writeHeader($regKeys, $surveyKeys){
  */
 function ajexportsurveys_Doc2CSVLine($keys, $doc){
     $line = "";
-
+    // support for children array data
+    $arrayDataStr = "";
 
     $start = true;
     foreach ($keys as $k=>$key) {
@@ -438,14 +439,76 @@ function ajexportsurveys_Doc2CSVLine($keys, $doc){
             $start = false;
             $line = $doc[$key];
         }else {
-            $line = $line . ',"' . $doc[$key].'"';
+            if ($key == "Fechadenacimiento" ) {
+                $arrayDataStr = ajexportsurveys_addArrayData($key, $doc);
+                $line = $line . ',"' . $arrayDataStr.'"';
+            }else if ($key == "Ustedyellaniñoaviveenlamismacasa" ) {
+                $arrayDataStr = ajexportsurveys_addArrayData($key, $doc);
+                $line = $line . ',"' . $arrayDataStr.'"';
+            }else if ($key == "Sexo" ) {
+                $arrayDataStr = ajexportsurveys_addArrayData($key, $doc);
+                $line = $line . ',"' . $arrayDataStr.'"';
+            }else if ($key == "Esteniñotieneunactadenacimientodominicana" ) {
+                $arrayDataStr = ajexportsurveys_addArrayData($key, $doc);
+                $line = $line . ',"' . $arrayDataStr.'"';
+            }else
+                $line = $line . ',"' . $doc[$key].'"';
         }
 
     }
 
+
+
+
     $utf8_with_bom = chr(239) . chr(187) . chr(191) . $line;
     return $utf8_with_bom;
 }
+
+
+/**
+ * Adds array data as comma separated values. The data are in format:
+ *
+ * "Fechadenacimiento": [
+ *      "2015-06-11",
+ *      "2014-09-02"
+ *      ]
+ *
+ * @param $key
+ * @param $doc
+ * @param $line
+ * @return string
+ */
+function ajexportsurveys_addArrayData($key, $doc){
+
+    $isStart = true;
+
+    $arrayStr = "";
+
+    // add children data if any exist
+    if (array_key_exists($key, $doc) ){
+        $childAry = $doc[$key];
+
+        foreach ($childAry as $val) {
+            if ($isStart) {
+                $arrayStr = $val;
+                $isStart = false;
+            } else
+                $arrayStr = $arrayStr . ',' . $val;
+
+        }
+
+
+        //if ($arrayStr != "")
+          //  ajetllog_log("ajexportsurveys", "MESSAGE", "INSIDE AddArrayData:id=".$doc['_id']."key=".$key." data =".$arrayStr);
+
+
+    }
+
+
+    return $arrayStr;
+}
+
+
 
 /**
  * Iterates through the registration lines and adds survey lines.

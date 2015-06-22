@@ -329,11 +329,13 @@ function ajexportregs_Doc2CSVLine($doc){
             continue;
         }
 
+        // clean '"" that brake the csv line
+        $val = str_replace ( '"', '' , $doc[$key]);
         if ($start){
                 $start = false;
-                $line = $doc[$key];
+                $line = $val;
         }else {
-                $line = $line . ',"' . $doc[$key].'"';
+                $line = $line . ',"' . $val.'"';
         }
 
     }
