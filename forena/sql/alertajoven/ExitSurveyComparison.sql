@@ -10,7 +10,7 @@ SELECT
             '%Y') + 0 AS age,
     survey.10Tienesunactadenacimientodominicana as '(E)P10-ActaDeNacimiento',
     exi.9Conseguistetuactade as '(S)P9-ActaDeNacimiento',
-    exi.9AOtro as '(S)9	A-Otro',
+    exi.9AOtro as '(S)P9A-Otro',
     case
         when
             (survey.10Tienesunactadenacimientodominicana = ''
@@ -54,6 +54,7 @@ SELECT
     END AS '¿Cambió RecibeEduación?',
     survey.16BQuégradoestascursandoactualmente as '(E)P16B-CursoActual',
     survey.16CCuálnivel as '(E)P16C-NivelActual',
+    exi.11AQuégradoestascursandoactualmente as '(S)P11A-CursoActual',
     exi.11B1Cuálnivel as '(S)P11B.1-NivelActual',
     survey.21Hascompletadoalgúncursotécnico as '(E)P21-CursoTécnico',
     exi.12Hascompletadoa as '(S)P12-CursoTécnico',
@@ -68,15 +69,26 @@ SELECT
     END AS '¿Cambió CursoTécnico?',
     survey.21ASilarespuestaesafirmativacuálescursos as '(E)P21A-ListaCursosTéc',
     exi.12ASilarespuestaesafirmativacuálescursos as '(S)P12A-ListaCursosTéc',
-    survey.26ADescribeloquehaceseneltrabajoactual as '(E)P26-TrabajoActual',
+    survey.25Hasreali as '(E)P25-TrabajoActual',
+    survey.26Durantel as '(E)P26-TrabajoActual',
     exi.13Actualmentetienesuntrabajoenquetepaguen as '(S)P13-TrabajoActual',
     case
-        when
-            (survey.26ADescribeloquehaceseneltrabajoactual = ''
-                || exi.13Actualmentetienesuntrabajoenquetepaguen = '')
+        WHEN
+            (survey.25Hasreali = 'No'
+                and exi.13Actualmentetienesuntrabajoenquetepaguen = 'No')
+        THEN
+            0
+        WHEN
+            (survey.25Hasreali = 'No'
+                and exi.13Actualmentetienesuntrabajoenquetepaguen = 'Sí')
+        then
+            1
+        WHEN
+            (survey.25Hasreali = 'Sí'
+                and survey.26Durantel = '')
         THEN
             'N/A'
-        WHEN (survey.26ADescribeloquehaceseneltrabajoactual = exi.13Actualmentetienesuntrabajoenquetepaguen) THEN 0
+        WHEN (survey.26Durantel = exi.13Actualmentetienesuntrabajoenquetepaguen) THEN 0
         ELSE 1
     END AS '¿Cambió TrabajoActual?',
     survey.48Hassidot as '(E)P48-TransportadoPolicía',
@@ -102,7 +114,7 @@ SELECT
     END AS '¿Cambió TransportadoPolicía?',
     survey.49Hassidodetenidoporlapolicíaporalgúnmotivo as '(E)P49-DetenidoPolicía',
     exi.15BCuántasveceshassido as '(S)P15B-DetenidoPolicía',
-	 case
+    case
         when
             (survey.49Hassidodetenidoporlapolicíaporalgúnmotivo = ''
                 || exi.15BCuántasveceshassido = '')
@@ -123,7 +135,7 @@ SELECT
     END AS '¿Cambió DetenidoPolicía?',
     survey.50Hassidod as '(E)P50-AcusadoDelito',
     exi.15CCuántasveceshassido as '(S)P15C-AcusadoDelito',
-		 case
+    case
         when
             (survey.50Hassidod = ''
                 || exi.15CCuántasveceshassido = '')
@@ -142,12 +154,11 @@ SELECT
             0
         ELSE 1
     END AS '¿Cambió AcusadoDelito?',
-    exi.15DCuántasveceshassidoenviado as '(S)P15D-AtenciónIntegral',
     survey.43Enquémedidatuvidahasidoafectadaporladelincuencia as '(E)P43-ImpactoDelincuencia',
     exi.16Enquémedidatuvidaha as '(S)P16-ImpactoDelincuencia',
     survey.82Algunavezhastenidorelacionessexuales as '(E)P82-RelacionesSexuales',
     exi.17Algunavezhastenidorelacionessexuales as '(S)P17-RelacionesSexuales',
-	    case
+    case
         when
             (survey.82Algunavezhastenidorelacionessexuales = ''
                 || exi.17Algunavezhastenidorelacionessexuales = '')
@@ -158,7 +169,7 @@ SELECT
     END AS '¿Cambió RelacionesSexuales?',
     survey.86Laúltima as '(E)P86-SexoCondón',
     exi.18Laúltimavez as '(S)P18-SexoCondón',
-	case
+    case
         when
             (survey.86Laúltima = ''
                 || exi.18Laúltimavez = '')
@@ -213,7 +224,7 @@ SELECT
     exi.19Laúltimavez as '(S)P19-MétodoPrevEmbarazo',
     survey.90Siquisie as '(E)P90-ComprarCondón',
     exi.20Siquisierascompraruncondóncreesquepodríasencontrarlo as '(S)P20-ComprarCondón',
-	case
+    case
         when
             (survey.90Siquisie = ''
                 || exi.20Siquisierascompraruncondóncreesquepodríasencontrarlo = '')
@@ -224,7 +235,7 @@ SELECT
     END AS '¿Cambió ComprarCondón?',
     survey.91Siquisie as '(E)P91-ConvencerParejaUsoCondón',
     exi.21Siquisierastenersexo as '(S)P21-ConvencerParejaUsoCondón',
-	case
+    case
         when
             (survey.91Siquisie = ''
                 || exi.21Siquisierastenersexo = '')
@@ -242,3 +253,4 @@ FROM
     bitnami_drupal7.aj_survey survey ON exi.uuid = survey.uuid
         JOIN
     bitnami_drupal7.field_data_field_agency_name provider ON exi.provider_id = provider.entity_id
+where provider.entity_id in (:provider_id)
