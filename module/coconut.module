@@ -1,0 +1,238 @@
+<?php
+/**
+* @file
+* A block module that displays Coconut surveys.
+*/
+
+/**
+* Implements hook_help.
+*
+* Displays help and module information.
+*
+* @param path
+*   Which path of the site we're using to display help
+* @param arg
+*   Array that holds the current path as returned from arg() function
+*/
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
+
+function coconut_help( $path, $arg )
+{
+  if ( $path == "admin/help#coconut" )
+  {
+    return '<p>' . t( "Displays Coconut surveys." ) . '</p>';
+  }
+}
+
+
+
+
+/**
+* Implements hook_block_info().
+*/
+function coconut_block_info() {
+  global $base_url;
+  $blocks = array();
+
+
+  // request to couch to get documents of type question
+  $req_url = "$base_url:5984/coconut/_design/coconut/_view/byCollection?key=\"question\"";
+  $req_options = array(
+    'headers' => array(
+      'Content-Type' => 'application/json'
+  ));
+
+  $couch_response = drupal_http_request( $req_url, $req_options );
+
+  $rows = drupal_json_decode( $couch_response->data )['rows'];
+
+  foreach ( $rows as $one_row )
+  {
+    $blocks[$one_row['id']] = array(
+      'info' => "Coconut: {$one_row['id']}",
+      'cache' => DRUPAL_CACHE_PER_ROLE
+    );
+  }
+
+  return $blocks;
+}
+
+
+
+function coconut_block_view( $delta = '' )
+{
+
+  global $user, $base_url;
+  $block = array();
+  $path = current_path();
+  $user_name = isset($user->name) ? $user->name : '';
+  $user_roles = $user->roles;
+  $isEvaluator = false;
+  $isDataEntry = "false";
+
+  foreach ($user_roles as $role){
+    if($role == "Evaluator"){
+      $isEvaluator = true;
+	  break;
+    }
+	if($role == "Data Entry"){
+	  $isDataEntry = "true";
+	  break;
+	}
+  }   
+  
+// Get provider name and id
+  $user_data = user_load($user->uid);
+  $provider = $user_data->field_user_provider;
+
+  if (isset($provider['und']))
+    $provider_id = $provider['und'][0]['target_id'];
+  
+  // load provider entity
+  if (isset($provider_id)){
+  	$entity = entity_load_single('provider', $provider_id);
+        //var_dump($entity);
+        $provider_name_temp = $entity->{'field_agency_name'}['und'][0]['value'];
+        $provider_name = str_replace("/", "#", $provider_name_temp);
+
+       // Put it all together
+       $a_user_parameters = array(
+           "user_name={$user_name}",    
+           "provider_id={$provider_id}",
+           "provider_name={$provider_name}"	
+       );
+  }else{
+       $a_user_parameters = array("user_name={$user_name}");
+  }
+
+   $s_user_parameters = join("&", $a_user_parameters);
+
+   /* Send request to couch
+   * ask for docs of type questions
+   */
+  $req_url = "$base_url:5984/coconut/_design/coconut/_view/byCollection?key=\"question\"";
+  $req_options = array(
+    'headers' => array(
+      'Content-Type' => 'application/json'
+    )
+  );
+  $couch_response = drupal_http_request( $req_url, $req_options );
+  
+  /*
+   * Parse response
+   */
+
+
+  $surveys = array();
+  $rows = drupal_json_decode( $couch_response->data )['rows'];
+  foreach ( $rows as $one_row ) array_push( $surveys, $one_row['id'] );
+
+
+       $html = "<script>window.resizeIFrame = function (height) { document.getElementById('coconut_iframe').style.height = '' + parseInt(height) + 'px'; }window.resizerWait = 1000;window.resizerCheck = function() { 
+  jQuery.ajax({
+    'url':'$base_url:5984/coconut/$delta-height', 
+    dataType: 'jsonp', 
+    success: function( data ) { window.resizerWait = 0; window.resizeIFrame(data.height); }, 
+    complete: function() { if (window.resizerWait !== 0) { window.resizerWait *= 1.5; setTimeout(window.resizerCheck, window.resizerWait);}   }
+  }); 
+};
+</script>";
+
+
+  /*
+   * Build block
+   */
+  if ( in_array( $delta, $surveys ) && $delta != 'Registration Report' && $delta!= 'Survey Report' && $delta != 'Participant Report with Actions' && $delta != 'Attendance List' && $delta != 'Combined Report')
+  {
+    $block['subject'] = t( $delta );
+    if ( user_access('access content') ){
+      $html = $html."<iframe id='coconut_iframe' width='100%' height='600px' src='$base_url:5984/coconut/_design/coconut/index.html#new/result/$delta/{$s_user_parameters}'></iframe>";
+      $block['content'] = $html;
+    }
+  } else if($delta == 'Registration Report'){
+    // show links to both, registration and combined reports
+    if ( user_access('access content') ){
+      if (!$isEvaluator){
+          //$html = $html."<iframe id='coconut_iframe' width='100%' height='600px' src='$base_url:5984/coconut/_design/coconut/index.html#reportscsv/Participant Registration-es/provider_id=$provider_id/user_name=$user_name/provider_name=$provider_name'></iframe>";
+          $html = $html."<p><a href='$base_url//sites/default/files/ajexport/AJRegistrations_$provider_id.csv'>Datos de Registro de Exportación</a><br>";
+          $html = $html."<a href='$base_url//sites/default/files/ajexport/AJCombined_$provider_id.csv'>Datos de la Encuesta de Exportación</a></p>";
+      }else{
+         // $html = $html."<iframe id='coconut_iframe' width='100%' height='600px' src='$base_url:5984/coconut/_design/coconut/index.html#reportscsv/Participant Registration-es/user_name=$user_name'></iframe>";
+          $html = $html."<p><a href='$base_url//sites/default/files/ajexport/AJRegistrations.csv'>Datos de Registro de Exportación</a><br>";
+          $html = $html."<a href='$base_url//sites/default/files/ajexport/AJCombined.csv'>Datos de la Encuesta de Exportación</a></p>";
+      }
+      $block['content'] = $html;
+    }
+  } else if($delta == 'Combined Report'){
+
+      if ( user_access('access content') ){
+          if (!$isEvaluator){
+              $html = $html."<iframe id='coconut_iframe' width='100%' height='600px' src='$base_url:5984/coconut/_design/coconut/index.html#reportregsurveycsv/Participant Survey-es/provider_id=$provider_id/user_name=$user_name/provider_name=$provider_name'></iframe>";
+          }else{
+              $html = $html."<iframe id='coconut_iframe' width='100%' height='600px' src='$base_url:5984/coconut/_design/coconut/index.html#reportregsurveycsv/Participant Survey-es/user_name=$user_name'></iframe>";
+
+          }
+          $block['content'] = $html;
+      }
+} else if($delta == 'Survey Report'){
+    
+    if ( user_access('access content') ){
+      if(!$isEvaluator){
+      $html = $html."<iframe id='coconut_iframe' width='100%' height='600px' src='$base_url:5984/coconut/_design/coconut/index.html#reportscsv/Participant Survey-es/provider_id=$provider_id/user_name=$user_name/provider_name=$provider_name'></iframe>";}
+    else{
+ $html = $html."<iframe id='coconut_iframe' width='100%' height='600px' src='$base_url:5984/coconut/_design/coconut/index.html#reportscsv/Participant Survey-es/user_name=$user_name'></iframe>";
+}
+
+      $block['content'] = $html;
+    }
+
+} else if($delta == 'Participant Report with Actions'){
+    
+    if ( user_access('access content') ){
+     if (!$isEvaluator){
+      $html = $html."<iframe id='coconut_iframe' width='100%' height='600px' src='$base_url:5984/coconut/_design/coconut/index.html#reports/Participant Registration-es/isActions=true/provider_id=$provider_id/user_name=$user_name/provider_name=$provider_name/isDataEntry=$isDataEntry'></iframe>";
+}else{
+	  $html = $html."<iframe id='coconut_iframe' width='100%' height='600px' src='$base_url:5984/coconut/_design/coconut/index.html#reports/Participant Registration-es/isActions=true/user_name=$user_name/isEvaluator=true/isDataEntry=$isDataEntry'></iframe>";
+}
+      $block['content'] = $html;
+    }
+} else if($delta == 'Attendance List'){
+
+	if (isset($_GET["activity_id"]) && isset($_GET["activity_name"]) && isset($_GET["activity_provider_id"])) {
+		$activity_id = $_GET["activity_id"];
+		$activity_name = $_GET["activity_name"];
+		$activity_provider_id = $_GET["activity_provider_id"];
+	/*
+	echo '<pre>'; 
+	echo 'user name is:|';
+	echo $user_name;
+	echo '|';
+	echo '</pre>';	  
+	*/
+		if ( user_access('access content') ){
+			if (!$isEvaluator){
+				$html = $html."<iframe id='coconut_iframe' width='100%' height='600px' src='$base_url:5984/coconut/_design/coconut/index.html#attendancelist/Attendance List/provider_id=$provider_id/user_name=$user_name/provider_name=$provider_name/activity_id=$activity_id/activity_name=$activity_name/activity_provider_id=$activity_provider_id'></iframe>";
+			} else {
+				$html = $html."<iframe id='coconut_iframe' width='100%' height='600px' src='$base_url:5984/coconut/_design/coconut/index.html#attendancelist/Attendance List/provider_id=$provider_id/user_name=$user_name/provider_name=$provider_name/activity_id=$activity_id/activity_name=$activity_name/activity_provider_id=$activity_provider_id/isEvaluator=true'></iframe>";
+			}
+			$block['content'] = $html;
+		}
+    } else {
+		$block = array(
+		  'subject' => $delta,
+		  'content' => '404 - Can not set attendance'
+		  );
+	}
+}else{
+    $block = array(
+      'subject' => $delta,
+      'content' => '404 - This survey no longer exists.'
+      );
+  }
+  return $block;
+
+}
+
+
+

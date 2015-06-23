@@ -1,0 +1,104 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title> Clean Duplicate Complete Surveys</title>
+
+    <style>
+        body {
+            font: 100% helvetica, arial, sans-serif;
+            line-height: 1.625;
+        }
+
+    </style>
+
+    <script type="text/javascript" src="js-libraries/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="js-libraries/jquery.couch.js"></script>
+	<script type="text/javascript" src="js-libraries/moment.min.js"></script>
+
+
+
+
+    <script language="JavaScript">
+
+        function start(){
+            var db = $.couch.db("coconut");
+            db.view("coconut/findCompleteSurveys",
+                    {
+                        success:function(data){
+
+                            for (i in data.rows) {
+                                var doc = data.rows[i];
+                                var idx = doc.key.indexOf("$");
+                                var uuid = doc.key.substring(0, idx);
+
+                                var numI = parseInt(i);
+                                // check if the end is reached
+                                if ((numI + 1) == data.rows.length)
+                                    break;
+
+                                var nextId = numI + 1;
+
+
+                                var nextdoc = data.rows[nextId];
+                                idx = nextdoc.key.indexOf("$");
+                                var nextDocUuid = nextdoc.key.substring(0, idx);
+
+                                // check if the next document uuid is the same and if yes
+                                // update the document
+                                if(uuid === nextDocUuid){
+
+                                    //fetch the document and update
+                                    db.openDoc(doc.id, {
+                                        success: function(data){
+
+
+                                            var html = '<tr>' + '<td>' + data._id + ',</td>' +
+                                                    '<td>' + data.uuid + ',</td>' +
+                                                    '<td>' + data.lastModifiedAt + '</td>' +
+                                                    '</tr>';
+                                            $("#listtbl").append(html);
+
+                                            // update the provider name
+                                            data.question = "Participant Survey-es-DUPLICATE";
+                                            data.quid = "Participant Registration-es-DUPLICATE";
+                                            data.collection = "result-DUPLICATE";
+
+											// update so the etl program insert this record into Drupal db
+                                            data.lastModifiedAt = moment(new Date()).format(undefined);
+
+                                            // save the document
+                                            db.saveDoc(data);
+
+
+                                        }
+                                    });
+                                }
+
+                            }
+
+
+                        },
+                        error:function(data){
+                            alert("Something wrong!!!");
+                        }
+                    });
+        }
+
+
+    </script>
+
+</head>
+
+
+<body >
+<p>This will fetch COMPLETE surveys and flag duplicate to not show in the reports.</p>
+<input type="button" onclick="start()" id="start" value="Start">
+
+<p> Updating the documents.... </p>
+<table id="listtbl" style = "border:1;cellpadding:4" ><tr><th>Doc Id</th><th>UUID</th><th>Last Modified</th></tr></table>
+
+
+
+</body>
+
+</html>

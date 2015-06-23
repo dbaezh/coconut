@@ -1,0 +1,31 @@
+{
+  "_id": "Registration Report",
+  "id": "Activity Signup",
+  "required": false,
+  "collection": "question",
+  "questions": [
+    {
+      "_id": 1599,
+      "action_on_change": "",
+      "action_on_questions_loaded": "",
+      "id": 1599,
+      "label": "Participant ID",
+      "repeatable": false,
+      "required": true,
+      "skip_logic": "",
+      "type": "text",
+      "validation": ""
+    },
+    {
+      "_id": 446,
+      "action_on_questions_loaded": "",
+      "id": 446,
+      "label": "complete",
+      "radio-options": true,
+      "repeatable": false,
+      "required": false,
+      "type": "checkbox",
+      "validation": ""
+    }
+  ]
+}

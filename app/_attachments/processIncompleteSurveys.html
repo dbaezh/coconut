@@ -1,0 +1,234 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title> Process Incomplete Surveys</title>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<style>
+    body {
+        font: 100% helvetica, arial, sans-serif;
+        line-height: 1.625;
+    }
+
+</style>
+
+<script type="text/javascript" src="js-libraries/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="js-libraries/jquery.couch.js"></script>
+<script type="text/javascript" src="js-libraries/moment.min.js"></script>
+
+
+
+
+<script language="JavaScript">
+//var requiredFields = ["user_name","provider_id","provider_name","uuid","Fecha","Nombre","Apellido","Apodo","Calleynumero","Provincia","Municipio","BarrioComunidad","Celular","Direccióndecorreoelectrónico","NombredeusuariodeFacebook","Nombredepersonadecontacto","Parentescoopersonarelacionada","Teléfono","Sexo","Tieneunnumerocelular","Tieneunnumerodetelefonoenlacasa","Tieneunadireccióndecorreoelectrónico","TieneunnombredeusuariodeFacebook"];
+//var requiredFields = ["provider_id","provider_name","uuid","Fecha","Nombre","Apellido","Provincia","Municipio","BarrioComunidad","Sexo", "Día", "Mes", "Año"];
+//var headers = [ "_id","createdAt", "lastModifiedAt","user_name","provider_id","provider_name","uuid","Fecha","Nombre","Apellido","Apodo","Calleynumero","Provincia","Municipio","BarrioComunidad","Día","Mes","Año","Celular","Casa","Direccióndecorreoelectrónico","NombredeusuariodeFacebook","Nombredepersonadecontacto","Parentescoopersonarelacionada","Teléfono","Sexo","Tieneunnumerocelular","Tieneunadireccióndecorreoelectrónico","Tieneunnumerodetelefonoenlacasa","TieneunnombredeusuariodeFacebook"];
+
+var csvContent = "\uFEFF";
+
+/**
+ * 1. Query the list of all registrations and creates list only of incomplete.
+ * 2. Iterates through the list of incomplete registrations and mark them complete if:
+ *    a) complete with this uuid already exist
+ *    b) has all required fields
+ *
+ * */
+function start(){
+    var db = $.couch.db("coconut");
+
+    // get list of INCOMPLETE surveys
+    db.view("coconut/resultsByQuestionAndComplete?startkey=%22Participant%20Survey-es%3Afalse%3Az%22&endkey=%22Participant%20Survey-es%3Afalse%22&descending=true&include_docs=false",
+            {
+                success:function(data) {
+
+                  for (i in data.rows) {
+                      var doc = data.rows[i];
+
+
+                      db.openDoc(doc.id, {
+                          success: function (doc) {
+
+                              //check if completed survey with the same uuid already exist
+                              db.view("coconut/byUUIDForReportActions?key=\"" + doc.uuid + "\"", {
+                                  success: function (completedSurveyDoc) {
+                                      // complete does not exist
+                                      if (completedSurveyDoc.rows.length === 0){
+                                        // update to complete
+                                          doc.Completado = "true";
+
+                                          var lastModifiedSaved = doc.lastModifiedAt;
+                                        // update so the etl program insert this record into Drupal db
+                                          doc.lastModifiedAt = moment(new Date()).format(undefined);
+
+                                          // save the document
+                                        db.saveDoc(doc);
+
+                                        var html = '<tr>' + '<td>' + doc._id + ',</td>' +
+                                              '<td>' + doc.uuid + ',</td>' +
+                                              '<td>' + lastModifiedSaved + '</td>' +
+                                              '</tr>';
+
+                                        $("#listtbl").append(html);
+                                      }else{
+                                        console.log("Complete survey exist for uuid=" + doc.uuid);
+                                      }
+                                  },
+
+                                  error: function (data) {
+                                      alert("Something wrong with updating Completado!!!");
+                                  }
+                              });
+                          },
+                          error: function (data) {
+                              alert("Something wrong!!!");
+                          }
+                      });
+                  }// for
+                },
+
+                error: function (data) {
+                    alert("Something wrong!!!");
+                }
+            });
+
+
+
+}
+
+
+/**
+ * Writes document headers to the csv file.
+ *
+ * @param doc
+ * @param csvContent
+ */
+function writeHeaders2CSV(){
+    var innerValue;
+
+    for (i in headers) {
+        innerValue = headers[i];
+        resval = innerValue.replace(/"/g, '""');
+        if (resval.search(/("|,|\n)/g) >= 0) {
+            resval = '"' + resval + '"';
+        }
+        csvContent += resval + ',';
+    }
+    csvContent += "\n";
+
+
+
+}
+
+/**
+ * Write document to CSV content.
+ *
+ * @param doc
+ * @param csvContent
+ */
+function writeDoc2CSV(doc){
+    var value, innerValue, resval;
+
+    for (i in headers) {
+
+        value = doc[headers[i]];
+
+
+        innerValue = "";
+        if (value === void 0 || value === null) {
+            innerValue = '';
+        } else {
+            innerValue = value.toString();
+        }
+        resval = innerValue.replace(/"/g, '""');
+        if (resval.search(/("|,|\n)/g) >= 0) {
+            resval = '"' + resval + '"';
+        }
+        csvContent += resval + ',';
+    }
+
+    csvContent += "\n";
+
+
+}
+
+/**
+ * Downloads the report.
+ *
+ * @param csvContent
+ * @returns {*}
+ */
+function downloadMissingRequiredFieldsReport(){
+    a = document.createElement('a');
+    blob = new Blob([csvContent], {
+        'type': 'text/csv;charset=utf-8'
+    });
+    a.href = window.URL.createObjectURL(blob);
+    a.download = "missingregfields.csv";
+    $('#reportloader').hide();
+    return a.click();
+}
+
+
+
+function initFinalIncompleteRegs(incompleteRegs, completeRegs){
+    var finalRegs = [];
+    var i2 = 0;
+
+    for (i in incompleteRegs) {
+        var doc = incompleteRegs[i];
+        if (!ifCompleteExist(doc.uuid, completeRegs)){
+            finalRegs[i2++] = doc;
+        }
+    }
+
+    return finalRegs;
+}
+
+
+
+function ifCompleteExist(uuid, completeRegs){
+    var completeDoc;
+
+    for (i in completeRegs.rows){
+        completeDoc = completeRegs.rows[i];
+
+        if (completeDoc.key === uuid){
+            return true;
+        }
+    }
+    return false;
+}
+
+// checks if all required fields exist
+function isAllRequiredFieldsExist(doc){
+
+    for (i in requiredFields){
+        field = requiredFields[i];
+        if (doc[field] == undefined)
+            return false;
+    }
+
+    return true;
+}
+
+
+
+
+</script>
+
+</head>
+
+
+<body >
+<p>This will fetch incomplete surveys and flag duplicate to not show in the reports.</p>
+<input type="button" onclick="start()" id="start" value="Start">
+
+<p> Updating the documents.... </p>
+<table id="listtbl" style = "border:1;cellpadding:4" ><tr><th>Doc Id</th><th>UUID</th><th>Last Modified</th></tr></table>
+
+
+
+</body>
+
+</html>

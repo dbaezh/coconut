@@ -1,0 +1,2 @@
+select distinct uuid, Nombre, Apellido, provider_id,entity_id, field_agency_name_value from field_data_field_agency_name aname, aj_registration reg where 
+aname.entity_id=reg.provider_id and uuid not in (select uuid from aj_survey) order by aname.field_agency_name_value

@@ -1,0 +1,59 @@
+<?php
+
+/**
+* @file
+* Module used by other AJ ETL modules to log messages.
+*
+*/
+
+
+/**
+ * Inserts the log information into a table.
+ *
+ * @param $module
+ * @param $category
+ * @param $message
+ */
+function ajetllog_log($module, $category, $message){
+
+    $query = "INSERT INTO {ajetl_log}(module, created, category,message) VALUES (:module, NOW(), :category, :message)";
+
+
+
+    $result = db_query($query,
+        array(':module'   => $module,
+            ':category' => $category,
+            ':message'  => $message,
+
+        )
+    );
+
+
+}
+
+
+/**
+ * Inserts the log information into a table.
+ *
+ * @param $module
+ * @param $category
+ * @param $message
+ */
+function ajetllog_error($module, $category, $message, $data, $provider_id){
+
+    $query = "INSERT INTO {ajetl_log}(module, created, category, message, data, provider_id) VALUES (:module, NOW(), :category, :message, :data, :provider_id)";
+
+
+
+    $result = db_query($query,
+        array(':module'   => $module,
+            ':category' => $category,
+            ':message'  => $message,
+            ':data'  => $data,
+            ':provider_id'  => $provider_id
+
+        )
+    );
+
+
+}

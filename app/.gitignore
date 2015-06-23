@@ -1,0 +1,8 @@
+\.couchapprc
+\.DS_Store
+\.couchappignore
+*.swp
+*.map
+
+_docs/coconut.config.local
+_docs/coconut.config

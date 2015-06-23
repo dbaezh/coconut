@@ -1,0 +1,321 @@
+<?php
+/*
+ * This is all very hard coded, please bear with me.
+ * 
+ * This code assumes the following:
+ *   1) There is a program node creation form called "program_node_form"
+ *   2) The user has a field machine name "field_user_provider"
+ *   2.1) That field is a taxonomy term reference and we can get the tid
+ *   3) The program node has a field machine name "field_program_provider"
+ *
+ * What it does is take the user's provider and attach it to the program.
+ */
+
+function form_tagger_form_alter( &$form, &$form_state, $form_id ) {
+	global $user;
+	// echo $form_id;
+	switch ( $form_id ) {
+		case "eck__entity__form_add_program_program":
+		case "eck__entity__form_edit_program_program":
+			$user_data = user_load($user->uid);
+			$provider = $user_data->field_user_provider;
+			
+			if (array_key_exists('und', $provider)) {
+				$provider_tid = $provider['und'][0]['target_id'];
+				$entity = entity_load_single('provider', $provider_tid);
+				$provider_wrapper = entity_metadata_wrapper("provider", $entity);
+				$provider_name = $provider_wrapper->field_agency_name->value();
+			} else {
+				$provider_tid = '_none';
+				$provider_name = '- Select a value -';
+			}
+
+			if (in_array('System Administrator', $user->roles) || 
+				in_array('Evaluator', $user->roles)){
+				// show the providers as a dropdown list because these roles can select a provider
+			} else if (in_array('Provider Administrator', $user->roles)) {
+				unset($form['field_program_provider']['und']['#options']);
+				$form['field_program_provider']['und']['#options'][$provider_tid] = $provider_name;
+/*
+echo '<pre>'; 
+var_dump($form); 
+echo '</pre>';	  
+*/
+			} else {
+				// nobody else can do anything
+				unset($form['field_program_provider']['und']['#options']);
+			}
+			break;
+			
+		case "eck__entity__form_add_activity_activity":
+		case "eck__entity__form_edit_activity_activity":
+			$user_data = user_load($user->uid);
+			$provider = $user_data->field_user_provider;
+			$program_provider_id = $provider['und'][0]['target_id'];
+						
+			if (in_array('System Administrator', $user->roles) || 
+				in_array('Evaluator', $user->roles)){
+				// do nothing. show all programs
+			} else if (in_array('Provider Administrator', $user->roles) || 
+				in_array('Case Manager', $user->roles) || 
+				in_array('Data Entry', $user->roles)) {
+				// display only those programs for the provider id tied to the logged in user
+
+				$query = new EntityFieldQuery();
+				$query->entityCondition("entity_type", "program")
+					->entityCondition("bundle", "program")
+					->fieldCondition("field_program_provider", "target_id", $program_provider_id, "=")
+					;
+					
+				$result = $query->execute();
+				$programs = array();
+				if (isset($result) && isset($result["program"])) {
+					$programs = entity_load("program", array_keys($result["program"]));
+				}
+
+				unset($form['field_activity_program']['und']['#options']);
+				if (count($programs) == 0) {
+					$form['field_activity_program']['und']['#options']['_none'] = '- Select a value -';
+				} else {
+					foreach($programs as $program) {
+						$program_wrapper = entity_metadata_wrapper("program", $program);
+						$programNameId = $program->field_program_name['und'][0]['target_id'];
+						$idArray = array();
+						$idArray[0] = $programNameId;
+						$programnames = entity_load("program_name", $idArray);
+						// The index of the returned array is the index of the id we just queried.
+						$programname = $programnames[$programNameId];
+						$programName_wrapper = entity_metadata_wrapper("program_name", $programname);
+						
+//echo '<pre>'; 
+//echo '*****************';
+//echo 'program:';
+//var_dump($program);
+//echo 'wrapper:';
+//var_dump($programName_wrapper);
+//echo $program_wrapper->id->value(); 
+//var_dump($programname->field_programname_name['und'][0]['value']); 
+//var_dump($programName_wrapper->field_programname_name->value()); 
+//echo '</pre>';	  
+
+						$form['field_activity_program']['und']['#options'][$program_wrapper->id->value()] = 
+							$programName_wrapper->field_programname_name->value();
+					}
+				}
+
+				// display only those case managers for the provider id tied to the logged in user
+
+				$result = getUsersByRoleNameAndProviderId("Case Manager");
+				$caseManagers = array();
+				if (isset($result) && isset($result["user"])) {
+					$caseManagers = entity_load("user", array_keys($result["user"]));
+				}
+
+						
+//echo '<pre>'; 
+//echo '*****************';
+//var_dump($result);
+//var_dump($caseManagers);
+//echo '</pre>';	  
+
+				
+				unset($form['field_activity_case_manager']['und']['#options']);
+				if (count($caseManagers) == 0) {
+					$form['field_activity_case_manager']['und']['#options']['_none'] = '- Select a value -';
+				} else {
+					foreach($caseManagers as $caseManager) {
+
+						if ($program_provider_id == $caseManager->field_user_provider['und'][0]['target_id']) {
+//							$cm_wrapper = entity_metadata_wrapper("user", $caseManager);
+//echo '<pre>'; 
+//echo '*****************';
+//echo $caseManager->uid;
+//echo $caseManager->name;
+//var_dump($caseManager);
+//var_dump($cm_wrapper);
+//echo '</pre>';	  
+
+							$form['field_activity_case_manager']['und']['#options'][$caseManager->uid] = 
+								$caseManager->name;
+							
+						}
+					}
+				}
+				
+			} else {
+				// nobody else can do anything
+				unset($form['field_activity_program']['und']['#options']);
+				unset($form['field_activity_case_manager']['und']['#options']);
+			}
+
+
+			break;
+			
+		// based on the auto assign role module
+		case "user_register_form":
+		case "user_profile_form":	
+			$user_data = user_load($user->uid);
+			
+			if (!in_array('System Administrator', $user->roles)) {
+				// modify the user roles
+				
+				$roles = array();
+				$form['autoassignrole_user'] = array(
+					'#type' => 'fieldset',
+					'#title' =>  t('User Roles'),
+					'#collapsible' => FALSE,
+					'#collapsed' => FALSE,
+				);
+				
+				$selectedRole = '_none';
+/*				
+echo '<pre>'; 
+//echo '********************* form state ******************';
+//var_dump($form_state); 
+echo '********************* form ******************';
+var_dump($form); 
+echo '</pre>';	  
+*/
+
+				if (in_array('Evaluator', $form["#user"]->roles)) {
+					$selectedRole = '7';
+				} else if (in_array('Provider Administrator', $form["#user"]->roles)) {
+					$selectedRole = '4';
+				} else if (in_array('Case Manager', $form["#user"]->roles)) {
+					$selectedRole = '8';
+				} else if (in_array('Data Entry', $form["#user"]->roles)) {
+					$selectedRole = '9';
+				}
+
+				// but this could be a resubmission of a form so override the selectedRole if 
+				// formstate has a role
+				if (array_key_exists('user_roles', $form_state['input'])) {				
+					$selectedRole = $form_state['input']['user_roles'];
+				}
+				
+				if (in_array('Evaluator', $user->roles)){
+					$roles['7'] = 'Evaluator';
+					$roles['4'] = 'Provider Administrator';
+					$roles['8'] = 'Case Manager';
+					$roles['9'] = 'Data Entry';				
+				} else if (in_array('Provider Administrator', $user->roles) ) {
+					// if the user to be edited happens to be a provider admin, then 
+					// let them keep provider admin as a role
+					$userToBeEdited = user_load($form["#user"]->uid);
+					if ($userToBeEdited != null && in_array('Provider Administrator', $userToBeEdited->roles)) {
+						$roles['4'] = 'Provider Administrator';
+					}
+				
+					$roles['8'] = 'Case Manager';
+					$roles['9'] = 'Data Entry';				
+				} else {
+					unset($form['autoassignrole_user']['user_roles']['#options']);
+				}
+
+				$form['autoassignrole_user']['user_roles'] = array(
+					'#type' => 'select',
+					'#title' => t('Role'),
+					'#options' => $roles,
+					'#description' => t('Select a role'),
+					'#required' => TRUE,
+					'#multiple' => FALSE,
+					'#empty_value' => '_none',
+					'#value' => $selectedRole,
+				);
+				
+			}
+			
+			// limit provider based on logged in user role
+			$provider = $user_data->field_user_provider;
+			
+			if (array_key_exists('und', $provider)) {
+				$provider_tid = $provider['und'][0]['target_id'];
+				$entity = entity_load_single('provider', $provider_tid);
+				$provider_wrapper = entity_metadata_wrapper("provider", $entity);
+				$provider_name = $provider_wrapper->field_agency_name->value();
+			} else {
+				$provider_tid = '_none';
+				$provider_name = '- Select a value -';
+			}
+
+			if (in_array('System Administrator', $user->roles) || 
+				in_array('Evaluator', $user->roles)){
+				// show the providers as a dropdown list because these roles can select a provider
+			} else if (in_array('Provider Administrator', $user->roles)) {
+				unset($form['field_user_provider']['und']['#options']);
+				$form['field_user_provider']['und']['#options'][$provider_tid] = $provider_name;
+			} else {
+				// nobody else can do anything
+				unset($form['field_user_provider']['und']['#options']);
+			}
+			
+			$form['#validate'][] = 'validateuserupdate_function';
+			
+			break;
+
+	}
+
+} // END of form_tagger_form_alter
+
+function getUsersByRoleNameAndProviderId($rolename){
+  $query = new EntityFieldQuery;
+  $query->entityCondition('entity_type', 'user');
+  $query->addTag('rolequery');
+  $query->addMetaData('rolename', $rolename);
+
+  return $query->execute();
+}
+
+function form_tagger_query_rolequery_alter(QueryAlterableInterface $query) {
+  $rolename = $query->getMetaData('rolename');
+
+  $role_subquery = db_select("role", "role");
+  $role_subquery->condition('role.name', $rolename, '=');
+  $role_subquery->join('users_roles', "users_to_include", "role.rid = users_to_include.rid");
+  $role_subquery->fields('users_to_include', array('uid' => 'uid'));
+  $role_subquery->where('users_to_include.uid = users.uid');
+  $query->exists($role_subquery);
+}
+
+function validateuserupdate_function($form, &$form_state) {
+/*
+echo '<pre>'; 
+echo '********************* form state validate ******************';
+var_dump($form_state); 
+echo '</pre>';	  
+*/
+	if (isset($form_state['input']['user_roles']) && $form_state['input']['user_roles'] == '_none') {
+//	if ($form_state['values']['user_roles'] == '_none') {
+		form_set_error('user_roles', t('Role field is required'));
+	}
+}
+
+function form_tagger_user_presave(&$edit, $account, $category) {	
+	global $user;
+	if (!in_array('System Administrator', $user->roles)) {
+		// Get the existing user roles with the exception of the anonymous role.
+		$user_roles = user_roles(TRUE);
+		$roles_to_add = array();
+
+		// Add in user selected roles if any.
+		if (!empty($edit['user_roles'])) {
+			// Value is a single, convert to array
+			if (!is_array($edit['user_roles'])) {
+				$edit['user_roles'] = array($edit['user_roles'] => $edit['user_roles']);
+			}
+			$roles_to_add += array_intersect_key($user_roles, array_filter($edit['user_roles']));
+		}
+		
+		// Make sure the roles key exists.
+		if (!isset($edit['roles'])) {
+			$edit['roles'] = array();
+		}
+		
+		// don't want to accidentally take away someone who is a sys admin.
+		//	$roles_to_add["3"] = "System Administrator";
+
+		// Add in the new roles to override the current roles.
+		$edit['roles'] = $roles_to_add;
+	//	$edit['roles'] = $roles_to_add + $edit['roles'];
+	}
+}

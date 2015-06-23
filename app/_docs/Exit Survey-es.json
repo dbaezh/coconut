@@ -1,0 +1,293 @@
+{
+  "_id": "Exit Survey-es",
+  "collection": "question",
+  "questions": [
+    {
+      "_id": 98,
+      "label": "9. ¿Conseguiste tu acta de nacimiento luego de entrar a Alerta Joven?",
+      "radio-options": "Sí, No",
+      "repeatable": false,
+      "required": true,
+      "type": "radio"
+    },
+        {
+          "_id": 100,
+          "label": "9A. Si no, ¿cuál es la razón principal por la que no tienes un acta? Marca sólo una opción.",
+		  "radio-options": "Nací en Haití, Padre o madre nació en Haití, Me fueron denegados, Mis padres no tienen acta de nacimiento (aunque sean dominicanos), Mis padres no saben cómo o dónde obtener un acta de nacimiento, Muy caro, Muy lejos, Falta de tiempo, Perdí mi acta de nacimiento, Había problemas en el lugar de registro, Ausencia de padre o madre, Falta de interés, Otro (favor especificar)",
+          "repeatable": false,
+          "required": false,
+	        "skip_logic": "ResultOfQuestion('9ConseguistetuactadenacimientoluegodeentraraAlertaJoven') isnt 'No'",
+          "type": "radio"
+        },
+		{
+		  "_id": 101,
+		  "label": "9A. Otro",
+		  "repeatable": false,
+		  "required": false,
+		  "skip_logic": "ResultOfQuestion('9ASinocuáleslarazónprincipalporlaquenotienesunactaMarcasólounaopción') isnt 'Otro (favor especificar)'",
+		  "type": "text"
+		},
+    {
+      "_id": 102,
+      "label": "10. ¿Tienes cédula?",
+      "radio-options": "Sí, No",
+      "repeatable": false,
+      "required": true,
+      "type": "radio"
+    },
+    {
+      "_id": 103,
+      "label": "11. ¿Estas actualmente asistiendo a una escuela o universidad?",
+      "radio-options": "Sí, No",
+      "repeatable": false,
+      "required": true,
+      "type": "radio"
+    },
+    {
+      "_id": 104,
+      "label": "11A. ¿Qué grado estas cursando actualmente?",
+      "repeatable": false,
+      "required": false,
+      "skip_logic": "ResultOfQuestion('11Estasactualmenteasistiendoaunaescuelaouniversidad') isnt 'Sí'",
+      "type": "text"
+    },
+    {
+      "_id": 105,
+      "label": "11B.1 ¿Cuál nivel?",
+      "radio-options": "Básica,Bachillerato,Más avanzado, No responde",
+      "repeatable": false,
+      "required": false,
+      "skip_logic": "ResultOfQuestion('11Estasactualmenteasistiendoaunaescuelaouniversidad') isnt 'Sí'",
+      "type": "radio"
+    },
+    {
+      "_id": 106,
+      "label": "12. ¿Has completado algún curso técnico luego de entrar a Alerta Joven?",
+      "radio-options": "Sí, No",
+      "repeatable": false,
+      "required": true,
+      "type": "radio"
+    },
+    {
+      "_id": 107,
+      "label": "12A. Si la respuesta es afirmativa, ¿cuáles cursos?",
+      "repeatable": false,
+      "required": false,
+      "skip_logic": "ResultOfQuestion('12HascompletadoalgúncursotécnicoluegodeentraraAlertaJoven') isnt 'Sí'",
+      "type": "text"
+    },
+    {
+      "_id": 108,
+      "label": "13. ¿Actualmente tienes un trabajo en que te paguen?",
+      "radio-options": "Sí, No",
+      "repeatable": false,
+      "required": true,
+      "type": "radio"
+    },
+    {
+      "_id": 109,
+      "label": "13A. ¿Cuándo empezaste en este trabajo?",
+      "questions": [
+        {
+          "_id": 110,
+          "autocomplete-options": "enero,febrero,marzo,abril,mayo,junio,julio,agosto,septiembre,octubre,noviembre,diciembre",
+          "label": "13A. Mes",
+          "repeatable": false,
+          "required": false,
+          "type": "autocomplete from list",
+		  "validation": "return \"Mes debe ser de 1 al 12.\" if parseInt(value) < 1 || parseInt(value) > 12 "
+        },
+        {
+          "_id": 111,
+          "label": "13A. Año",
+          "repeatable": false,
+          "required": false,
+          "type": "number",
+          "validation": "return \"Año debe ser 4 digitos.\" if value.toString().length != 4 || parseInt(value) < 1"
+        }
+      ],
+	  
+      "radio-options": "Sí, No",
+      "repeatable": false,
+      "required": false,
+      "skip_logic": "ResultOfQuestion('13Actualmentetienesuntrabajoenquetepaguen') isnt 'Sí'",
+      "type": "group"
+    },
+    {
+      "_id": 112,
+      "label": "13B. ¿Estás en un mejor trabajo o empleo que el anterior?",
+      "radio-options": "Sí, No, ESTE ES MI PRIMER TRABAJO",
+      "repeatable": false,
+      "required": false,
+      "skip_logic": "ResultOfQuestion('13Actualmentetienesuntrabajoenquetepaguen') isnt 'Sí'",
+      "type": "radio"
+    },
+    {
+      "_id": 113,
+      "label": "14. ¿Has completado algún o algunos de estos programas estando en Alerta Joven? Marca todas las que apliquen.",
+      "radio-options": "Participado, Completado, No participó",
+      "repeatable": false,
+      "required": false,
+      "type": "programnameslist"
+    },
+	 {
+	   "_id": 114,
+	   "label": "15. Desde que empezaste en Alerta Joven, hasta la fecha:",
+	   "questions": [
+		  {
+			  "_id": 115,
+			  "label": "15A. ¿Cuántas veces has sido transportado por la policía?",
+			  "repeatable": false,
+			  "required": false,
+			  "type": "text"
+		  },
+		  {
+			  "_id": 116,
+			  "label": "15B. ¿Cuántas veces has sido arrestado por la policía?",
+			  "repeatable": false,
+			  "required": false,
+			  "type": "text"
+		  },
+		  {
+			  "_id": 117,
+			  "label": "15C. ¿Cuántas veces has sido acusado de cometer algún delito en la fiscalía o policía?",
+			  "repeatable": false,
+			  "required": false,
+			  "type": "text"
+		  },
+		  {
+			  "_id": 118,
+			  "label": "15D. ¿Cuántas veces has sido enviado a un centro de atención integral?",
+			  "repeatable": false,
+			  "required": false,
+			  "type": "text"
+		  }
+	   ],
+	   "required": false,
+	   "type": "group"
+	 },
+	  {
+		  "_id": 119,
+		  "hint": "En una puntuación de 1 al 10, donde 1 es NINGUN IMPACTO Y 10 es TOTAL IMPACTO.",
+		  "label": "16. ¿En qué medida tu vida ha sido afectada por la delincuencia?",
+		  "repeatable": false,
+		  "required": false,
+		  "type": "number",
+		  "validation": "return \"El numero debe ser de 1 al 10.\" if parseInt(value) < 1 || parseInt(value) > 10 "
+	  },
+	  {
+		  "_id": 120,
+		  "label": "17. ¿Alguna vez has tenido relaciones sexuales?",
+		  "radio-options": "Sí, No",
+		  "repeatable": false,
+		  "required": true,
+		  "type": "radio"
+	  },
+	  {
+		  "_id": 121,
+		  "label": "18. La última vez que tuviste relaciones sexuales, ¿tú o tu compañero/a utilizó condón?",
+		  "radio-options": "Sí, No",
+		  "repeatable": false,
+		  "required": true,
+		  "skip_logic": "ResultOfQuestion('17Algunavezhastenidorelacionessexuales') isnt 'Sí'",
+		  "type": "radio"
+	  },
+	  {
+		  "_id": 122,
+		  "label": "19. La última vez que tuviste relaciones sexuales, ¿cuál método usaste o tu compañero/a para prevenir el embarazo?",
+		  "radio-options": "No utilicé ningún método para prevenir el embarazo, Condón, Condón femenino, Píldora anticonceptiva, Ritmo (mantener relaciones en días no fértiles o cuando no hay ovulación), Retiro (detener la penetración antes de eyacular), Mela (mujeres lactando), DIU (como Mirena o Paragard), Inyección (como Depo-Provera), un parche (Ortho Evra), o un anillo (como NuvaRing), Implante o norplant (como Implanon o Nexplanon), Esterilización femenina, Esterilización masculina, Otro (favor especificar), No sé/Inseguro",
+		  "repeatable": false,
+		  "required": true,
+		  "skip_logic": "ResultOfQuestion('17Algunavezhastenidorelacionessexuales') isnt 'Sí'",
+		  "type": "radio"
+	  },
+	  {
+		  "_id": 123,
+		  "label": "19A. Otro",
+		  "repeatable": false,
+		  "required": false,
+		  "skip_logic": "ResultOfQuestion('19Laúltimavezquetuvisterelacionessexualescuálmétodousasteotucompañeroaparaprevenirelembarazo') isnt 'Otro (favor especificar)'",
+		  "type": "text"
+	  },
+	  {
+		  "_id": 124,
+		  "label": "20. Si quisieras comprar un condón, ¿crees que podrías encontrarlo?",
+		  "radio-options": "Sí, No",
+		  "repeatable": false,
+		  "required": true,
+		  "type": "radio"
+	  },
+	  {
+		  "_id": 125,
+		  "label": "21. Si quisieras tener sexo, ¿crees que serías capaz de convencer a tu pareja que use un condón en caso que él/ella no quiera?",
+		  "radio-options": "Sí, No",
+		  "repeatable": false,
+		  "required": true,
+		  "type": "radio"
+	  },
+	  {
+		  "_id": 126,
+		  "label": "Estatus de Salida – Llenado por el coordinador o multiplicador",
+		  "repeatable": false,
+		  "required": false,
+		  "type": "label"
+	  },
+	  {
+		  "_id": 127,
+		  "label": "22. Fecha de Revisión",
+		  "repeatable": false,
+		  "required": true,
+		  "type": "date"
+	  },
+	  {
+		  "_id": 128,
+		  "hint": "Selecciona la situación en que se encuentra el participante:",
+		  "label": "23. Estatus de Salida",
+		  "radio-options": "Completó asistencia a servicios o programa en que participó, Voluntariamente dejó de asistir a los servicios o programas/pérdida de contacto con participante, Terminó por violar las reglas o requisitos del programa, Abandonó debido a que reincidió en crimen o delincuencia, Las necesidades del participante exceden los servicios del proyecto/ no elegible, Vive o se mudó fuera del área de servicio/se refirió a otro programa de Alerta Joven, Vive o se mudó fuera del área de servicio/no referido a otro programa, Falleció, Otro (favor especificar)",
+		  "repeatable": false,
+		  "required": true,
+		  "type": "radio"
+	  },
+	  {
+		  "_id": 129,
+		  "label": "23A. Otro",
+		  "repeatable": false,
+		  "required": false,
+		  "skip_logic": "ResultOfQuestion('23EstatusdeSalida') isnt 'Otro (favor especificar)'",
+		  "type": "text"
+	  },
+	  {
+		  "_id": 130,
+		  "label": "24. Comentarios",
+		  "repeatable": false,
+		  "required": false,
+		  "type": "text"
+	  },
+	  {
+		"_id": 301,
+		"action_on_questions_loaded": "",
+	   "label": "Completado",
+      "onComplete" : {
+        "type" : "choice",
+        "message" : "Gracias, el impresso está completado. ¿Qué quiere hacer proxima?",
+        "links" : [
+          {
+            "label" : "Lista de Participantes",
+            "route" : "reports/Participant Registration-es/isActions=true/",
+            "urlparams" : ["user_name"]
+          }
+        ]
+        },
+	   
+	   "radio-options": true,
+	   "repeatable": false,
+	   "required": false,
+	   "type": "checkbox",
+	   "validation": ""
+	  }
+
+
+	],
+  "required": false,
+  "type": "group"
+}

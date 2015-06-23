@@ -1,0 +1,95 @@
+<?php
+/**
+ * @file
+ * Install module for couchDB ETL process. Creates the couchDB tables.
+ */
+
+// TBD: Move schema definitions in external files
+//require_once ( dirname(__FILE__) . '/regschema.inc'); //
+
+
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
+
+function ajetlattendance_schema() {
+
+  $schema['aj_attendance'] = array(
+      'description' => 'AJ attendance list entered in CouchDB.',
+      'fields' => array(
+        'id' => array(
+          'description' => 'The primary identifier.',
+          'type' => 'serial',
+          'unsigned' => TRUE,
+          'not null' => TRUE),
+        '_id' => array(
+          'description' => 'CouchDB document id.',
+          'type' => 'varchar',
+          'length' => 255,
+          'not null' => TRUE,
+          'default' => ''),
+        '_rev' => array(
+          'description' => 'CouchDB revision.',
+          'type' => 'varchar',
+          'length' => 255,
+          'not null' => TRUE,
+          'default' => ''),
+        'createdAt' => array(
+          'description' => 'CouchDb created date',
+          'mysql_type' => 'datetime',
+          'not null' => TRUE),
+        'lastModifiedAt' => array(
+                  'description' => 'CouchDb last modified date',
+                  'mysql_type' => 'datetime',
+                  'not null' => TRUE),
+        'provider_id' => array(
+           'description' => 'Provider Id.',
+           'type' => 'varchar',
+           'length' => 10,
+           'not null' => FALSE,
+           'default' => ''),               
+        'activity_id' => array(
+           'description' => 'Activity Id.',
+           'type' => 'int',
+           'unsigned' => TRUE,
+           'not null' => TRUE,
+           'default' => 0),
+        'uuid' => array(
+           'description' => 'Universal unique id.',
+           'type' => 'varchar',
+           'length' => 12,
+           'not null' => TRUE,
+           'default' => ''),
+        'created' => array(
+          'description' => 'The Unix timestamp when the record was created.',
+          'mysql_type' => 'datetime',
+          'not null' => TRUE),
+        'changed' => array(
+          'description' => 'The Unix timestamp when the record was updated.',
+          'mysql_type' => 'datetime',
+          'not null' => FALSE),
+        'user_name' => array(
+                   'description' => 'User name who entered the data.',
+                   'type' => 'varchar',
+                   'length' => 255,
+                   'not null' => FALSE,
+                   'default' => '')  
+        
+       ),
+      'indexes' => array(
+                'ajattendance_created'        => array('created'),
+                'ajattendance_id'            => array('_id'),
+                'ajattendance_activity_id'            => array('activity_id'),
+                'ajattendance_uuid'           => array('uuid'),
+                'ajattendance_provider_id'    => array('provider_id'),
+                'ajattendance_lastModifiedAt' => array('lastModifiedAt'),
+                'ajattendance_createdAt'      => array('createdAt'),
+
+        ),
+      'unique keys' => array(
+        'id' => array('id')
+        ),
+      'primary key' => array('id'),
+    );
+
+  return $schema;
+}

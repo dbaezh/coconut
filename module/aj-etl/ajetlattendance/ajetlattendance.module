@@ -1,0 +1,573 @@
+<?php
+/**
+ * @file
+ * A chron module to create custom tables and load data from CouchDb into these tables.
+ */
+
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
+
+/**
+ * Cron job is creating the queue cron job.
+ *
+ */
+function ajetlattendance_cron() {
+
+    $queue = DrupalQueue::get('ajetlattendance');
+    $queue->createItem("arg1");
+}
+
+/**
+ * Cron jobs info.
+ *
+ * @return array
+ */
+function ajetlattendance_cron_queue_info()
+{
+
+    $queues = array();
+
+    //cron is run at 2:00am
+    //if(date('G')==2)
+    //{
+    $queues['ajetlattendance'] = array(
+        'worker callback' => 'load_attendance_worker',
+        'time' => 300, // time in seconds, this is the duration that the job will be CALLED, e.g.
+        // after it finish it will be called again until the time is up.
+    );
+    //}
+
+    return $queues;
+}
+
+
+/**
+ * The queue job worker. Query registration from couchDB descending and load them into mySQL database.
+ *
+ */
+function load_attendance_worker()
+{
+    ajetllog_log("ajetlattendance", "MESSAGE", "PROCESSING STARTED");
+    global $base_url;
+
+    ajetlattendance_setModuleVariables();
+
+    $req_url = 'http://localhost:5984/coconut/_design/coconut/_view/resultsByQuestionAndComplete?startkey=%22Attendance%20List%3Afalse%3Az%22&endkey=%22Attendance%20List%3Afalse%22&descending=true&include_docs=false';
+
+    //TBD Uncomment when deploying to prod, the $base_url is not write when deploying on Windows because it has /drupal in the link
+    //$req_url = $base_url.':5984/coconut/_design/coconut/_view/resultsByQuestionAndComplete?startkey=%22Attendance%20List%3Afalse%3Az%22&endkey=%22Attendance%20List%3Afalse%22&descending=true&include_docs=false';
+
+
+    // prepare the request options
+    $req_options = array(
+        'method' => 'GET',
+        'headers' => array(
+            'Content-Type' => 'application/json'
+        ));
+
+    // query couchdb data
+    $couch_response = drupal_http_request( $req_url, $req_options );
+
+    // decode to json objects
+    $rows = drupal_json_decode( $couch_response->data)['rows'];
+
+    $size = sizeof($rows);
+
+    ajetllog_log("ajetlattendance", "MESSAGE", "******Rows fetched:".$size);
+
+    $i = 0;
+
+    foreach ( $rows as $one_row ){
+        list($type, $isCompleted, $lastModified1,$lastModified2, $lastModified3, $lastModified4) = explode(":", $one_row['key']);
+
+
+        // lastModified is in format as 2014-08-11T13:50:41-03:00 so need to re-create
+        $lastModified = $lastModified1.':'.$lastModified2.':'.$lastModified3.':'.$lastModified4;
+
+        // ignore if the date is in the future
+        if (!ajetlattendance_isDateInFuture($lastModified)) {
+            // check if the record with the same id and last modified date already exist
+            $record = ajetlattendance_getAttendanceByIdAndModifiedDate($one_row['id'], $lastModified);
+
+            if ($record != null) {
+                //ajetllog_log("ajetlattendance", "MESSAGE", "Found same exact record and stopped loading activities for document is" . $one_row['id']);
+                //ajetllog_log("ajetlattendance", "MESSAGE", "Found same exact record and did not load activity for document: " . $one_row['id']);
+                continue;
+            }
+        }
+
+
+        ajetlattendance_loadAttendance($one_row['id'], $lastModified);
+        $i++;
+
+        //if ($i === 10)
+        //  break;
+
+    }
+
+    ajetlattendance_deleteModuleVariables();
+
+    ajetllog_log("ajetlattendance", "MESSAGE", "Document processed".$i);
+
+
+
+}
+
+
+
+/**
+ * Implement hook_enable()
+ */
+function ajetlattendance_enable() {
+    //Check if table exists, if not install the schema.
+    /* if(db_table_exists('aj_attendance') == FALSE) {
+         drupal_install_schema('ajetlattendance');
+     }*/
+
+
+}
+
+
+/**
+ * Opens the document by Id and returns the JSON object.
+ *
+ * @param $id
+ */
+function ajetlattendance_OpenRegById($id){
+    // TBD: changed hard coded localhost link
+    $req_url = 'http://localhost:5984/coconut/'.$id;
+
+    $req_options = array(
+        'method' => 'GET',
+        'headers' => array(
+            'Content-Type' => 'application/json'
+        ));
+
+    $couch_response = drupal_http_request( $req_url, $req_options );
+    $doc = drupal_json_decode( $couch_response->data);
+
+
+    return $doc;
+
+}
+
+/**
+ * Delete module variables.
+ */
+function ajetlattendance_deleteModuleVariables(){
+    variable_del("ajAttendanceColumns");
+
+}
+
+/**
+ *
+ * Use variable_set() to set module global variables.
+ *
+ *
+ */
+function ajetlattendance_setModuleVariables()
+{
+    // retrieve aj-survey table columns
+    $ajAttendanceColumns = drupal_schema_fields_sql("aj_attendance");
+    // set the columns as variable
+    variable_set("ajAttendanceColumns", $ajAttendanceColumns);
+}
+
+/**
+ * Generates the first insert query e.g. .(col1, col2, col3...). It's driven by the aj_attendance table columns.
+ *
+ * @param $doc
+ *
+ */
+function ajetlattendance_genInsertQueryPart1($doc){
+    $query = "";
+    $ajAttendanceColumns = variable_get("ajAttendanceColumns");
+
+
+
+    foreach ($ajAttendanceColumns as $col){
+        if ($col === "id" || $col === "changed" || $col === "uuid")
+            continue;
+
+        $query = $query.$col.", ";
+
+    }
+
+    // add uuid as last field
+    $query = $query." uuid";
+
+    return $query;
+
+}
+
+
+/**
+ * Generates the values() insert statement.
+ *
+ * @param $doc
+ *
+ */
+function ajetlattendance_genInsertQueryPart2($doc, $uuid){
+    $query = "";
+    $key = "";
+    $val = "";
+
+    $ajAttendanceColumns = variable_get("ajAttendanceColumns");
+
+    foreach ($ajAttendanceColumns as $col) {
+        // skip these
+        if ($col === "id" || $col === "changed" || $col === "uuid")
+            continue;
+
+
+        $key = $col;
+
+        if ($key === "createdAt" || $key === "lastModifiedAt") {
+            $val = ajetlattendance_couchDateTime2Mysql($doc[$key]);
+            $query = $query . $val . " ";
+        }else if ($key === "created"){
+            $val = " NOW() ";
+            $query = $query . $val . " ";
+        }else if ($key === "activity_id"){
+            $val = ajetlattendance_couchString2Int($doc[$key]);
+            $query = $query . $val . " ";
+        }else {
+            if (array_key_exists($key, $doc)) {
+                $val = $doc[$key];
+                $pos = stripos($val, "'");
+                if ($pos > 0)
+                    $val = str_replace("'", "\'", $val);
+            }else
+                $val = "";
+            $query = $query."'". $val."' ";
+        }
+
+
+
+
+        $query = $query.",";
+
+
+    }
+
+    // add the uuid as last value
+    $query = $query."'".$uuid."' ";
+
+    return $query;
+
+}
+
+
+/**
+ * Inserts data into aj_etlsurvey table.
+ *
+ * @param $id
+ * @param $lastModifiedDate
+ */
+function ajetlattendance_insertAttendance($doc, $uuid){
+
+    $q1 = ajetlattendance_genInsertQueryPart1($doc);
+    $q2 = ajetlattendance_genInsertQueryPart2($doc, $uuid);
+    $query = "INSERT INTO {aj_attendance} (".$q1.") VALUES(".$q2.")";
+
+    try{
+        $result = db_query($query);
+    }catch(Exception $e){
+        ajetllog_error("ajetlattendance", "MySQL ERROR", "MySQL error.", $e->getMessage(), "");
+    }
+
+}
+
+
+
+
+/**
+ * Query aj_attendance table for record by _id and lastModifiedAt date.
+ *
+ * @param $_id
+ * @param $lastModifiedAt
+ * @return null if record does not exist
+ *         the record if exist
+ */
+function ajetlattendance_getAttendanceByIdAndModifiedDate($_id, $lastModifiedAt)
+{
+    $retRecord = null;
+
+    $sqlLastModifiedAt = ajetlattendance_couchDateTime2Mysql($lastModifiedAt);
+
+    $result = db_query("SELECT t.id FROM {aj_attendance} t WHERE t._id = :_id AND t.lastModifiedAt=".$sqlLastModifiedAt, array(':_id' => $_id));
+
+
+    if ($result == null) {
+        return null;
+    }
+
+    foreach ($result as $record) {
+        $retRecord = $record;
+        //ajetllog_log("ajetlattendance", "MESSAGE", 'Found existing doc for doc id='.$record->id);
+        break;
+    }
+
+    return $retRecord;
+
+}
+
+/**
+ * Query aj_attendance table by _id.
+ *
+ * @param $_id
+ * @return null if record not found
+ *         the record if found
+ */
+function ajetlattendance_getAttendanceById($_id)
+{
+    $retRecord = null;
+
+
+    $result = db_query('SELECT t.id, t._id, t.lastModifiedAt FROM {aj_attendance} t WHERE t._id = :_id', array(':_id' => $_id));
+
+    var_dump($result);
+
+    if ($result == null) {
+        return null;
+    }
+
+    foreach ($result as $record) {
+        $retRecord = $record;
+        ajetllog_log("ajetlattendance", "MESSAGE", 'Found existing doc for doc id='.$record->id);
+        break;
+    }
+
+    return $retRecord;
+
+
+}
+
+
+/**
+ * Query aj_attendance table by _id and lastModifiedAt DIFFERENT then the input $lastModifiedAt.
+ *
+ * @param $_id
+ * @param $lastModifiedAt
+ * @return null if record is not found
+ *         the record if found
+ */
+function ajetlattendance_getAttendanceByIdDifferentDate($_id, $lastModifiedAt)
+{
+    $retRecord = null;
+    $sqlLastModifiedAt = ajetlattendance_couchDateTime2Mysql($lastModifiedAt);
+    $result = db_query("SELECT t.id FROM {aj_attendance} t WHERE t._id = :_id AND t.lastModifiedAt<>".$sqlLastModifiedAt, array(':_id' => $_id));
+
+
+
+    if ($result == null) {
+        return null;
+    }
+
+    foreach ($result as $record) {
+        $retRecord = $record;
+        ajetllog_log("ajetlattendance", "MESSAGE", 'Found existing doc for doc id='.$record->id);
+        break;
+    }
+
+    return $retRecord;
+
+
+
+}
+
+
+
+
+/**
+ * First it checks for same _id AND different lastModifiedAt date. If record found
+ * deletes the record before inserting the modified document. If record is not found
+ * insert the data into the aj_attendance table.
+ *
+ * @param $id
+ * @param $lastModifiedDate
+ */
+function ajetlattendance_loadAttendance($_id, $lastModifiedAt){
+
+    // check if the record with the same id but different modified date already exist
+    $record = ajetlattendance_getAttendanceByIdDifferentDate($_id, $lastModifiedAt);
+
+    // TBD: Maybe need to update the existing document, not delete before inserting. However because
+    // of the fast approaching deadline do this for now.
+
+    // record has been changed so delete the old record before inserting
+    if ($record != null) {
+       db_query("DELETE FROM {aj_attendance} WHERE _id='".$_id."'");
+    }
+
+    // delete all records for this id if already exist
+    //db_query("DELETE FROM {aj_attendance} WHERE _id='".$_id."'");
+
+    // fetch the document from couch db
+    $doc = ajetlattendance_OpenRegById($_id);
+
+    // array if uuids
+    $uuids = array();
+
+    // identify uuids, uuids are key-value pair such as 3K13HYBTH:"true", KVADTCQRP:"true",
+    // these are the only "true" values so assume if value is true this is an UUID
+    foreach ($doc as $key=>$value){
+        if ($value === "true")
+            array_push($uuids, $key);
+    }
+
+    if (sizeof($uuids) > 0) {
+        foreach ($uuids as $key => $value) {
+            // insert the record
+            ajetlattendance_insertAttendance($doc, $value);
+        }
+    }
+
+}
+
+/**
+ * Checks if Fecha is correct.
+ *
+ * @param $doc
+ * @param $id
+ * @return bool
+ */
+function ajetlattendance_isDocumentValid($doc, $id){
+
+    // Check if Fetcha is valid, there is occasions where Fetcha is 20104-04-26
+    $len = strlen($doc['Fecha']);
+    if ($len != 10){
+        ajetllog_log("ajetlattendance", "ERROR", 'Fecha is not correct for doc id='.$id);
+        return false;
+    }
+
+    return true;
+}
+
+
+
+
+/**
+ *
+ * Removes the last 6 characters (the timezone) from couchDB date.
+ *
+ * Example: converts 2013-11-29T09:40:10-03:00 to 2013-11-29T09:40:10 and
+ * adds STR_TO_DATE so the final string will be STR_TO_DATE('2013-11-29T09:40:10', '%Y-%m-%dT%H:%i:%S').
+ *
+ */
+function ajetlattendance_couchDateTime2Mysql($dt){
+
+    // remove the last 6 chars, e.g. the couchDB time zone
+    $len = strlen($dt);
+    $dt = substr($dt, 0, $len - 6);
+
+    return " STR_TO_DATE('".$dt."', '%Y-%m-%dT%H:%i:%S')";
+}
+
+
+/**
+ *
+ * Checks if the date is in the future.
+ *
+ * @param $dt
+ */
+function ajetlattendance_isDateInFuture($dt)
+{
+    // remove the last 6 chars, e.g. the couchDB time zone
+    $dt = substr($dt, 0, 10);
+
+
+    if (strtotime($dt) > strtotime('today'))
+        return true;
+
+
+    return false;
+}
+
+
+
+
+/**
+ *
+ * Removes the any comma and converts the string to number.
+ *
+ * Example: converts activity_id=1,023 to 1023 int
+ */
+function ajetlattendance_couchString2Int($val){
+
+    // remove all commas
+    $valNoComma = str_replace(",", "", $val);
+
+
+    return (int)$valNoComma;
+}
+
+/**
+ *
+
+ * Example: converts 23/10/2013 to STR_TO_DATE('23/10/2013', '%d/%m/%Y').
+ *
+ * Handle different date formats. The input date might be in format:
+ * 23-07-2014
+ * 2014-07-23
+ * 23/04/2014
+ *
+ */
+function ajetlattendance_couchDate2Mysql($dt){
+    if ($dt == null )
+        return " null ";
+
+    $pos = stripos($dt, "octubre");
+
+    if ($pos > 0){
+        list($dd, $mm, $y) = explode("-", $dt);
+        if (strlen($dd) == 1)
+            $dd = '0'.$dd;
+        if($mm === "octubre")
+            $mm = '10';
+        $newDt = $dd.'-'.$mm.'-'.$y;
+        return " STR_TO_DATE('".$newDt."', '%d-%m-%Y')";
+    }
+
+
+    // date is in dd/mm/YYYY format
+    $pos = stripos($dt, "/");
+
+    if ($pos > 0)
+        return " STR_TO_DATE('".$dt."', '%d/%m/%Y')";
+
+    $pos = stripos($dt, "-");
+
+    if ($pos > 0) {
+
+        if (strlen($dt) < 8)
+            return " null ";
+
+        $pos1 = stripos($dt, "-");
+        if ($pos1 === 2) // date is in format 23/05/2014
+            return " STR_TO_DATE('" . $dt . "', '%d-%m-%Y')";
+        else {
+
+            $first5 = substr($dt, 0, 5);
+            $last4 = substr($first5, 1);
+
+            // it means the year has one additional character on front, e.g. 22014, 32014, etc..
+            if ($last4 === "2014" || strstr($dt, '20104') || strstr($dt, '20147') || strstr($dt, '20014')){
+                $endDt = substr($dt, 5);
+                $dt = '2014'.$endDt;
+            }else if ($last4 === "2013" || strstr($dt, '20103') || strstr($dt, '20137') || strstr($dt, '20013')){
+                $endDt = substr($dt, 5);
+                $dt = '2013'.$endDt;
+            }
+
+
+            return " STR_TO_DATE('" . $dt . "', '%Y-%m-%d')";
+        }
+    }else{
+        //assume date is in 14032014 format
+        return " STR_TO_DATE('" . $dt . "', '%d%m%Y')";
+    }
+}
+
+
+

@@ -1,0 +1,273 @@
+{
+  "_id": "Participant Registration-es",
+  "collection": "question",
+  "questions": [
+    {
+      "_id" : 101,
+      "label" : "uuid", 
+      "type" : "hidden"
+    },
+    {
+      "_id": 102,
+      "label": "Fecha",
+      "repeatable": false,
+      "required": true,
+      "type": "date"
+    },
+    {
+      "_id": 103,
+      "label": "Nombre",
+      "repeatable": false,
+      "required": true,
+      "type": "text"
+    },
+    {
+      "_id": 104,
+      "label": "Apellido",
+      "repeatable": false,
+      "required": true,
+      "type": "text"
+    },
+    {
+      "_id": 105,
+      "label": "Apodo",
+      "repeatable": false,
+      "required": true,
+      "type": "text"
+    },
+    {
+      "_id": 106,
+      "label": "Dirección domicilio",
+      "questions": [
+        {
+          "_id": 107,
+          "label": "Calle y numero",
+          "repeatable": false,
+          "required": true,
+          "type": "text"
+        },
+        {
+          "_id": 110,
+          "autocomplete-options": "",
+          "label": "Provincia",
+          "repeatable": false,
+          "required": true,
+          "type": "autocomplete from list"
+        },
+        {
+          "_id": 109,
+          "autocomplete-options": "",
+          "label": "Municipio",
+          "repeatable": false,
+          "required": true,
+          "type": "autocomplete from list"
+        },
+        {
+          "_id": 108,
+          "autocomplete-options": "",
+          "label": "Barrio / Comunidad",
+          "repeatable": false,
+          "required": true,
+          "type": "autocomplete from list"
+        }
+      ],
+      "repeatable": false,
+      "type": "group"
+    },
+
+      {
+          "_id": 106,
+          "label": "IMPORTANTE: Indique si el participante es DIRECTO o si es INDIRECTO",
+          "questions": [
+            {
+                "_id": 199,
+                "label": "¿Este colateral participante",
+                "radio-options": "Directo,Indirecto",
+                "repeatable": false,
+                "required": true,
+                "type": "radio"
+            }
+           ],
+           "repeatable": false,
+           "type": "group"
+       },
+
+    {
+      "_id": 111,
+      "label": "Fecha de nacimiento",
+      "questions": [
+       {
+          "_id": 112,
+          "label": "Día",
+          "repeatable": false,
+          "required": false,
+          "type": "number",
+          "validation": "return if false;  min = 1;max = 31; valid = min <= parseInt(value) <= max; return \"Dia debe ser de 1 al 31.\" unless valid"
+        },
+        {
+          "_id": 113,
+          "label": "Mes",
+          "repeatable": false,
+          "required": false,
+          "type": "number",
+          "validation": "return if false; min = 1;max = 12; valid = min <= parseInt(value) <= max; return \"Mes debe ser de 1 al 12.\" unless valid"
+
+
+        },        
+	{
+          "_id": 114,
+          "label": "Año",
+          "repeatable": false,
+          "required": false,
+          "type": "number",
+	       "validation": "return if window.getValueCache['Estecolateralparticipante']() == 'Indirecto';min = moment().year()-24;max = moment().year()-11; valid = min <= parseInt(value) <= max; return \"Advertencia, el año normalmente es entre #{moment().year()-24} y #{moment().year()-11}\" unless valid"
+        }
+      ],
+      "repeatable": false,
+      "required": false,
+      "type": "group"
+    },
+    {
+      "_id": 120,
+      "label": "Sexo",
+      "radio-options": "M,F",
+      "repeatable": false,
+      "required": true,
+      "type": "radio"
+    },
+    {
+      "_id": 115,
+      "label": "Tu Teléfono",
+      "questions": [
+        {
+          "_id": 116,
+          "label": "¿Tiene un numero celular?",
+          "radio-options": "Sí,No",
+          "repeatable": false,
+          "required": false,
+          "type": "radio"
+        },
+        {
+          "_id": 117,
+          "label": "Celular",
+          "hint" : "p.ej. 809 123-4567",
+          "repeatable": false,
+          "required": false,
+          "skip_logic": "ResultOfQuestion('Tieneunnumerocelular') isnt 'Sí'",
+          "type": "text",
+          "validation": "val = value.replace(/[^0-9]/g,''); return \"Solo 809, 829, 849 se permiten.\" if val.indexOf('809') isnt 0 and val.indexOf('829') isnt 0 and val.indexOf('849') isnt 0; return \"Debe ser de 10 dígitos.\" if value.replace(/[^0-9]/g,'').length isnt 10"
+        },
+        {
+          "_id": 118,
+          "label": "¿Tiene un numero de telefono en la casa?",
+          "radio-options": "Sí,No",
+          "repeatable": false,
+          "required": false,
+          "type": "radio"
+        },
+        {
+          "_id": 119,
+          "label": "Casa",
+          "hint" : "p.ej. 809 123-4567",
+          "repeatable": false,
+          "required": false,
+          "skip_logic": "ResultOfQuestion('Tieneunnumerodetelefonoenlacasa') isnt 'Sí'",
+          "type": "text",
+          "validation": "val = value.replace(/[^0-9]/g,''); return \"Solo 809, 829, 849 se permiten.\" if val.indexOf('809') isnt 0 and val.indexOf('829') isnt 0 and val.indexOf('849') isnt 0; return \"Debe ser de 10 dígitos.\" if value.replace(/[^0-9]/g,'').length isnt 10"
+        }
+      ],
+      "type": "group"
+    },    
+    {
+      "_id": 121,
+      "label": "¿Tiene una dirección de correo electrónico?",
+      "radio-options": "Sí,No",
+      "repeatable": false,
+      "required": false,
+      "type": "radio"
+    },
+    {
+      "_id": 122,
+      "label": "Dirección de correo electrónico",
+      "repeatable": false,
+      "required": false,
+      "skip_logic": "ResultOfQuestion('Tieneunadireccióndecorreoelectrónico') isnt 'Sí'",
+      "type": "text"
+    },
+    {
+      "_id": 123,
+      "label": "¿Tiene un nombre de usuario de Facebook?",
+      "radio-options": "Sí,No",
+      "repeatable": false,
+      "required": false,
+      "type": "radio"
+    },
+    {
+      "_id": 124,
+      "label": "Nombre de usuario de Facebook",
+      "repeatable": false,
+      "required": false,
+      "skip_logic": "ResultOfQuestion('TieneunnombredeusuariodeFacebook') isnt 'Sí'",
+      "type": "text"
+    },
+    {
+      "_id": 125,
+      "label": "En caso de no poder localizarte, ¿a quién podemos contactar?",
+      "questions": [
+        {
+          "_id": 126,
+          "label": "Nombre de persona de contacto",
+          "repeatable": false,
+          "required": false,
+          "type": "text"
+        },
+        {
+          "_id": 127,
+          "label": "Parentesco o persona relacionada",
+          "repeatable": false,
+          "required": false,
+          "type": "text"
+        },
+        {
+          "_id": 128,
+          "label": "Teléfono",
+          "hint" : "p.ej. 809 123-4567",
+          "repeatable": false,
+          "required": false
+        }
+      ],
+      "repeatable": false,
+      "type": "group"
+    },
+    {
+      "_id": 129,
+      "action_on_questions_loaded": "",
+      "label": "Completado",
+      "onComplete" : {
+        "type" : "choice",
+        "showSuccess": "true",
+        "message" : "Gracias, el impresso está completado. ¿Qué quiere hacer proxima?",
+        "links" : [
+          {
+            "label" : "Comenzar nuevo impresso",
+            "route" : "new/result/Participant Registration-es",
+            "urlparams" : ["provider_id","user_name","provider_name"]
+          },
+          {
+            "label" : "Continuar al Encuesta de Participante",
+            "route" : "new/result/Participant Survey-es",
+            "pass" : ["uuid"],
+            "urlparams" : ["provider_id","user_name","provider_name"] 
+          }
+        ]
+        },
+      "radio-options": true,
+      "repeatable": false,
+      "required": false,
+      "type": "checkbox",
+      "validation": ""
+    }
+  ],
+  "required": false,
+  "type": "group"
+}

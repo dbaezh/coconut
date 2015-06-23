@@ -1,0 +1,539 @@
+<?php
+/**
+ * @file
+ * A chron module to create custom tables and load data from CouchDb into these tables.
+ */
+
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
+
+/**
+ * Cron job is creating the queue cron job.
+ *
+ */
+function ajetlmarp_cron() {
+
+    $queue = DrupalQueue::get('ajetlmarp');
+    $queue->createItem("arg1");
+}
+
+/**
+ * Cron jobs info.
+ *
+ * @return array
+ */
+function ajetlmarp_cron_queue_info()
+{
+
+    $queues = array();
+
+    //cron is run at 2:00am
+    //if(date('G')==2)
+    //{
+    $queues['ajetlmarp'] = array(
+        'worker callback' => 'load_marp_worker',
+        'time' => 300, // time in seconds, this is the duration that the job will be CALLED, e.g.
+        // after it finish it will be called again until the time is up.
+    );
+    //}
+
+    return $queues;
+}
+
+
+/**
+ * The queue job worker. Query registration from couchDB descending and load them into mySQL database.
+ *
+ */
+function  load_marp_worker()
+{
+    ajetllog_log("ajetlmarp", "MESSAGE", "PROCESSING STARTED");
+    global $base_url;
+
+   ajetlmarp_setModuleVariables();
+
+    $marp_url = 'http://localhost:5984/coconut/_design/coconut/_view/findMARPByUUID';
+
+    
+    // prepare the request options
+    $marp_options = array(
+        'method' => 'GET',
+        'headers' => array(
+            'Content-Type' => 'application/json'
+        ));
+
+    // query couchdb data
+    $couch_response = drupal_http_request( $marp_url, $marp_options );
+
+    // decode to json objects
+    $rows = drupal_json_decode( $couch_response->data)['rows'];
+
+    $size = sizeof($rows);
+
+    ajetllog_log("ajetlmarp", "MESSAGE", "******Rows fetched:".$size);
+
+    $i = 0;
+
+    foreach ( $rows as $one_row ){
+
+
+       ajetlmarp_loadMARP($one_row['id']);
+        $i++;
+
+        //if ($i === 10)
+        //  break;
+
+    }
+
+   ajetlmarp_deleteModuleVariables();
+
+    ajetllog_log("ajetlmarp", "MESSAGE", "Document processed".$i);
+
+
+
+}
+
+
+
+/**
+ * Implement hook_enable()
+ */
+function ajetlmarp_enable() {
+    //Check if table exists, if not install the schema.
+    /* if(db_table_exists('aj_marp') == FALSE) {
+         drupal_install_schema('ajetlmarp');
+     }*/
+
+
+}
+
+
+/**
+ * Opens the document by Id and returns the JSON object.
+ *
+ * @param $id
+ */
+function ajetlmarp_OpenRegById($id){
+    // TBD: changed hard coded localhost link
+    $marp_url = 'http://localhost:5984/coconut/'.$id;
+
+    $marp_options = array(
+        'method' => 'GET',
+        'headers' => array(
+            'Content-Type' => 'application/json'
+        ));
+
+    $couch_response = drupal_http_request( $marp_url, $marp_options );
+    $doc = drupal_json_decode( $couch_response->data);
+
+
+    return $doc;
+
+}
+
+/**
+ * Delete module variables.
+ */
+function ajetlmarp_deleteModuleVariables(){
+    variable_del("ajMarpColumns");
+
+}
+
+/**
+ *
+ * Use variable_set() to set module global variables.
+ *
+ *
+ */
+function ajetlmarp_setModuleVariables()
+{
+    // retrieve aj-survey table columns
+    $ajMarpColumns = drupal_schema_fields_sql("aj_marp");
+    // set the columns as variable
+    variable_set("ajMarpColumns", $ajMarpColumns);
+}
+
+/**
+ * Generates the first insert query e.g. .(col1, col2, col3...). It's driven by the aj_marp table columns.
+ *
+ * @param $doc
+ *
+ */
+function ajetlmarp_genInsertQueryPart1($doc){
+    $query = "";
+    $ajMarpColumns = variable_get("ajMarpColumns");
+
+
+
+    foreach ($ajMarpColumns as $col){
+        if ($col === "id" || $col === "changed")
+            continue;
+
+        $query = $query.$col.", ";
+
+
+    }
+
+    // clean the last ","
+    $len = strlen($query);
+    $query =substr($query, 0, $len-2);
+
+    return $query;
+
+}
+
+
+/**
+ * Generates the values() insert statement. Returns ERROR if data are invalid.
+ *
+ * @param $doc
+ *
+ */
+function ajetlmarp_genInsertQueryPart2($doc){
+    $query = "";
+    $key = "";
+    $val = "";
+
+    $ajMarpColumns = variable_get("ajMarpColumns");
+
+    foreach ($ajMarpColumns as $col) {
+        // skip these
+        if ($col === "id" || $col === "changed")
+            continue;
+
+        $key = $col;
+
+        if ($key === "createdAt" || $key === "lastModifiedAt") {
+            $val =ajetlmarp_couchDateTime2Mysql($doc[$key]);
+            $query = $query . $val . " ";
+        }else if ($key === "created"){
+            $val = " NOW() ";
+            $query = $query . $val . " ";
+        }else {
+            if (array_key_exists($key, $doc)) {
+                $val = $doc[$key];
+                $pos = stripos($val, "'");
+                if ($pos > 0)
+                    $val = str_replace("'", "\'", $val);
+            }else
+                $val = "";
+            $query = $query . "'" . $val . "' ";
+        }
+
+
+
+
+        $query = $query.",";
+
+
+    }
+
+    // clean the last ","
+    $len = strlen($query);
+    $query =substr($query, 0, $len-1);
+
+    return $query;
+
+}
+
+
+
+/**
+ * Inserts data into aj_etlsurvey table.
+ *
+ * @param $id
+ * @param $lastModifiedDate
+ */
+function ajetlmarp_insertMARP($doc){
+
+    $q1 =ajetlmarp_genInsertQueryPart1($doc);
+    $q2 =ajetlmarp_genInsertQueryPart2($doc);
+
+    // check for error
+    if ($q2 === "ERROR")
+        return "ERROR";
+
+    $query = "INSERT INTO {aj_marp} (".$q1.") VALUES(".$q2.")";
+
+
+
+    try {
+        $result = db_query($query);
+    }catch(Exception $e){
+        ajetllog_error("ajetlmarp", "MySQL ERROR", "MySQL error.", $e->getMessage(), "");
+    }
+
+}
+
+
+
+/**
+ * Query aj_marp table for record by _id and lastModifiedAt date.
+ *
+ * @param $_id
+ * @param $lastModifiedAt
+ * @return null if record does not exist
+ *         the record if exist
+ */
+function ajetlmarp_getMARPByIdAndModifiedDate($_id, $lastModifiedAt)
+{
+    $retRecord = null;
+
+    $sqlLastModifiedAt =ajetlmarp_couchDateTime2Mysql($lastModifiedAt);
+
+    $result = db_query("SELECT t.id FROM {aj_marp} t WHERE t._id = :_id AND t.lastModifiedAt=".$sqlLastModifiedAt, array(':_id' => $_id));
+
+
+    if ($result == null) {
+        return null;
+    }
+
+    foreach ($result as $record) {
+        $retRecord = $record;
+        ajetllog_log("ajetlmarp", "MESSAGE", 'Found existing doc for doc id='.$record->id);
+        break;
+    }
+
+    return $retRecord;
+
+}
+
+/**
+ * Query aj_marp table by _id.
+ *
+ * @param $_id
+ * @return null if record not found
+ *         the record if found
+ */
+function ajetlmarp_getRegistrationById($_id)
+{
+    $retRecord = null;
+
+
+    $result = db_query('SELECT t.id, t._id, t.lastModifiedAt FROM {aj_marp} t WHERE t._id = :_id', array(':_id' => $_id));
+
+    var_dump($result);
+
+    if ($result == null) {
+        return null;
+    }
+
+    foreach ($result as $record) {
+        $retRecord = $record;
+        ajetllog_log("ajetlmarp", "MESSAGE", 'Found existing doc for doc id='.$record->id);
+        break;
+    }
+
+    return $retRecord;
+
+
+}
+
+
+/**
+ * Query aj_marp table by _id and lastModifiedAt DIFFERENT then the input $lastModifiedAt.
+ *
+ * @param $_id
+ * @param $lastModifiedAt
+ * @return null if record is not found
+ *         the record if found
+ */
+function ajetlmarp_getMARPByIdDifferentDate($_id, $lastModifiedAt)
+{
+    $retRecord = null;
+    $sqlLastModifiedAt =ajetlmarp_couchDateTime2Mysql($lastModifiedAt);
+    $result = db_query("SELECT t.id FROM {aj_marp} t WHERE t._id = :_id AND t.lastModifiedAt<>".$sqlLastModifiedAt, array(':_id' => $_id));
+
+
+
+    if ($result == null) {
+        return null;
+    }
+
+    foreach ($result as $record) {
+        $retRecord = $record;
+        ajetllog_log("ajetlmarp", "MESSAGE", 'Found existing doc for doc id='.$record->id);
+        break;
+    }
+
+    return $retRecord;
+
+
+
+}
+
+/**
+ * First it checks for same _id AND different lastModifiedAt date. If record found
+ * deletes the record before inserting the modified document. If record is not found
+ * insert the data into the aj_marp table.
+ *
+ * @param $id
+ * @param $lastModifiedDate
+ */
+function ajetlmarp_loadMARP($_id){
+
+
+    // fetch the document from couch db
+    $doc =ajetlmarp_OpenRegById($_id);
+
+    // check if the record with the same id but different modified date already exist
+    $record =ajetlmarp_getMARPByIdDifferentDate($_id, $doc['lastModifiedAt']);
+
+    // record has been changed so delete the old record before inserting
+    if ($record != null) {
+        db_query("DELETE FROM {aj_marp} WHERE _id='".$_id."'");
+    }
+
+    // insert the record
+   ajetlmarp_insertMARP($doc);
+
+}
+
+/**
+ * Checks if Fecha is correct.
+ *
+ * @param $doc
+ * @param $id
+ * @return bool
+ */
+function ajetlmarp_isDocumentValid($doc, $id){
+
+    // Check if Fetcha is valid, there is occasions where Fetcha is 20104-04-26
+    $len = strlen($doc['Fecha']);
+    if ($len != 10){
+        ajetllog_log("ajetlmarp", "ERROR", 'Fecha is not correct for doc id='.$id);
+        return false;
+    }
+
+    return true;
+}
+
+
+
+
+/**
+ *
+ * Removes the last 6 characters (the timezone) from couchDB date.
+ *
+ * Example: converts 2013-11-29T09:40:10-03:00 to 2013-11-29T09:40:10 and
+ * adds STR_TO_DATE so the final string will be STR_TO_DATE('2013-11-29T09:40:10', '%Y-%m-%dT%H:%i:%S').
+ *
+ */
+function ajetlmarp_couchDateTime2Mysql($dt){
+
+    // remove the last 6 chars, e.g. the couchDB time zone
+    $len = strlen($dt);
+    $dt = substr($dt, 0, $len - 6);
+
+    return " STR_TO_DATE('".$dt."', '%Y-%m-%dT%H:%i:%S')";
+}
+
+
+/**
+ *
+
+ * Example: converts 23/10/2013 to STR_TO_DATE('23/10/2013', '%d/%m/%Y').
+ *
+ * Handle different date formats. The input date might be in format:
+ * 23-07-2014
+ * 2014-07-23
+ * 23/04/2014
+ *
+ */
+function ajetlmarp_couchDate2Mysql($dt){
+    if ($dt == null )
+        return " null ";
+
+    $pos = stripos($dt, "octubre");
+
+    if ($pos > 0){
+        list($dd, $mm, $y) = explode("-", $dt);
+        if (strlen($dd) == 1)
+            $dd = '0'.$dd;
+        if($mm === "octubre")
+            $mm = '10';
+        $newDt = $dd.'-'.$mm.'-'.$y;
+        return " STR_TO_DATE('".$newDt."', '%d-%m-%Y')";
+    }
+
+
+    // date is in dd/mm/YYYY format
+    $pos = stripos($dt, "/");
+
+    if ($pos > 0)
+        return " STR_TO_DATE('".$dt."', '%d/%m/%Y')";
+
+    $pos = stripos($dt, "-");
+
+    if ($pos > 0) {
+
+        if (strlen($dt) < 8)
+            return " null ";
+
+        $pos1 = stripos($dt, "-");
+        if ($pos1 === 2) // date is in format 23/05/2014
+            return " STR_TO_DATE('" . $dt . "', '%d-%m-%Y')";
+        else {
+
+            $first5 = substr($dt, 0, 5);
+            $last4 = substr($first5, 1);
+
+            // it means the year has one additional character on front, e.g. 22014, 32014, etc..
+            if ($last4 === "2014" || strstr($dt, '20104') || strstr($dt, '20147') || strstr($dt, '20014')){
+                $endDt = substr($dt, 5);
+                $dt = '2014'.$endDt;
+            }else if ($last4 === "2013" || strstr($dt, '20103') || strstr($dt, '20137') || strstr($dt, '20013')){
+                $endDt = substr($dt, 5);
+                $dt = '2013'.$endDt;
+            }
+
+
+            return " STR_TO_DATE('" . $dt . "', '%Y-%m-%d')";
+        }
+    }else{
+        //assume date is in 14032014 format
+        return " STR_TO_DATE('" . $dt . "', '%d%m%Y')";
+    }
+}
+
+/**
+ * Converts month in Spanish to number. For example febrero will be converted to 02
+ * @param m $
+ *
+ */
+function ajetlmarp_month2number($m){
+
+
+    switch ($m) {
+        case "enero":
+            return "01";
+        case "febrero":
+            return "02";
+        case "marzo":
+            return "03";
+        case "abril":
+            return "04";
+        case "mayo":
+            return "05";
+        case "junio":
+            return "06";
+        case "julio":
+            return "07";
+        case "agosto":
+            return "08";
+        case "septiembre":
+            return "09";
+        case "octubre":
+            return "10";
+        case "noviembre":
+            return "11";
+        case "diciembre":
+            return "12";
+        default:
+            return $m;
+    }
+
+}
+
+
+

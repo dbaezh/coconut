@@ -1,0 +1,284 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title> Process Incomplete Registrations</title>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <style>
+        body {
+            font: 100% helvetica, arial, sans-serif;
+            line-height: 1.625;
+        }
+
+    </style>
+
+    <script type="text/javascript" src="js-libraries/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="js-libraries/jquery.couch.js"></script>
+    <script type="text/javascript" src="js-libraries/moment.min.js"></script>
+
+
+
+
+    <script language="JavaScript">
+        //var requiredFields = ["user_name","provider_id","provider_name","uuid","Fecha","Nombre","Apellido","Apodo","Calleynumero","Provincia","Municipio","BarrioComunidad","Celular","Direccióndecorreoelectrónico","NombredeusuariodeFacebook","Nombredepersonadecontacto","Parentescoopersonarelacionada","Teléfono","Sexo","Tieneunnumerocelular","Tieneunnumerodetelefonoenlacasa","Tieneunadireccióndecorreoelectrónico","TieneunnombredeusuariodeFacebook"];
+        var requiredFields = ["provider_id","provider_name","uuid","Fecha","Nombre","Apellido","Provincia","Municipio","BarrioComunidad","Sexo", "Día", "Mes", "Año"];
+        var headers = [ "_id","createdAt", "lastModifiedAt","user_name","provider_id","provider_name","uuid","Fecha","Nombre","Apellido","Apodo","Calleynumero","Provincia","Municipio","BarrioComunidad","Día","Mes","Año","Celular","Casa","Direccióndecorreoelectrónico","NombredeusuariodeFacebook","Nombredepersonadecontacto","Parentescoopersonarelacionada","Teléfono","Sexo","Tieneunnumerocelular","Tieneunadireccióndecorreoelectrónico","Tieneunnumerodetelefonoenlacasa","TieneunnombredeusuariodeFacebook"];
+
+        var csvContent = "\uFEFF";
+
+        /**
+         * 1. Query the list of all registrations and creates list only of incomplete.
+         * 2. Iterates through the list of incomplete registrations and mark them complete if:
+         *    a) complete with this uuid already exist
+         *    b) has all required fields
+         *
+         * */
+        function start(){
+            var db = $.couch.db("coconut");
+            var incompleteRegs = [];
+            var finalIncompleteRegs = [];
+
+
+            var processedDocsCnt = 0;
+
+
+            writeHeaders2CSV();
+
+            db.view("coconut/resultsByQuestionAndCompleteWithCollateral",
+                    {
+                        success:function(data) {
+                            // filter data and keep only registrations
+                            var i1 = 0, i2 =0;
+
+                            for (i in data.rows) {
+                                var keys= data.rows[i].key.split(":");
+
+                                // keep only registration
+                                if (keys[0] != "Participant Registration-es" )
+                                    continue;
+                                else {
+                                    if (keys[1] != "true")
+                                        incompleteRegs[i1++] = data.rows[i];
+                                }
+
+                            }
+
+                            // free  memory
+                            data = null;
+
+                            // need to open the document to get the uuid so decided to clean duplicates separately
+                            //finalIncompleteRegs = initFinalIncompleteRegs(incompleteRegs, completeRegs);
+
+                            // query complete registrations only
+                            db.view("coconut/byUUIDRegistration",
+                                    {
+                                        success:function(completeRegs) {
+
+                                            for (i  in incompleteRegs) {
+                                                var doc = incompleteRegs[i];
+
+                                                //fetch the document and update if all required fields exist
+                                                db.openDoc(doc.id, {
+                                                    success: function (doc) {
+                                                        processedDocsCnt++;
+
+                                                        if (doc.inactive != "true") {
+
+
+                                                            if (!ifCompleteExist(doc.uuid, completeRegs)) {
+                                                                if (isAllRequiredFieldsExist(doc)){
+                                                                    // update to complete
+                                                                    doc.Completado = "true";
+
+                                                                    var lastModifiedSaved = doc.lastModifiedAt;
+
+                                                                    // update so the etl program insert this record into Drupal db
+                                                                    doc.lastModifiedAt = moment(new Date()).format(undefined);
+
+                                                                    if (doc.Celular == undefined || doc.Celular == null)
+                                                                        doc.Celular = "809-000-0000";
+
+                                                                    // save the document
+                                                                    db.saveDoc(doc);
+
+                                                                    var html = '<tr>' + '<td>' + doc._id + ',</td>' +
+                                                                        '<td>' + doc.uuid + ',</td>' +
+                                                                        '<td>' + lastModifiedSaved + '</td>' +
+                                                                        '</tr>';
+
+                                                                    $("#listtbl").append(html);
+
+                                                                }else{
+                                                                    //Filter registrations with no first and last name since these
+                                                                    // cannot be corrected.
+                                                                    if ((doc.Nombre != undefined && doc.Nombre != null) ||
+                                                                            (doc.Apellido != undefined && doc.Apellido != null)) {
+                                                                        // filter registrations where Nobre is number
+                                                                        if (isNaN(doc.Nombre)) {
+                                                                            //add document to csv content
+                                                                            writeDoc2CSV(doc);
+                                                                        }
+                                                                    }
+                                                                }
+
+                                                            }else{
+                                                                // update to Duplicate registration
+                                                                doc.question="Participant Registration-es_DUPLICATE";
+                                                                db.saveDoc(doc);
+                                                            }
+
+                                                        }
+
+                                                        // the end is reached so just download the reports
+                                                        if (processedDocsCnt == incompleteRegs.length - 1)
+                                                            downloadMissingRequiredFieldsReport();
+
+                                                }});
+                                            }
+                                        }});
+
+
+                        },
+                        error:function(data){
+                            alert("Something wrong!!!");
+                        }
+                    });
+        }
+
+
+        /**
+         * Writes document headers to the csv file.
+         *
+         * @param doc
+         * @param csvContent
+         */
+        function writeHeaders2CSV(){
+            var innerValue;
+
+            for (i in headers) {
+                innerValue = headers[i];
+                resval = innerValue.replace(/"/g, '""');
+                if (resval.search(/("|,|\n)/g) >= 0) {
+                    resval = '"' + resval + '"';
+                }
+                csvContent += resval + ',';
+            }
+            csvContent += "\n";
+
+
+
+        }
+
+        /**
+         * Write document to CSV content.
+         *
+         * @param doc
+         * @param csvContent
+         */
+        function writeDoc2CSV(doc){
+            var value, innerValue, resval;
+
+            for (i in headers) {
+
+              value = doc[headers[i]];
+
+
+              innerValue = "";
+              if (value === void 0 || value === null) {
+                   innerValue = '';
+              } else {
+                   innerValue = value.toString();
+              }
+              resval = innerValue.replace(/"/g, '""');
+              if (resval.search(/("|,|\n)/g) >= 0) {
+                  resval = '"' + resval + '"';
+              }
+              csvContent += resval + ',';
+            }
+
+            csvContent += "\n";
+
+
+        }
+
+        /**
+         * Downloads the report.
+         *
+         * @param csvContent
+         * @returns {*}
+         */
+        function downloadMissingRequiredFieldsReport(){
+            a = document.createElement('a');
+            blob = new Blob([csvContent], {
+                'type': 'text/csv;charset=utf-8'
+            });
+            a.href = window.URL.createObjectURL(blob);
+            a.download = "missingregfields.csv";
+            $('#reportloader').hide();
+            return a.click();
+        }
+
+
+
+        function initFinalIncompleteRegs(incompleteRegs, completeRegs){
+           var finalRegs = [];
+           var i2 = 0;
+
+            for (i in incompleteRegs) {
+                var doc = incompleteRegs[i];
+                if (!ifCompleteExist(doc.uuid, completeRegs)){
+                    finalRegs[i2++] = doc;
+                }
+            }
+
+            return finalRegs;
+        }
+
+
+
+        function ifCompleteExist(uuid, completeRegs){
+            var completeDoc;
+
+            for (i in completeRegs.rows){
+                completeDoc = completeRegs.rows[i];
+
+                if (completeDoc.key === uuid){
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        // checks if all required fields exist
+        function isAllRequiredFieldsExist(doc){
+
+            for (i in requiredFields){
+                field = requiredFields[i];
+                if (doc[field] == undefined)
+                  return false;
+            }
+
+            return true;
+        }
+
+
+
+
+    </script>
+
+</head>
+
+
+<body >
+<p>This will fetch incomplete surveys and flag duplicate to not show in the reports.</p>
+<input type="button" onclick="start()" id="start" value="Start">
+
+<p> Updating the documents.... </p>
+<table id="listtbl" style = "border:1;cellpadding:4" ><tr><th>Doc Id</th><th>UUID</th><th>Last Modified</th></tr></table>
+
+
+
+</body>
+
+</html>

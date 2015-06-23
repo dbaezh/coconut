@@ -1,0 +1,68 @@
+<?php
+/**
+ * @file
+ * Install module for couchDB ETL process. Creates the couchDB tables.
+ */
+
+
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
+
+function ajetllog_schema() {
+
+
+  $schema['ajetl_log'] = array(
+      'description' => 'Used by AJ ETL modules to log errors and messages.',
+      'fields' => array(
+        'id' => array(
+          'description' => 'The primary identifier.',
+          'type' => 'serial',
+          'unsigned' => TRUE,
+          'not null' => TRUE),
+        'module' => array(
+          'description' => 'Module name.',
+          'type' => 'varchar',
+          'length' => 255,
+          'not null' => TRUE,
+          'default' => ''),
+        'created' => array(
+          'description' => 'The Unix timestamp when the record was created.',
+          'mysql_type' => 'datetime',
+          'not null' => TRUE),
+        'category' => array(
+           'description' => 'Error, warning, etc..',
+           'type' => 'varchar',
+           'length' => 40,
+           'not null' => FALSE,
+           'default' => ''),
+        'message' => array(
+           'description' => 'The error or the warming.',
+           'type' => 'varchar',
+           'length' => 255,
+           'not null' => FALSE,
+           'default' => ''),
+        'data' => array(
+           'description' => 'CSV data for sending to providers for correction OR MySQL exception',
+           'type' => 'text',
+           'not null' => FALSE),
+        'provider_id' => array(
+           'description' => 'Provider Id.',
+           'type' => 'varchar',
+           'length' => 10,
+           'not null' => FALSE,
+           'default' => '')
+
+       ),
+      'indexes' => array(
+                'ajetllog_created'        => array('created'),
+                'ajetllog_module'         => array('module'),
+                'ajetllog_category'       => array('category'),
+        ),
+      'unique keys' => array(
+        'id' => array('id')
+        ),
+      'primary key' => array('id'),
+    );
+
+  return $schema;
+}
