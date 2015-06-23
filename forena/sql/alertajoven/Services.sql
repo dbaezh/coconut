@@ -1,13 +1,23 @@
 -- ACCESS=access content
-SELECT ifnull(aname.field_activity_name_value, "Total") as 'ServiceName', DATE_FORMAT(adate.field_activity_date_value,'%m-%d-%Y')  as 'ActivityDate',
-SUM(case when reg.Sexo = 'M' then 1 else 0 end) as 'Male', 
-SUM(case when reg.Sexo = 'F' then 1 else 0 end) as 'Female',
-SUM(case when reg.Sexo = 'M' then 0 when reg.Sexo = 'F' then 0 else 1 end) as 'Unknown',
-SUM(case when (cast((datediff( NOW(), reg.DOB) / 365) AS SIGNED) >= 11) and (cast((datediff( NOW(), reg.DOB) / 365) AS SIGNED) <= 17) then 1 else 0 end) as 'age11to17',
-SUM(case when (cast((datediff( NOW(), reg.DOB) / 365) AS SIGNED) >= 18) and (cast((datediff( NOW(), reg.DOB) / 365) AS SIGNED) <= 24) then 1 else 0 end) as 'age18to24',
-SUM(case when (cast((datediff( NOW(), reg.DOB) / 365) AS SIGNED) > 24)  then 1 else 0 end) as 'morethan24',
-SUM(case when reg.DOB = null then 1 else 0 end) as 'UnknownAge',
-count(reg.Sexo) as 'Gender', pnamename.field_programname_name_value as 'Program', pp.field_program_provider_target_id as 'provider_id'
+SELECT ifnull(field_activity_name_value, "Total") as 'ServiceName', DATE_FORMAT(field_activity_date_value,'%m-%d-%Y')  as 'ActivityDate',
+SUM(case when Sexo = 'M' then 1 else 0 end) as 'Male', 
+SUM(case when Sexo = 'F' then 1 else 0 end) as 'Female',
+SUM(case when Sexo = 'M' then 0 when Sexo = 'F' then 0 else 1 end) as 'Unknown',
+SUM(case when (cast((datediff( NOW(), DOB) / 365) AS SIGNED) >= 11) and (cast((datediff( NOW(), DOB) / 365) AS SIGNED) <= 17) then 1 else 0 end) as 'age11to17',
+SUM(case when (cast((datediff( NOW(), DOB) / 365) AS SIGNED) >= 18) and (cast((datediff( NOW(), DOB) / 365) AS SIGNED) <= 24) then 1 else 0 end) as 'age18to24',
+SUM(case when (cast((datediff( NOW(), DOB) / 365) AS SIGNED) > 24)  then 1 else 0 end) as 'morethan24',
+SUM(case when DOB = null then 1 else 0 end) as 'UnknownAge',
+count(Sexo) as 'Gender', field_programname_name_value as 'Program', field_program_provider_target_id as 'provider_id'
+from
+(select distinct
+        aname.field_activity_name_value,
+		adate.field_activity_date_value,
+		reg.Sexo,
+		reg.DOB,
+		pnamename.field_programname_name_value,
+		pp.field_program_provider_target_id,
+		reg.uuid,
+		activity_id
 FROM bitnami_drupal7.aj_registration reg
 join bitnami_drupal7.aj_attendance atten on atten.uuid=reg.uuid
 join bitnami_drupal7.field_data_field_agency_name provider on provider.entity_id=atten.provider_id
@@ -17,8 +27,6 @@ join bitnami_drupal7.field_data_field_activity_program aprog on aname.entity_id=
 join bitnami_drupal7.field_data_field_program_provider pp on pp.entity_id=aprog.field_activity_program_target_id
 join bitnami_drupal7.field_data_field_program_name pname on pname.entity_id=pp.entity_id
 join bitnami_drupal7.field_data_field_programname_name pnamename on pname.field_program_name_target_id=pnamename.entity_id
-
-
 
 
 where 1 = 1 
@@ -46,6 +54,7 @@ and adate.field_activity_date_value >= :from_date
 and adate.field_activity_date_value <= :to_date
 --END
 
-group by atten.activity_id
 --group by aname.field_activity_name_value
 --WITH ROLLUP
+) distinctUUIDs
+group by activity_id
