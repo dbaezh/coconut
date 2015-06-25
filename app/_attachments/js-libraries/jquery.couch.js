@@ -672,7 +672,8 @@
                 }
               } else if (options.error) {
                 //options.error(req.status, resp.error, resp.reason);
-
+                // 409 is Conflict error but the document is saved successfully
+                if (req.status != 409)
                   options.error(req.status, "ERR_INTERNET_DISCONNECTED", "No Internet");
               } else {
                 alert("The document could not be saved: " + resp.reason);
