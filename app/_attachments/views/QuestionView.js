@@ -220,6 +220,7 @@ QuestionView = (function(superClass) {
       c = new C32();
       c.getRandom(8);
       c.addChecksum();
+      console.log('UUID is' + c.value);
       return window.questionCache['uuid'].find("input").val(c.value);
     }
   };
@@ -473,7 +474,7 @@ QuestionView = (function(superClass) {
   };
 
   QuestionView.prototype.validateAll = function() {
-    var $button, $question, aPassed, completeButtonModel, hasOnComplete, html, isValid, j, k, key, l, len, len1, len2, len3, link, m, onClick, onComplete, questionIsntValid, re, ref, ref1, ref2, ref3, sPassed, uuid, v;
+    var $button, $question, aPassed, completeButtonModel, hasOnComplete, html, isValid, j, k, key, l, len, len1, len2, len3, link, m, onClick, onComplete, questionIsntValid, re, ref, ref1, ref2, ref3, sPassed, v;
     $button = $("[name=Completado]");
     this.isValidAll = false;
     isValid = true;
@@ -501,17 +502,6 @@ QuestionView = (function(superClass) {
       onComplete = completeButtonModel.get("onComplete");
     }
     if (hasOnComplete && isValid) {
-      if (onComplete.showSuccess !== void 0) {
-        uuid = Coconut.questionView.result.get("uuid");
-        if (window.showSuccess && window.Coconut.questionView.model.id === 'Participant Registration-es') {
-          alert('¡Enhorabuena! Has completado correctamente el formulario. El UUID para esta forma es "' + uuid + '". Tome nota de este número para referencia futura.');
-          window.showSuccess = false;
-        }
-        if (window.showSuccess && window.Coconut.questionView.model.id === 'Participant Survey-es') {
-          alert('¡Felicitaciones! Has completado la Encuesta de Participante para UUID=' + uuid);
-          window.showSuccess = false;
-        }
-      }
       switch (onComplete.type) {
         case "redirect":
           if (onComplete.route != null) {
@@ -714,6 +704,7 @@ QuestionView = (function(superClass) {
     }
     $oldNext = $div;
     this.$next = $div.next(".question");
+    this.$prev = $div;
     if (this.$next.length === 0) {
       $parentsMaybe = $oldNext.parent().next(".question");
       if ($parentsMaybe.length !== 0) {
@@ -752,7 +743,12 @@ QuestionView = (function(superClass) {
       return this.autoscrollTimer = setTimeout((function(_this) {
         return function() {
           $(window).off("scroll");
-          return _this.$next.scrollTo().find("input[type='text'],input[type='number'],input[type='autocomplete from previous entries'], input[type='autocomplete from list']").first().focus();
+          if (!window.saveERROR) {
+            return _this.$next.scrollTo().find("input[type='text'],input[type='number'],input[type='autocomplete from previous entries'], input[type='autocomplete from list']").first().focus();
+          } else {
+            _this.$prev.scrollTo().find("input[type='text'],input[type='number'],input[type='autocomplete from previous entries'], input[type='autocomplete from list']").first().val('');
+            return _this.$prev.scrollTo().find("input[type='text'],input[type='number'],input[type='autocomplete from previous entries'], input[type='autocomplete from list']").first().focus();
+          }
         };
       })(this), 1000);
     }
@@ -828,7 +824,25 @@ QuestionView = (function(superClass) {
     currentData.savedBy = $.cookie('current_user');
     return Coconut.questionView.result.save(currentData, {
       success: function() {
+        var uuid;
+        window.saveERROR = false;
+        if (Coconut.questionView.result.get("Completado") === "true") {
+          uuid = Coconut.questionView.result.get("uuid");
+          if (window.Coconut.questionView.model.id === 'Participant Registration-es' && window.showSuccess) {
+            alert('¡Enhorabuena! Has completado correctamente el formulario. El UUID para esta forma es "' + uuid + '". Tome nota de este número para referencia futura.');
+            window.showSuccess = false;
+          } else if (window.showSuccess && window.Coconut.questionView.model.id === 'Participant Survey-es' && window.showSuccess) {
+            alert('¡Felicitaciones! Has completado la Encuesta de Participante para UUID=' + uuid);
+            window.showSuccess = false;
+          }
+        }
         return $("#messageText").slideDown().fadeOut();
+      },
+      error: function() {
+        window.saveERROR = true;
+        if (window.showSuccess) {
+          return alert('La información digitada no fue guardada debido a un problema con su conexión de Internet. Por favor, verifique y corriga su conexión de internet antes de continuar con la digitación');
+        }
       }
     });
   }, 1000, {
