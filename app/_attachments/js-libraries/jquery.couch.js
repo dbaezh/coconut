@@ -671,7 +671,9 @@
                   if (options.success) options.success(resp);
                 }
               } else if (options.error) {
-                options.error(req.status, resp.error, resp.reason);
+                //options.error(req.status, resp.error, resp.reason);
+
+                  options.error(req.status, "ERR_INTERNET_DISCONNECTED", "No Internet");
               } else {
                 alert("The document could not be saved: " + resp.reason);
               }
