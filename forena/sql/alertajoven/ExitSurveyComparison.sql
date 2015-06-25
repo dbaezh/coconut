@@ -20,7 +20,7 @@ SELECT
         WHEN (survey.10Tienesunactadenacimientodominicana = exi.9Conseguistetuactade) THEN 0
         ELSE 1
     END AS '¿Cambió ActaDeNacimiento?',
-    survey.101Tienescédula as '(E)P10.1-TieneCédula',
+    survey.101Tienescédula as '(E)P10-1-TieneCédula',
     exi.10Tienescédula as '(S)P10-TieneCédula',
     case
         when
@@ -55,7 +55,7 @@ SELECT
     survey.16BQuégradoestascursandoactualmente as '(E)P16B-CursoActual',
     survey.16CCuálnivel as '(E)P16C-NivelActual',
     exi.11AQuégradoestascursandoactualmente as '(S)P11A-CursoActual',
-    exi.11B1Cuálnivel as '(S)P11B.1-NivelActual',
+    exi.11B1Cuálnivel as '(S)P11B-1-NivelActual',
     survey.21Hascompletadoalgúncursotécnico as '(E)P21-CursoTécnico',
     exi.12Hascompletadoa as '(S)P12-CursoTécnico',
     case
@@ -84,8 +84,10 @@ SELECT
         then
             1
         WHEN
-            (survey.25Hasreali = 'Sí'
-                and survey.26Durantel = '')
+            ((survey.25Hasreali = 'Sí'
+                and survey.26Durantel = '') ||
+				survey.25Hasreali = '' ||
+				exi.13Actualmentetienesuntrabajoenquetepaguen = '')
         THEN
             'N/A'
         WHEN (survey.26Durantel = exi.13Actualmentetienesuntrabajoenquetepaguen) THEN 0
@@ -156,9 +158,22 @@ SELECT
     END AS '¿Cambió AcusadoDelito?',
     survey.43Enquémedidatuvidahasidoafectadaporladelincuencia as '(E)P43-ImpactoDelincuencia',
     exi.16Enquémedidatuvidaha as '(S)P16-ImpactoDelincuencia',
+	case
+        when
+            (survey.43Enquémedidatuvidahasidoafectadaporladelincuencia = ''
+                || exi.16Enquémedidatuvidaha = '')
+        THEN
+            'N/A'
+        WHEN (survey.43Enquémedidatuvidahasidoafectadaporladelincuencia = exi.16Enquémedidatuvidaha) THEN 0
+        ELSE 1
+    END AS '¿Cambió ImpactoDelincuencia?',
     survey.82Algunavezhastenidorelacionessexuales as '(E)P82-RelacionesSexuales',
     exi.17Algunavezhastenidorelacionessexuales as '(S)P17-RelacionesSexuales',
     case
+		when
+			(survey.82Algunavezhastenidorelacionessexuales = 'Sí' && exi.17Algunavezhastenidorelacionessexuales = 'No')
+		then
+			'Err'
         when
             (survey.82Algunavezhastenidorelacionessexuales = ''
                 || exi.17Algunavezhastenidorelacionessexuales = '')
@@ -169,13 +184,28 @@ SELECT
     END AS '¿Cambió RelacionesSexuales?',
     survey.86Laúltima as '(E)P86-SexoCondón',
     exi.18Laúltimavez as '(S)P18-SexoCondón',
-    case
-        when
-            (survey.86Laúltima = ''
-                || exi.18Laúltimavez = '')
-        THEN
+   case
+		when
+			survey.82Algunavezhastenidorelacionessexuales = 'Sí' and exi.17Algunavezhastenidorelacionessexuales = 'No'
+		then
+			'Err'
+		WHEN
+            ((survey.82Algunavezhastenidorelacionessexuales = 'Sí' and survey.86Laúltima = '') ||
+			(exi.17Algunavezhastenidorelacionessexuales = 'Sí' and exi.18Laúltimavez = '') ||
+			survey.82Algunavezhastenidorelacionessexuales = '' || exi.17Algunavezhastenidorelacionessexuales = '')
+        then
             'N/A'
-        WHEN (survey.86Laúltima = exi.18Laúltimavez) THEN 0
+        WHEN
+            (survey.82Algunavezhastenidorelacionessexuales = 'No'
+                and exi.17Algunavezhastenidorelacionessexuales = 'No')
+        THEN
+            0
+        WHEN
+            (survey.82Algunavezhastenidorelacionessexuales = 'No' && (survey.82Algunavezhastenidorelacionessexuales = exi.18Laúltimavez))
+        THEN
+            0
+        WHEN (survey.86Laúltima = exi.18Laúltimavez) 
+		THEN 0
         ELSE 1
     END AS '¿Cambió SexoCondón?',
     CONCAT_WS(',',
