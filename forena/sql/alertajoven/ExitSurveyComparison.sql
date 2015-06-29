@@ -284,3 +284,15 @@ FROM
         JOIN
     bitnami_drupal7.field_data_field_agency_name provider ON exi.provider_id = provider.entity_id
 where provider.entity_id in (:provider_id)
+--IF=:from_date_survey
+and survey.createdAt >= :from_date_survey
+--END
+--IF=:to_date_survey
+and survey.createdAt <= :to_date_survey
+--END
+--IF=:from_date_exit
+and exi.createdAt >= :from_date_exit
+--END
+--IF=:to_date_survey
+and exi.createdAt <= :to_date_exit
+--END
