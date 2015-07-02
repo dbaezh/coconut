@@ -1,3 +1,4 @@
+--ACCESS=access content
 select
 		provider_name,
 		program_name,
@@ -55,9 +56,9 @@ and atypename.entity_id in (:activity_type_id)
 --SWITCH=:collateral
 -- estecolateralparticipante can have 1 of 4 values: No, Si, No Sabe (which means Don't know), blank (which means no value, not set)
 --CASE=collateral
-and reg.Estecolateralparticipante = 'Sí'
+and reg.Estecolateralparticipante = 'SÃ­'
 --CASE=nonCollateral
-and reg.Estecolateralparticipante != 'Sí'
+and reg.Estecolateralparticipante != 'SÃ­'
 --END	
 
 --IF=:from_date
