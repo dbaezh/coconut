@@ -28,19 +28,16 @@ print strftime("%T-%x:::", localtime)."Backing up database $db_name \n";
 # Creating and opening file descriptors to store backups
 print strftime("%T-%x:::", localtime)."Creating file descriptors for $bk_schema_file_name and $bk_data_file_name\n";
 open(my $bk_schema_descriptor, '>:encoding(UTF-8)', $bk_schema_file_name) or die "Could not open file ${bk_schema_file_name}";
-open(my $bk_data_descriptor, '>:encoding(UTF-8)', $bk_data_file_name) or die "Could not open file ${bk_data_file_name}";
 $bk_schema_descriptor->autoflush(1);
-$bk_data_descriptor->autoflush(1);
 
 # Creating backup
-my $mb = new MySQL::Backup($db_name,'107.20.181.244','bitnami','1f413b88f8^',{'USE_REPLACE' => 0, 'SHOW_TABLE_NAMES' => 1});
+my $mb = new MySQL::Backup($db_name,'107.20.181.244','bitnami','1f413b88f8^',{'USE_REPLACE' => 1, 'SHOW_TABLE_NAMES' => 1});
 print $bk_schema_descriptor $mb->create_structure();
-print $bk_data_descriptor  `mysqldump ${db_name} --password=1f413b88f8^ --host=107.20.181.244`;
+`mysqldump ${db_name} --password=1f413b88f8^ --host=107.20.181.244 --default-character-set=latin1  -r $bk_data_file_name`;
 print strftime("%T-%x:::", localtime)."Backup files succesfully generated\n";
 
 # Closing files
 close $bk_schema_descriptor;
-close $bk_data_descriptor;
 
 # Compressing files
 gzip $bk_schema_file_name => "${bk_schema_file_name}.gz" or die "gzip failed for $bk_schema_file_name: $GzipError\n";
