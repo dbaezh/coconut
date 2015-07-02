@@ -223,7 +223,7 @@ function ajexportsurveys_getRegLines($regKeys, $CHUNK_SIZE){
             }
 
             // convert document to CSV line
-            $line = ajexportsurveys_Doc2CSVLine($regKeys,$doc['doc']);
+            $line = ajexportsurveys_Doc2CSVLine($regKeys,$doc['doc'], false);
 
             // push to the final array
             $regLines[$doc['doc']['uuid']]= $line;
@@ -302,7 +302,7 @@ foreach ( $rows as $one_row ){
     foreach ( $allSurveyDocs as $doc ) {
         if (array_key_exists("uuid", $doc['doc'])) {
             // convert document to CSV line
-            $line = ajexportsurveys_Doc2CSVLine($surveyKeys, $doc['doc']);
+            $line = ajexportsurveys_Doc2CSVLine($surveyKeys, $doc['doc'], true);
 
             // push to the final array
             $surveyLines[$doc['doc']['uuid']] = $line;
@@ -422,7 +422,7 @@ function ajexportsurveys_writeHeader($regKeys, $surveyKeys){
  * @param $doc
  * @return string
  */
-function ajexportsurveys_Doc2CSVLine($keys, $doc){
+function ajexportsurveys_Doc2CSVLine($keys, $doc, $isSurvey){
     $line = "";
     // support for children array data
     $arrayDataStr = "";
@@ -439,18 +439,21 @@ function ajexportsurveys_Doc2CSVLine($keys, $doc){
             $start = false;
             $line = $doc[$key];
         }else {
-            if ($key == "Fechadenacimiento" ) {
-                $arrayDataStr = ajexportsurveys_addArrayData($key, $doc);
-                $line = $line . ',"' . $arrayDataStr.'"';
-            }else if ($key == "Ustedyellaniñoaviveenlamismacasa" ) {
-                $arrayDataStr = ajexportsurveys_addArrayData($key, $doc);
-                $line = $line . ',"' . $arrayDataStr.'"';
-            }else if ($key == "Sexo" ) {
-                $arrayDataStr = ajexportsurveys_addArrayData($key, $doc);
-                $line = $line . ',"' . $arrayDataStr.'"';
-            }else if ($key == "Esteniñotieneunactadenacimientodominicana" ) {
-                $arrayDataStr = ajexportsurveys_addArrayData($key, $doc);
-                $line = $line . ',"' . $arrayDataStr.'"';
+            if ($isSurvey) {
+                if ($key == "Fechadenacimiento") {
+                    $arrayDataStr = ajexportsurveys_addArrayData($key, $doc);
+                    $line = $line . ',"' . $arrayDataStr . '"';
+                } else if ($key == "Ustedyellaniñoaviveenlamismacasa") {
+                    $arrayDataStr = ajexportsurveys_addArrayData($key, $doc);
+                    $line = $line . ',"' . $arrayDataStr . '"';
+                } else if ($key == "Sexo") {
+                    $arrayDataStr = ajexportsurveys_addArrayData($key, $doc);
+                    $line = $line . ',"' . $arrayDataStr . '"';
+                } else if ($key == "Esteniñotieneunactadenacimientodominicana") {
+                    $arrayDataStr = ajexportsurveys_addArrayData($key, $doc);
+                    $line = $line . ',"' . $arrayDataStr . '"';
+                } else
+                    $line = $line . ',"' . $doc[$key] . '"';
             }else
                 $line = $line . ',"' . $doc[$key].'"';
         }
