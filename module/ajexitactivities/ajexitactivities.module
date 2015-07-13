@@ -1,6 +1,5 @@
 <?php
 
-
 /**
  * @filesource
  * This is the hook_help implementation
@@ -18,75 +17,14 @@ function ajexitactivities_help($path, $arg) {
 	}
 }
 
-
-// /**
-//  * This is the implementation of hook_block_info
-//  *
-//  */
-// function ajexitactivities_block_info() {
-// 	$blocks = array();
-// 	$blocks['ajexitactivities'] = array(
-// 			'info' => t('Current users')
-// 	);
-// 	return $blocks;
-// }
-
-// /**
-//  * Implements the hook_block_view
-//  */
-//  function ajexitactivities_block_view($delta='') {
-//  	$block = array();
-// 	switch($delta) {
-// 		case 'ajexitactivities':
-// 		$block['subject'] = t('Current users');
-// 		if (user_access('access content')) {
-// 			$result = _ajexitactivities_get_data('block');
-// 			$items = array();
-// 			foreach ($result as $node) {
-// 				//watchdog('ajexitactivities', $node->name.' '.$node->uid);
-// 				$items[] = array(
-// 						'data' => l($node->name, 'node/'.$node->uid),
-// 				);
-// 			}
-// 		}
-
-// 		if (empty($items)) {
-// 			$block['content'] = t('No users');
-// 		}
-// 		else {
-// 				$block['content']['users'] =
-// 					array (
-// 							'#theme' => 'item_list__ajexitactivities',
-// 							'#items' => $items,
-// 				);
-// 				$block['content']['more'] = array(
-// 						'#theme' => 'more_link__ajexitactivities',
-// 						'#url' => 'current_users',
-// 						'#title' => t('See the full list of the users'),
-// 				);
-// 		}
-// 		return $block;
-// 	}
-
-//  }
-
 /**
  *Implements the hook_menu
  */
  function ajexitactivities_menu() {
 	$items = array();
 
-// 	$items['admin/config/content/ajexitactivities'] = array(
-// 		'title' => 'ajexitactivities',
-// 		'description' => 'Configuration for ajexitactivities module',
-// 		'page callback' => 'drupal_get_form',
-// 		'page arguments' => array('ajexitactivities_form'),
-// 		'access arguments' => array('administer modules'),
-// 		'type' => MENU_NORMAL_ITEM,
-// 	);
-
 	$items['ajexitactivities'] = array(
-		'title' => 'Exit Activities form',
+		'title' => 'Exit Activity form',
 		'page callback' => '_ajexitactivities_page',
 		'access arguments' => array('access ajexitactivities content'),
 		'type' => MENU_NORMAL_ITEM,
@@ -110,7 +48,6 @@ function ajexitactivities_form($form, &$form_state) {
 					1 => t('Jóvenes que obtienen empleo o pasantía pagada'),
 					2 => t('Jóvenes que terminan capacitación técnica'),
 					3 => t('Jóvenes reinsertados en la escuela'),
-					4 => t('Jóvenes que recibieron prueba de VIH'),
 			),
 			'#empty_option' => t('-  Select  -'),
 			'#required' => TRUE,
@@ -119,22 +56,33 @@ function ajexitactivities_form($form, &$form_state) {
 	$entity = new stdClass();
  	$entity->type = 'activity';
 	field_attach_form('activity', $entity, $form, $form_state, NULL);
-// 	foreach(array_keys($form) as $key){
-// 	    watchdog('ajexitactivities', $key." => ");
-// 	}
-	//$form['field_yourfield']['#access'] = FALSE;
 	unset($form['field_activity_name']);
-// 	unset($form['field_activity_type']);
+
+	$caseManagers = _ajexitactivities_get_case_managers();
+	$items = array();
+
+	$items["_none"] = t("- Select a value -");
+	foreach ($caseManagers as $record) {
+		$items[(int)$record->uid] = t($record->name);
+	}
+
+	$form['field_activity_case_manager']['und']['#options'] = $items;
+// 	watchdog('ajexitactivities', '$items ' . var_dump($form['field_activity_case_manager']['und']['#options']));
 
 	$form['submit'] = array(
 		'#type' => 'submit',
-		'#value' => 'Create activity',
+		'#value' => t('Create activity'),
 		'#weight' => 100,
 	);
 
 	return $form;
 }
 
+/**
+ * This is the hook implementation for _form_submit
+ * @param unknown $form
+ * @param unknown $form_state
+ */
 function ajexitactivities_form_submit($form, &$form_state) {
 // 	watchdog('ajexitactivities', var_dump($form_state['values']));
 // 	watchdog('ajexitactivities', 'hello!!');
@@ -145,7 +93,6 @@ function ajexitactivities_form_submit($form, &$form_state) {
 // 	watchdog('ajexitactivities', '$field_activity_date '. $form_state['values']['field_activity_date']['und'][0]['value']);
 // 	watchdog('ajexitactivities', '$field_activity_description '. $form_state['values']['field_activity_description']['und'][0]['value']);
 // 	watchdog('ajexitactivities', '$field_activity_type '. $form_state['values']['field_activity_type']['und'][0]['target_id']);
-
 
 	$activity_name_number = $form_state['values']['activity_name'];
 	$activity_active = $form_state['values']['field_activity_active'] ['und'][0]['value'];
@@ -180,9 +127,9 @@ function ajexitactivities_form_submit($form, &$form_state) {
 			$activity_type
 			);
 
-		drupal_set_message(t('The exit activity has been saved correctly.'));
+		drupal_set_message(t('The exit activity has been created correctly.'));
 
-		$form_state['redirect'] = 'activities';
+		$form_state['redirect'] = 'mis-actividades';
 
 }
 
@@ -196,20 +143,24 @@ function ajexitactivities_form_submit($form, &$form_state) {
  *   during processing.
  */
  function ajexitactivities_form_validate($form, &$form_state) {
-	$activity_date = $form_state['values']['field_activity_date']['und'][0]['value'];
-//  	$max_num = $form_state['values']['current_users_max'];
+	$activity_date =  $form_state['values']['field_activity_date']['und'][0]['value'];
+	$now = date('Y-m-d', time());
 
-	date_validate($activity_date);
+	// Check if the date is empty
+	if (($activity_date === null || $activity_date === '')) {
+		form_set_error('field_activity_date', t('The activity date can\'t be empty'));
+	}
 
-// 	// If not a number
-// 	if (!is_numeric($max_num)) {
-// 		form_set_error('current_users_max', t('You must enter a number for the maximum number of users to display'));
-// 	}
+	// Check if the date is valid and has the right format
+	if (is_string($activity_date) && strtotime($activity_date) === FALSE) {
+		form_set_error('field_activity_date', t('The activity date has incorrect format. See the example below'));
+	}
 
-// 	// If equal or less then 0
-//  	elseif ($max_num <= 0) {
-//  		form_set_error('current_users_max', t('Maximum number to display must be positive'));
-//  	}
+	// Check if date is no later than today
+	if (is_string($activity_date) && strncmp($activity_date, $now, 10) > 0 ) {
+		form_set_error('field_activity_date', t('The activity date can\'t be later than today'));
+	}
+
  }
 
 
@@ -246,8 +197,6 @@ function _ajexitactivities_create_activity_instance(
 			$activity_program,
 			$activity_type) {
 
-	watchdog('ajexitactivities', 'strtotime($activity_date) '. strtotime($activity_date));
-
 	$entity = entity_create('activity', array('type' =>'activity'));
 	$entity_wrapper = entity_metadata_wrapper('activity' ,$entity);
 	$info = $entity_wrapper->getPropertyInfo();
@@ -256,6 +205,34 @@ function _ajexitactivities_create_activity_instance(
 	$entity_wrapper->field_activity_case_manager->set($activity_case_manager);
 	$entity_wrapper->field_activity_date->set( strtotime($activity_date));
 	$entity_wrapper->field_activity_description->set($activity_description);
+	$entity_wrapper->field_activity_program->set($activity_program);
 	$entity_wrapper->field_activity_type->set($activity_type);
 	$entity_wrapper->save();
+}
+
+/**
+ * Populate the Case Manager list according with the user role
+ */
+function _ajexitactivities_get_case_managers() {
+	global $user;
+
+// 	watchdog('ajexitactivities', '$record ' . var_dump($user->roles));
+	$providerID = db_query(
+			'SELECT field_user_provider_target_id
+			FROM {field_revision_field_user_provider}
+			WHERE entity_id = :uid', array(':uid' => $user->uid))->fetchField(0);
+
+	$query = db_select('field_revision_field_user_provider', 'userProv');
+	$query->join('users', 'u', 'u.uid = userProv.entity_id');
+	$query->join('users_roles', 'ur', 'ur.uid = userProv.entity_id');
+	$query->fields('u', array('uid', 'name'))
+				->condition('status', 1)
+				->condition('ur.rid', 8)
+				->orderBy('name', 'ASC');
+	if(!in_array('System Administrator', $user->roles) && !in_array('Evaluator', $user->roles) ) {
+		$query->condition('field_user_provider_target_id', $providerID);
+// 		watchdog('ajexitactivities', '$record ' . var_dump('Is not a System Admin or Evaluator'));
+	}
+
+	return $query->execute();
 }
