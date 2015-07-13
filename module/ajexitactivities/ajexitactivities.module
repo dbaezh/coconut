@@ -1,0 +1,261 @@
+<?php
+
+
+/**
+ * @filesource
+ * This is the hook_help implementation
+ *
+ * @param path
+ *   Which path of the site we're using to display help
+ * @param arg
+ *   Array that holds the current path as returned from arg() function
+ */
+function ajexitactivities_help($path, $arg) {
+	switch ($path) {
+		case "admin/help#ajexitactivities":
+			return '<p>' . t("Form to submit Exit Form Activities") . '</p>';
+			break;
+	}
+}
+
+
+// /**
+//  * This is the implementation of hook_block_info
+//  *
+//  */
+// function ajexitactivities_block_info() {
+// 	$blocks = array();
+// 	$blocks['ajexitactivities'] = array(
+// 			'info' => t('Current users')
+// 	);
+// 	return $blocks;
+// }
+
+// /**
+//  * Implements the hook_block_view
+//  */
+//  function ajexitactivities_block_view($delta='') {
+//  	$block = array();
+// 	switch($delta) {
+// 		case 'ajexitactivities':
+// 		$block['subject'] = t('Current users');
+// 		if (user_access('access content')) {
+// 			$result = _ajexitactivities_get_data('block');
+// 			$items = array();
+// 			foreach ($result as $node) {
+// 				//watchdog('ajexitactivities', $node->name.' '.$node->uid);
+// 				$items[] = array(
+// 						'data' => l($node->name, 'node/'.$node->uid),
+// 				);
+// 			}
+// 		}
+
+// 		if (empty($items)) {
+// 			$block['content'] = t('No users');
+// 		}
+// 		else {
+// 				$block['content']['users'] =
+// 					array (
+// 							'#theme' => 'item_list__ajexitactivities',
+// 							'#items' => $items,
+// 				);
+// 				$block['content']['more'] = array(
+// 						'#theme' => 'more_link__ajexitactivities',
+// 						'#url' => 'current_users',
+// 						'#title' => t('See the full list of the users'),
+// 				);
+// 		}
+// 		return $block;
+// 	}
+
+//  }
+
+/**
+ *Implements the hook_menu
+ */
+ function ajexitactivities_menu() {
+	$items = array();
+
+// 	$items['admin/config/content/ajexitactivities'] = array(
+// 		'title' => 'ajexitactivities',
+// 		'description' => 'Configuration for ajexitactivities module',
+// 		'page callback' => 'drupal_get_form',
+// 		'page arguments' => array('ajexitactivities_form'),
+// 		'access arguments' => array('administer modules'),
+// 		'type' => MENU_NORMAL_ITEM,
+// 	);
+
+	$items['ajexitactivities'] = array(
+		'title' => 'Exit Activities form',
+		'page callback' => '_ajexitactivities_page',
+		'access arguments' => array('access ajexitactivities content'),
+		'type' => MENU_NORMAL_ITEM,
+	);
+
+	return $items;
+ }
+
+ /**
+  *  Page callback: Current users settings
+  *  @see current_users_menu()
+  */
+function ajexitactivities_form($form, &$form_state) {
+
+	$form['activity_name'] = array(
+			'#type' => 'select',
+			'#title' => t('Activity Name: '),
+			'#description' => t('Indicate the activity name here'),
+			'#options' =>array(
+					0 => t('Jóvenes que obtienen documentación'),
+					1 => t('Jóvenes que obtienen empleo o pasantía pagada'),
+					2 => t('Jóvenes que terminan capacitación técnica'),
+					3 => t('Jóvenes reinsertados en al escuela'),
+// 					4 => t('Jóvenes que recibieron prueba de VIH'),
+			),
+			'#empty_option' => t('-  Select  -'),
+			'#required' => TRUE,
+	);
+
+	$entity = new stdClass();
+ 	$entity->type = 'activity';
+	field_attach_form('activity', $entity, $form, $form_state, NULL);
+// 	foreach(array_keys($form) as $key){
+// 	    watchdog('ajexitactivities', $key." => ");
+// 	}
+	//$form['field_yourfield']['#access'] = FALSE;
+	unset($form['field_activity_name']);
+// 	unset($form['field_activity_type']);
+
+	$form['submit'] = array(
+		'#type' => 'submit',
+		'#value' => 'Create activity',
+		'#weight' => 100,
+	);
+
+	return $form;
+}
+
+function ajexitactivities_form_submit($form, &$form_state) {
+// 	watchdog('ajexitactivities', var_dump($form_state['values']));
+// 	watchdog('ajexitactivities', 'hello!!');
+// 	watchdog('ajexitactivities', '$activity_name '. $form_state['values']['activity_name']);
+// 	watchdog('ajexitactivities', '$field_activity_active '. $form_state['values']['field_activity_active'] ['und'][0]['value']);
+// 	watchdog('ajexitactivities', '$field_activity_case_manager '. $form_state['values']['field_activity_case_manager']['und'][0]['target_id']);
+// 	watchdog('ajexitactivities', '$field_activity_program '. $form_state['values']['field_activity_program']['und'][0]['target_id']);
+// 	watchdog('ajexitactivities', '$field_activity_date '. $form_state['values']['field_activity_date']['und'][0]['value']);
+// 	watchdog('ajexitactivities', '$field_activity_description '. $form_state['values']['field_activity_description']['und'][0]['value']);
+// 	watchdog('ajexitactivities', '$field_activity_type '. $form_state['values']['field_activity_type']['und'][0]['target_id']);
+
+
+	$activity_name_number = $form_state['values']['activity_name'];
+	$activity_active = $form_state['values']['field_activity_active'] ['und'][0]['value'];
+	$activity_case_manager = $form_state['values']['field_activity_case_manager']['und'][0]['target_id'];
+	$activity_program = $form_state['values']['field_activity_program']['und'][0]['target_id'];
+	$activity_date = $form_state['values']['field_activity_date']['und'][0]['value'];
+	$activity_description = $form_state['values']['field_activity_description']['und'][0]['value'];
+	$activity_type = $form_state['values']['field_activity_type']['und'][0]['target_id'];
+
+	switch($activity_name_number) {
+		case 0:
+			$activity_name_full = 'Jóvenes que obtienen documentación';
+			break;
+		case 1:
+			$activity_name_full = 'Jóvenes que obtienen empleo o pasantía pagada';
+			break;
+		case 2:
+			$activity_name_full = 'Jóvenes que terminan capacitación técnica';
+			break;
+		case 3:
+			$activity_name_full = 'Jóvenes reinsertados en al escuela';
+			break;
+	}
+
+	_ajexitactivities_create_activity_instance(
+			$activity_name_full,
+			$activity_active,
+			$activity_case_manager,
+			$activity_date,
+			$activity_description,
+			$activity_program,
+			$activity_type
+			);
+
+		drupal_set_message(t('The exit activity has been saved correctly.'));
+
+		$form_state['redirect'] = 'activities';
+
+}
+
+/**
+ *	Implements validation from the Form API.
+ *
+ * @param $form
+ *   A structured array containing the elements and properties of the form.
+ * @param $form_state
+ *   An array that stores information about the form's current state
+ *   during processing.
+ */
+ function ajexitactivities_form_validate($form, &$form_state) {
+	$activity_date = $form_state['values']['field_activity_date']['und'][0]['value'];
+//  	$max_num = $form_state['values']['current_users_max'];
+
+	date_validate($activity_date);
+
+// 	// If not a number
+// 	if (!is_numeric($max_num)) {
+// 		form_set_error('current_users_max', t('You must enter a number for the maximum number of users to display'));
+// 	}
+
+// 	// If equal or less then 0
+//  	elseif ($max_num <= 0) {
+//  		form_set_error('current_users_max', t('Maximum number to display must be positive'));
+//  	}
+ }
+
+
+ /**
+  * Implements the hook_permissions
+  */
+ function ajexitactivities_permission() {
+	return array(
+		'access ajexitactivities content' => array(
+				'title' => t('Access content for ajexitactivities module'),
+				'description' => t('Control the access for the exit activities form'),
+		)
+	);
+ }
+
+
+ /**
+  *  Callback function that generates content
+  */
+function _ajexitactivities_page() {
+	return drupal_get_form('ajexitactivities_form');
+}
+
+
+/**
+ * Create the new activity entity instance
+ */
+function _ajexitactivities_create_activity_instance(
+			$activity_name_full,
+			$activity_active,
+			$activity_case_manager,
+			$activity_date,
+			$activity_description,
+			$activity_program,
+			$activity_type) {
+
+	watchdog('ajexitactivities', 'strtotime($activity_date) '. strtotime($activity_date));
+
+	$entity = entity_create('activity', array('type' =>'activity'));
+	$entity_wrapper = entity_metadata_wrapper('activity' ,$entity);
+	$info = $entity_wrapper->getPropertyInfo();
+	$entity_wrapper->field_activity_name->set($activity_name_full);
+	$entity_wrapper->field_activity_active->set($activity_active);
+	$entity_wrapper->field_activity_case_manager->set($activity_case_manager);
+	$entity_wrapper->field_activity_date->set( strtotime($activity_date));
+	$entity_wrapper->field_activity_description->set($activity_description);
+	$entity_wrapper->field_activity_type->set($activity_type);
+	$entity_wrapper->save();
+}
