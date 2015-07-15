@@ -39,24 +39,63 @@ function ajexitactivities_help($path, $arg) {
   */
 function ajexitactivities_form($form, &$form_state) {
 
-	$form['activity_name'] = array(
+	$activityNamesOpt = array();
+	$programs = _ajexitactivities_get_programs()->fetchAllAssoc('entity_id');
+
+	global $user;
+	$isAdmin = TRUE;
+	if(!in_array('System Administrator', $user->roles) && !in_array('Evaluator', $user->roles) ) {
+		$isAdmin = FALSE;
+	}
+
+	foreach ($programs as $record) {
+		$suffix = $isAdmin? ' (' . $record->field_agency_name_value . ')':'';
+				watchdog('ajexitactivities', '$suffix ' . $suffix);
+
+		switch($record->field_programname_name_value) {
+			case 'Documentación':
+				$activityNamesOpt[$record->entity_id . '_0'] = t('Jóvenes que obtienen documentación '. $suffix);
+				break;
+			case 'Auto empleo/Empredurismo':
+				$activityNamesOpt[$record->entity_id . '_1'] = t('Jóvenes que obtienen empleo o pasantía pagada ' . $suffix);
+				break;
+			case 'Capacitación Técnico Vocacional':
+				$activityNamesOpt[$record->entity_id . '_2'] = t('Jóvenes que terminan capacitación técnica ' . $suffix);
+				break;
+			case 'Inserción escolar':
+				$activityNamesOpt[$record->entity_id . '_3'] = t('Jóvenes reinsertados en la escuela ' . $suffix);
+				break;
+			case 'Espacio para Crecer':
+				$activityNamesOpt[$record->entity_id . '_4'] = t('Jóvenes graduados de EPC ' . $suffix);
+				break;
+		}
+	}
+
+		$form['activity_name_prefix'] = array(
 			'#type' => 'select',
-			'#title' => t('Activity Name: '),
-			'#description' => t('Indicate the activity name here'),
-			'#options' =>array(
-					0 => t('Jóvenes que obtienen documentación'),
-					1 => t('Jóvenes que obtienen empleo o pasantía pagada'),
-					2 => t('Jóvenes que terminan capacitación técnica'),
-					3 => t('Jóvenes reinsertados en la escuela'),
-			),
+			'#title' => t('Exit activity type: '),
+			'#description' => t('Indicate the exit activity type here'),
+			'#options' => $activityNamesOpt,
 			'#empty_option' => t('-  Select  -'),
 			'#required' => TRUE,
 	);
+
+	$form['activity_name_sufix'] = array(
+			'#type' => 'textfield',
+			'#title' => t('Activity Name: '),
+			'#description' => t('Indicate the activity name here'),
+			'#size' => 60,
+			'#maxlength' => 128,
+			'#required' => TRUE,
+	);
+
+
 
 	$entity = new stdClass();
  	$entity->type = 'activity';
 	field_attach_form('activity', $entity, $form, $form_state, NULL);
 	unset($form['field_activity_name']);
+	unset($form['field_activity_program']);
 
 	$caseManagers = _ajexitactivities_get_case_managers();
 	$items = array();
@@ -67,7 +106,6 @@ function ajexitactivities_form($form, &$form_state) {
 	}
 
 	$form['field_activity_case_manager']['und']['#options'] = $items;
-// 	watchdog('ajexitactivities', '$items ' . var_dump($form['field_activity_case_manager']['und']['#options']));
 
 	$form['submit'] = array(
 		'#type' => 'submit',
@@ -84,36 +122,33 @@ function ajexitactivities_form($form, &$form_state) {
  * @param unknown $form_state
  */
 function ajexitactivities_form_submit($form, &$form_state) {
-// 	watchdog('ajexitactivities', var_dump($form_state['values']));
-// 	watchdog('ajexitactivities', 'hello!!');
-// 	watchdog('ajexitactivities', '$activity_name '. $form_state['values']['activity_name']);
-// 	watchdog('ajexitactivities', '$field_activity_active '. $form_state['values']['field_activity_active'] ['und'][0]['value']);
-// 	watchdog('ajexitactivities', '$field_activity_case_manager '. $form_state['values']['field_activity_case_manager']['und'][0]['target_id']);
-// 	watchdog('ajexitactivities', '$field_activity_program '. $form_state['values']['field_activity_program']['und'][0]['target_id']);
-// 	watchdog('ajexitactivities', '$field_activity_date '. $form_state['values']['field_activity_date']['und'][0]['value']);
-// 	watchdog('ajexitactivities', '$field_activity_description '. $form_state['values']['field_activity_description']['und'][0]['value']);
-// 	watchdog('ajexitactivities', '$field_activity_type '. $form_state['values']['field_activity_type']['und'][0]['target_id']);
 
-	$activity_name_number = $form_state['values']['activity_name'];
+	$activity_name_prefix = $form_state['values']['activity_name_prefix'];
+	$activity_name_sufix = $form_state['values']['activity_name_sufix'];
+	$prog_activity_numer_split = explode('_', $activity_name_prefix);
+	$activity_program = $prog_activity_numer_split[0];
+	$activity_name_number = $prog_activity_numer_split[1];
 	$activity_active = $form_state['values']['field_activity_active'] ['und'][0]['value'];
 	$activity_case_manager = $form_state['values']['field_activity_case_manager']['und'][0]['target_id'];
-	$activity_program = $form_state['values']['field_activity_program']['und'][0]['target_id'];
 	$activity_date = $form_state['values']['field_activity_date']['und'][0]['value'];
 	$activity_description = $form_state['values']['field_activity_description']['und'][0]['value'];
 	$activity_type = $form_state['values']['field_activity_type']['und'][0]['target_id'];
 
 	switch($activity_name_number) {
 		case 0:
-			$activity_name_full = 'Jóvenes que obtienen documentación';
+			$activity_name_full = 'Obtienen documentación - '.$activity_name_sufix;
 			break;
 		case 1:
-			$activity_name_full = 'Jóvenes que obtienen empleo o pasantía pagada';
+			$activity_name_full = 'Obtienen empleo o pasantía pagada - '.$activity_name_sufix;
 			break;
 		case 2:
-			$activity_name_full = 'Jóvenes que terminan capacitación técnica';
+			$activity_name_full = 'Terminan capacitación técnica - '.$activity_name_sufix;
 			break;
 		case 3:
-			$activity_name_full = 'Jóvenes reinsertados en al escuela';
+			$activity_name_full = 'Reinsertados en al escuela - '.$activity_name_sufix;
+			break;
+		case 4:
+			$activity_name_full = 'Graduados de EPC - '.$activity_name_sufix;
 			break;
 	}
 
@@ -216,7 +251,6 @@ function _ajexitactivities_create_activity_instance(
 function _ajexitactivities_get_case_managers() {
 	global $user;
 
-// 	watchdog('ajexitactivities', '$record ' . var_dump($user->roles));
 	$providerID = db_query(
 			'SELECT field_user_provider_target_id
 			FROM {field_revision_field_user_provider}
@@ -227,11 +261,36 @@ function _ajexitactivities_get_case_managers() {
 	$query->join('users_roles', 'ur', 'ur.uid = userProv.entity_id');
 	$query->fields('u', array('uid', 'name'))
 				->condition('status', 1)
-				->condition('ur.rid', 8)
+				->condition('ur.rid', 8) // The CaseManager Role
 				->orderBy('name', 'ASC');
 	if(!in_array('System Administrator', $user->roles) && !in_array('Evaluator', $user->roles) ) {
 		$query->condition('field_user_provider_target_id', $providerID);
-// 		watchdog('ajexitactivities', '$record ' . var_dump('Is not a System Admin or Evaluator'));
+	}
+
+	return $query->execute();
+}
+
+/**
+ * Populate the Case Manager list according with the user role
+ */
+function _ajexitactivities_get_programs() {
+	global $user;
+
+	$providerID = db_query(
+			'SELECT field_user_provider_target_id
+			FROM {field_revision_field_user_provider}
+			WHERE entity_id = :uid', array(':uid' => $user->uid))->fetchField(0);
+
+	$query = db_select('field_data_field_agency_name', 'provName');
+	$query->join('field_data_field_program_provider', 'progProv', 'provName.entity_id = progProv.field_program_provider_target_id');
+	$query->join('field_data_field_program_name', 'progName', 'progName.entity_id = progProv.entity_id');
+	$query->join('field_data_field_programname_name', 'progNameName', 'progNameName.entity_id = progName.field_program_name_target_id');
+	$query->fields('provName', array('field_agency_name_value'));
+	$query->fields('progName', array('entity_id'));
+	$query->fields('progNameName', array('field_programname_name_value'))
+				->orderBy('field_programname_name_value', 'ASC');
+	if(!in_array('System Administrator', $user->roles) && !in_array('Evaluator', $user->roles) ) {
+		$query->condition('provName.entity_id', $providerID);
 	}
 
 	return $query->execute();
