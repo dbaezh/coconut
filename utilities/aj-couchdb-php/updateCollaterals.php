@@ -32,20 +32,24 @@ $client = new couchClient($couch_dsn,$couch_db);
 
 //$uuidsCSVFileName = 'input/updateCollaterals.csv';
 
-$uuidsCSVFileName = 'input/Update2NonCollatFromVirginia.csv';
+$uuidsCSVFileName = 'input/Indirect_cases_to_become_DirectONLYUUIDS.csv';
 
 //$uuidsCSVFileName = 'input/updateCollateralsTEST.csv';
 
 //$outputCSVFileName = 'output/updatedCollateralsUUIDS.csv';
-$outputCSVFileName = 'output/updatedCollsUUIDSFromV.csv';
+$outputCSVFileName = 'output/Indirect_cases_to_become_DirectONLYUUIDS_PROCESSED.csv';
+$outputCSVFileNameMissing = 'output/Indirect_cases_to_become_DirectONLYUUIDS_MISSING.csv';
 
 
 $uuidsAry = loadUUIDs($uuidsCSVFileName);
 
 $updatedUUIDs = array();
+$missingUUIDs = array();
+
 update2NonCollateral($uuidsAry);
 
 print2file($outputCSVFileName, $updatedUUIDs);
+print2file($outputCSVFileNameMissing, $missingUUIDs);
 
 echo "Collaterals sucessfully updated";
 
@@ -93,12 +97,18 @@ function loadUUIDs($uuidsCSVFileName){
  * @param $uuidsAry
  */
 function update2NonCollateral($uuidsAry){
+    global $missingUUIDs;
 
     foreach($uuidsAry as $uuid) {
         echo "Processing ".$uuid."\n";
         // get docid
         $docId = getDocIdByUUID($uuid);
-        updateCouchDoc($docId);
+        if ($docId != null)
+           updateCouchDoc($docId);
+        else{
+            echo "UUID= ".$uuid."Does not exist.\n";
+            array_push($missingUUIDs, $uuid);
+        }
     }
 
 
@@ -106,10 +116,11 @@ function update2NonCollateral($uuidsAry){
 
 function getDocIdByUUID($uuid)
 {
-    //$req_url = 'http://107.20.181.244:5984/coconut/_design/coconut/_view/byUUID?key=%22'.$uuid.'%22';
+    $docId = null;
+    // DEV
+    //$req_url = 'http://54.204.20.212:5984/coconut/_design/coconut/_view/byUUIDRegWitCollaterals?key=%22'.$uuid.'%22';
 
-   // $req_url = 'http://54.204.20.212:5984/coconut/_design/coconut/_view/byUUIDRegWitCollaterals?key=%22'.$uuid.'%22';
-
+    // PROD
     $req_url = 'http://107.20.181.244:5984/coconut/_design/coconut/_view/byUUIDRegWitCollaterals?key=%22'.$uuid.'%22';
 
     $request = new Http_Request($req_url); // Create request object
@@ -126,9 +137,12 @@ function getDocIdByUUID($uuid)
 
 
     $json = json_decode($str, true);
+
     $rows = $json['rows'];
-    // assume the first row is the registration
-    $docId=$rows[0]['id'];
+    if ( isset($rows[0]) && array_key_exists('id', $rows[0])) {
+        // assume the first row is the registration
+        $docId = $rows[0]['id'];
+    }
 
     return $docId;
 }
