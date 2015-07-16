@@ -21,7 +21,7 @@
 
         function start(){
             var db = $.couch.db("coconut");
-            db.view("coconut/findIncompleteSurveys",
+            db.view("coconut/resultsByQuestionAndComplete?startkey=%22Participant%20Survey-es%3Afalse%3Az%22&endkey=%22Participant%20Survey-es%3Afalse%22&descending=true&include_docs=false",
                     {
                         success:function(data){
 
