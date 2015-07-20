@@ -1,9 +1,13 @@
 <?php
 /**
- * Created by IntelliJ IDEA.
- * User: vbakalov
- * Date: 4/13/2015
- * Time: 9:59 AM
+ * Created by Claudia Nunez
+ * Date: 7/20/2015
+ *
+ * This script is for completing incomplete surveys in a list of seperated values of UUID.
+ * The script will report if:
+ *  - The UUID does not exists
+ *  - The UUID does not have an available survey to be completed
+ *  - The UUID already has a completed survey
  */
 
 function autoLoader($class)
@@ -15,7 +19,7 @@ spl_autoload_register('autoLoader');
 
 
 /****** PRODUCTION **************/
-//$couch_dsn = "http://107.20.181.244:5984/";
+// $couch_dsn = "http://107.20.181.244:5984/";
 
 /****** DEVELOPMENT *****************/
 $couch_dsn = "http://54.204.20.212:5984/";
@@ -30,16 +34,10 @@ require_once "./lib/couchDocument.php";
 // open client connection with couchDB
 $client = new couchClient($couch_dsn,$couch_db);
 
-//$uuidsCSVFileName = 'input/updateCollaterals.csv';
+$uuidsCSVFileName = 'input/exampleUpdateToComplete.csv';
 
-$uuidsCSVFileName = 'input/Indirect_cases_to_become_DirectONLYUUIDS.csv';
-
-//$uuidsCSVFileName = 'input/updateCollateralsTEST.csv';
-
-//$outputCSVFileName = 'output/updatedCollateralsUUIDS.csv';
-$outputCSVFileName = 'output/Indirect_cases_to_become_DirectONLYUUIDS_PROCESSED.csv';
-$outputCSVFileNameMissing = 'output/Indirect_cases_to_become_DirectONLYUUIDS_MISSING.csv';
-
+$outputCSVFileName = 'output/updatedToCompleteSurveys_processed.csv';
+$outputCSVFileNameMissing = 'output/updateToComplete_missingUUIDs.csv';
 
 $uuidsAry = loadUUIDs($uuidsCSVFileName);
 
@@ -51,7 +49,7 @@ update2NonCollateral($uuidsAry);
 print2file($outputCSVFileName, $updatedUUIDs);
 print2file($outputCSVFileNameMissing, $missingUUIDs);
 
-echo "Collaterals sucessfully updated";
+echo "Surveys sucessfully updated";
 
 /**
  * @param $uuidsCSVFileName
@@ -96,17 +94,19 @@ function loadUUIDs($uuidsCSVFileName){
 /**
  * @param $uuidsAry
  */
-function update2NonCollateral($uuidsAry){
+function update2NonCollateral($uuidsAry) {
     global $missingUUIDs;
 
     foreach($uuidsAry as $uuid) {
-        echo "Processing ".$uuid."\n";
+        echo "Processing ".$uuid;
         // get docid
         $docId = getDocIdByUUID($uuid);
-        if ($docId != null)
+        //echo "The docID is ".$docId."\n";
+        if ($docId != null) {
+        	echo ". To update\n";
            updateCouchDoc($docId);
-        else{
-            echo "UUID= ".$uuid."Does not exist.\n";
+        } else{
+            echo " NOT PROCESSED.\n";
             array_push($missingUUIDs, $uuid);
         }
     }
@@ -118,39 +118,79 @@ function getDocIdByUUID($uuid)
 {
     $docId = null;
     // DEV
-    $req_url = 'http://54.204.20.212:5984/coconut/_design/coconut/_view/byUUIDRegWitCollaterals?key=%22'.$uuid.'%22';
+    $req_url = 'http://54.204.20.212:5984/coconut/_design/coconut/_view/byUUID?key=%22'.$uuid.'%22&include_docs=true';
+    $req_url_if_exits = 'http://54.204.20.212:5984/coconut/_design/coconut/_view/byUUIDForReportActions?key=%22'.$uuid.'%22&include_docs=true';
 
     // PROD
-    //$req_url = 'http://107.20.181.244:5984/coconut/_design/coconut/_view/byUUIDRegWitCollaterals?key=%22'.$uuid.'%22';
+//     $req_url = 'http://107.20.181.244:5984/coconut/_design/coconut/_view/byUUID?key=%22'.$uuid.'%22&include_docs=true';
+//     $req_url_if_exits = 'http://107.20.181.244:5984/coconut/_design/coconut/_view/byUUIDForReportActions?key=%22'.$uuid.'%22&include_docs=true';
 
-    $request = new Http_Request($req_url); // Create request object
+    $request = new Http_Request($req_url_if_exits); // Create request object
     $request->setMethod(Http_Request_Data::METHOD_GET);
     $request->setHeader('Content-Type', 'application/json');
-
     $response = $request->getResponse(); // Send request and get response object (method send() is called automatically in getResponse() when wasn't before)
-
     $str = $response->getBody(); // Get body of http response (__toString() is a alias of it)
-
-
     $str = str_replace(array("\n", "\r", "\t"), '', $str);
     $str = trim(str_replace("'", "\"", $str));
-
-
     $json = json_decode($str, true);
 
     $rows = $json['rows'];
-    if ( isset($rows[0]) && array_key_exists('id', $rows[0])) {
-        // assume the first row is the registration
-        $docId = $rows[0]['id'];
+    $hasSurvey = false;
+    foreach($rows as $doc) {
+    	if ($doc['doc']['question'] === 'Participant Survey-es')
+    		$hasSurvey = true;
+       		echo " Has a survey ALREADY.";
+       		return null;
     }
 
-    return $docId;
+    if (!$hasSurvey) {
+	    $request = new Http_Request($req_url); // Create request object
+	    $request->setMethod(Http_Request_Data::METHOD_GET);
+	    $request->setHeader('Content-Type', 'application/json');
+	    $response = $request->getResponse(); // Send request and get response object (method send() is called automatically in getResponse() when wasn't before)
+	    $str = $response->getBody(); // Get body of http response (__toString() is a alias of it)
+	    $str = str_replace(array("\n", "\r", "\t"), '', $str);
+	    $str = trim(str_replace("'", "\"", $str));
+	    $json = json_decode($str, true);
+
+		$rows = $json['rows'];
+		$surveys = array();
+		$lastModifiedTime = array();
+    	foreach($rows as $doc) {
+	    	if ($doc['doc']['question'] === 'Participant Survey-es')
+				array_push($surveys, array('question' => $doc['doc']['question'],
+											'uuid' => $doc['doc']['uuid'],
+											'lastModifiedAt' => $doc['doc']['lastModifiedAt'],
+											'id' => $doc['id']
+				));
+    	}
+
+	    foreach ($surveys as $key => $row) {
+	    	$lastModifiedTime[$key]  = $row['lastModifiedAt'];
+		}
+    	array_multisort($lastModifiedTime, SORT_ASC, $surveys);
+// 		var_dump($surveys);
+		$lastRecentlyUpdatedSurvey = end($surveys);
+		if (!isset($lastRecentlyUpdatedSurvey['id'])) {
+			echo ". UUID does not exist, or has no Survey to Complete.";
+			return null;
+		}
+   	 	return $lastRecentlyUpdatedSurvey['id'];
+    }
+
+
+//     if ( isset($rows[0]) && array_key_exists('id', $rows[0])) {
+//         // assume the first row is the registration
+//         $docId = $rows[0]['id'];
+//     }
+
+
 }
 
 /**
  * Date need to  be in format 2014-10-23T16:25:16-04:00.
  */
-function getCouchCurrentDate(){
+function getCouchCurrentDate() {
     $retDateStr = "";
 
     // get current date
@@ -165,19 +205,15 @@ function getCouchCurrentDate(){
 }
 
 
-function updateCouchDoc($docId){
+function updateCouchDoc($docId) {
     global $client, $updatedUUIDs;
-
 
     try {
         $doc = $client->getDoc($docId);
 
-
-
         $doc->lastModifiedAt = getCouchCurrentDate();
         $doc->system_updated_col = "true";
-        $doc->Estecolateralparticipante = "No";
-
+        $doc->Completado = "true";
 
         // update document
         $response = $client->storeDoc($doc);
