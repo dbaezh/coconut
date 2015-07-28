@@ -172,13 +172,13 @@ function ajetlsurveys_setModuleVariables(){
      "15Cuálesel"=>"15Cuáleselniveleducativomásaltoquehasaprobado",
      "23Hassidos"=>"23Hassidosuspendidoadelaescuelaalgunavez",
      "25Hasreali"=>"25Hasrealizadoalgunavezuntrabajoporpagaoganancia",
-     "15Cuálesel"=>"26Durantelaúltimasemanarealizastealgúntrabajoporpagaoganancia",
+     "26Durantel"=>"26Durantelaúltimasemanarealizastealgúntrabajoporpagaoganancia",
      "33Actualme"=>"33Actualmenterealizasalgúntrabajoenelquenosetepagaonorecibesganancia",
      "39Hasbusca"=>"39Hasbuscadounnuevoomejorempleoenelúltimomes",
      "40Hasparti"=>"40Hasparticipadoenalgúnprogramadedesarrollodeempleo",
      "41Conquéfr"=>"41Conquéfrecuenciatepreocupaservíctimadeladelincuenciaentubarrio",
-     "44Entuopin"=>"42Conquéfrecuenciatepreocupaservíctimadeladelincuenciaentuescuelaouniversidad",
-     "33Actualme"=>"44Entuopiniónladelincuenciaesunproblemagraveentubarrio",
+     "42Conquéfr"=>"42Conquéfrecuenciatepreocupaservíctimadeladelincuenciaentuescuelaouniversidad",
+     "44Entuopin"=>"44Entuopiniónladelincuenciaesunproblemagraveentubarrio",
      "45Tepreocu"=>"45Tepreocupalapresenciadepandillasentubarrio",
      "46Lapreocu"=>"46Lapreocupaciónporladelincuenciaocrimenteimpiderealizarlascosasquedeseashacerentubarrio",
      "48Hassidot"=>"48Hassidotransportadoenunapatrullapolicialporunaredadaoporsospechadelapolicíahaciati",
@@ -203,7 +203,7 @@ function ajetlsurveys_setModuleVariables(){
      "73AActualm"=>"73AActualmenteestásinvolucradoenunapandilla",
      "74Comparte"=>"74Compartestiempooterelacionasconmiembrosdeunapandilla",
      "75Enlosúlt"=>"75Enlosúltimos12meseshashabladoocompartidoconalguienborrachoodrogado",
-     "76AEnlosúl"=>"76Algunavezhastomadounabebidaalcohólicaunacopavasoenteronosólounsorbo",
+     "76Algunave"=>"76Algunavezhastomadounabebidaalcohólicaunacopavasoenteronosólounsorbo",
      "76AEnlosúl"=>"76AEnlosúltimos12meseshasconsumidoalcohol",
      "76BEnlosúl"=>"76BEnlosúltimos12meseshastomadocincovasoscopasomásdebebidasalcohólicasenelmismodía",
      "77Hasproba"=>"77Hasprobadoalgunavezcualquieradeestasdrogasmarihuanacocaínaheroínapastillascrackcementoocualquierotracosaparadrogarse",
@@ -219,8 +219,8 @@ function ajetlsurveys_setModuleVariables(){
      "93Algunave"=>"93Algunavezhastenidounaconversaciónabiertayhonestasobresexocontuspadres",
      "94Algunave"=>"94Algunavezalguientehaenseñadoohabladoacercadelasinfeccionesdetransmisiónsexual",
      "95Algunave"=>"95Algunavezlehanenseñadoacercadeprevencióndeembarazo",
-     "75Enlosúlt"=>"96AlgunavezlehanenseñadoacercalainfecciónporVIHSida",
-     "75Enlosúlt"=>"89ASilarespuestaesafirmativaCuándofuelaúltimavez"
+     "96Algunave"=>"96AlgunavezlehanenseñadoacercalainfecciónporVIHSida",
+     "89ASilares"=>"89ASilarespuestaesafirmativaCuándofuelaúltimavez"
   );
 
     variable_set("surveyColumnMap", $surveyColumnMap);
