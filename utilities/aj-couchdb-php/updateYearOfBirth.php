@@ -15,7 +15,7 @@ spl_autoload_register('autoLoader');
 
 
 /****** PRODUCTION **************/
-$couch_dsn = "http://107.20.181.244:5984/";
+ $couch_dsn = "http://107.20.181.244:5984/";
 
 /****** DEVELOPMENT *****************/
 // $couch_dsn = "http://54.204.20.212:5984/";
@@ -30,10 +30,10 @@ require_once "./lib/couchDocument.php";
 // open client connection with couchDB
 $client = new couchClient($couch_dsn,$couch_db);
 
-$uuidsCSVFileName = 'input/toUpdateYearOfBirth.csv';
+$uuidsCSVFileName = 'input/toUpdateYearOfBirth_part2.csv';
 
-$outputCSVFileName = 'output/updatedYearOfBirthUUIDs.csv';
-$outputCSVFileNameMissing = 'output/notUpdatedYearOfBirthUUIDs.csv';
+$outputCSVFileName = 'output/updatedYearOfBirthUUIDs_part2.csv';
+$outputCSVFileNameMissing = 'output/notUpdatedYearOfBirthUUIDs_part2.csv';
 
 $uuidsAry = loadUUIDs($uuidsCSVFileName);
 
@@ -104,7 +104,7 @@ function updateYearOfBirth($uuidsAry) {
            updateCouchDoc($docId, $uuid['newYear']);
         } else{
             echo " NOT PROCESSED.\n";
-            array_push($missingUUIDs, $uuid);
+            array_push($missingUUIDs, $uuid['uuid']);
         }
     }
 
@@ -115,7 +115,7 @@ function getDocIdByUUID($uuid)
 {
     $docId = null;
     // DEV
-//     $req_url = 'http://54.204.20.212:5984/coconut/_design/coconut/_view/byUUID?key=%22'.$uuid.'%22&include_docs=true';
+ //    $req_url = 'http://54.204.20.212:5984/coconut/_design/coconut/_view/byUUID?key=%22'.$uuid.'%22&include_docs=true';
 
     // PROD
     $req_url = 'http://107.20.181.244:5984/coconut/_design/coconut/_view/byUUID?key=%22'.$uuid.'%22&include_docs=true';
