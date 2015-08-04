@@ -1,13 +1,13 @@
 <?php
 /**
  * Created by Claudia Nunez
- * Date: 7/20/2015
+ * Date: 8/04/2015
  *
- * This script is for completing incomplete surveys in a list of seperated values of UUID.
+ * This script is for completing incomplete Registrations. It expects a list of UUID in a CSV file.
  * The script will report if:
  *  - The UUID does not exists
- *  - The UUID does not have an available survey to be completed
- *  - The UUID already has a completed survey
+ *  - The UUID does not have an available registration to be completed
+ *  - The UUID already has a completed registration
  */
 
 function autoLoader($class)
@@ -34,10 +34,10 @@ require_once "./lib/couchDocument.php";
 // open client connection with couchDB
 $client = new couchClient($couch_dsn,$couch_db);
 
-$uuidsCSVFileName = 'input/updateSurveysToComplete.csv';
+$uuidsCSVFileName = 'input/updateRegistrationToComplete.csv';
 
-$outputCSVFileName = 'output/updatedToCompleteSurveys_processed_iddi_Ago_4_2015.csv';
-$outputCSVFileNameMissing = 'output/updateToComplete_missingUUIDs_iddi_Ago_4_2015.csv';
+$outputCSVFileName = 'output/updatedToCompleteRegistration_processed.csv';
+$outputCSVFileNameMissing = 'output/updateToCompleteRegistration_missingUUIDs.csv';
 
 $uuidsAry = loadUUIDs($uuidsCSVFileName);
 
@@ -49,7 +49,7 @@ update2CompleteRegistration($uuidsAry);
 print2file($outputCSVFileName, $updatedUUIDs);
 print2file($outputCSVFileNameMissing, $missingUUIDs);
 
-echo "Surveys sucessfully updated";
+echo "Registration sucessfully updated";
 
 /**
  * @param $uuidsCSVFileName
@@ -103,8 +103,8 @@ function update2CompleteRegistration($uuidsAry) {
         $docId = getDocIdByUUID($uuid);
         //echo "The docID is ".$docId."\n";
         if ($docId != null) {
-        	echo ". To update\n";
-           updateCouchDoc($docId);
+        	echo ". To update \n";
+          updateCouchDoc($docId);
         } else{
             echo " NOT PROCESSED.\n";
             array_push($missingUUIDs, $uuid);
@@ -119,11 +119,11 @@ function getDocIdByUUID($uuid)
     $docId = null;
     // DEV
 //     $req_url = 'http://54.204.20.212:5984/coconut/_design/coconut/_view/byUUID?key=%22'.$uuid.'%22&include_docs=true';
-//     $req_url_if_exits = 'http://54.204.20.212:5984/coconut/_design/coconut/_view/byUUIDForReportActions?key=%22'.$uuid.'%22&include_docs=true';
+//     $req_url_if_exits = 'http://54.204.20.212:5984/coconut/_design/coconut/_view/byUUIDRegWitCollaterals?key=%22'.$uuid.'%22&include_docs=true';
 
     // PROD
     $req_url = 'http://107.20.181.244:5984/coconut/_design/coconut/_view/byUUID?key=%22'.$uuid.'%22&include_docs=true';
-    $req_url_if_exits = 'http://107.20.181.244:5984/coconut/_design/coconut/_view/byUUIDForReportActions?key=%22'.$uuid.'%22&include_docs=true';
+    $req_url_if_exits = 'http://107.20.181.244:5984/coconut/_design/coconut/_view/byUUIDRegWitCollaterals?key=%22'.$uuid.'%22&include_docs=true';
 
     $request = new Http_Request($req_url_if_exits); // Create request object
     $request->setMethod(Http_Request_Data::METHOD_GET);
@@ -135,15 +135,15 @@ function getDocIdByUUID($uuid)
     $json = json_decode($str, true);
 
     $rows = $json['rows'];
-    $hasSurvey = false;
+    $hasRegistration = false;
     foreach($rows as $doc) {
-    	if ($doc['doc']['question'] === 'Participant Survey-es')
-    		$hasSurvey = true;
-       		echo " Has a survey ALREADY.";
+    	if ($doc['doc']['question'] === 'Participant Registration-es')
+    		$hasRegistration = true;
+       		echo " Has a Registration ALREADY.";
        		return null;
     }
 
-    if (!$hasSurvey) {
+    if (!$hasRegistration) {
 	    $request = new Http_Request($req_url); // Create request object
 	    $request->setMethod(Http_Request_Data::METHOD_GET);
 	    $request->setHeader('Content-Type', 'application/json');
@@ -154,28 +154,28 @@ function getDocIdByUUID($uuid)
 	    $json = json_decode($str, true);
 
 		$rows = $json['rows'];
-		$surveys = array();
+		$registration = array();
 		$lastModifiedTime = array();
     	foreach($rows as $doc) {
-	    	if ($doc['doc']['question'] === 'Participant Survey-es')
-				array_push($surveys, array('question' => $doc['doc']['question'],
+	    	if ($doc['doc']['question'] === 'Participant Registration-es')
+				array_push($registration, array('question' => $doc['doc']['question'],
 											'uuid' => $doc['doc']['uuid'],
 											'lastModifiedAt' => $doc['doc']['lastModifiedAt'],
 											'id' => $doc['id']
 				));
     	}
 
-	    foreach ($surveys as $key => $row) {
+	    foreach ($registration as $key => $row) {
 	    	$lastModifiedTime[$key]  = $row['lastModifiedAt'];
 		}
-    	array_multisort($lastModifiedTime, SORT_ASC, $surveys);
+    	array_multisort($lastModifiedTime, SORT_ASC, $registration);
 // 		var_dump($surveys);
-		$lastRecentlyUpdatedSurvey = end($surveys);
-		if (!isset($lastRecentlyUpdatedSurvey['id'])) {
-			echo ". UUID does not exist, or has no Survey to Complete.";
+		$lastRecentlyUpdatedRegistration = end($registration);
+		if (!isset($lastRecentlyUpdatedRegistration['id'])) {
+			echo ". UUID does not exist, or has no Registration to Complete.";
 			return null;
 		}
-   	 	return $lastRecentlyUpdatedSurvey['id'];
+   	 	return $lastRecentlyUpdatedRegistration['id'];
     }
 
 

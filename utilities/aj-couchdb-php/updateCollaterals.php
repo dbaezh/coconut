@@ -46,7 +46,7 @@ $uuidsAry = loadUUIDs($uuidsCSVFileName);
 $updatedUUIDs = array();
 $missingUUIDs = array();
 
-update2NonCollateral($uuidsAry);
+update2CompleteRegistration($uuidsAry);
 
 print2file($outputCSVFileName, $updatedUUIDs);
 print2file($outputCSVFileNameMissing, $missingUUIDs);
@@ -96,7 +96,7 @@ function loadUUIDs($uuidsCSVFileName){
 /**
  * @param $uuidsAry
  */
-function update2NonCollateral($uuidsAry){
+function update2CompleteRegistration($uuidsAry){
     global $missingUUIDs;
 
     foreach($uuidsAry as $uuid) {
