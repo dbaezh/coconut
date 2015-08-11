@@ -3,27 +3,31 @@ SELECT
     *
 FROM
     (SELECT 
-        provider_id, Fem_Total, Mas_Total, Unk_Total, Grand_Total
+        provider_id, Fem_11_24_Total, Mas_11_24_Total, Unk_11_24_Total, 11_24_Grand_Total
     FROM
         (SELECT 
         IFNULL(provider_id, 'ALL_PROVIDERS') AS provider_id,
             provider_name,
             SUM(CASE
-                WHEN sexo = 'F' THEN 1
+                WHEN sexo = 'F' and age >= 11 AND age <= 24 THEN 1
                 ELSE 0
-            END) AS Fem_Total,
+            END) AS Fem_11_24_Total,
             SUM(CASE
-                WHEN sexo = 'M' THEN 1
+                WHEN sexo = 'M' and age >= 11 AND age <= 24 THEN 1
                 ELSE 0
-            END) AS Mas_Total,
+            END) AS Mas_11_24_Total,
             SUM(CASE
-                WHEN Sexo != 'M' AND Sexo != 'F' THEN 1
+                WHEN Sexo != 'M' AND Sexo != 'F' and age >= 11 AND age <= 24 THEN 1
                 ELSE 0
-            END) AS Unk_Total,
-            COUNT(uuid) AS Grand_Total
+            END) AS Unk_11_24_Total,
+			SUM(CASE
+                WHEN age >= 11 AND age <= 24 THEN 1
+                ELSE 0
+            END) AS 11_24_Grand_Total
     FROM
         (SELECT DISTINCT
-        reg.provider_id, reg.provider_name, reg.uuid, sexo
+        reg.provider_id, reg.provider_name, reg.uuid, sexo, DATE_FORMAT(FROM_DAYS(DATEDIFF(DATE_FORMAT(NOW(), '%Y-%m-%d'), reg.dob)), '%Y') + 0 AS age
+
     FROM
         bitnami_drupal7.aj_survey sur
     JOIN bitnami_drupal7.aj_registration reg ON sur.uuid = reg.uuid
@@ -61,15 +65,21 @@ and SUBSTRING(sur.createdAt, 1, 10) <= :to_date
                 WHEN provider_id = 'ALL_PROVIDERS' THEN 'ALL_PROVIDERS'
                 ELSE provider_name
             END AS provider_name,
+            Bet_11_24_Total_UNIVERSE,
             TotalUNIVERSE
     FROM
         (SELECT 
         IFNULL(provider_id, 'ALL_PROVIDERS') AS provider_id,
             provider_name,
+            SUM(CASE
+                WHEN age >= 11 AND age <= 24 THEN 1
+                ELSE 0
+            END) AS Bet_11_24_Total_UNIVERSE,
             COUNT(uuid) AS TotalUNIVERSE
     FROM
         (SELECT DISTINCT
-        reg.provider_id, reg.provider_name, reg.uuid, sexo
+        reg.provider_id, reg.provider_name, reg.uuid, DATE_FORMAT(FROM_DAYS(DATEDIFF(DATE_FORMAT(NOW(), '%Y-%m-%d'), reg.dob)), '%Y') + 0 AS age
+
     FROM
         bitnami_drupal7.aj_survey sur
     JOIN bitnami_drupal7.aj_registration reg ON sur.uuid = reg.uuid

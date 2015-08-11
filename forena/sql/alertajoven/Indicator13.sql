@@ -55,7 +55,8 @@ and SUBSTRING(sur.createdAt, 1, 10) >= :from_date
 --IF=:to_date
 and SUBSTRING(sur.createdAt, 1, 10) <= :to_date
 --END
-
+and reg.provider_id != ''
+                
             AND 16Actualmenteestasasistiendoa = 'Ninguno'
             AND (26Durantel = 'No' || 26Durantel = '')) uniqueRecords
     GROUP BY provider_id WITH ROLLUP) rollUP) as tb1
@@ -102,6 +103,7 @@ and SUBSTRING(sur.createdAt, 1, 10) >= :from_date
 --IF=:to_date
 and SUBSTRING(sur.createdAt, 1, 10) <= :to_date
 --END
+and reg.provider_id != ''
                 ) uniqueRecords
         GROUP BY provider_id WITH ROLLUP) rollup2) as tb2 
         using (provider_id)

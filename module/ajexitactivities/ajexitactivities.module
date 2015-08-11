@@ -145,7 +145,7 @@ function ajexitactivities_form_submit($form, &$form_state) {
 			$activity_name_full = 'Terminan capacitación técnica - '.$activity_name_sufix;
 			break;
 		case 3:
-			$activity_name_full = 'Reinsertados en al escuela - '.$activity_name_sufix;
+			$activity_name_full = 'Reinsertados en la escuela - '.$activity_name_sufix;
 			break;
 		case 4:
 			$activity_name_full = 'Graduados de EPC - '.$activity_name_sufix;
