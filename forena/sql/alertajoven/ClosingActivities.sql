@@ -68,9 +68,9 @@ and atten.provider_id in (:provider_id)
 
 --SWITCH=:collateral
 --CASE=collateral
-and reg.Estecolateralparticipante = 'Sí'
+and regs.Estecolateralparticipante = 'Sí'
 --CASE=nonCollateral
-and reg.Estecolateralparticipante != 'Sí'
+and regs.Estecolateralparticipante != 'Sí'
 --END
 
 ) allParticipants
