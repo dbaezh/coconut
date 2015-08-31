@@ -127,6 +127,24 @@ $data['aj_registration']['DOB'] = array(
 );
 
 
+// The Fecha field
+$data['aj_registration']['Fecha'] = array(
+	'group' => t('Registration'),
+    'title' => t('Fecha de Registro'),
+    'help' => t('The Beneficiary date of registration.'),
+    'field' => array(
+        'handler' => 'views_handler_field',
+    	'click sortable' => TRUE,
+    ),
+    'sort' => array(
+        'handler' => 'views_handler_sort',
+    ),
+    'filter' => array(
+        'handler' => 'views_handler_filter_date',
+    ),
+);
+
+
 
 // The provider_name field
 $data['aj_registration']['provider_name'] = array(
