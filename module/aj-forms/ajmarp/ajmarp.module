@@ -45,11 +45,12 @@ function ajmarp_form($form, &$form_state) {
 	$uuid = $urlParams['uuid'];
 
 	$beneficiary = _ajmarp_getBeneficiaryInfo($uuid);
-	$label = '<p>Select the MARP category for <b>'.$beneficiary['nombre'].' '.$beneficiary['apellido'].' ('.$uuid.')</b></p>';
+	$beneficiaryDetails = $beneficiary['nombre'].' '.$beneficiary['apellido'].' ('.$uuid.')';
+	$label = '<p>Select the MARP category for <b>'.$beneficiaryDetails.'</b></p>';
 
-	if () {
-		drupal_set_message(t('There is a MARP form already avialbale for '.$beneficiary['nombre']));
-
+	if (_ajmarp_alreadyExist($uuid)) {
+		drupal_set_message(t('There is a MARP form already available for <b>'.$beneficiaryDetails.'</b>'), 'warning');
+		return;
 	}
 
 	$radioOptions = array(
@@ -88,17 +89,17 @@ function ajmarp_form_submit($form, &$form_state) {
 
 	$urlParams = drupal_get_query_parameters();
 	$uuid = $urlParams['uuid'];
-	$user_name = $urlParams['user_name'];
-	$provider_name = $urlParams['provider_name'];
-	$isDataEntry = $urlParams['isDataEntry'];
 	$provider_id = $urlParams['provider_id'];
+
+	$beneficiary = _ajmarp_getBeneficiaryInfo($uuid);
+	$beneficiaryDetails = $beneficiary['nombre'].' '.$beneficiary['apellido'].' ('.$uuid.')';
 
 	_ajmarp_insert_data(
 			$form_state['values']['marp_category'],
 			$uuid,
 			$provider_id);
 
-	drupal_set_message(t('The MARP form has been submited succesfully!'));
+	drupal_set_message(t('The MARP form has been submited succesfully for '.$beneficiaryDetails.'!'));
 
 	$form_state['redirect'] = 'mis-beneficiarios';
 
@@ -163,7 +164,6 @@ function _ajmarp_insert_data(
 			$uuid,
 			$provider_id) {
 
-
 	global $user;
 	$currentDate = format_date(time(), 'custom', 'Y-m-d H:i:s');
 
@@ -189,14 +189,13 @@ function _ajmarp_insert_data(
 	}
 	$marp_entry = db_insert('aj_marp')
 	->fields($tableFields);
-	watchdog('ajmarp', '$marp_entry ' . $marp_entry);
 	$marp_entry->execute();
 
 }
 
 
 /**
- * Populate the Case Manager list according with the user role
+ * Get the beneficiary info
  */
 function _ajmarp_getBeneficiaryInfo($uuid) {
 
@@ -210,4 +209,20 @@ function _ajmarp_getBeneficiaryInfo($uuid) {
 
 	$result = $query->execute();
 	return $result->fetchAssoc();
+}
+
+/**
+ * Checks if a fiven uuid already has a marp entry in the database
+ */
+function _ajmarp_alreadyExist($uuid) {
+
+	$query = db_select('aj_marp', 'marp');
+	$query->fields('marp', array('uuid'));
+	$query->condition('uuid', $uuid);
+	$query->range(0,1);
+
+	$result = $query->execute();
+	$entry =  $result->fetchAssoc();
+
+	return !empty($entry);
 }
