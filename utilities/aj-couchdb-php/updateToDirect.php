@@ -15,10 +15,10 @@ spl_autoload_register('autoLoader');
 
 
 /****** PRODUCTION **************/
-$couch_dsn = "http://107.20.181.244:5984/";
+// $couch_dsn = "http://107.20.181.244:5984/";
 
 /****** DEVELOPMENT *****************/
-//$couch_dsn = "http://54.204.20.212:5984/";
+$couch_dsn = "http://54.204.20.212:5984/";
 
 date_default_timezone_set("America/Santo_Domingo");
 $couch_db = "coconut";
@@ -30,16 +30,10 @@ require_once "./lib/couchDocument.php";
 // open client connection with couchDB
 $client = new couchClient($couch_dsn,$couch_db);
 
-//$uuidsCSVFileName = 'input/updateCollaterals.csv';
+$uuidsCSVFileName = 'input/Indirect_to_Direct_MOSCTHA_Sept_1st_2015.csv';
 
-$uuidsCSVFileName = 'input/Indirect_cases_to_become_DirectONLYUUIDS.csv';
-
-//$uuidsCSVFileName = 'input/updateCollateralsTEST.csv';
-
-//$outputCSVFileName = 'output/updatedCollateralsUUIDS.csv';
-$outputCSVFileName = 'output/Indirect_cases_to_become_DirectONLYUUIDS_PROCESSED.csv';
-$outputCSVFileNameMissing = 'output/Indirect_cases_to_become_DirectONLYUUIDS_MISSING.csv';
-
+$outputCSVFileName = 'output/Indirect_to_Direct_MOSCTHA_Sept_1st_2015_UPDATED.csv';
+$outputCSVFileNameMissing = 'output/Indirect_to_Direct_MOSCTHA_Sept_1st_2015_ERROR.csv';
 
 $uuidsAry = loadUUIDs($uuidsCSVFileName);
 
@@ -57,7 +51,7 @@ echo "Collaterals sucessfully updated";
  * @param $uuidsCSVFileName
  * @return array|null
  */
-function loadUUIDs($uuidsCSVFileName){
+function loadUUIDs($uuidsCSVFileName) {
     $retAry = array();
     $cntLn = 0;
     $i = 0;
@@ -100,50 +94,56 @@ function update2CompleteRegistration($uuidsAry){
     global $missingUUIDs;
 
     foreach($uuidsAry as $uuid) {
-        echo "Processing ".$uuid."\n";
+        echo "Processing ".$uuid.". ";
         // get docid
         $docId = getDocIdByUUID($uuid);
-        if ($docId != null)
+        if ($docId != null) {
+        	echo "UUID=".$uuid." OK.\n";
            updateCouchDoc($docId);
-        else{
-            echo "UUID= ".$uuid."Does not exist.\n";
+        } else{
+            echo "UUID=".$uuid." Not processed.\n";
             array_push($missingUUIDs, $uuid);
         }
     }
-
-
 }
 
 function getDocIdByUUID($uuid)
 {
     $docId = null;
     // DEV
-    //$req_url = 'http://54.204.20.212:5984/coconut/_design/coconut/_view/byUUIDRegWitCollaterals?key=%22'.$uuid.'%22';
+    $req_url = 'http://54.204.20.212:5984/coconut/_design/coconut/_view/byUUIDRegWitCollaterals?key=%22'.$uuid.'%22&include_docs=true';
 
     // PROD
-    $req_url = 'http://107.20.181.244:5984/coconut/_design/coconut/_view/byUUIDRegWitCollaterals?key=%22'.$uuid.'%22';
+//     $req_url = 'http://107.20.181.244:5984/coconut/_design/coconut/_view/byUUIDRegWitCollaterals?key=%22'.$uuid.'%22&include_docs=true';
 
     $request = new Http_Request($req_url); // Create request object
     $request->setMethod(Http_Request_Data::METHOD_GET);
     $request->setHeader('Content-Type', 'application/json');
-
     $response = $request->getResponse(); // Send request and get response object (method send() is called automatically in getResponse() when wasn't before)
-
     $str = $response->getBody(); // Get body of http response (__toString() is a alias of it)
-
-
     $str = str_replace(array("\n", "\r", "\t"), '', $str);
     $str = trim(str_replace("'", "\"", $str));
-
-
     $json = json_decode($str, true);
-
     $rows = $json['rows'];
+
+    if (count($rows) > 1) {
+    	echo  "Has more than one registration form. ";
+    	return  null;
+    }
+
+    // assume the first row is the registration
     if ( isset($rows[0]) && array_key_exists('id', $rows[0])) {
-        // assume the first row is the registration
+//     	var_dump($rows[0]);
+        if ($rows[0]['doc']['Estecolateralparticipante'] == 'Directo' || $rows[0]['doc']['Estecolateralparticipante'] == 'No' ) {
+			echo " Is already Direct. ";
+			return null;
+        }
         $docId = $rows[0]['id'];
     }
 
+    if ($docId == null) {
+    	echo " Not found. ";
+    }
     return $docId;
 }
 
@@ -171,8 +171,6 @@ function updateCouchDoc($docId){
 
     try {
         $doc = $client->getDoc($docId);
-
-
 
         $doc->lastModifiedAt = getCouchCurrentDate();
         $doc->system_updated_col = "true";
