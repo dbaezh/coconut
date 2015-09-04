@@ -52,9 +52,66 @@ function ajexit_form($form, &$form_state) {
 		return;
 	}
 
+	// Vertical tabs container
+	$form['group_tabs'] = array(
+		'#type'     => 'vertical_tabs',
+		'#attached' => array('library' => array(array('field_group', 'vertical_tabs'))), // Converts fieldsets into tabs
+	);
+
+	// Tab 1
+	$form['documentation'] = array(
+    	'#type'  => 'fieldset',
+    	'#title' => t('Documentación'),
+    	'#collapsible' => TRUE,
+    	'#collapsed' => FALSE,
+    	'#group' => 'group_tabs',
+	);
+
+	// Tab 2
+	$form['education'] = array(
+    	'#type'  => 'fieldset',
+    	'#title' => t('Eduación'),
+    	'#group' => 'group_tabs',
+	);
+
+	// Tab 3
+	$form['labor'] = array(
+    	'#type'  => 'fieldset',
+    	'#title' => t('Laboral'),
+    	'#group' => 'group_tabs',
+	);
+
+	// Tab 4
+	$form['programs'] = array(
+    	'#type'  => 'fieldset',
+    	'#title' => t('Programas'),
+    	'#group' => 'group_tabs',
+	);
+
+	// Tab 5
+	$form['violence'] = array(
+    	'#type'  => 'fieldset',
+    	'#title' => t('Crimen y Violencia'),
+    	'#group' => 'group_tabs',
+	);
+
+	// Tab 6
+	$form['sexual'] = array(
+    	'#type'  => 'fieldset',
+    	'#title' => t('Educación Sexual'),
+    	'#group' => 'group_tabs',
+	);
+
+	// Tab 7
+	$form['exit'] = array(
+    	'#type'  => 'fieldset',
+    	'#title' => t('Cierre'),
+    	'#group' => 'group_tabs',
+	);
+
 	$label = '<p>You are creating an Exit form for <b>'.$beneficiaryDetails.'</b></p>';
-	$form['welcome'] = array(
-	  '#markup' => $label
+	$form['doc']['welcome'] = array(
+	  '#markup' => $label,
 	);
 
 	$YesNoOptions = array(
@@ -62,11 +119,12 @@ function ajexit_form($form, &$form_state) {
 		2 => t('No'),
 	);
 
-	$form['9'] = array(
+	$form['documentation']['9'] = array(
 		'#type' => 'select',
 		'#title' => t('9. ¿Conseguiste tu acta de nacimiento luego de entrar a Alerta Joven?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#required' => TRUE,
+		'#group' => 'documentation',
 	);
 
 	$NineAOptions = array(
@@ -85,7 +143,7 @@ function ajexit_form($form, &$form_state) {
 		13 => t('Otro (favor especificar)'),
 	);
 
-	$form['9A'] = array(
+	$form['documentation']['9A'] = array(
 		'#type' => 'select',
 		'#title' => t('9A. Si no, ¿cuál es la razón principal por la que no tienes un acta? Marca sólo una opción.'),
 		'#options' => drupal_map_assoc($NineAOptions),
@@ -96,9 +154,10 @@ function ajexit_form($form, &$form_state) {
         		'select[name="9"]' => array('value' => 'No'),
       		),
     	),
+		'#group' => 'documentation',
 	);
 
-	$form['9AOtro'] = array(
+	$form['documentation']['9AOtro'] = array(
 		'#type' => 'textfield',
 		'#title' => t('9A.Otro (favor especificar).'),
 		'#required' => FALSE,
@@ -108,23 +167,26 @@ function ajexit_form($form, &$form_state) {
         		'select[name="9A"]' => array('value' => 'Otro (favor especificar)'),
       			),
     		),
+		'#group' => 'documentation',
 	);
 
-	$form['10'] = array(
+	$form['documentation']['10'] = array(
 		'#type' => 'select',
 		'#title' => t('10. ¿Tienes cédula?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#required' => TRUE,
+		'#group' => 'documentation',
 	);
 
-	$form['11'] = array(
+	$form['education']['11'] = array(
 		'#type' => 'select',
 		'#title' => t('11. ¿Estas actualmente asistiendo a una escuela o universidad?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#required' => TRUE,
+		'#group' => 'education',
 	);
 
-	$form['11A'] = array(
+	$form['education']['11A'] = array(
 		'#type' => 'textfield',
 		'#title' => t('11A. ¿Qué grado estás cursando actualmente?:'),
 		'#required' => FALSE,
@@ -134,6 +196,7 @@ function ajexit_form($form, &$form_state) {
         		'select[name="11"]' => array('value' => 'Sí'),
       			),
     		),
+		'#group' => 'education',
 	);
 
 	$ElevenB1Options = array(
@@ -142,7 +205,7 @@ function ajexit_form($form, &$form_state) {
 		3 => t('Más avanzado'),
 	);
 
-	$form['11B_1'] = array(
+	$form['education']['11B_1'] = array(
 		'#type' => 'select',
 		'#title' => t('11B.1 ¿Cuál nivel?:'),
 		'#options' => drupal_map_assoc($ElevenB1Options),
@@ -153,16 +216,18 @@ function ajexit_form($form, &$form_state) {
         		'select[name="11"]' => array('value' => 'Sí'),
       		),
     	),
+		'#group' => 'education',
 	);
 
-	$form['12'] = array(
+	$form['labor']['12'] = array(
 		'#type' => 'select',
 		'#title' => t('12. ¿Has completado algún curso técnico luego de entrar a Alerta Joven?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#required' => TRUE,
+		'#group' => 'labor',
 	);
 
-	$form['12A'] = array(
+	$form['labor']['12A'] = array(
 		'#type' => 'textfield',
 		'#title' => t('12A. Si la respuesta es afirmativa, ¿cuáles cursos?'),
 		'#required' => FALSE,
@@ -172,16 +237,18 @@ function ajexit_form($form, &$form_state) {
         		'select[name="12"]' => array('value' => 'Sí'),
       			),
     	),
+		'#group' => 'labor',
 	);
 
-	$form['13'] = array(
+	$form['labor']['13'] = array(
 		'#type' => 'select',
 		'#title' => t('13. ¿Actualmente tienes un trabajo en que te paguen?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#required' => TRUE,
+		'#group' => 'labor',
 	);
 
-	$form['13A'] = array(
+	$form['labor']['13A'] = array(
 		'#type' => 'date',
 		'#title' => t('13A. ¿Cuándo empezaste en este trabajo?'),
 		'#required' => FALSE,
@@ -192,6 +259,7 @@ function ajexit_form($form, &$form_state) {
         		'select[name="13"]' => array('value' => 'Sí'),
       		),
     	),
+		'#group' => 'labor',
 	);
 
 	$ThirteenBOptions = array(
@@ -200,7 +268,7 @@ function ajexit_form($form, &$form_state) {
 		3 => t('ESTE ES MI PRIMER TRABAJO'),
 	);
 
-	$form['13B'] = array(
+	$form['labor']['13B'] = array(
 		'#type' => 'select',
 		'#title' => t('13B. ¿Estás en un mejor trabajo o empleo que el anterior?'),
 		'#options' => drupal_map_assoc($ThirteenBOptions),
@@ -211,6 +279,7 @@ function ajexit_form($form, &$form_state) {
         		'select[name="13"]' => array('value' => 'Sí'),
       		),
     	),
+		'#group' => 'labor',
 	);
 
 	$FourteenOptions = array(
@@ -236,25 +305,25 @@ function ajexit_form($form, &$form_state) {
 		20 => t('Incidencia en Políticas Públicas'),
 	);
 
-	$form['14A'] = array(
+	$form['programs']['14A'] = array(
 		'#type' => 'checkboxes',
 		'#title' => t('14. ¿Has --PARTICIPADO-- en algún o algunos de estos programas estando en Alerta Joven? Marca todas las que apliquen.'),
 		'#options' => $FourteenOptions,
 		'#required' => TRUE,
 	);
 
-	$form['14B'] = array(
+	$form['programs']['14B'] = array(
 		'#type' => 'checkboxes',
 		'#title' => t('14. ¿Has --COMPLETADO-- en algún o algunos de estos programas estando en Alerta Joven? Marca todas las que apliquen.'),
 		'#options' => $FourteenOptions,
 		'#required' => TRUE,
 	);
 
-	$form['15'] = array(
+	$form['violence']['15'] = array(
 	  '#markup' => '<p><b>15. Desde que empezaste en Alerta Joven, hasta la fecha:</b></p>'
 	);
 
-	$form['15A'] = array(
+	$form['violence']['15A'] = array(
 		'#type' => 'textfield',
 		'#title' => t('15A. ¿Cuántas veces has sido transportado por la policía?'),
 		'#maxlength' => 4,
@@ -262,7 +331,7 @@ function ajexit_form($form, &$form_state) {
 		'#required' => TRUE,
 	);
 
-	$form['15B'] = array(
+	$form['violence']['15B'] = array(
 		'#type' => 'textfield',
 		'#title' => t('15B. ¿Cuántas veces has sido arrestado por la policía?'),
 		'#maxlength' => 4,
@@ -270,7 +339,7 @@ function ajexit_form($form, &$form_state) {
 		'#required' => TRUE,
 	);
 
-	$form['15C'] = array(
+	$form['violence']['15C'] = array(
 		'#type' => 'textfield',
 		'#title' => t('15C. ¿Cuántas veces has sido acusado de cometer algún delito en la fiscalía o policía?'),
 		'#maxlength' => 4,
@@ -278,7 +347,7 @@ function ajexit_form($form, &$form_state) {
 		'#required' => TRUE,
 	);
 
-	$form['15D'] = array(
+	$form['violence']['15D'] = array(
 		'#type' => 'textfield',
 		'#title' => t('15D. ¿Cuántas veces has sido enviado a un centro de atención integral?'),
 		'#maxlength' => 4,
@@ -299,7 +368,7 @@ function ajexit_form($form, &$form_state) {
 		10 => t('10'),
 	);
 
-	$form['16'] = array(
+	$form['violence']['16'] = array(
 		'#type' => 'select',
 		'#title' => t('16. ¿En qué medida tu vida ha sido afectada por la delincuencia? '),
 		'#description' => t('En una puntuación de 1 al 10, donde 1 es NINGUN IMPACTO Y 10 es IMPACTO TOTAL'),
@@ -307,14 +376,14 @@ function ajexit_form($form, &$form_state) {
 		'#required' => TRUE,
 	);
 
-	$form['17'] = array(
+	$form['sexual']['17'] = array(
 		'#type' => 'select',
 		'#title' => t('17. ¿Alguna vez has tenido relaciones sexuales?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#required' => TRUE,
 	);
 
-	$form['18'] = array(
+	$form['sexual']['18'] = array(
 		'#type' => 'select',
 		'#title' => t('18. La última vez que tuviste relaciones sexuales, ¿tú o tu compañero/a utilizó condón? '),
 		'#options' => drupal_map_assoc($YesNoOptions),
@@ -344,7 +413,7 @@ function ajexit_form($form, &$form_state) {
 		14 => t('No sé/Inseguro'),
 	);
 
-	$form['19'] = array(
+	$form['sexual']['19'] = array(
 		'#type' => 'radios',
 		'#title' => t('19. La última vez que tuviste relaciones sexuales, ¿cuál método usaste o tu compañero/a para prevenir el embarazo?'),
 		'#options' => drupal_map_assoc($NineteenOptions),
@@ -357,7 +426,7 @@ function ajexit_form($form, &$form_state) {
     	),
 	);
 
-	$form['19Otro'] = array(
+	$form['sexual']['19Otro'] = array(
 		'#type' => 'textfield',
 		'#title' => t('19.Otro (favor especificar).'),
 		'#required' => FALSE,
@@ -369,21 +438,21 @@ function ajexit_form($form, &$form_state) {
     	),
 	);
 
-	$form['20'] = array(
+	$form['sexual']['20'] = array(
 		'#type' => 'select',
 		'#title' => t('20. Si quisieras comprar un condón, ¿crees que podrías encontrarlo?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#required' => TRUE,
 	);
 
-	$form['21'] = array(
+	$form['sexual']['21'] = array(
 		'#type' => 'select',
 		'#title' => t('21. Si quisieras tener sexo, ¿crees que serías capaz de convencer a tu pareja que use un condón en caso que él/ella no quiera?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#required' => TRUE,
 	);
 
-	$form['22'] = array(
+	$form['exit']['22'] = array(
 		'#type' => 'date',
 		'#title' => t('22. Fecha de Revisión:'),
 		'#default_value' =>	array('year' => 2005, 'month' => null, 'day' => null),
@@ -402,14 +471,14 @@ function ajexit_form($form, &$form_state) {
 		9 => t('Otro (favor especificar)'),
 	);
 
-	$form['23'] = array(
+	$form['exit']['23'] = array(
 		'#type' => 'radios',
 		'#title' => t('23. Estatus de Salida. Selecciona la situación en que se encuentra el participante:'),
 		'#options' => drupal_map_assoc($TwentythirdOptions),
 		'#required' => TRUE,
 	);
 
-	$form['23Otro'] = array(
+	$form['exit']['23Otro'] = array(
 		'#type' => 'textfield',
 		'#title' => t('23.Otro (favor especificar).'),
 		'#required' => FALSE,
@@ -421,13 +490,13 @@ function ajexit_form($form, &$form_state) {
     	),
 	);
 
-	$form['24'] = array(
+	$form['exit']['24'] = array(
 		'#type' => 'textarea',
 		'#title' => t('24. Comentarios:'),
 		'#required' => FALSE,
 	);
 
-	$form['submit'] = array(
+	$form['exit']['submit'] = array(
 		'#type' => 'submit',
 		'#value' => t('Submit'),
 		'#weight' => 100,
@@ -451,7 +520,7 @@ function ajexit_form_submit($form, &$form_state) {
 	$beneficiaryDetails = $beneficiary['nombre'].' '.$beneficiary['apellido'].' ('.$uuid.')';
 
  	$_22 = $form_state['values']['22'];
-    $_22_date = $_22['year'].'-'. (count($_22['month']) === 1? '0'.$_22['month']:$_22['month']).'-'.$_22['day'];
+    $_22_date = $_22['year'].'-'. (strlen($_22['month']) === 1? '0'.$_22['month']:$_22['month']).'-'.$_22['day'];
 
 	_ajexit_insert_data(
 			$form_state['values']['9'],
@@ -517,7 +586,7 @@ function ajexit_form_submit($form, &$form_state) {
     $_12A = $form_state['values']['12A'];
  	$_13 = $form_state['values']['13'];
     $_13A = $form_state['values']['13A'];
-    $_13A_date = $_13A['year'].'-'. (count($_13A['month']) === 1? '0'.$_13A['month']:$_13A['month']).'-'.$_13A['day'];
+    $_13A_date = $_13A['year'].'-'. (strlen($_13A['month']) === 1? '0'.$_13A['month']:$_13A['month']).'-'.$_13A['day'];
     $_13B = $form_state['values']['13B'];
  	$_15A = $form_state['values']['15A'];
  	$_15B = $form_state['values']['15B'];
@@ -528,7 +597,7 @@ function ajexit_form_submit($form, &$form_state) {
  	$_19 = $form_state['values']['19'];
  	$_19Otro = $form_state['values']['19Otro'];
  	$_22 = $form_state['values']['22'];
-    $_22_date = $_22['year'].'-'. (count($_22['month']) === 1? '0'.$_22['month']:$_22['month']).'-'.$_22['day'];
+    $_22_date = $_22['year'].'-'. (strlen($_22['month']) === 1? '0'.$_22['month']:$_22['month']).'-'.$_22['day'];
  	$_23 = $form_state['values']['23'];
  	$_23Otro = $form_state['values']['23Otro'];
 
@@ -537,10 +606,10 @@ function ajexit_form_submit($form, &$form_state) {
 	// QUESTION 9A AND 9AOtros --------------------------------------------------------------
 	if($_9 === 'No') {
 	 	if (empty($_9A)) {
-			form_error($form['9A'], t('9A. Si no, ¿cuál es la razón principal por la que no tienes un acta? Marca sólo una opción: Campo requerido'));
+			form_error($form['documentation']['9A'], t('9A. Si no, ¿cuál es la razón principal por la que no tienes un acta? Marca sólo una opción: Campo requerido'));
 		} else if ($_9A === 'Otro (favor especificar)') {
 			if (empty($_9AOtro)) {
-				form_error($form['9AOtro'], t('9A.Otro (favor especificar): Campo requerido'));
+				form_error($form['documentation']['9AOtro'], t('9A.Otro (favor especificar): Campo requerido'));
 			}
 		}
 	}
@@ -548,17 +617,17 @@ function ajexit_form_submit($form, &$form_state) {
 	// QUESTION 11A and 11B.1 --------------------------------------------------------------
 	if ($_11 === 'Sí') {
 		if (empty($_11A)) {
-			form_error($form['11A'], t('11A. ¿Qué grado estás cursando actualmente?: Campo requerido'));
+			form_error($form['education']['11A'], t('11A. ¿Qué grado estás cursando actualmente?: Campo requerido'));
 		}
 		if (empty($_11B_1)) {
-			form_error($form['11B_1'], t('11B.1 ¿Cuál nivel?: Campo requerido'));
+			form_error($form['education']['11B_1'], t('11B.1 ¿Cuál nivel?: Campo requerido'));
 		}
 	}
 
 	// QUESTION 12A -------------------------------------------------------------------------------------
 	if ($_12 === 'Sí') {
 		if (empty($_12A)) {
-			form_error($form['12A'], t('12A. Si la respuesta es afirmativa, ¿cuáles cursos?: Campo requerido'));
+			form_error($form['labor']['12A'], t('12A. Si la respuesta es afirmativa, ¿cuáles cursos?: Campo requerido'));
 		}
 	}
 
@@ -566,46 +635,46 @@ function ajexit_form_submit($form, &$form_state) {
 	if ($_13 === 'Sí') {
 		// Check if the date is empty
  		if (empty($_13A_date)) {
-			form_error($form['13A'], t('13A. ¿Cuándo empezaste en este trabajo?: Estos campos son requeridos'));
+			form_error($form['labor']['13A'], t('13A. ¿Cuándo empezaste en este trabajo?: Estos campos son requeridos'));
 		}
 		// Check if date is no later than today
 		if (is_string($_13A_date) && strncmp($_13A_date, $now, 10) > 0 ) {
-			form_error($form['13A'], t('13A. ¿Cuándo empezaste en este trabajo?: Fecha no puede ser después del día de hoy'));
+			form_error($form['labor']['13A'], t('13A. ¿Cuándo empezaste en este trabajo?: Fecha no puede ser después del día de hoy'));
 		}
  		// Check if the date is valid and has the right format
 		if (is_string($_13A_date) && strtotime($_13A_date) === FALSE || ((int)$_13A['year']) < 1991) {
-			form_error($form['13A'], t('13A. ¿Cuándo empezaste en este trabajo?: Fecha no válida'));
+			form_error($form['labor']['13A'], t('13A. ¿Cuándo empezaste en este trabajo?: Fecha no válida'));
 		}
 		if (empty($_13B)) {
-			form_error($form['13B'], t('13B. ¿Estás en un mejor trabajo o empleo que el anterior?: Campo requerido'));
+			form_error($form['labor']['13B'], t('13B. ¿Estás en un mejor trabajo o empleo que el anterior?: Campo requerido'));
 		}
 	}
 
 	// QUESTION 15A, 15B, 15C, 15D -------------------------------------------------------------------------------------
 	if (!empty($_15A) && !is_numeric($_15A)) {
-		form_error($form['15A'], t('15A. ¿Cuántas veces has sido transportado por la policía?: Debe ser un valor numérico'));
+		form_error($form['violence']['15A'], t('15A. ¿Cuántas veces has sido transportado por la policía?: Debe ser un valor numérico'));
 	}
  	if (!empty($_15B) && !is_numeric($_15B)) {
-		form_error($form['15B'], t('15B. ¿Cuántas veces has sido arrestado por la policía?:  Debe ser un valor numérico'));
+		form_error($form['violence']['15B'], t('15B. ¿Cuántas veces has sido arrestado por la policía?:  Debe ser un valor numérico'));
 	}
  	if (!empty($_15C) && !is_numeric($_15C)) {
-		form_error($form['15C'], t('15C. ¿Cuántas veces has sido acusado de cometer algún delito en la fiscalía o policía?: Debe ser un valor numérico'));
+		form_error($form['violence']['15C'], t('15C. ¿Cuántas veces has sido acusado de cometer algún delito en la fiscalía o policía?: Debe ser un valor numérico'));
 	}
  	if (!empty($_15D) && !is_numeric($_15D)) {
-		form_error($form['15D'], t('15D. ¿Cuántas veces has sido enviado a un centro de atención integral?: Debe ser un valor numérico'));
+		form_error($form['violence']['15D'], t('15D. ¿Cuántas veces has sido enviado a un centro de atención integral?: Debe ser un valor numérico'));
 	}
 
 
 	// QUESTION 18 and 19 and 19Otro -------------------------------------------------------------------------------------
 	if ($_17 === 'Sí') {
 		if (empty($_18)) {
-			form_error($form['18'], t('18. La última vez que tuviste relaciones sexuales, ¿tú o tu compañero/a utilizó condón?: Campo requerido'));
+			form_error($form['sexual']['18'], t('18. La última vez que tuviste relaciones sexuales, ¿tú o tu compañero/a utilizó condón?: Campo requerido'));
 		}
 		if (empty($_19)) {
-			form_error($form['19'], t('19. La última vez que tuviste relaciones sexuales, ¿cuál método usaste o tu compañero/a para prevenir el embarazo?: Campo requerido'));
+			form_error($form['sexual']['19'], t('19. La última vez que tuviste relaciones sexuales, ¿cuál método usaste o tu compañero/a para prevenir el embarazo?: Campo requerido'));
 		} else if ($_19 === 'Otro (favor especificar)') {
 			if (empty($_19Otro)) {
-				form_error($form['19Otro'], t('19.Otro (favor especificar): Campo requerido'));
+				form_error($form['sexual']['19Otro'], t('19.Otro (favor especificar): Campo requerido'));
 			}
 		}
 	}
@@ -613,21 +682,22 @@ function ajexit_form_submit($form, &$form_state) {
 	// QUESTION 22 --------------------------------------------------------------
  	// Check if the date is empty
  	if (empty($_22_date)) {
-		form_error($form['22'], t('22. Fecha de Revisión: Estos campo son requeridos'));
+		form_error($form['exit']['22'], t('22. Fecha de Revisión: Estos campo son requeridos'));
 	}
 	// 	Check if date is no later than today
 	if (is_string($_22_date) && strncmp($_22_date, $now, 10) > 0  ) {
-		form_error($form['22'], t('22. Fecha de Revisión: Esta fecha no puede ser después del día de hoy'));
+		form_error($form['exit']['22'], t('22. Fecha de Revisión: Esta fecha no puede ser después del día de hoy'));
 	}
  	// Check if the date is valid and has the right format
+ 	watchdog('claduia', strlen($_22['month']) );
 	if (is_string($_22_date) && strtotime($_22_date) === FALSE || ((int)$_22['year']) < 2012) {
-		form_error($form['22'], t('22. Fecha de Revisión: Esta fecha no es válida'));
+		form_error($form['exit']['22'], t('22. Fecha de Revisión: Esta fecha no es válida'));
 	}
 
 	// QUESTION 23Otro --------------------------------------------------------------
 	if ($_23 === 'Otro (favor especificar)') {
 		if (empty($_23Otro)) {
-				form_error($form['23Otro'], t('23.Otro (favor especificar): Campo requerido'));
+				form_error($form['exit']['23Otro'], t('23.Otro (favor especificar): Campo requerido'));
 		}
 	}
  }
@@ -758,8 +828,6 @@ function _ajexit_insert_data(
 			$exit_programs_entry->execute();
 		}
 	}
-
-
 }
 
 

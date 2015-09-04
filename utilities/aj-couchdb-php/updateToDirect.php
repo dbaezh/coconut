@@ -15,10 +15,10 @@ spl_autoload_register('autoLoader');
 
 
 /****** PRODUCTION **************/
-// $couch_dsn = "http://107.20.181.244:5984/";
+$couch_dsn = "http://107.20.181.244:5984/";
 
 /****** DEVELOPMENT *****************/
-$couch_dsn = "http://54.204.20.212:5984/";
+// $couch_dsn = "http://54.204.20.212:5984/";
 
 date_default_timezone_set("America/Santo_Domingo");
 $couch_db = "coconut";
@@ -30,10 +30,10 @@ require_once "./lib/couchDocument.php";
 // open client connection with couchDB
 $client = new couchClient($couch_dsn,$couch_db);
 
-$uuidsCSVFileName = 'input/Indirect_to_Direct_MOSCTHA_Sept_1st_2015.csv';
+$uuidsCSVFileName = 'input/Indirect_to_Direct_CSA_Sept_4th_2015.csv';
 
-$outputCSVFileName = 'output/Indirect_to_Direct_MOSCTHA_Sept_1st_2015_UPDATED.csv';
-$outputCSVFileNameMissing = 'output/Indirect_to_Direct_MOSCTHA_Sept_1st_2015_ERROR.csv';
+$outputCSVFileName = 'output/Indirect_to_Direct_CSA_Sept_4th_2015_UPDATED.csv';
+$outputCSVFileNameMissing = 'output/Indirect_to_Direct_CSA_Sept_4th_2015_ERROR.csv';
 
 $uuidsAry = loadUUIDs($uuidsCSVFileName);
 
@@ -111,10 +111,10 @@ function getDocIdByUUID($uuid)
 {
     $docId = null;
     // DEV
-    $req_url = 'http://54.204.20.212:5984/coconut/_design/coconut/_view/byUUIDRegWitCollaterals?key=%22'.$uuid.'%22&include_docs=true';
+//     $req_url = 'http://54.204.20.212:5984/coconut/_design/coconut/_view/byUUIDRegWitCollaterals?key=%22'.$uuid.'%22&include_docs=true';
 
     // PROD
-//     $req_url = 'http://107.20.181.244:5984/coconut/_design/coconut/_view/byUUIDRegWitCollaterals?key=%22'.$uuid.'%22&include_docs=true';
+    $req_url = 'http://107.20.181.244:5984/coconut/_design/coconut/_view/byUUIDRegWitCollaterals?key=%22'.$uuid.'%22&include_docs=true';
 
     $request = new Http_Request($req_url); // Create request object
     $request->setMethod(Http_Request_Data::METHOD_GET);
