@@ -71,7 +71,7 @@ function ajexitactivities_form($form, &$form_state) {
 		}
 	}
 
-		$form['activity_name_prefix'] = array(
+	$form['activity_name_prefix'] = array(
 			'#type' => 'select',
 			'#title' => t('Exit activity type: '),
 			'#description' => t('Indicate the exit activity type here'),
