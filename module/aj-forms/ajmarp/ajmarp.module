@@ -176,7 +176,6 @@ function _ajmarp_insert_data(
 		'created' => $currentDate,
 	);
 
-	watchdog('claudia', implode(",", $marp_category));
 	foreach ($marp_category as $category){
 		switch ($category) {
 			case 1:
@@ -190,7 +189,6 @@ function _ajmarp_insert_data(
 				break;
 		}
 	}
-	watchdog('claudia', implode(",", $tableFields));
 
 	$marp_entry = db_insert('aj_marp')
 	->fields($tableFields);
