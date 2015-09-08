@@ -55,8 +55,8 @@ function ajmarp_form($form, &$form_state) {
 
 	$radioOptions = array(
 			1 => t('Hombres que tienen sexo con Hombres'),
-			2 => t('Los trabajadores del sexo'),
-			3 => t('Usuarios de drogas intravenosas')
+			2 => t('Los/as trabajadores/as del sexo'),
+			3 => t('Usuarios/as de drogas intravenosas')
 			);
 
 	$form['some_text'] = array(
@@ -64,7 +64,7 @@ function ajmarp_form($form, &$form_state) {
 	);
 
 	$form['marp_category'] = array(
-			'#type' => 'radios',
+			'#type' => 'checkboxes',
 			'#title' => t('MARP Category: '),
 			'#description' => t('Indicate the MARP Category'),
 			'#options' => $radioOptions,
@@ -176,17 +176,22 @@ function _ajmarp_insert_data(
 		'created' => $currentDate,
 	);
 
-	switch($marp_category){
-		case 1:
-			$tableFields['Hombresquetienensexoconhombres'] = 'true';
-			break;
-		case 2:
-			$tableFields['Lostrabajadoresdelsexo'] =  'true';
-			break;
-		case 3:
-			$tableFields['Usuariosdedrogasintravenosas' ] =  'true';
-			break;
+	watchdog('claudia', implode(",", $marp_category));
+	foreach ($marp_category as $category){
+		switch ($category) {
+			case 1:
+				$tableFields['Hombresquetienensexoconhombres'] = 'true';
+				break;
+			case 2:
+				$tableFields['Lostrabajadoresdelsexo'] =  'true';
+				break;
+			case 3:
+				$tableFields['Usuariosdedrogasintravenosas' ] =  'true';
+				break;
+		}
 	}
+	watchdog('claudia', implode(",", $tableFields));
+
 	$marp_entry = db_insert('aj_marp')
 	->fields($tableFields);
 	$marp_entry->execute();
