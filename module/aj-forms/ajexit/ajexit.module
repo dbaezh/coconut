@@ -520,7 +520,7 @@ function ajexit_form_submit($form, &$form_state) {
 	$beneficiaryDetails = $beneficiary['nombre'].' '.$beneficiary['apellido'].' ('.$uuid.')';
 
  	$_22 = $form_state['values']['22'];
-    $_22_date = $_22['year'].'-'. (strlen($_22['month']) === 1? '0'.$_22['month']:$_22['month']).'-'.$_22['day'];
+    $_22_date = $_22['year'].'-'. (strlen($_22['month']) === 1? '0'.$_22['month']:$_22['month']).'-'.(strlen($_22['day']) === 1? '0'.$_22['day']:$_22['day']);
 
 	_ajexit_insert_data(
 			$form_state['values']['9'],
@@ -586,7 +586,7 @@ function ajexit_form_submit($form, &$form_state) {
     $_12A = $form_state['values']['12A'];
  	$_13 = $form_state['values']['13'];
     $_13A = $form_state['values']['13A'];
-    $_13A_date = $_13A['year'].'-'. (strlen($_13A['month']) === 1? '0'.$_13A['month']:$_13A['month']).'-'.$_13A['day'];
+    $_13A_date = $_13A['year'].'-'. (strlen($_13A['month']) === 1? '0'.$_13A['month']:$_13A['month']).'-'.(strlen($_13A['day']) === 1? '0'.$_13A['day']:$_13A['day']);
     $_13B = $form_state['values']['13B'];
  	$_15A = $form_state['values']['15A'];
  	$_15B = $form_state['values']['15B'];
@@ -597,7 +597,7 @@ function ajexit_form_submit($form, &$form_state) {
  	$_19 = $form_state['values']['19'];
  	$_19Otro = $form_state['values']['19Otro'];
  	$_22 = $form_state['values']['22'];
-    $_22_date = $_22['year'].'-'. (strlen($_22['month']) === 1? '0'.$_22['month']:$_22['month']).'-'.$_22['day'];
+    $_22_date = $_22['year'].'-'. (strlen($_22['month']) === 1? '0'.$_22['month']:$_22['month']).'-'.(strlen($_22['day']) === 1? '0'.$_22['day']:$_22['day']);
  	$_23 = $form_state['values']['23'];
  	$_23Otro = $form_state['values']['23Otro'];
 
@@ -811,7 +811,6 @@ function _ajexit_insert_data(
 	foreach ($_14A as $programParticipation) {
 		if ($programParticipation !== 0) {
 			$tableFieldsPrograms['program_id'] = $programParticipation;
-// 			watchdog('claudia', implode(",", $tableFieldsPrograms));
 			$exit_programs_entry = db_insert('aj_exit_programs')
 			->fields($tableFieldsPrograms);
 			$exit_programs_entry->execute();
@@ -822,7 +821,6 @@ function _ajexit_insert_data(
 	foreach ($_14B as $programCompleted) {
 		if ($programCompleted !== 0) {
 			$tableFieldsPrograms['program_id'] = $programCompleted;
-// 			watchdog('claudia', implode(",", $tableFieldsPrograms));
 			$exit_programs_entry = db_insert('aj_exit_programs')
 			->fields($tableFieldsPrograms);
 			$exit_programs_entry->execute();
