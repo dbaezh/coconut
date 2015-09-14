@@ -83,8 +83,17 @@ function ajregistration_form($form, &$form_state) {
 	$form['1C'] = array(
 		'#type' => 'select',
 		'#title' => t('1. ¿Tienes Apodo? '),
+		'#empty_option' => t('- Select -'),
 		'#options' => drupal_map_assoc($YesNoOptions),
-		'#required' => TRUE,
+		'#required' => false,
+		'#states' => array(
+      		'visible' => array(
+        		'select[name="beneficiary_type"]' => array('value' => 'No'),
+      		),
+			'required' => array (
+      			'select[name="beneficiary_type"]' => array('value' => 'No'),
+			)
+    	),
 	);
 
 	$form['1C_A'] = array(
@@ -95,7 +104,11 @@ function ajregistration_form($form, &$form_state) {
 		'#states' => array(
       		'visible' => array(
         		'select[name="1C"]' => array('value' => 'Sí' ),
+      			'select[name="beneficiary_type"]' => array('value' => 'No'),
       			),
+			'required' => array (
+      			'select[name="beneficiary_type"]' => array('value' => 'No'),
+			)
     	),
 	);
 
@@ -898,15 +911,32 @@ function ajregistration_form($form, &$form_state) {
 	$form['2A'] = array(
 		'#type' => 'textfield',
 		'#title' => t('2. Calle y Número:'),
-		'#required' => true,
+		'#required' => false,
 		'#maxlength' => 70,
+		'#states' => array(
+			'visible' => array (
+      			'select[name="beneficiary_type"]' => array('value' => 'No'),
+			),
+			'required' => array (
+      			'select[name="beneficiary_type"]' => array('value' => 'No'),
+			)
+		)
 	);
 
 	$form['3'] = array(
 		'#type' => 'date',
 		'#title' => t('3. Fecha de nacimiento:'),
-		'#required' => true,
+		'#required' => false,
+		'#empty_option' => t('- Select -'),
 		'#default_value' =>	array('year' => 1980, 'month' => null, 'day' => null),
+		'#states' => array(
+			'visible' => array (
+      			'select[name="beneficiary_type"]' => array('value' => 'No'),
+			),
+			'required' => array (
+      			'select[name="beneficiary_type"]' => array('value' => 'No'),
+			)
+		)
 	);
 
 	$ForthOptions = array(
@@ -984,7 +1014,16 @@ function ajregistration_form($form, &$form_state) {
 		'#type' => 'select',
 		'#title' => t('7. ¿Tienes Usuario de Facebook? '),
 		'#options' => drupal_map_assoc($YesNoOptions),
-		'#required' => TRUE,
+		'#required' => FALSE,
+		'#empty_option' => t('- Select -'),
+		'#states' => array(
+			'visible' => array (
+      			'select[name="beneficiary_type"]' => array('value' => 'No'),
+			),
+			'required' => array (
+      			'select[name="beneficiary_type"]' => array('value' => 'No'),
+			)
+		)
 	);
 
 	$form['7A'] = array(
@@ -995,7 +1034,11 @@ function ajregistration_form($form, &$form_state) {
 		'#states' => array(
       		'visible' => array(
         		'select[name="7"]' => array('value' => 'Sí'),
+      			'select[name="beneficiary_type"]' => array('value' => 'No'),
       			),
+			'required' => array (
+      			'select[name="beneficiary_type"]' => array('value' => 'No'),
+			)
     		),
 	);
 
@@ -1182,6 +1225,7 @@ function ajregistration_form_submit($form, &$form_state) {
  */
  function ajregistration_form_validate($form, &$form_state) {
 
+ 	$_beneType = $form_state['values']['beneficiary_type'];
  	$_regDate = $form_state['values']['registration_date'];
     $_regDateString = $_regDate['year'].'-'. (strlen($_regDate['month']) === 1? '0'.$_regDate['month']:$_regDate['month']).'-'.(strlen($_regDate['day']) === 1? '0'.$_regDate['day']:$_regDate['day']);
     $_1A = $form_state['values']['1A'];
@@ -1208,7 +1252,7 @@ function ajregistration_form_submit($form, &$form_state) {
 	$now = date('Y-m-d', time());
 	$phoneNumberPattern = '/^\(?(809|849|829)\)?([ .-]?)([0-9]{3})\2([0-9]{4})$/'; // [0-9]{3}
 	$emailPattern = '/^(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?)){255,})(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?)){65,}@)(?:(?:[\x21\x23-\x27\x2A\x2B\x2D\x2F-\x39\x3D\x3F\x5E-\x7E]+)|(?:\x22(?:[\x01-\x08\x0B\x0C\x0E-\x1F\x21\x23-\x5B\x5D-\x7F]|(?:\x5C[\x00-\x7F]))*\x22))(?:\.(?:(?:[\x21\x23-\x27\x2A\x2B\x2D\x2F-\x39\x3D\x3F\x5E-\x7E]+)|(?:\x22(?:[\x01-\x08\x0B\x0C\x0E-\x1F\x21\x23-\x5B\x5D-\x7F]|(?:\x5C[\x00-\x7F]))*\x22)))*@(?:(?:(?!.*[^.]{64,})(?:(?:(?:xn--)?[a-z0-9]+(?:-[a-z0-9]+)*\.){1,126}){1,}(?:(?:[a-z][a-z0-9]*)|(?:(?:xn--)[a-z0-9]+))(?:-[a-z0-9]+)*)|(?:\[(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){7})|(?:(?!(?:.*[a-f0-9][:\]]){7,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?)))|(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){5}:)|(?:(?!(?:.*[a-f0-9]:){5,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3}:)?)))?(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))(?:\.(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))){3}))\]))$/iD';
-	$alphabethicDashPAtter = '/^[A-Za-z]{2}[- A-Za-z]+$/';
+	$alphabethicDashPattern = '/^[A-Za-z]{2}[- A-Za-z]+$/';
 
  	// QUESTION registration_date -------------------------------------------------------------------------------------
 	// Check if the date is empty
@@ -1225,31 +1269,41 @@ function ajregistration_form_submit($form, &$form_state) {
 	}
 
    	// QUESTION 1A --------------------------------------------------------------
-	if (!preg_match($alphabethicDashPAtter, $_1A) || preg_match($alphabethicDashPAtter, $_1A) == 0) {
+	if (!preg_match($alphabethicDashPattern, $_1A) || preg_match($alphabethicDashPattern, $_1A) == 0) {
 		form_error($form['1A'], t('1. Nombre: Nombre no válido'));
 	}
 
     // QUESTION 1B --------------------------------------------------------------
-	if (!preg_match($alphabethicDashPAtter, $_1B) || preg_match($alphabethicDashPAtter, $_1B) == 0) {
+	if (!preg_match($alphabethicDashPattern, $_1B) || preg_match($alphabethicDashPattern, $_1B) == 0) {
 		form_error($form['1B'], t('1. Apellido: Apellido no válido'));
 	}
 
+    // QUESTION 1C -------------------------------------------------------------------------------------
+ 	if ($_beneType === 'No' && empty($_1C)) {
+		form_error($form['1C'], t('1. Apodo: Campo obligatorio'));
+	}
+
     // QUESTION 1C_A --------------------------------------------------------------
-	if($_1C === 'Sí') {
+	if($_1C === 'Sí' && $_beneType === 'No') {
 	 	if (empty($_1C_A)) {
 			form_error($form['1C_A'], t('1. Apodo: Campo obligatorio'));
-		} else if (!preg_match($alphabethicDashPAtter, $_1C_A) || preg_match($alphabethicDashPAtter, $_1C_A) == 0) {
+		} else if (!preg_match($alphabethicDashPattern, $_1C_A) || preg_match($alphabethicDashPattern, $_1C_A) == 0) {
 			form_error($form['1C_A'], t('1. Apodo: Apodo no válido'));
 		}
 	}
 
+   	// QUESTION 2A -------------------------------------------------------------------------------------
+ 	if ($_beneType === 'No' && empty($_2A)) {
+		form_error($form['2A'], t('2. Calle y Número: campo requerido'));
+	}
+
   	// QUESTION 3 -------------------------------------------------------------------------------------
 	// Check if the date is empty
- 	if (empty($_3date)) {
+ 	if (empty($_3date) && $_beneType === 'No') {
 		form_error($form['3'], t('3. Fecha de Nacimiento: Estos campos son requeridos'));
 	}
  	// Check if the date is valid and has the right format
-	if (is_string($_3date) && strtotime($_3date) === FALSE || !_ajregistration_between11And21($_3date)) {
+	if (is_string($_3date) && strtotime($_3date) === FALSE && $_beneType === 'No' || (!_ajregistration_between11And21($_3date) && $_beneType === 'No')) {
 		form_error($form['3'], t('3. Fecha de Nacimiento: Fecha no válida. Edad debe ser entre 11 y 21 años'));
 	}
 
@@ -1280,20 +1334,25 @@ function ajregistration_form_submit($form, &$form_state) {
 		}
 	}
 
-   	// QUESTION 7 --------------------------------------------------------------
-	if($_7 === 'Sí') {
+    // QUESTION 7 --------------------------------------------------------------
+	if($_beneType === 'No' && empty($_7)) {
+			form_error($form['7'], t('7.  Usuario de Facebook: Campo obligatorio'));
+	}
+
+   	// QUESTION 7A --------------------------------------------------------------
+	if($_7 === 'Sí' && $_beneType === 'No') {
 	 	if (empty($_7A)) {
-			form_error($form['7A'], t('7.  Usuario de Facebook: Campo obligatorio'));
+			form_error($form['7A'], t('7. Usuario de Facebook: Campo obligatorio'));
 		}
 	}
 
     // QUESTION 8A --------------------------------------------------------------
-	if (!empty($_8A) && (!preg_match($alphabethicDashPAtter, $_8A) || preg_match($alphabethicDashPAtter, $_8A) == 0)) {
+	if (!empty($_8A) && (!preg_match($alphabethicDashPattern, $_8A) || preg_match($alphabethicDashPattern, $_8A) == 0)) {
 		form_error($form['8A'], t('8. Nombre de la persona de contacto:'));
 	}
 
     // QUESTION 8B --------------------------------------------------------------
-	if (!empty($_8B) && (!preg_match($alphabethicDashPAtter, $_8B) || preg_match($alphabethicDashPAtter, $_8B) == 0)) {
+	if (!empty($_8B) && (!preg_match($alphabethicDashPattern, $_8B) || preg_match($alphabethicDashPattern, $_8B) == 0)) {
 		form_error($form['8B'], t('8. Parentesco o persona relacionada:'));
 	}
 
@@ -1441,7 +1500,6 @@ function ajregistration_form_submit($form, &$form_state) {
 				break;
 		}
  }
-
 
  /**
   * Implements the hook_permissions
