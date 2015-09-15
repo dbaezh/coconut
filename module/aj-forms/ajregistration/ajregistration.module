@@ -1252,7 +1252,7 @@ function ajregistration_form_submit($form, &$form_state) {
 	$now = date('Y-m-d', time());
 	$phoneNumberPattern = '/^\(?(809|849|829)\)?([ .-]?)([0-9]{3})\2([0-9]{4})$/'; // [0-9]{3}
 	$emailPattern = '/^(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?)){255,})(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?)){65,}@)(?:(?:[\x21\x23-\x27\x2A\x2B\x2D\x2F-\x39\x3D\x3F\x5E-\x7E]+)|(?:\x22(?:[\x01-\x08\x0B\x0C\x0E-\x1F\x21\x23-\x5B\x5D-\x7F]|(?:\x5C[\x00-\x7F]))*\x22))(?:\.(?:(?:[\x21\x23-\x27\x2A\x2B\x2D\x2F-\x39\x3D\x3F\x5E-\x7E]+)|(?:\x22(?:[\x01-\x08\x0B\x0C\x0E-\x1F\x21\x23-\x5B\x5D-\x7F]|(?:\x5C[\x00-\x7F]))*\x22)))*@(?:(?:(?!.*[^.]{64,})(?:(?:(?:xn--)?[a-z0-9]+(?:-[a-z0-9]+)*\.){1,126}){1,}(?:(?:[a-z][a-z0-9]*)|(?:(?:xn--)[a-z0-9]+))(?:-[a-z0-9]+)*)|(?:\[(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){7})|(?:(?!(?:.*[a-f0-9][:\]]){7,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?)))|(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){5}:)|(?:(?!(?:.*[a-f0-9]:){5,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3}:)?)))?(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))(?:\.(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))){3}))\]))$/iD';
-	$alphabethicDashPattern = '/^[A-Za-z]{2}[- A-Za-z]+$/';
+	$alphabethicDashPattern = '/^[\p{L}\s-]{2}[\p{L}\s-]+$/u';
 
  	// QUESTION registration_date -------------------------------------------------------------------------------------
 	// Check if the date is empty
@@ -1303,7 +1303,7 @@ function ajregistration_form_submit($form, &$form_state) {
 		form_error($form['3'], t('3. Fecha de Nacimiento: Estos campos son requeridos'));
 	}
  	// Check if the date is valid and has the right format
-	if (is_string($_3date) && strtotime($_3date) === FALSE && $_beneType === 'No' || (!_ajregistration_between11And21($_3date) && $_beneType === 'No')) {
+	if (is_string($_3date) && strtotime($_3date) === FALSE && $_beneType === 'No' || (!_ajregistration_between11And24($_3date) && $_beneType === 'No')) {
 		form_error($form['3'], t('3. Fecha de Nacimiento: Fecha no válida. Edad debe ser entre 11 y 21 años'));
 	}
 
@@ -1639,11 +1639,11 @@ function _ajregistration_possibleDuplicate($names, $lastname, $dateOfBirth) {
  * Checks if the year corresponds
  * @param unknown $yearOfBirth
  */
-function _ajregistration_between11And21($dateOfBirth) {
+function _ajregistration_between11And24($dateOfBirth) {
 	$now = new DateTime(date('Y-m-d', time()));
 	$dateOfBirthObject = new DateTime($dateOfBirth);
 	$interval = $now->diff($dateOfBirthObject);
-	return ((int)$interval->format('%Y') >= 11 && (int)$interval->format('%Y') <= 21);
+	return ((int)$interval->format('%Y') >= 11 && (int)$interval->format('%Y') <= 24);
 }
 
 /**
