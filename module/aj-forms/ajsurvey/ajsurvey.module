@@ -55,7 +55,7 @@ function ajsurvey_form($form, &$form_state) {
 	// Vertical tabs container
 	$form['group_tabs'] = array(
 		'#type'     => 'vertical_tabs',
-		'#attached' => array('library' => array(array('field_group', 'vertical_tabs'))), // Converts fieldsets into tabs
+		'#attached' => array('library' => array(array('field_group', 'vertical-tabs'))), // Converts fieldsets into tabs
 	);
 
 	// Tab 1
@@ -63,7 +63,7 @@ function ajsurvey_form($form, &$form_state) {
     	'#type'  => 'fieldset',
     	'#title' => t('Demográficos y Documentación'),
     	'#collapsible' => TRUE,
-    	'#collapsed' => FALSE,
+    	'#collapsed' => true,
     	'#group' => 'group_tabs',
 	);
 
@@ -71,6 +71,8 @@ function ajsurvey_form($form, &$form_state) {
 	$form['education'] = array(
     	'#type'  => 'fieldset',
     	'#title' => t('Eduación'),
+    	'#collapsible' => TRUE,
+    	'#collapsed' => true,
     	'#group' => 'group_tabs',
 	);
 
@@ -78,6 +80,8 @@ function ajsurvey_form($form, &$form_state) {
 	$form['labor'] = array(
     	'#type'  => 'fieldset',
     	'#title' => t('Laboral'),
+    	'#collapsible' => TRUE,
+    	'#collapsed' => true,
     	'#group' => 'group_tabs',
 	);
 
@@ -85,6 +89,8 @@ function ajsurvey_form($form, &$form_state) {
 	$form['security'] = array(
     	'#type'  => 'fieldset',
     	'#title' => t('Seguridad Personal'),
+		'#collapsible' => TRUE,
+    	'#collapsed' => true,
     	'#group' => 'group_tabs',
 	);
 
@@ -92,6 +98,8 @@ function ajsurvey_form($form, &$form_state) {
 	$form['justice'] = array(
     	'#type'  => 'fieldset',
     	'#title' => t('Sistema de Justicia'),
+    	'#collapsible' => TRUE,
+    	'#collapsed' => true,
     	'#group' => 'group_tabs',
 	);
 
@@ -99,6 +107,8 @@ function ajsurvey_form($form, &$form_state) {
 	$form['drugs'] = array(
     	'#type'  => 'fieldset',
     	'#title' => t('Uso de Sustancias'),
+    	'#collapsible' => TRUE,
+    	'#collapsed' => true,
     	'#group' => 'group_tabs',
 	);
 
@@ -106,6 +116,8 @@ function ajsurvey_form($form, &$form_state) {
 	$form['sexual'] = array(
     	'#type'  => 'fieldset',
     	'#title' => t('Actividad Sexual'),
+    	'#collapsible' => TRUE,
+    	'#collapsed' => true,
     	'#group' => 'group_tabs',
 	);
 
@@ -227,63 +239,63 @@ function ajsurvey_form($form, &$form_state) {
 		'#group' => 'documentation',
 	);
 
-   array_unshift($YesNoOptions, '- Select -');
-   $month = array(
-   		0 => '- Select -',
-   		1 => 'Ene',
-   		2 => 'Feb',
-   		3 => 'Mar',
-     	4 => 'Abr',
-   		5 => 'Mayo',
-   		6 => 'Jun',
-     	7 => 'Jul',
-   		8 => 'Ago',
-   		9 => 'Sep',
-   		10 => 'Oct',
-   		11 => 'Nov',
-   		12 => 'Dic',
-   );
+//    array_unshift($YesNoOptions, '- Select -');
+//    $month = array(
+//    		0 => '- Select -',
+//    		1 => 'Ene',
+//    		2 => 'Feb',
+//    		3 => 'Mar',
+//      	4 => 'Abr',
+//    		5 => 'Mayo',
+//    		6 => 'Jun',
+//      	7 => 'Jul',
+//    		8 => 'Ago',
+//    		9 => 'Sep',
+//    		10 => 'Oct',
+//    		11 => 'Nov',
+//    		12 => 'Dic',
+//    );
 
-   $day = array(
-   		0 => '- Select -',
-   		1 => 1,
-   		2 => 2,
-   		3 => 3,
-     	4 => 4,
-   		5 => 5,
-   		6 => 6,
-     	7 => 7,
-   		8 => 8,
-   		9 => 9,
-   		10 => 10,
-   		11 => 11,
-   		12 => 12,
-		13 => 13,
-     	14 => 14,
-   		15 => 15,
-   		16 => 16,
-     	17 => 17,
-   		18 => 18,
-   		19 => 19,
-    	20 => 20,
-    	21 => 21,
-   		22 => 22,
-   		23 => 23,
-     	24 => 24,
-   		25 => 25,
-   		26 => 26,
-     	27 => 27,
-   		28 => 28,
-   		29 => 29,
-   		30 => 30,
-   		31 => 31,
-   );
+//    $day = array(
+//    		0 => '- Select -',
+//    		1 => 1,
+//    		2 => 2,
+//    		3 => 3,
+//      	4 => 4,
+//    		5 => 5,
+//    		6 => 6,
+//      	7 => 7,
+//    		8 => 8,
+//    		9 => 9,
+//    		10 => 10,
+//    		11 => 11,
+//    		12 => 12,
+// 		13 => 13,
+//      	14 => 14,
+//    		15 => 15,
+//    		16 => 16,
+//      	17 => 17,
+//    		18 => 18,
+//    		19 => 19,
+//     	20 => 20,
+//     	21 => 21,
+//    		22 => 22,
+//    		23 => 23,
+//      	24 => 24,
+//    		25 => 25,
+//    		26 => 26,
+//      	27 => 27,
+//    		28 => 28,
+//    		29 => 29,
+//    		30 => 30,
+//    		31 => 31,
+//    );
 
-  $currentYear = format_date(time(), 'custom', 'Y');
-  $year = array(0 => '- Select -');
-  for($i = (int)($currentYear) - 12; $i <= ((int)($currentYear)); $i++) {
-	array_push($year, $i);
-  }
+//   $currentYear = format_date(time(), 'custom', 'Y');
+//   $year = array(0 => '- Select -');
+//   for($i = (int)($currentYear) - 12; $i <= ((int)($currentYear)); $i++) {
+// 	array_push($year, $i);
+//   }
 
   $sexOptions = array(
   		'' => t('- Select -'),
@@ -291,350 +303,353 @@ function ajsurvey_form($form, &$form_state) {
 		'M' => t('Masculino'),
 	);
 
-   $_13Aoptions = array(
-     array(
-      'dob' => array('data'=>array(
-      						array(
-	      						'#type'=>'select',
-	      						'#title' => 'Día',
-								'#empty_option' => t('- Select -'),
-      							'#empty_value' => '',
-	      						'#title_display'=>'invisible',
-      							'#default_value' => 0,
-	      						'#options' => $day,
-	      						'#required' => false,
-     						),
-      						array(
-      							'#type'=>'select',
-      							'#title' => 'Mes',
-								'#empty_option' => t('- Select -'),
-      							'#empty_value' => '',
-	      						'#title_display'=>'invisible',
-      							'#default_value' => 0,
-      							'#options' => $month,
-      							'#required' => false,
-     						),
-							array(
-      							'#type'=>'select',
-      							'#title' => 'Año',
-								'#empty_option' => t('- Select -'),
-      							'#empty_value' => '',
-	      						'#title_display'=>'invisible',
-								'#default_value' => 0,
-      							'#options' => drupal_map_assoc($year),
-      							'#required' => false,
-     						)
-      					),
-    			),
-      'sex' => array('data'=>array(
-      						'#type'=>'select',
-      						'#title' => 'no title',
-							'#empty_option' => t('- Select -'),
-      						'#title_display'=>'invisible',
-      						'#options' => $sexOptions,
-      						'#required' => false,
-     						),
-    					),
-      'same_house' => array('data'=>array(
-      						'#type'=>'select',
-      						'#title' => 'no title',
-							'#empty_option' => t('- Select -'),
-      						'#title_display'=>'invisible',
-      						'#options' => drupal_map_assoc($YesNoOptions),
-      						'#required' => false,
-     						),
-    					),
-      'certificate' => array('data'=>array(
-      						'#type'=>'select',
-      						'#title' => 'no title',
-							'#empty_option' => t('- Select -'),
-      						'#title_display'=>'invisible',
-      						'#options' => drupal_map_assoc($YesNoOptions),
-      						'#required' => false,
-     						),
-    					),
-  	),
-array(
-      'dob' => array('data'=>array(
-      						array(
-	      						'#type'=>'select',
-	      						'#title' => 'Día',
-								'#empty_option' => t('- Select -'),
-      							'#empty_value' => '',
-	      						'#title_display'=>'invisible',
-      							'#default_value' => 0,
-	      						'#options' => $day,
-	      						'#required' => false,
-     						),
-      						array(
-      							'#type'=>'select',
-      							'#title' => 'Mes',
-								'#empty_option' => t('- Select -'),
-      							'#empty_value' => '',
-	      						'#title_display'=>'invisible',
-      							'#default_value' => 0,
-      							'#options' => $month,
-      							'#required' => false,
-     						),
-							array(
-      							'#type'=>'select',
-      							'#title' => 'Año',
-								'#empty_option' => t('- Select -'),
-      							'#empty_value' => '',
-	      						'#title_display'=>'invisible',
-								'#default_value' => 0,
-      							'#options' => drupal_map_assoc($year),
-      							'#required' => false,
-     						)
-      					),
-    			),
-      'sex' => array('data'=>array(
-      						'#type'=>'select',
-      						'#title' => 'no title',
-							'#empty_option' => t('- Select -'),
-      						'#title_display'=>'invisible',
-      						'#options' => $sexOptions,
-      						'#required' => false,
-     						),
-    					),
-      'same_house' => array('data'=>array(
-      						'#type'=>'select',
-      						'#title' => 'no title',
-							'#empty_option' => t('- Select -'),
-      						'#title_display'=>'invisible',
-      						'#options' => drupal_map_assoc($YesNoOptions),
-      						'#required' => false,
-     						),
-    					),
-      'certificate' => array('data'=>array(
-      						'#type'=>'select',
-      						'#title' => 'no title',
-							'#empty_option' => t('- Select -'),
-      						'#title_display'=>'invisible',
-      						'#options' => drupal_map_assoc($YesNoOptions),
-      						'#required' => false,
-     						),
-    					),
-  	),
-   	array(
-      'dob' => array('data'=>array(
-      						array(
-	      						'#type'=>'select',
-	      						'#title' => 'Día',
-								'#empty_option' => t('- Select -'),
-      							'#empty_value' => '',
-	      						'#title_display'=>'invisible',
-      							'#default_value' => 0,
-	      						'#options' => $day,
-	      						'#required' => false,
-     						),
-      						array(
-      							'#type'=>'select',
-      							'#title' => 'Mes',
-								'#empty_option' => t('- Select -'),
-      							'#empty_value' => '',
-	      						'#title_display'=>'invisible',
-      							'#default_value' => 0,
-      							'#options' => $month,
-      							'#required' => false,
-     						),
-							array(
-      							'#type'=>'select',
-      							'#title' => 'Año',
-								'#empty_option' => t('- Select -'),
-      							'#empty_value' => '',
-	      						'#title_display'=>'invisible',
-								'#default_value' => 0,
-      							'#options' => drupal_map_assoc($year),
-      							'#required' => false,
-     						)
-      					),
-    			),
-      'sex' => array('data'=>array(
-      						'#type'=>'select',
-      						'#title' => 'no title',
-							'#empty_option' => t('- Select -'),
-      						'#title_display'=>'invisible',
-      						'#options' => $sexOptions,
-      						'#required' => false,
-     						),
-    					),
-      'same_house' => array('data'=>array(
-      						'#type'=>'select',
-      						'#title' => 'no title',
-							'#empty_option' => t('- Select -'),
-      						'#title_display'=>'invisible',
-      						'#options' => drupal_map_assoc($YesNoOptions),
-      						'#required' => false,
-     						),
-    					),
-      'certificate' => array('data'=>array(
-      						'#type'=>'select',
-      						'#title' => 'no title',
-							'#empty_option' => t('- Select -'),
-      						'#title_display'=>'invisible',
-      						'#options' => drupal_map_assoc($YesNoOptions),
-      						'#required' => false,
-     						),
-    					),
-  	),
-   	array(
-      'dob' => array('data'=>array(
-      						array(
-	      						'#type'=>'select',
-	      						'#title' => 'Día',
-								'#empty_option' => t('- Select -'),
-      							'#empty_value' => '',
-	      						'#title_display'=>'invisible',
-      							'#default_value' => 0,
-	      						'#options' => $day,
-	      						'#required' => false,
-     						),
-      						array(
-      							'#type'=>'select',
-      							'#title' => 'Mes',
-								'#empty_option' => t('- Select -'),
-      							'#empty_value' => '',
-	      						'#title_display'=>'invisible',
-      							'#default_value' => 0,
-      							'#options' => $month,
-      							'#required' => false,
-     						),
-							array(
-      							'#type'=>'select',
-      							'#title' => 'Año',
-								'#empty_option' => t('- Select -'),
-      							'#empty_value' => '',
-	      						'#title_display'=>'invisible',
-								'#default_value' => 0,
-      							'#options' => drupal_map_assoc($year),
-      							'#required' => false,
-     						)
-      					),
-    			),
-      'sex' => array('data'=>array(
-      						'#type'=>'select',
-      						'#title' => 'no title',
-							'#empty_option' => t('- Select -'),
-      						'#title_display'=>'invisible',
-      						'#options' => $sexOptions,
-      						'#required' => false,
-     						),
-    					),
-      'same_house' => array('data'=>array(
-      						'#type'=>'select',
-      						'#title' => 'no title',
-							'#empty_option' => t('- Select -'),
-      						'#title_display'=>'invisible',
-      						'#options' => drupal_map_assoc($YesNoOptions),
-      						'#required' => false,
-     						),
-    					),
-      'certificate' => array('data'=>array(
-      						'#type'=>'select',
-      						'#title' => 'no title',
-							'#empty_option' => t('- Select -'),
-      						'#title_display'=>'invisible',
-      						'#options' => drupal_map_assoc($YesNoOptions),
-      						'#required' => false,
-     						),
-    					),
-  	),
-   	array(
-      'dob' => array('data'=>array(
-      						array(
-	      						'#type'=>'select',
-	      						'#title' => 'Día',
-								'#empty_option' => t('- Select -'),
-      							'#empty_value' => '',
-	      						'#title_display'=>'invisible',
-      							'#default_value' => 0,
-	      						'#options' => $day,
-	      						'#required' => false,
-     						),
-      						array(
-      							'#type'=>'select',
-      							'#title' => 'Mes',
-								'#empty_option' => t('- Select -'),
-      							'#empty_value' => '',
-	      						'#title_display'=>'invisible',
-      							'#default_value' => 0,
-      							'#options' => $month,
-      							'#required' => false,
-     						),
-							array(
-      							'#type'=>'select',
-      							'#title' => 'Año',
-								'#empty_option' => t('- Select -'),
-      							'#empty_value' => '',
-	      						'#title_display'=>'invisible',
-								'#default_value' => 0,
-      							'#options' => drupal_map_assoc($year),
-      							'#required' => false,
-     						)
-      					),
-    			),
-      'sex' => array('data'=>array(
-      						'#type'=>'select',
-      						'#title' => 'no title',
-							'#empty_option' => t('- Select -'),
-      						'#title_display'=>'invisible',
-      						'#options' => $sexOptions,
-      						'#required' => false,
-     						),
-    					),
-      'same_house' => array('data'=>array(
-      						'#type'=>'select',
-      						'#title' => 'no title',
-							'#empty_option' => t('- Select -'),
-      						'#title_display'=>'invisible',
-      						'#options' => drupal_map_assoc($YesNoOptions),
-      						'#required' => false,
-     						),
-    					),
-      'certificate' => array('data'=>array(
-      						'#type'=>'select',
-      						'#title' => 'no title',
-							'#empty_option' => t('- Select -'),
-      						'#title_display'=>'invisible',
-      						'#options' => drupal_map_assoc($YesNoOptions),
-      						'#required' => false,
-     						),
-    					),
-  	),
-  );
+//    $_13Aoptions = array(
+//      array(
+//       'dob' => array('data'=>array(
+//       						array(
+// 	      						'#type'=>'select',
+// 	      						'#title' => 'Día',
+// 								'#empty_option' => t('- Select -'),
+//       							'#empty_value' => '',
+// 	      						'#title_display'=>'invisible',
+//       							'#default_value' => 0,
+// 	      						'#options' => $day,
+// 	      						'#required' => false,
+//      						),
+//       						array(
+//       							'#type'=>'select',
+//       							'#title' => 'Mes',
+// 								'#empty_option' => t('- Select -'),
+//       							'#empty_value' => '',
+// 	      						'#title_display'=>'invisible',
+//       							'#default_value' => 0,
+//       							'#options' => $month,
+//       							'#required' => false,
+//      						),
+// 							array(
+//       							'#type'=>'select',
+//       							'#title' => 'Año',
+// 								'#empty_option' => t('- Select -'),
+//       							'#empty_value' => '',
+// 	      						'#title_display'=>'invisible',
+// 								'#default_value' => 0,
+//       							'#options' => drupal_map_assoc($year),
+//       							'#required' => false,
+//      						)
+//       					),
+//     			),
+//       'sex' => array('data'=>array(
+//       						'#type'=>'select',
+//       						'#title' => 'no title',
+// 							'#empty_option' => t('- Select -'),
+//       						'#title_display'=>'invisible',
+//       						'#options' => $sexOptions,
+//       						'#required' => false,
+//      						),
+//     					),
+//       'same_house' => array('data'=>array(
+//       						'#type'=>'select',
+//       						'#title' => 'no title',
+// 							'#empty_option' => t('- Select -'),
+//       						'#title_display'=>'invisible',
+//       						'#options' => drupal_map_assoc($YesNoOptions),
+//       						'#required' => false,
+//      						),
+//     					),
+//       'certificate' => array('data'=>array(
+//       						'#type'=>'select',
+//       						'#title' => 'no title',
+// 							'#empty_option' => t('- Select -'),
+//       						'#title_display'=>'invisible',
+//       						'#options' => drupal_map_assoc($YesNoOptions),
+//       						'#required' => false,
+//      						),
+//     					),
+//   	),
+// array(
+//       'dob' => array('data'=>array(
+//       						array(
+// 	      						'#type'=>'select',
+// 	      						'#title' => 'Día',
+// 								'#empty_option' => t('- Select -'),
+//       							'#empty_value' => '',
+// 	      						'#title_display'=>'invisible',
+//       							'#default_value' => 0,
+// 	      						'#options' => $day,
+// 	      						'#required' => false,
+//      						),
+//       						array(
+//       							'#type'=>'select',
+//       							'#title' => 'Mes',
+// 								'#empty_option' => t('- Select -'),
+//       							'#empty_value' => '',
+// 	      						'#title_display'=>'invisible',
+//       							'#default_value' => 0,
+//       							'#options' => $month,
+//       							'#required' => false,
+//      						),
+// 							array(
+//       							'#type'=>'select',
+//       							'#title' => 'Año',
+// 								'#empty_option' => t('- Select -'),
+//       							'#empty_value' => '',
+// 	      						'#title_display'=>'invisible',
+// 								'#default_value' => 0,
+//       							'#options' => drupal_map_assoc($year),
+//       							'#required' => false,
+//      						)
+//       					),
+//     			),
+//       'sex' => array('data'=>array(
+//       						'#type'=>'select',
+//       						'#title' => 'no title',
+// 							'#empty_option' => t('- Select -'),
+//       						'#title_display'=>'invisible',
+//       						'#options' => $sexOptions,
+//       						'#required' => false,
+//      						),
+//     					),
+//       'same_house' => array('data'=>array(
+//       						'#type'=>'select',
+//       						'#title' => 'no title',
+// 							'#empty_option' => t('- Select -'),
+//       						'#title_display'=>'invisible',
+//       						'#options' => drupal_map_assoc($YesNoOptions),
+//       						'#required' => false,
+//      						),
+//     					),
+//       'certificate' => array('data'=>array(
+//       						'#type'=>'select',
+//       						'#title' => 'no title',
+// 							'#empty_option' => t('- Select -'),
+//       						'#title_display'=>'invisible',
+//       						'#options' => drupal_map_assoc($YesNoOptions),
+//       						'#required' => false,
+//      						),
+//     					),
+//   	),
+//    	array(
+//       'dob' => array('data'=>array(
+//       						array(
+// 	      						'#type'=>'select',
+// 	      						'#title' => 'Día',
+// 								'#empty_option' => t('- Select -'),
+//       							'#empty_value' => '',
+// 	      						'#title_display'=>'invisible',
+//       							'#default_value' => 0,
+// 	      						'#options' => $day,
+// 	      						'#required' => false,
+//      						),
+//       						array(
+//       							'#type'=>'select',
+//       							'#title' => 'Mes',
+// 								'#empty_option' => t('- Select -'),
+//       							'#empty_value' => '',
+// 	      						'#title_display'=>'invisible',
+//       							'#default_value' => 0,
+//       							'#options' => $month,
+//       							'#required' => false,
+//      						),
+// 							array(
+//       							'#type'=>'select',
+//       							'#title' => 'Año',
+// 								'#empty_option' => t('- Select -'),
+//       							'#empty_value' => '',
+// 	      						'#title_display'=>'invisible',
+// 								'#default_value' => 0,
+//       							'#options' => drupal_map_assoc($year),
+//       							'#required' => false,
+//      						)
+//       					),
+//     			),
+//       'sex' => array('data'=>array(
+//       						'#type'=>'select',
+//       						'#title' => 'no title',
+// 							'#empty_option' => t('- Select -'),
+//       						'#title_display'=>'invisible',
+//       						'#options' => $sexOptions,
+//       						'#required' => false,
+//      						),
+//     					),
+//       'same_house' => array('data'=>array(
+//       						'#type'=>'select',
+//       						'#title' => 'no title',
+// 							'#empty_option' => t('- Select -'),
+//       						'#title_display'=>'invisible',
+//       						'#options' => drupal_map_assoc($YesNoOptions),
+//       						'#required' => false,
+//      						),
+//     					),
+//       'certificate' => array('data'=>array(
+//       						'#type'=>'select',
+//       						'#title' => 'no title',
+// 							'#empty_option' => t('- Select -'),
+//       						'#title_display'=>'invisible',
+//       						'#options' => drupal_map_assoc($YesNoOptions),
+//       						'#required' => false,
+//      						),
+//     					),
+//   	),
+//    	array(
+//       'dob' => array('data'=>array(
+//       						array(
+// 	      						'#type'=>'select',
+// 	      						'#title' => 'Día',
+// 								'#empty_option' => t('- Select -'),
+//       							'#empty_value' => '',
+// 	      						'#title_display'=>'invisible',
+//       							'#default_value' => 0,
+// 	      						'#options' => $day,
+// 	      						'#required' => false,
+//      						),
+//       						array(
+//       							'#type'=>'select',
+//       							'#title' => 'Mes',
+// 								'#empty_option' => t('- Select -'),
+//       							'#empty_value' => '',
+// 	      						'#title_display'=>'invisible',
+//       							'#default_value' => 0,
+//       							'#options' => $month,
+//       							'#required' => false,
+//      						),
+// 							array(
+//       							'#type'=>'select',
+//       							'#title' => 'Año',
+// 								'#empty_option' => t('- Select -'),
+//       							'#empty_value' => '',
+// 	      						'#title_display'=>'invisible',
+// 								'#default_value' => 0,
+//       							'#options' => drupal_map_assoc($year),
+//       							'#required' => false,
+//      						)
+//       					),
+//     			),
+//       'sex' => array('data'=>array(
+//       						'#type'=>'select',
+//       						'#title' => 'no title',
+// 							'#empty_option' => t('- Select -'),
+//       						'#title_display'=>'invisible',
+//       						'#options' => $sexOptions,
+//       						'#required' => false,
+//      						),
+//     					),
+//       'same_house' => array('data'=>array(
+//       						'#type'=>'select',
+//       						'#title' => 'no title',
+// 							'#empty_option' => t('- Select -'),
+//       						'#title_display'=>'invisible',
+//       						'#options' => drupal_map_assoc($YesNoOptions),
+//       						'#required' => false,
+//      						),
+//     					),
+//       'certificate' => array('data'=>array(
+//       						'#type'=>'select',
+//       						'#title' => 'no title',
+// 							'#empty_option' => t('- Select -'),
+//       						'#title_display'=>'invisible',
+//       						'#options' => drupal_map_assoc($YesNoOptions),
+//       						'#required' => false,
+//      						),
+//     					),
+//   	),
+//    	array(
+//       'dob' => array('data'=>array(
+//       						array(
+// 	      						'#type'=>'select',
+// 	      						'#title' => 'Día',
+// 								'#empty_option' => t('- Select -'),
+//       							'#empty_value' => '',
+// 	      						'#title_display'=>'invisible',
+//       							'#default_value' => 0,
+// 	      						'#options' => $day,
+// 	      						'#required' => false,
+//      						),
+//       						array(
+//       							'#type'=>'select',
+//       							'#title' => 'Mes',
+// 								'#empty_option' => t('- Select -'),
+//       							'#empty_value' => '',
+// 	      						'#title_display'=>'invisible',
+//       							'#default_value' => 0,
+//       							'#options' => $month,
+//       							'#required' => false,
+//      						),
+// 							array(
+//       							'#type'=>'select',
+//       							'#title' => 'Año',
+// 								'#empty_option' => t('- Select -'),
+//       							'#empty_value' => '',
+// 	      						'#title_display'=>'invisible',
+// 								'#default_value' => 0,
+//       							'#options' => drupal_map_assoc($year),
+//       							'#required' => false,
+//      						)
+//       					),
+//     			),
+//       'sex' => array('data'=>array(
+//       						'#type'=>'select',
+//       						'#title' => 'no title',
+// 							'#empty_option' => t('- Select -'),
+//       						'#title_display'=>'invisible',
+//       						'#options' => $sexOptions,
+//       						'#required' => false,
+//      						),
+//     					),
+//       'same_house' => array('data'=>array(
+//       						'#type'=>'select',
+//       						'#title' => 'no title',
+// 							'#empty_option' => t('- Select -'),
+//       						'#title_display'=>'invisible',
+//       						'#options' => drupal_map_assoc($YesNoOptions),
+//       						'#required' => false,
+//      						),
+//     					),
+//       'certificate' => array('data'=>array(
+//       						'#type'=>'select',
+//       						'#title' => 'no title',
+// 							'#empty_option' => t('- Select -'),
+//       						'#title_display'=>'invisible',
+//       						'#options' => drupal_map_assoc($YesNoOptions),
+//       						'#required' => false,
+//      						),
+//     					),
+//   	),
+//   );
 
-  $_13Aheader = array(
-    'dob' => t('Fecha de nacimiento DD-MM-AAAA'),
-    'sex' => t('Sexo'),
-    'same_house' => t('¿Tú y el/la niño/a viven en la misma casa?'),
-    'certificate' => t('¿Este niño/a tiene un acta de nacimiento dominicana?'),
-  );
+//   $_13Aheader = array(
+//     'dob' => t('Fecha de nacimiento DD-MM-AAAA'),
+//     'sex' => t('Sexo'),
+//     'same_house' => t('¿Tú y el/la niño/a viven en la misma casa?'),
+//     'certificate' => t('¿Este niño/a tiene un acta de nacimiento dominicana?'),
+//   );
 
-  $_13Acontent = array(
-    '#type' => 'tableselect',
-    '#header' => $_13Aheader,
-    '#options' => $_13Aoptions,
-  	'#js_select' => false,
-  	'#required' => true,
- 	'#group' => 'documentation',
-  );
+//   $_13Acontent = array(
+//     '#type' => 'tableselect',
+//     '#header' => $_13Aheader,
+//     '#options' => $_13Aoptions,
+//   	'#js_select' => false,
+//   	'#required' => true,
+//  	'#group' => 'documentation',
+//   );
 
-$_13Acontent['#options'][0]['#attributes']['disabled'] = TRUE;
-$_13Acontent[0]['#disabled'] = true;
-$_13Acontent['#options'][1]['#attributes']['disabled'] = TRUE;
-$_13Acontent[1]['#disabled'] = true;
-$_13Acontent['#options'][2]['#attributes']['disabled'] = TRUE;
-$_13Acontent[2]['#disabled'] = true;
-$_13Acontent['#options'][3]['#attributes']['disabled'] = TRUE;
-$_13Acontent[3]['#disabled'] = true;
-$_13Acontent['#options'][4]['#attributes']['disabled'] = TRUE;
-$_13Acontent[4]['#disabled'] = true;
+// $_13Acontent['#options'][0]['#attributes']['disabled'] = TRUE;
+// $_13Acontent[0]['#disabled'] = true;
+// $_13Acontent['#options'][1]['#attributes']['disabled'] = TRUE;
+// $_13Acontent[1]['#disabled'] = true;
+// $_13Acontent['#options'][2]['#attributes']['disabled'] = TRUE;
+// $_13Acontent[2]['#disabled'] = true;
+// $_13Acontent['#options'][3]['#attributes']['disabled'] = TRUE;
+// $_13Acontent[3]['#disabled'] = true;
+// $_13Acontent['#options'][4]['#attributes']['disabled'] = TRUE;
+// $_13Acontent[4]['#disabled'] = true;
 
-array_shift($YesNoOptions);
+// array_shift($YesNoOptions);
 
-$_13Acontainer = array(
-	'#type' => 'container',
+$_13Acontainer1 = array(
+	'#type' => 'fieldset',
+    '#title' => t('Hijo 1'),
+	'#collapsible' => TRUE,
+	'#collapsed' => false,
 	'#states' => array(
       	'visible' => array(
         	'select[name="13"]' => array('value' => 'Sí'),
@@ -643,14 +658,218 @@ $_13Acontainer = array(
 	'#group' => 'documentation',
 );
 
-$label = '<p><b>13A. Si la respuesta es afirmativa, por favor cuántos tienes y provee la siguiente información:</b></p>';
-$_13Acontainer['13A_item'] = array(
+$_13Acontainer2 = array(
+	'#type' => 'fieldset',
+    '#title' => t('Hijo 2'),
+	'#collapsible' => TRUE,
+	'#collapsed' => true,
+	'#states' => array(
+      	'visible' => array(
+        	'select[name="13"]' => array('value' => 'Sí'),
+      		),
+    	),
+	'#group' => 'documentation',
+);
+
+$_13Acontainer3 = array(
+	'#type' => 'fieldset',
+    '#title' => t('Hijo 3'),
+	'#collapsible' => TRUE,
+	'#collapsed' => true,
+	'#states' => array(
+      	'visible' => array(
+        	'select[name="13"]' => array('value' => 'Sí'),
+      		),
+    	),
+	'#group' => 'documentation',
+);
+
+$_13Acontainer4 = array(
+	'#type' => 'fieldset',
+    '#title' => t('Hijo 4'),
+	'#collapsible' => TRUE,
+	'#collapsed' => true,
+	'#states' => array(
+      	'visible' => array(
+        	'select[name="13"]' => array('value' => 'Sí'),
+      		),
+    	),
+	'#group' => 'documentation',
+);
+
+$label = '<p><b>13A. Si la respuesta es afirmativa, por favor cuántos tienes y provee la siguiente información:</b></p>
+		<table><tr><th width="35%">Fecha de nacimiento</th><th width="20%">Sexo</th><th width="25%">¿Tú y el/la niño/a viven en la misma casa?</th><th width="20%">¿Este niño/a tiene un acta de nacimiento dominicana?</th></tr></table>';
+$form['documentation']['13A_item'] = array(
 		'#type' => 'item',
 		'#markup' => $label,
+		'#states' => array(
+      	'visible' => array(
+        	'select[name="13"]' => array('value' => 'Sí'),
+      		),
+    	),
 	);
-$_13Acontainer['13A_tableselect'] = $_13Acontent;
-$form['documentation']['13A'] = $_13Acontainer;
 
+$_13Acontainer1['dob1'] = array(
+      						'#type'=>'date',
+      						'#title' => 'Fecha de nacimiento',
+      						'#required' => false,
+							'#default_value' =>	array('year' => 1990, 'month' => null, 'day' => null),
+	      					'#title_display'=>'invisible',
+							'#prefix' => '<table><tr><td>',
+							'#suffix' => '</td>',
+     						);
+$_13Acontainer1['sex1'] = array(
+      						'#type'=>'select',
+      						'#title' => 'Sexo',
+	      					'#title_display'=>'invisible',
+							'#empty_option' => t('- Select -'),
+      						'#options' => $sexOptions,
+      						'#required' => false,
+							'#prefix' => '<td>',
+							'#suffix' => '</td>',
+     						);
+ $_13Acontainer1['samehouse1'] = array(
+      						'#type'=>'select',
+      						'#title' => '¿Tú y el/la niño/a viven en la misma casa?',
+	      					'#title_display'=>'invisible',
+ 							'#empty_option' => t('- Select -'),
+      						'#options' => drupal_map_assoc($YesNoOptions),
+      						'#required' => false,
+							'#prefix' => '<td>',
+							'#suffix' => '</td>',
+     						);
+ $_13Acontainer1['certificate1'] =array(
+      						'#type'=>'select',
+      						'#title' => '¿Este niño/a tiene un acta de nacimiento dominicana?',
+	      					'#title_display'=>'invisible',
+ 							'#empty_option' => t('- Select -'),
+      						'#options' => drupal_map_assoc($YesNoOptions),
+      						'#required' => false,
+ 							'#prefix' => '<td>',
+							'#suffix' => '</td></tr></table>',
+     						);
+ $_13Acontainer2['dob2'] = array(
+      						'#type'=>'date',
+      						'#title' => 'Fecha de nacimiento',
+      						'#required' => false,
+							'#default_value' =>	array('year' => 1990, 'month' => null, 'day' => null),
+	      					'#title_display'=>'invisible',
+							'#prefix' => '<table><tr><td>',
+							'#suffix' => '</td>',
+     						);
+$_13Acontainer2['sex2'] = array(
+      						'#type'=>'select',
+      						'#title' => 'Sexo',
+	      					'#title_display'=>'invisible',
+							'#empty_option' => t('- Select -'),
+      						'#options' => $sexOptions,
+      						'#required' => false,
+							'#prefix' => '<td>',
+							'#suffix' => '</td>',
+     						);
+ $_13Acontainer2['samehouse2'] = array(
+      						'#type'=>'select',
+      						'#title' => '¿Tú y el/la niño/a viven en la misma casa?',
+	      					'#title_display'=>'invisible',
+ 							'#empty_option' => t('- Select -'),
+      						'#options' => drupal_map_assoc($YesNoOptions),
+      						'#required' => false,
+							'#prefix' => '<td>',
+							'#suffix' => '</td>',
+     						);
+ $_13Acontainer2['certificate2'] =array(
+      						'#type'=>'select',
+      						'#title' => '¿Este niño/a tiene un acta de nacimiento dominicana?',
+	      					'#title_display'=>'invisible',
+ 							'#empty_option' => t('- Select -'),
+      						'#options' => drupal_map_assoc($YesNoOptions),
+      						'#required' => false,
+ 							'#prefix' => '<td>',
+							'#suffix' => '</td></tr></table>',
+     						);
+ $_13Acontainer3['dob3'] = array(
+      						'#type'=>'date',
+      						'#title' => 'Fecha de nacimiento',
+      						'#required' => false,
+							'#default_value' =>	array('year' => 1990, 'month' => null, 'day' => null),
+	      					'#title_display'=>'invisible',
+							'#prefix' => '<table><tr><td>',
+							'#suffix' => '</td>',
+     						);
+$_13Acontainer3['sex3'] = array(
+      						'#type'=>'select',
+      						'#title' => 'Sexo',
+	      					'#title_display'=>'invisible',
+							'#empty_option' => t('- Select -'),
+      						'#options' => $sexOptions,
+      						'#required' => false,
+							'#prefix' => '<td>',
+							'#suffix' => '</td>',
+     						);
+ $_13Acontainer3['samehouse3'] = array(
+      						'#type'=>'select',
+      						'#title' => '¿Tú y el/la niño/a viven en la misma casa?',
+	      					'#title_display'=>'invisible',
+ 							'#empty_option' => t('- Select -'),
+      						'#options' => drupal_map_assoc($YesNoOptions),
+      						'#required' => false,
+							'#prefix' => '<td>',
+							'#suffix' => '</td>',
+     						);
+ $_13Acontainer3['certificate3'] =array(
+      						'#type'=>'select',
+      						'#title' => '¿Este niño/a tiene un acta de nacimiento dominicana?',
+	      					'#title_display'=>'invisible',
+ 							'#empty_option' => t('- Select -'),
+      						'#options' => drupal_map_assoc($YesNoOptions),
+      						'#required' => false,
+ 							'#prefix' => '<td>',
+							'#suffix' => '</td></tr></table>',
+     						);
+$_13Acontainer4['dob4'] = array(
+      						'#type'=>'date',
+      						'#title' => 'Fecha de nacimiento',
+      						'#required' => false,
+							'#default_value' =>	array('year' => 1990, 'month' => null, 'day' => null),
+	      					'#title_display'=>'invisible',
+							'#prefix' => '<table><tr><td>',
+							'#suffix' => '</td>',
+     						);
+$_13Acontainer4['sex4'] = array(
+      						'#type'=>'select',
+      						'#title' => 'Sexo',
+	      					'#title_display'=>'invisible',
+							'#empty_option' => t('- Select -'),
+      						'#options' => $sexOptions,
+      						'#required' => false,
+							'#prefix' => '<td>',
+							'#suffix' => '</td>',
+     						);
+ $_13Acontainer4['samehouse4'] = array(
+      						'#type'=>'select',
+      						'#title' => '¿Tú y el/la niño/a viven en la misma casa?',
+	      					'#title_display'=>'invisible',
+ 							'#empty_option' => t('- Select -'),
+      						'#options' => drupal_map_assoc($YesNoOptions),
+      						'#required' => false,
+							'#prefix' => '<td>',
+							'#suffix' => '</td>',
+     						);
+ $_13Acontainer4['certificate4'] =array(
+      						'#type'=>'select',
+      						'#title' => '¿Este niño/a tiene un acta de nacimiento dominicana?',
+	      					'#title_display'=>'invisible',
+ 							'#empty_option' => t('- Select -'),
+      						'#options' => drupal_map_assoc($YesNoOptions),
+      						'#required' => false,
+ 							'#prefix' => '<td>',
+							'#suffix' => '</td></tr></table>',
+     						);
+
+$form['documentation']['13A1'] = $_13Acontainer1;
+$form['documentation']['13A2'] = $_13Acontainer2;
+$form['documentation']['13A3'] = $_13Acontainer3;
+$form['documentation']['13A4'] = $_13Acontainer4;
 
 $form['education']['14'] = array(
 		'#type' => 'select',
@@ -920,7 +1139,7 @@ $twentyfourOptions = array(
 		'#maxlength' => 50,
 		'#states' => array(
       		'visible' => array(
-        		':input[name="24[Otra meta]"]' => array('checked' => TRUE),
+        		'input[name="24[Otra meta]"]' => array('checked' => TRUE),
       			),
     		),
 		'#group' => 'education',
@@ -1917,7 +2136,7 @@ $twentyfourOptions = array(
 		'#states' => array(
       		'visible' => array(
       			'select[name="77"]' => array('value' => 'Sí'),
-        		':input[name="79[Otros (especifica)]"]' => array('checked' => TRUE),
+        		'input[name="79[Otros (especifica)]"]' => array('checked' => TRUE),
       			),
     		),
 		'#group' => 'drugs',
@@ -1943,136 +2162,485 @@ $twentyfourOptions = array(
 		'#states' => array(
       		'visible' => array(
       			'select[name="77"]' => array('value' => 'Sí'),
-        		':input[name="80[Otros (especifica)]"]' => array('checked' => TRUE),
+        		'input[name="80[Otros (especifica)]"]' => array('checked' => TRUE),
       			),
     		),
 		'#group' => 'drugs',
 	);
 
+	$label = '<p><b>81. En caso de que hayas probado alguna o varias drogas, lee cada nombre y dinos ¿qué edad tenías la primera vez que la probaste?</b></p>';
+	$form['drugs']['81'] = array(
+		'#type' => 'item',
+		'#markup' => $label,
+		'#states' => array(
+      		'visible' => array(
+      			'select[name="77"]' => array('value' => 'Sí'),
+      			),
+    	),
+		'#group' => 'drugs',
+	);
+	$form['drugs']['81A'] = array(
+		'#type' => 'textfield',
+		'#title' => t('Marihuana'),
+		'#required' => false,
+		'#maxlength' => 50,
+		'#states' => array(
+      		'visible' => array(
+      			'select[name="77"]' => array('value' => 'Sí'),
+      			),
+    		),
+		'#group' => 'drugs',
+	);
+	$form['drugs']['81B'] = array(
+		'#type' => 'textfield',
+		'#title' => t('Crack'),
+		'#required' => false,
+		'#maxlength' => 50,
+		'#states' => array(
+      		'visible' => array(
+      			'select[name="77"]' => array('value' => 'Sí'),
+      			),
+    		),
+		'#group' => 'drugs',
+	);
+	$form['drugs']['81C'] = array(
+		'#type' => 'textfield',
+		'#title' => t('Cocaína en polvo'),
+		'#required' => false,
+		'#maxlength' => 50,
+		'#states' => array(
+      		'visible' => array(
+      			'select[name="77"]' => array('value' => 'Sí'),
+      			),
+    		),
+		'#group' => 'drugs',
+	);
+	$form['drugs']['81D'] = array(
+		'#type' => 'textfield',
+		'#title' => t('Heroína'),
+		'#required' => false,
+		'#maxlength' => 50,
+		'#states' => array(
+      		'visible' => array(
+      			'select[name="77"]' => array('value' => 'Sí'),
+      			),
+    		),
+		'#group' => 'drugs',
+	);
+	$form['drugs']['81E'] = array(
+		'#type' => 'textfield',
+		'#title' => t('Metanfetamina o cristal'),
+		'#required' => false,
+		'#maxlength' => 50,
+		'#states' => array(
+      		'visible' => array(
+      			'select[name="77"]' => array('value' => 'Sí'),
+      			),
+    		),
+		'#group' => 'drugs',
+	);
+	$form['drugs']['81E'] = array(
+		'#type' => 'textfield',
+		'#title' => t('Metanfetamina o cristal'),
+		'#required' => false,
+		'#maxlength' => 50,
+		'#states' => array(
+      		'visible' => array(
+      			'select[name="77"]' => array('value' => 'Sí'),
+      			),
+    		),
+		'#group' => 'drugs',
+	);
+	$form['drugs']['81F'] = array(
+		'#type' => 'textfield',
+		'#title' => t('Éxtasis/MDMA'),
+		'#required' => false,
+		'#maxlength' => 50,
+		'#states' => array(
+      		'visible' => array(
+      			'select[name="77"]' => array('value' => 'Sí'),
+      			),
+    		),
+		'#group' => 'drugs',
+	);
+	$form['drugs']['81G'] = array(
+		'#type' => 'textfield',
+		'#title' => t('Inhalantes como pegamento, cemento, pintura, spray'),
+		'#required' => false,
+		'#maxlength' => 50,
+		'#states' => array(
+      		'visible' => array(
+      			'select[name="77"]' => array('value' => 'Sí'),
+      			),
+    		),
+		'#group' => 'drugs',
+	);
+	$form['drugs']['81Otro'] = array(
+		'#type' => 'textfield',
+		'#title' => t('Otra (especifica):'),
+		'#required' => false,
+		'#maxlength' => 50,
+		'#states' => array(
+      		'visible' => array(
+      			'select[name="77"]' => array('value' => 'Sí'),
+      			),
+    		),
+		'#group' => 'drugs',
+	);
+	$form['sexual']['82'] = array(
+		'#type' => 'select',
+		'#title' => t('82. ¿Alguna vez has tenido relaciones sexuales?'),
+		'#options' => drupal_map_assoc($YesNoOptions),
+		'#empty_option' => t('- Select -'),
+		'#required' => true,
+		'#group' => 'sexual',
+	);
+	$form['sexual']['83'] = array(
+		'#type' => 'textfield',
+		'#title' => t('83. ¿Qué edad tenías la primera vez que tuviste relaciones sexuales?'),
+		'#required' => false,
+		'#maxlength' => 3,
+		'#size' => 10,
+		'#states' => array(
+      		'visible' => array(
+      			'select[name="82"]' => array('value' => 'Sí'),
+      			),
+    		),
+		'#group' => 'sexual',
+	);
 
+	$eightyfourOptions = array(
+		1 => t('Sólo mujeres'),
+		2 => t('Sólo hombres'),
+		3 => t('Hombres y mujeres'),
+		4 => t('Hombres y mujeres juntos'),
+		14 => t('No responde'),
+	);
+	$form['sexual']['84'] = array(
+		'#type' => 'select',
+		'#title' => t('84. ¿Con quiénes has tenido relaciones sexuales?'),
+		'#required' => false,
+		'#options' => $eightyfourOptions,
+		'#empty_option' => t('- Select -'),
+		'#states' => array(
+      		'visible' => array(
+      			'select[name="82"]' => array('value' => 'Sí'),
+      			),
+    		),
+		'#group' => 'sexual',
+	);
+	$eightyfiveOptions = array(
+		1 => t('1'),
+		2 => t('2 a 4'),
+		3 => t('5 a 7'),
+		4 => t('8 a 10'),
+		5 => t('11 a 13'),
+		6 => t('14 o más personas'),
+		7 => t('No responde'),
+	);
+	$form['sexual']['85'] = array(
+		'#type' => 'select',
+		'#title' => t('85 ¿Con cuántas personas diferentes has tenido relaciones sexuales en los últimos 12 meses?'),
+		'#required' => false,
+		'#options' => $eightyfiveOptions,
+		'#empty_option' => t('- Select -'),
+		'#states' => array(
+      		'visible' => array(
+      			'select[name="82"]' => array('value' => 'Sí'),
+      			),
+    		),
+		'#group' => 'sexual',
+	);
+	$form['sexual']['86'] = array(
+		'#type' => 'select',
+		'#title' => t('86. La última vez que tuviste relaciones sexuales, ¿tú o tu compañero/a utilizó un condón?'),
+		'#options' => drupal_map_assoc($YesNoOptions),
+		'#empty_option' => t('- Select -'),
+		'#required' => true,
+		'#group' => 'sexual',
+		'#states' => array(
+      		'visible' => array(
+      			'select[name="82"]' => array('value' => 'Sí'),
+      			),
+    	),
+	);
+	$eightysevenOptions = array(
+		1 => t('No utilicé ningún método para prevenir el embarazo'),
+		2 => t('Condón'),
+		3 => t('Condón femenino'),
+		4 => t('Píldora anticonceptiva'),
+		5 => t('Ritmo (mantener relaciones en días no fértiles o cuando no hay ovulación)'),
+		6 => t('Retiro (detener la penetración antes de eyacular)'),
+		7 => t('Mela (mujeres lactando)'),
+		8 => t('DIU (como Mirena o Paragard)'),
+		9 => t('Inyección (como Depo-Provera), un parche (Ortho Evra), o un anillo (como NuvaRing)'),
+		10 => t('Implante o norplant (como Implanon o Nexplanon)'),
+		11 => t('Esterilización femenina'),
+		12 => t('Esterilización masculina'),
+		13 => t('Otro (favor especificar)'),
+		14 => t('No sé/Inseguro'),
+	);
+	$form['sexual']['87'] = array(
+		'#type' => 'radios',
+		'#title' => t('87. La última vez que tuviste relaciones sexuales, ¿cuál método usaste o tu compañero/a para prevenir el embarazo?'),
+		'#options' => drupal_map_assoc($eightysevenOptions),
+		'#empty_option' => t('- Select '),
+		'#required' => FALSE,
+		'#states' => array(
+      		'visible' => array(
+        		'select[name="82"]' => array('value' => 'Sí'),
+      		),
+    	),
+	);
+	$form['sexual']['87Otro'] = array(
+		'#type' => 'textfield',
+		'#title' => t('87.Otro (favor especificar).'),
+		'#required' => FALSE,
+		'#maxlength' => 50,
+		'#states' => array(
+      		'visible' => array(
+      			'select[name="82"]' => array('value' => 'Sí'),
+        		'input[name="87"]' => array('value' => 'Otro (favor especificar)'),
+      			),
+    	),
+	);
+	$form['sexual']['88'] = array(
+		'#type' => 'select',
+		'#title' => t('88. ¿Alguna vez alguien te ha obligado a tener relaciones sexuales?'),
+		'#options' => drupal_map_assoc($YesNoOptions),
+		'#empty_option' => t('- Select -'),
+		'#required' => true,
+		'#group' => 'sexual',
+		'#states' => array(
+      		'visible' => array(
+        		'select[name="82"]' => array('value' => 'Sí'),
+      		),
+    	),
+	);
+	$form['sexual']['89'] = array(
+		'#type' => 'select',
+		'#title' => t('89. ¿Alguna vez has tenido relaciones sexuales por dinero, bienes (celulares, vivienda, etc.) o servicios (protección, comida, etc.)?'),
+		'#options' => drupal_map_assoc($YesNoOptions),
+		'#empty_option' => t('- Select -'),
+		'#required' => true,
+		'#group' => 'sexual',
+		'#states' => array(
+      		'visible' => array(
+        		'select[name="82"]' => array('value' => 'Sí'),
+      		),
+    	),
+	);
+	$eightynineBOptions = array(
+		1 => t('La semana pasada'),
+		2 => t('En los últimos 6 meses'),
+		3 => t('En los últimos 12 meses'),
+		4 => t('Hace más de 1 año'),
+		5 => t('No responde'),
+	);
+	$form['sexual']['89B'] = array(
+		'#type' => 'select',
+		'#title' => t('89B. Si la respuesta es afirmativa, ¿Cuándo fue la última vez?'),
+		'#options' => drupal_map_assoc($eightynineBOptions),
+		'#empty_option' => t('- Select -'),
+		'#required' => true,
+		'#group' => 'sexual',
+		'#states' => array(
+      		'visible' => array(
+        		'select[name="82"]' => array('value' => 'Sí'),
+      			'select[name="89"]' => array('value' => 'Sí'),
+      		),
+    	),
+	);
+	$form['sexual']['90'] = array(
+		'#type' => 'select',
+		'#title' => t('90. Si quisieras comprar un condón, ¿crees que podrías encontrarlo?'),
+		'#options' => drupal_map_assoc($YesNoOptions),
+		'#empty_option' => t('- Select -'),
+		'#required' => true,
+		'#group' => 'sexual',
+		'#states' => array(
+      		'visible' => array(
+        		'select[name="82"]' => array('value' => 'Sí'),
+      		),
+    	),
+	);
+	$form['sexual']['91'] = array(
+		'#type' => 'select',
+		'#title' => t('91. Si quisieras tener sexo, ¿crees que podrias convencer a tu pareja de que use condón en caso de que él/ella se niegue a usarlo?'),
+		'#options' => drupal_map_assoc($YesNoOptions),
+		'#empty_option' => t('- Select -'),
+		'#required' => true,
+		'#group' => 'sexual',
+		'#states' => array(
+      		'visible' => array(
+        		'select[name="82"]' => array('value' => 'Sí'),
+      		),
+    	),
+	);
+	$form['sexual']['92'] = array(
+		'#type' => 'select',
+		'#title' => t('92. ¿Te sientes capaz de tener una conversación abierta y honesta sobre sexo con sus padres?'),
+		'#options' => drupal_map_assoc($YesNoOptions),
+		'#empty_option' => t('- Select -'),
+		'#required' => true,
+		'#group' => 'sexual',
+		'#states' => array(
+      		'visible' => array(
+        		'select[name="82"]' => array('value' => 'Sí'),
+      		),
+    	),
+	);
+	$form['sexual']['93'] = array(
+		'#type' => 'select',
+		'#title' => t('93. ¿Alguna vez has tenido una conversación abierta y honesta sobre sexo con tus padres?'),
+		'#options' => drupal_map_assoc($YesNoOptions),
+		'#empty_option' => t('- Select -'),
+		'#required' => true,
+		'#group' => 'sexual',
+		'#states' => array(
+      		'visible' => array(
+        		'select[name="82"]' => array('value' => 'Sí'),
+      		),
+    	),
+	);
+	$form['sexual']['94'] = array(
+		'#type' => 'select',
+		'#title' => t('94. ¿Alguna vez alguien te ha enseñado (o hablado) acerca de las infecciones de transmisión sexual?'),
+		'#options' => drupal_map_assoc($YesNoOptions),
+		'#empty_option' => t('- Select -'),
+		'#required' => true,
+		'#group' => 'sexual',
+		'#states' => array(
+      		'visible' => array(
+        		'select[name="82"]' => array('value' => 'Sí'),
+      		),
+    	),
+	);
+	$ninetyfourAOptions = array(
+		'Orientador(a) o Psicólogo(a) de la escuela',
+		'Profesor(a) de la escuela',
+		'Amigos',
+		'Padre o Madre',
+		'Internet',
+		'Promotor(a) de Salud',
+		'Otro (especifica)',
+		'No responde'
+	);
+	$form['sexual']['94A'] = array(
+		'#type' => 'select',
+		'#title' => t('94A. Si la respuesta es afirmativa, ¿dónde has recibido información? Marca todas las que apliquen'),
+		'#options' => drupal_map_assoc($ninetyfourAOptions),
+		'#empty_option' => t('- Select -'),
+		'#required' => true,
+		'#group' => 'sexual',
+		'#states' => array(
+      		'visible' => array(
+        		'select[name="82"]' => array('value' => 'Sí'),
+      			'select[name="94"]' => array('value' => 'Sí'),
+      		),
+    	),
+	);
+	$form['sexual']['94AOtro'] = array(
+		'#type' => 'textfield',
+		'#title' => t('94A. Otro (Especifique):'),
+		'#options' => drupal_map_assoc($ninetyfourAOptions),
+		'#empty_option' => t('- Select -'),
+		'#required' => true,
+		'#group' => 'sexual',
+		'#states' => array(
+      		'visible' => array(
+        		'select[name="82"]' => array('value' => 'Sí'),
+      			'select[name="94"]' => array('value' => 'Sí'),
+      			'select[name="94A"]' => array('value' => 'Otro (especifica)'),
+      		),
+    	),
+	);
+	$form['sexual']['95'] = array(
+		'#type' => 'select',
+		'#title' => t('95. ¿Alguna vez alguien te ha enseñado acerca de la prevención de embarazo?'),
+		'#options' => drupal_map_assoc($YesNoOptions),
+		'#empty_option' => t('- Select -'),
+		'#required' => true,
+		'#group' => 'sexual',
+		'#states' => array(
+      		'visible' => array(
+        		'select[name="82"]' => array('value' => 'Sí'),
+      		),
+    	),
+	);
+	$form['sexual']['95A'] = array(
+		'#type' => 'select',
+		'#title' => t('95A. Si la respuesta es afirmativa, ¿dónde has recibido información? Marca todas las que apliquen'),
+		'#options' => drupal_map_assoc($ninetyfourAOptions),
+		'#empty_option' => t('- Select -'),
+		'#required' => true,
+		'#group' => 'sexual',
+		'#states' => array(
+      		'visible' => array(
+        		'select[name="82"]' => array('value' => 'Sí'),
+      			'select[name="95"]' => array('value' => 'Sí'),
+      		),
+    	),
+	);
+	$form['sexual']['95AOtro'] = array(
+		'#type' => 'textfield',
+		'#title' => t('95A. Otro (Especifique):'),
+		'#options' => drupal_map_assoc($ninetyfourAOptions),
+		'#empty_option' => t('- Select -'),
+		'#required' => true,
+		'#group' => 'sexual',
+		'#states' => array(
+      		'visible' => array(
+        		'select[name="82"]' => array('value' => 'Sí'),
+      			'select[name="95"]' => array('value' => 'Sí'),
+      			'select[name="95A"]' => array('value' => 'Otro (especifica)'),
+      		),
+    	),
+	);
+	$form['sexual']['96'] = array(
+		'#type' => 'select',
+		'#title' => t('96. ¿Alguna vez alguien te ha enseñado acerca de la infección por VIH?'),
+		'#options' => drupal_map_assoc($YesNoOptions),
+		'#empty_option' => t('- Select -'),
+		'#required' => true,
+		'#group' => 'sexual',
+		'#states' => array(
+      		'visible' => array(
+        		'select[name="82"]' => array('value' => 'Sí'),
+      		),
+    	),
+	);
+	$form['sexual']['96A'] = array(
+		'#type' => 'select',
+		'#title' => t('96A. Si la respuesta es afirmativa, ¿dónde has recibido información? Marca todas las que apliquen'),
+		'#options' => drupal_map_assoc($ninetyfourAOptions),
+		'#empty_option' => t('- Select -'),
+		'#required' => true,
+		'#group' => 'sexual',
+		'#states' => array(
+      		'visible' => array(
+        		'select[name="82"]' => array('value' => 'Sí'),
+      			'select[name="96"]' => array('value' => 'Sí'),
+      		),
+    	),
+	);
+	$form['sexual']['96AOtro'] = array(
+		'#type' => 'textfield',
+		'#title' => t('95A. Otro (Especifique):'),
+		'#options' => drupal_map_assoc($ninetyfourAOptions),
+		'#empty_option' => t('- Select -'),
+		'#required' => true,
+		'#group' => 'sexual',
+		'#states' => array(
+      		'visible' => array(
+        		'select[name="82"]' => array('value' => 'Sí'),
+      			'select[name="96"]' => array('value' => 'Sí'),
+      			'select[name="96A"]' => array('value' => 'Otro (especifica)'),
+      		),
+    	),
+	);
 
-
-// 	$form['sexual']['17'] = array(
-// 		'#type' => 'select',
-// 		'#title' => t('17. ¿Alguna vez has tenido relaciones sexuales?'),
-// 		'#options' => drupal_map_assoc($YesNoOptions),
-// 		'#required' => TRUE,
-// 	);
-
-// 	$form['sexual']['18'] = array(
-// 		'#type' => 'select',
-// 		'#title' => t('18. La última vez que tuviste relaciones sexuales, ¿tú o tu compañero/a utilizó condón? '),
-// 		'#options' => drupal_map_assoc($YesNoOptions),
-// 		'#empty_option' => t('- Select '),
-// 		'#required' => FALSE,
-// 		'#states' => array(
-//       		'visible' => array(
-//         		'select[name="17"]' => array('value' => 'Sí'),
-//       		),
-//     	),
-// 	);
-
-// 	$NineteenOptions = array(
-// 		1 => t('No utilicé ningún método para prevenir el embarazo'),
-// 		2 => t('Condón'),
-// 		3 => t('Condón femenino'),
-// 		4 => t('Píldora anticonceptiva'),
-// 		5 => t('Ritmo (mantener relaciones en días no fértiles o cuando no hay ovulación)'),
-// 		6 => t('Retiro (detener la penetración antes de eyacular)'),
-// 		7 => t('Mela (mujeres lactando)'),
-// 		8 => t('DIU (como Mirena o Paragard)'),
-// 		9 => t('Inyección (como Depo-Provera), un parche (Ortho Evra), o un anillo (como NuvaRing)'),
-// 		10 => t('Implante o norplant (como Implanon o Nexplanon)'),
-// 		11 => t('Esterilización femenina'),
-// 		12 => t('Esterilización masculina'),
-// 		13 => t('Otro (favor especificar)'),
-// 		14 => t('No sé/Inseguro'),
-// 	);
-
-// 	$form['sexual']['19'] = array(
-// 		'#type' => 'radios',
-// 		'#title' => t('19. La última vez que tuviste relaciones sexuales, ¿cuál método usaste o tu compañero/a para prevenir el embarazo?'),
-// 		'#options' => drupal_map_assoc($NineteenOptions),
-// 		'#empty_option' => t('- Select '),
-// 		'#required' => FALSE,
-// 		'#states' => array(
-//       		'visible' => array(
-//         		'select[name="17"]' => array('value' => 'Sí'),
-//       		),
-//     	),
-// 	);
-
-// 	$form['sexual']['19Otro'] = array(
-// 		'#type' => 'textfield',
-// 		'#title' => t('19.Otro (favor especificar).'),
-// 		'#required' => FALSE,
-// 		'#maxlength' => 50,
-// 		'#states' => array(
-//       		'visible' => array(
-//         		'input[name="19"]' => array('value' => 'Otro (favor especificar)'),
-//       			),
-//     	),
-// 	);
-
-// 	$form['sexual']['20'] = array(
-// 		'#type' => 'select',
-// 		'#title' => t('20. Si quisieras comprar un condón, ¿crees que podrías encontrarlo?'),
-// 		'#options' => drupal_map_assoc($YesNoOptions),
-// 		'#required' => TRUE,
-// 	);
-
-// 	$form['sexual']['21'] = array(
-// 		'#type' => 'select',
-// 		'#title' => t('21. Si quisieras tener sexo, ¿crees que serías capaz de convencer a tu pareja que use un condón en caso que él/ella no quiera?'),
-// 		'#options' => drupal_map_assoc($YesNoOptions),
-// 		'#required' => TRUE,
-// 	);
-
-// 	$form['exit']['22'] = array(
-// 		'#type' => 'date',
-// 		'#title' => t('22. Fecha de Revisión:'),
-// 		'#default_value' =>	array('year' => 2005, 'month' => null, 'day' => null),
-// 		'#required' => TRUE,
-// 	);
-
-// 	$TwentythirdOptions = array(
-// 		1 => t('Completó asistencia a servicios o programa en que participó'),
-// 		2 => t('Voluntariamente dejó de asistir a los servicios o programas/pérdida de contacto con participante'),
-// 		3 => t('Terminó por violar las reglas o requisitos del programa'),
-// 		4 => t('Abandonó debido a que reincidió en crimen o delincuencia'),
-// 		5 => t('Las necesidades del participante exceden los servicios del proyecto/ no elegible'),
-// 		6 => t('Vive o se mudó fuera del área de servicio/se refirió a otro programa de Alerta Joven'),
-// 		7 => t('Vive o se mudó fuera del área de servicio/no referido a otro programa'),
-// 		8 => t('Falleció'),
-// 		9 => t('Otro (favor especificar)'),
-// 	);
-
-// 	$form['exit']['23'] = array(
-// 		'#type' => 'radios',
-// 		'#title' => t('23. Estatus de Salida. Selecciona la situación en que se encuentra el participante:'),
-// 		'#options' => drupal_map_assoc($TwentythirdOptions),
-// 		'#required' => TRUE,
-// 	);
-
-// 	$form['exit']['23Otro'] = array(
-// 		'#type' => 'textfield',
-// 		'#title' => t('23.Otro (favor especificar).'),
-// 		'#required' => FALSE,
-// 		'#maxlength' => 50,
-// 		'#states' => array(
-//       		'visible' => array(
-//         		'input[name="23"]' => array('value' => 'Otro (favor especificar)'),
-//       		),
-//     	),
-// 	);
-
-// 	$form['exit']['24'] = array(
-// 		'#type' => 'textarea',
-// 		'#title' => t('24. Comentarios:'),
-// 		'#required' => FALSE,
-// 	);
-
-	$form['exit']['submit'] = array(
+	$form['submit'] = array(
 		'#type' => 'submit',
 		'#value' => t('Submit'),
 		'#weight' => 100,
@@ -2098,42 +2666,42 @@ function ajsurvey_form_submit($form, &$form_state) {
  	$_22 = $form_state['values']['22'];
     $_22_date = $_22['year'].'-'. (strlen($_22['month']) === 1? '0'.$_22['month']:$_22['month']).'-'.(strlen($_22['day']) === 1? '0'.$_22['day']:$_22['day']);
 
-	_ajsurvey_insert_data(
-			$form_state['values']['9'],
-			$form_state['values']['9A'],
-			$form_state['values']['9AOtro'],
-			$form_state['values']['10'],
-			$form_state['values']['11'],
-			$form_state['values']['11A'],
-			$form_state['values']['11B_1'],
-			$form_state['values']['12'],
-			$form_state['values']['12A'],
-			$form_state['values']['13'],
-			$form_state['values']['13A'],
-			$form_state['values']['13B'],
-			$form_state['values']['14A'],
-			$form_state['values']['14B'],
-			$form_state['values']['15A'],
-			$form_state['values']['15B'],
-			$form_state['values']['15C'],
-			$form_state['values']['15D'],
-			$form_state['values']['16'],
-			$form_state['values']['17'],
-			$form_state['values']['18'],
-			$form_state['values']['19'],
-			$form_state['values']['19Otro'],
-			$form_state['values']['20'],
-			$form_state['values']['21'],
-			$_22_date,
-			$form_state['values']['23'],
-			$form_state['values']['23Otro'],
-			$form_state['values']['24'],
-			$uuid,
-			$provider_id);
+// 	_ajsurvey_insert_data(
+// 			$form_state['values']['9'],
+// 			$form_state['values']['9A'],
+// 			$form_state['values']['9AOtro'],
+// 			$form_state['values']['10'],
+// 			$form_state['values']['11'],
+// 			$form_state['values']['11A'],
+// 			$form_state['values']['11B_1'],
+// 			$form_state['values']['12'],
+// 			$form_state['values']['12A'],
+// 			$form_state['values']['13'],
+// 			$form_state['values']['13A'],
+// 			$form_state['values']['13B'],
+// 			$form_state['values']['14A'],
+// 			$form_state['values']['14B'],
+// 			$form_state['values']['15A'],
+// 			$form_state['values']['15B'],
+// 			$form_state['values']['15C'],
+// 			$form_state['values']['15D'],
+// 			$form_state['values']['16'],
+// 			$form_state['values']['17'],
+// 			$form_state['values']['18'],
+// 			$form_state['values']['19'],
+// 			$form_state['values']['19Otro'],
+// 			$form_state['values']['20'],
+// 			$form_state['values']['21'],
+// 			$_22_date,
+// 			$form_state['values']['23'],
+// 			$form_state['values']['23Otro'],
+// 			$form_state['values']['24'],
+// 			$uuid,
+// 			$provider_id);
 
-	drupal_set_message(t('The Exit form has been submited succesfully for '.$beneficiaryDetails.'!'));
+	drupal_set_message(t('The Survey form has been submited succesfully for '.$beneficiaryDetails.'!'));
 
-	$form_state['redirect'] = 'mis-beneficiarios';
+// 	$form_state['redirect'] = 'mis-beneficiarios';
 
 }
 
@@ -2148,134 +2716,169 @@ function ajsurvey_form_submit($form, &$form_state) {
  */
  function ajsurvey_form_validate($form, &$form_state) {
 
- 	if (!isset($form_state['values']['9'])) {
+ 	if (!isset($form_state['values']['registration_date'])) {
  		return;
  	}
 
- 	$_9 = $form_state['values']['9'];
-    $_9A = $form_state['values']['9A'];
-    $_9AOtro = $form_state['values']['9AOtro'];
- 	$_11 = $form_state['values']['11'];
-    $_11A = $form_state['values']['11A'];
-    $_11B_1 = $form_state['values']['11B_1'];
- 	$_12 = $form_state['values']['12'];
-    $_12A = $form_state['values']['12A'];
- 	$_13 = $form_state['values']['13'];
-    $_13A = $form_state['values']['13A'];
-    $_13A_date = $_13A['year'].'-'. (strlen($_13A['month']) === 1? '0'.$_13A['month']:$_13A['month']).'-'.(strlen($_13A['day']) === 1? '0'.$_13A['day']:$_13A['day']);
-    $_13B = $form_state['values']['13B'];
- 	$_15A = $form_state['values']['15A'];
- 	$_15B = $form_state['values']['15B'];
- 	$_15C = $form_state['values']['15C'];
- 	$_15D = $form_state['values']['15D'];
- 	$_17 = $form_state['values']['17'];
- 	$_18 = $form_state['values']['18'];
- 	$_19 = $form_state['values']['19'];
- 	$_19Otro = $form_state['values']['19Otro'];
- 	$_22 = $form_state['values']['22'];
-    $_22_date = $_22['year'].'-'. (strlen($_22['month']) === 1? '0'.$_22['month']:$_22['month']).'-'.(strlen($_22['day']) === 1? '0'.$_22['day']:$_22['day']);
- 	$_23 = $form_state['values']['23'];
- 	$_23Otro = $form_state['values']['23Otro'];
+ 	$registration_date = $form_state['values']['registration_date'];
+    $registration_date_string = $registration_date['year'].'-'. (strlen($registration_date['month']) === 1? '0'.$registration_date['month']:$registration_date['month']).'-'.(strlen($registration_date['day']) === 1? '0'.$registration_date['day']:$registration_date['day']);
+    $_9 = $form_state['values']['9'];
+    $_9Otro = $form_state['values']['9Otro'];
+    $_11Otro = $form_state['values']['11Otro'];
+    $_11 = $form_state['values']['11'];
+    $_13 = $form_state['values']['13'];
+    $_13dob1 = $form_state['values']['dob1'];
+    $_13sex1 = $form_state['values']['sex1'];
+    $_13samehouse1 = $form_state['values']['samehouse1'];
+    $_13certificate1 = $form_state['values']['certificate1'];
+
+//     $_13A_date = $_13A['year'].'-'. (strlen($_13A['month']) === 1? '0'.$_13A['month']:$_13A['month']).'-'.(strlen($_13A['day']) === 1? '0'.$_13A['day']:$_13A['day']);
+//     $_13B = $form_state['values']['13B'];
+//  	$_15A = $form_state['values']['15A'];
+//  	$_15B = $form_state['values']['15B'];
+//  	$_15C = $form_state['values']['15C'];
+//  	$_15D = $form_state['values']['15D'];
+//  	$_17 = $form_state['values']['17'];
+//  	$_18 = $form_state['values']['18'];
+//  	$_19 = $form_state['values']['19'];
+//  	$_19Otro = $form_state['values']['19Otro'];
+//  	$_22 = $form_state['values']['22'];
+//     $_22_date = $_22['year'].'-'. (strlen($_22['month']) === 1? '0'.$_22['month']:$_22['month']).'-'.(strlen($_22['day']) === 1? '0'.$_22['day']:$_22['day']);
+//  	$_23 = $form_state['values']['23'];
+//  	$_23Otro = $form_state['values']['23Otro'];
 
 	$now = date('Y-m-d', time());
+	$currentYear = date('Y', time());
 
-	// QUESTION 9A AND 9AOtros --------------------------------------------------------------
-	if($_9 === 'No') {
-	 	if (empty($_9A)) {
-			form_error($form['documentation']['9A'], t('9A. Si no, ¿cuál es la razón principal por la que no tienes un acta? Marca sólo una opción: Campo requerido'));
-		} else if ($_9A === 'Otro (favor especificar)') {
-			if (empty($_9AOtro)) {
-				form_error($form['documentation']['9AOtro'], t('9A.Otro (favor especificar): Campo requerido'));
-			}
-		}
+ 	// QUESTION registration_date -------------------------------------------------------------------------------------
+	// Check if the date is empty
+ 	if (empty($registration_date_string)) {
+		form_error($form['documentation']['registration_date'], t('Fecha de Encuesta: Estos campos son requeridos'));
 	}
-
-	// QUESTION 11A and 11B.1 --------------------------------------------------------------
-	if ($_11 === 'Sí') {
-		if (empty($_11A)) {
-			form_error($form['education']['11A'], t('11A. ¿Qué grado estás cursando actualmente?: Campo requerido'));
-		}
-		if (empty($_11B_1)) {
-			form_error($form['education']['11B_1'], t('11B.1 ¿Cuál nivel?: Campo requerido'));
-		}
-	}
-
-	// QUESTION 12A -------------------------------------------------------------------------------------
-	if ($_12 === 'Sí') {
-		if (empty($_12A)) {
-			form_error($form['labor']['12A'], t('12A. Si la respuesta es afirmativa, ¿cuáles cursos?: Campo requerido'));
-		}
-	}
-
-	// QUESTION 13A and 13B -------------------------------------------------------------------------------------
-	if ($_13 === 'Sí') {
-		// Check if the date is empty
- 		if (empty($_13A_date)) {
-			form_error($form['labor']['13A'], t('13A. ¿Cuándo empezaste en este trabajo?: Estos campos son requeridos'));
-		}
-		// Check if date is no later than today
-		if (is_string($_13A_date) && strncmp($_13A_date, $now, 10) > 0 ) {
-			form_error($form['labor']['13A'], t('13A. ¿Cuándo empezaste en este trabajo?: Fecha no puede ser después del día de hoy'));
-		}
- 		// Check if the date is valid and has the right format
-		if (is_string($_13A_date) && strtotime($_13A_date) === FALSE || ((int)$_13A['year']) < 1991) {
-			form_error($form['labor']['13A'], t('13A. ¿Cuándo empezaste en este trabajo?: Fecha no válida'));
-		}
-		if (empty($_13B)) {
-			form_error($form['labor']['13B'], t('13B. ¿Estás en un mejor trabajo o empleo que el anterior?: Campo requerido'));
-		}
-	}
-
-	// QUESTION 15A, 15B, 15C, 15D -------------------------------------------------------------------------------------
-	if (!empty($_15A) && !is_numeric($_15A)) {
-		form_error($form['violence']['15A'], t('15A. ¿Cuántas veces has sido transportado por la policía?: Debe ser un valor numérico'));
-	}
- 	if (!empty($_15B) && !is_numeric($_15B)) {
-		form_error($form['violence']['15B'], t('15B. ¿Cuántas veces has sido arrestado por la policía?:  Debe ser un valor numérico'));
-	}
- 	if (!empty($_15C) && !is_numeric($_15C)) {
-		form_error($form['violence']['15C'], t('15C. ¿Cuántas veces has sido acusado de cometer algún delito en la fiscalía o policía?: Debe ser un valor numérico'));
-	}
- 	if (!empty($_15D) && !is_numeric($_15D)) {
-		form_error($form['violence']['15D'], t('15D. ¿Cuántas veces has sido enviado a un centro de atención integral?: Debe ser un valor numérico'));
-	}
-
-
-	// QUESTION 18 and 19 and 19Otro -------------------------------------------------------------------------------------
-	if ($_17 === 'Sí') {
-		if (empty($_18)) {
-			form_error($form['sexual']['18'], t('18. La última vez que tuviste relaciones sexuales, ¿tú o tu compañero/a utilizó condón?: Campo requerido'));
-		}
-		if (empty($_19)) {
-			form_error($form['sexual']['19'], t('19. La última vez que tuviste relaciones sexuales, ¿cuál método usaste o tu compañero/a para prevenir el embarazo?: Campo requerido'));
-		} else if ($_19 === 'Otro (favor especificar)') {
-			if (empty($_19Otro)) {
-				form_error($form['sexual']['19Otro'], t('19.Otro (favor especificar): Campo requerido'));
-			}
-		}
-	}
-
-	// QUESTION 22 --------------------------------------------------------------
- 	// Check if the date is empty
- 	if (empty($_22_date)) {
-		form_error($form['exit']['22'], t('22. Fecha de Revisión: Estos campo son requeridos'));
-	}
-	// 	Check if date is no later than today
-	if (is_string($_22_date) && strncmp($_22_date, $now, 10) > 0  ) {
-		form_error($form['exit']['22'], t('22. Fecha de Revisión: Esta fecha no puede ser después del día de hoy'));
+	// Check if date is no later than today
+	if (is_string($registration_date_string) && strncmp($registration_date_string, $now, 10) > 0 ) {
+		form_error($form['documentation']['registration_date'], t('Fecha de Encuesta: Fecha no puede ser después del día de hoy'));
 	}
  	// Check if the date is valid and has the right format
- 	watchdog('claduia', strlen($_22['month']) );
-	if (is_string($_22_date) && strtotime($_22_date) === FALSE || ((int)$_22['year']) < 2012) {
-		form_error($form['exit']['22'], t('22. Fecha de Revisión: Esta fecha no es válida'));
+	if (is_string($registration_date_string) && strtotime($registration_date_string) === FALSE || ((int)$registration_date['year']) < 2012) {
+		form_error($form['documentation']['registration_date'], t('Fecha de Encuesta: Fecha no válida'));
 	}
 
-	// QUESTION 23Otro --------------------------------------------------------------
-	if ($_23 === 'Otro (favor especificar)') {
-		if (empty($_23Otro)) {
-				form_error($form['exit']['23Otro'], t('23.Otro (favor especificar): Campo requerido'));
+	// QUESTION 11Otros --------------------------------------------------------------
+	if($_9 === 'Otro') {
+	 	if (empty($_9Otro)) {
+			form_error($form['documentation']['9Otro'], t('9. Otro: Campo requerido'));
 		}
 	}
+
+	// QUESTION 11Otros --------------------------------------------------------------
+	if($_11 === 'Otro') {
+	 	if (empty($_9Otro)) {
+			form_error($form['documentation']['11Otro'], t('11. Otro: Campo requerido'));
+		}
+	}
+
+ 	// QUESTION 13A1 --------------------------------------------------------------
+	if($_13 === 'Sí') {
+		if ((int)($_13dob1['year']) < ((int)$currentYear - 12)) {
+			form_error($form['documentation']['13A1']['dob1'], t('13A Hijo 1. Año de nacimiento no válido'));
+		}
+		if(empty($_13sex1)) {
+			form_error($form['documentation']['13A1']['sex1'], t('13A Hijo 1. Sexo: Campo requerido'));
+		}
+		if(empty($_13samehouse1)) {
+			form_error($form['documentation']['13A1']['samehouse1'], t('13A Hijo 1. ¿Tú y el/la niño/a viven en la misma casa?: Campo requerido'));
+		}
+		if(empty($_13certificate1)) {
+			form_error($form['documentation']['13A1']['certificate1'], t('13A Hijo 1. ¿Este niño/a tiene un acta de nacimiento dominicana?: Campo requerido'));
+		}
+	}
+// 	// QUESTION 11A and 11B.1 --------------------------------------------------------------
+// 	if ($_11 === 'Sí') {
+// 		if (empty($_11A)) {
+// 			form_error($form['education']['11A'], t('11A. ¿Qué grado estás cursando actualmente?: Campo requerido'));
+// 		}
+// 		if (empty($_11B_1)) {
+// 			form_error($form['education']['11B_1'], t('11B.1 ¿Cuál nivel?: Campo requerido'));
+// 		}
+// 	}
+
+// 	// QUESTION 12A -------------------------------------------------------------------------------------
+// 	if ($_12 === 'Sí') {
+// 		if (empty($_12A)) {
+// 			form_error($form['labor']['12A'], t('12A. Si la respuesta es afirmativa, ¿cuáles cursos?: Campo requerido'));
+// 		}
+// 	}
+
+// 	// QUESTION 13A and 13B -------------------------------------------------------------------------------------
+// 	if ($_13 === 'Sí') {
+// 		// Check if the date is empty
+//  		if (empty($_13A_date)) {
+// 			form_error($form['labor']['13A'], t('13A. ¿Cuándo empezaste en este trabajo?: Estos campos son requeridos'));
+// 		}
+// 		// Check if date is no later than today
+// 		if (is_string($_13A_date) && strncmp($_13A_date, $now, 10) > 0 ) {
+// 			form_error($form['labor']['13A'], t('13A. ¿Cuándo empezaste en este trabajo?: Fecha no puede ser después del día de hoy'));
+// 		}
+//  		// Check if the date is valid and has the right format
+// 		if (is_string($_13A_date) && strtotime($_13A_date) === FALSE || ((int)$_13A['year']) < 1991) {
+// 			form_error($form['labor']['13A'], t('13A. ¿Cuándo empezaste en este trabajo?: Fecha no válida'));
+// 		}
+// 		if (empty($_13B)) {
+// 			form_error($form['labor']['13B'], t('13B. ¿Estás en un mejor trabajo o empleo que el anterior?: Campo requerido'));
+// 		}
+// 	}
+
+// 	// QUESTION 15A, 15B, 15C, 15D -------------------------------------------------------------------------------------
+// 	if (!empty($_15A) && !is_numeric($_15A)) {
+// 		form_error($form['violence']['15A'], t('15A. ¿Cuántas veces has sido transportado por la policía?: Debe ser un valor numérico'));
+// 	}
+//  	if (!empty($_15B) && !is_numeric($_15B)) {
+// 		form_error($form['violence']['15B'], t('15B. ¿Cuántas veces has sido arrestado por la policía?:  Debe ser un valor numérico'));
+// 	}
+//  	if (!empty($_15C) && !is_numeric($_15C)) {
+// 		form_error($form['violence']['15C'], t('15C. ¿Cuántas veces has sido acusado de cometer algún delito en la fiscalía o policía?: Debe ser un valor numérico'));
+// 	}
+//  	if (!empty($_15D) && !is_numeric($_15D)) {
+// 		form_error($form['violence']['15D'], t('15D. ¿Cuántas veces has sido enviado a un centro de atención integral?: Debe ser un valor numérico'));
+// 	}
+
+
+// 	// QUESTION 18 and 19 and 19Otro -------------------------------------------------------------------------------------
+// 	if ($_17 === 'Sí') {
+// 		if (empty($_18)) {
+// 			form_error($form['sexual']['18'], t('18. La última vez que tuviste relaciones sexuales, ¿tú o tu compañero/a utilizó condón?: Campo requerido'));
+// 		}
+// 		if (empty($_19)) {
+// 			form_error($form['sexual']['19'], t('19. La última vez que tuviste relaciones sexuales, ¿cuál método usaste o tu compañero/a para prevenir el embarazo?: Campo requerido'));
+// 		} else if ($_19 === 'Otro (favor especificar)') {
+// 			if (empty($_19Otro)) {
+// 				form_error($form['sexual']['19Otro'], t('19.Otro (favor especificar): Campo requerido'));
+// 			}
+// 		}
+// 	}
+
+// 	// QUESTION 22 --------------------------------------------------------------
+//  	// Check if the date is empty
+//  	if (empty($_22_date)) {
+// 		form_error($form['exit']['22'], t('22. Fecha de Revisión: Estos campo son requeridos'));
+// 	}
+// 	// 	Check if date is no later than today
+// 	if (is_string($_22_date) && strncmp($_22_date, $now, 10) > 0  ) {
+// 		form_error($form['exit']['22'], t('22. Fecha de Revisión: Esta fecha no puede ser después del día de hoy'));
+// 	}
+//  	// Check if the date is valid and has the right format
+// //  	watchdog('claduia', strlen($_22['month']) );
+// 	if (is_string($_22_date) && strtotime($_22_date) === FALSE || ((int)$_22['year']) < 2012) {
+// 		form_error($form['exit']['22'], t('22. Fecha de Revisión: Esta fecha no es válida'));
+// 	}
+
+// 	// QUESTION 23Otro --------------------------------------------------------------
+// 	if ($_23 === 'Otro (favor especificar)') {
+// 		if (empty($_23Otro)) {
+// 				form_error($form['exit']['23Otro'], t('23.Otro (favor especificar): Campo requerido'));
+// 		}
+// 	}
  }
 
 
