@@ -58,7 +58,6 @@ function ajregistration_form($form, &$form_state) {
 		'#required' => TRUE,
 	);
 
-
 	$form['registration_date'] = array(
 		'#type' => 'date',
 		'#title' => t('Fecha de Registro:'),

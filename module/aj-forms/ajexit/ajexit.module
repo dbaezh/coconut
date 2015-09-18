@@ -689,7 +689,7 @@ function ajexit_form_submit($form, &$form_state) {
 		form_error($form['exit']['22'], t('22. Fecha de Revisión: Esta fecha no puede ser después del día de hoy'));
 	}
  	// Check if the date is valid and has the right format
- 	watchdog('claduia', strlen($_22['month']) );
+//  	watchdog('claduia', strlen($_22['month']) );
 	if (is_string($_22_date) && strtotime($_22_date) === FALSE || ((int)$_22['year']) < 2012) {
 		form_error($form['exit']['22'], t('22. Fecha de Revisión: Esta fecha no es válida'));
 	}
