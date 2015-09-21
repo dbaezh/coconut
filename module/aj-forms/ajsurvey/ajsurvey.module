@@ -3431,31 +3431,6 @@ function _ajsurvey_insert_data(
 	->fields($tableFields);
 	$exit_entry->execute();
 
-	$tableFieldsPrograms = array(
-		'created' => $currentDate,
-		'uuid' => $uuid,
-		'provider_id' => $provider_id,
-		'answer' => 'Participado',
-	);
-
-	foreach ($_14A as $programParticipation) {
-		if ($programParticipation !== 0) {
-			$tableFieldsPrograms['program_id'] = $programParticipation;
-			$exit_programs_entry = db_insert('aj_exit_programs')
-			->fields($tableFieldsPrograms);
-			$exit_programs_entry->execute();
-		}
-	}
-
-	$tableFieldsPrograms['answer'] = 'Completado';
-	foreach ($_14B as $programCompleted) {
-		if ($programCompleted !== 0) {
-			$tableFieldsPrograms['program_id'] = $programCompleted;
-			$exit_programs_entry = db_insert('aj_exit_programs')
-			->fields($tableFieldsPrograms);
-			$exit_programs_entry->execute();
-		}
-	}
 }
 
 
