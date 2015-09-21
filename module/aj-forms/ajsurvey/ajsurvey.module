@@ -2135,7 +2135,7 @@ $twentyfourOptions = array(
 		'No responde'
 	);
 	$form['sexual']['94A'] = array(
-		'#type' => 'select',
+		'#type' => 'checkboxes',
 		'#title' => t('94A. Si la respuesta es afirmativa, ¿dónde has recibido información? Marca todas las que apliquen'),
 		'#options' => drupal_map_assoc($ninetyfourAOptions),
 		'#empty_option' => t('- Select -'),
@@ -2177,7 +2177,7 @@ $twentyfourOptions = array(
     	),
 	);
 	$form['sexual']['95A'] = array(
-		'#type' => 'select',
+		'#type' => 'checkboxes',
 		'#title' => t('95A. Si la respuesta es afirmativa, ¿dónde has recibido información? Marca todas las que apliquen'),
 		'#options' => drupal_map_assoc($ninetyfourAOptions),
 		'#empty_option' => t('- Select -'),
@@ -2219,7 +2219,7 @@ $twentyfourOptions = array(
     	),
 	);
 	$form['sexual']['96A'] = array(
-		'#type' => 'select',
+		'#type' => 'checkboxes',
 		'#title' => t('96A. Si la respuesta es afirmativa, ¿dónde has recibido información? Marca todas las que apliquen'),
 		'#options' => drupal_map_assoc($ninetyfourAOptions),
 		'#empty_option' => t('- Select -'),
@@ -2409,7 +2409,7 @@ function ajsurvey_form_submit($form, &$form_state) {
    			$form_state['values']['81E'],
     		$form_state['values']['81F'],
    			$form_state['values']['81G'],
-   			$form_state['values']['81H'],
+   			$form_state['values']['81Otro'],
    			$form_state['values']['82'],
    			$form_state['values']['83'],
    			$form_state['values']['84'],
@@ -2436,7 +2436,7 @@ function ajsurvey_form_submit($form, &$form_state) {
 			$uuid,
 			$provider_id);
 	drupal_set_message(t('The Survey form has been submited succesfully for '.$beneficiaryDetails.'!'));
-// 	$form_state['redirect'] = 'mis-beneficiarios';
+	$form_state['redirect'] = 'mis-beneficiarios';
 
 }
 
@@ -3165,7 +3165,7 @@ function _ajsurvey_insert_data(
    			$_81E,
     		$_81F,
    			$_81G,
-   			$_81H,
+   			$_81Otro,
    			$_82,
    			$_83,
    			$_84,
@@ -3194,12 +3194,16 @@ function _ajsurvey_insert_data(
 	global $user;
 	$currentDate = format_date(time(), 'custom', 'Y-m-d H:i:s');
 
+	$_16_AB = '';
 	if ($_16 === 'Escuela') {
 		$_16_AB = '16ACuáleselnombredetuescuela';
 	} else if ($_16 === 'Universidad') {
 		$_16_AB = '16ACuáleselnombredetuuniversidad';
 	}
 
+	var_dump($_16);
+	var_dump($_16A);
+	var_dump($_16_AB);
 	$tableFields =  array(
  		'createdAt' => $currentDate,
  		'lastModifiedAt' => $currentDate,
@@ -3219,7 +3223,8 @@ function _ajsurvey_insert_data(
 		'14Sabesleeryescribir' => $_14,
 		'15Cuálesel' => $_15,
 		'16Actualmenteestasasistiendoa' => $_16,
-		$_16_AB => $_16A,
+		'16ACuáleselnombredetuescuela' => $_16 === 'Escuela'? $_16A:'',
+		'16ACuáleselnombredetuuniversidad' => $_16 === 'Universidad'? $_16A:'',
 		'16BQuégradoestascursandoactualmente' => $_16B,
 		'16CCuálnivel' => $_16C,
 		'16DAquétandaasistes' => $_16D,
@@ -3374,7 +3379,7 @@ function _ajsurvey_insert_data(
 		'81EMetanfetaminaocristal' => $_81E,
 		'81FxtasisMDMA' => $_81F,
 		'81GInhalantes' => $_81G,
-		'81HOtraespecifica' => $_81H,
+		'81HOtraespecifica' => $_81Otro,
 		'82Algunavezhastenidorelacionessexuales' => $_82,
 		'83Quéedadtenías' => $_83,
 		'84Conquiéneshastenidorelacionessexuales' => $_84,
