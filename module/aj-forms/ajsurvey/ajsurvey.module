@@ -239,411 +239,13 @@ function ajsurvey_form($form, &$form_state) {
 		'#group' => 'documentation',
 	);
 
-//    array_unshift($YesNoOptions, '- Select -');
-//    $month = array(
-//    		0 => '- Select -',
-//    		1 => 'Ene',
-//    		2 => 'Feb',
-//    		3 => 'Mar',
-//      	4 => 'Abr',
-//    		5 => 'Mayo',
-//    		6 => 'Jun',
-//      	7 => 'Jul',
-//    		8 => 'Ago',
-//    		9 => 'Sep',
-//    		10 => 'Oct',
-//    		11 => 'Nov',
-//    		12 => 'Dic',
-//    );
-
-//    $day = array(
-//    		0 => '- Select -',
-//    		1 => 1,
-//    		2 => 2,
-//    		3 => 3,
-//      	4 => 4,
-//    		5 => 5,
-//    		6 => 6,
-//      	7 => 7,
-//    		8 => 8,
-//    		9 => 9,
-//    		10 => 10,
-//    		11 => 11,
-//    		12 => 12,
-// 		13 => 13,
-//      	14 => 14,
-//    		15 => 15,
-//    		16 => 16,
-//      	17 => 17,
-//    		18 => 18,
-//    		19 => 19,
-//     	20 => 20,
-//     	21 => 21,
-//    		22 => 22,
-//    		23 => 23,
-//      	24 => 24,
-//    		25 => 25,
-//    		26 => 26,
-//      	27 => 27,
-//    		28 => 28,
-//    		29 => 29,
-//    		30 => 30,
-//    		31 => 31,
-//    );
-
-//   $currentYear = format_date(time(), 'custom', 'Y');
-//   $year = array(0 => '- Select -');
-//   for($i = (int)($currentYear) - 12; $i <= ((int)($currentYear)); $i++) {
-// 	array_push($year, $i);
-//   }
-
   $sexOptions = array(
   		'' => t('- Select -'),
 		'F' => t('Femenino'),
 		'M' => t('Masculino'),
 	);
 
-//    $_13Aoptions = array(
-//      array(
-//       'dob' => array('data'=>array(
-//       						array(
-// 	      						'#type'=>'select',
-// 	      						'#title' => 'Día',
-// 								'#empty_option' => t('- Select -'),
-//       							'#empty_value' => '',
-// 	      						'#title_display'=>'invisible',
-//       							'#default_value' => 0,
-// 	      						'#options' => $day,
-// 	      						'#required' => false,
-//      						),
-//       						array(
-//       							'#type'=>'select',
-//       							'#title' => 'Mes',
-// 								'#empty_option' => t('- Select -'),
-//       							'#empty_value' => '',
-// 	      						'#title_display'=>'invisible',
-//       							'#default_value' => 0,
-//       							'#options' => $month,
-//       							'#required' => false,
-//      						),
-// 							array(
-//       							'#type'=>'select',
-//       							'#title' => 'Año',
-// 								'#empty_option' => t('- Select -'),
-//       							'#empty_value' => '',
-// 	      						'#title_display'=>'invisible',
-// 								'#default_value' => 0,
-//       							'#options' => drupal_map_assoc($year),
-//       							'#required' => false,
-//      						)
-//       					),
-//     			),
-//       'sex' => array('data'=>array(
-//       						'#type'=>'select',
-//       						'#title' => 'no title',
-// 							'#empty_option' => t('- Select -'),
-//       						'#title_display'=>'invisible',
-//       						'#options' => $sexOptions,
-//       						'#required' => false,
-//      						),
-//     					),
-//       'same_house' => array('data'=>array(
-//       						'#type'=>'select',
-//       						'#title' => 'no title',
-// 							'#empty_option' => t('- Select -'),
-//       						'#title_display'=>'invisible',
-//       						'#options' => drupal_map_assoc($YesNoOptions),
-//       						'#required' => false,
-//      						),
-//     					),
-//       'certificate' => array('data'=>array(
-//       						'#type'=>'select',
-//       						'#title' => 'no title',
-// 							'#empty_option' => t('- Select -'),
-//       						'#title_display'=>'invisible',
-//       						'#options' => drupal_map_assoc($YesNoOptions),
-//       						'#required' => false,
-//      						),
-//     					),
-//   	),
-// array(
-//       'dob' => array('data'=>array(
-//       						array(
-// 	      						'#type'=>'select',
-// 	      						'#title' => 'Día',
-// 								'#empty_option' => t('- Select -'),
-//       							'#empty_value' => '',
-// 	      						'#title_display'=>'invisible',
-//       							'#default_value' => 0,
-// 	      						'#options' => $day,
-// 	      						'#required' => false,
-//      						),
-//       						array(
-//       							'#type'=>'select',
-//       							'#title' => 'Mes',
-// 								'#empty_option' => t('- Select -'),
-//       							'#empty_value' => '',
-// 	      						'#title_display'=>'invisible',
-//       							'#default_value' => 0,
-//       							'#options' => $month,
-//       							'#required' => false,
-//      						),
-// 							array(
-//       							'#type'=>'select',
-//       							'#title' => 'Año',
-// 								'#empty_option' => t('- Select -'),
-//       							'#empty_value' => '',
-// 	      						'#title_display'=>'invisible',
-// 								'#default_value' => 0,
-//       							'#options' => drupal_map_assoc($year),
-//       							'#required' => false,
-//      						)
-//       					),
-//     			),
-//       'sex' => array('data'=>array(
-//       						'#type'=>'select',
-//       						'#title' => 'no title',
-// 							'#empty_option' => t('- Select -'),
-//       						'#title_display'=>'invisible',
-//       						'#options' => $sexOptions,
-//       						'#required' => false,
-//      						),
-//     					),
-//       'same_house' => array('data'=>array(
-//       						'#type'=>'select',
-//       						'#title' => 'no title',
-// 							'#empty_option' => t('- Select -'),
-//       						'#title_display'=>'invisible',
-//       						'#options' => drupal_map_assoc($YesNoOptions),
-//       						'#required' => false,
-//      						),
-//     					),
-//       'certificate' => array('data'=>array(
-//       						'#type'=>'select',
-//       						'#title' => 'no title',
-// 							'#empty_option' => t('- Select -'),
-//       						'#title_display'=>'invisible',
-//       						'#options' => drupal_map_assoc($YesNoOptions),
-//       						'#required' => false,
-//      						),
-//     					),
-//   	),
-//    	array(
-//       'dob' => array('data'=>array(
-//       						array(
-// 	      						'#type'=>'select',
-// 	      						'#title' => 'Día',
-// 								'#empty_option' => t('- Select -'),
-//       							'#empty_value' => '',
-// 	      						'#title_display'=>'invisible',
-//       							'#default_value' => 0,
-// 	      						'#options' => $day,
-// 	      						'#required' => false,
-//      						),
-//       						array(
-//       							'#type'=>'select',
-//       							'#title' => 'Mes',
-// 								'#empty_option' => t('- Select -'),
-//       							'#empty_value' => '',
-// 	      						'#title_display'=>'invisible',
-//       							'#default_value' => 0,
-//       							'#options' => $month,
-//       							'#required' => false,
-//      						),
-// 							array(
-//       							'#type'=>'select',
-//       							'#title' => 'Año',
-// 								'#empty_option' => t('- Select -'),
-//       							'#empty_value' => '',
-// 	      						'#title_display'=>'invisible',
-// 								'#default_value' => 0,
-//       							'#options' => drupal_map_assoc($year),
-//       							'#required' => false,
-//      						)
-//       					),
-//     			),
-//       'sex' => array('data'=>array(
-//       						'#type'=>'select',
-//       						'#title' => 'no title',
-// 							'#empty_option' => t('- Select -'),
-//       						'#title_display'=>'invisible',
-//       						'#options' => $sexOptions,
-//       						'#required' => false,
-//      						),
-//     					),
-//       'same_house' => array('data'=>array(
-//       						'#type'=>'select',
-//       						'#title' => 'no title',
-// 							'#empty_option' => t('- Select -'),
-//       						'#title_display'=>'invisible',
-//       						'#options' => drupal_map_assoc($YesNoOptions),
-//       						'#required' => false,
-//      						),
-//     					),
-//       'certificate' => array('data'=>array(
-//       						'#type'=>'select',
-//       						'#title' => 'no title',
-// 							'#empty_option' => t('- Select -'),
-//       						'#title_display'=>'invisible',
-//       						'#options' => drupal_map_assoc($YesNoOptions),
-//       						'#required' => false,
-//      						),
-//     					),
-//   	),
-//    	array(
-//       'dob' => array('data'=>array(
-//       						array(
-// 	      						'#type'=>'select',
-// 	      						'#title' => 'Día',
-// 								'#empty_option' => t('- Select -'),
-//       							'#empty_value' => '',
-// 	      						'#title_display'=>'invisible',
-//       							'#default_value' => 0,
-// 	      						'#options' => $day,
-// 	      						'#required' => false,
-//      						),
-//       						array(
-//       							'#type'=>'select',
-//       							'#title' => 'Mes',
-// 								'#empty_option' => t('- Select -'),
-//       							'#empty_value' => '',
-// 	      						'#title_display'=>'invisible',
-//       							'#default_value' => 0,
-//       							'#options' => $month,
-//       							'#required' => false,
-//      						),
-// 							array(
-//       							'#type'=>'select',
-//       							'#title' => 'Año',
-// 								'#empty_option' => t('- Select -'),
-//       							'#empty_value' => '',
-// 	      						'#title_display'=>'invisible',
-// 								'#default_value' => 0,
-//       							'#options' => drupal_map_assoc($year),
-//       							'#required' => false,
-//      						)
-//       					),
-//     			),
-//       'sex' => array('data'=>array(
-//       						'#type'=>'select',
-//       						'#title' => 'no title',
-// 							'#empty_option' => t('- Select -'),
-//       						'#title_display'=>'invisible',
-//       						'#options' => $sexOptions,
-//       						'#required' => false,
-//      						),
-//     					),
-//       'same_house' => array('data'=>array(
-//       						'#type'=>'select',
-//       						'#title' => 'no title',
-// 							'#empty_option' => t('- Select -'),
-//       						'#title_display'=>'invisible',
-//       						'#options' => drupal_map_assoc($YesNoOptions),
-//       						'#required' => false,
-//      						),
-//     					),
-//       'certificate' => array('data'=>array(
-//       						'#type'=>'select',
-//       						'#title' => 'no title',
-// 							'#empty_option' => t('- Select -'),
-//       						'#title_display'=>'invisible',
-//       						'#options' => drupal_map_assoc($YesNoOptions),
-//       						'#required' => false,
-//      						),
-//     					),
-//   	),
-//    	array(
-//       'dob' => array('data'=>array(
-//       						array(
-// 	      						'#type'=>'select',
-// 	      						'#title' => 'Día',
-// 								'#empty_option' => t('- Select -'),
-//       							'#empty_value' => '',
-// 	      						'#title_display'=>'invisible',
-//       							'#default_value' => 0,
-// 	      						'#options' => $day,
-// 	      						'#required' => false,
-//      						),
-//       						array(
-//       							'#type'=>'select',
-//       							'#title' => 'Mes',
-// 								'#empty_option' => t('- Select -'),
-//       							'#empty_value' => '',
-// 	      						'#title_display'=>'invisible',
-//       							'#default_value' => 0,
-//       							'#options' => $month,
-//       							'#required' => false,
-//      						),
-// 							array(
-//       							'#type'=>'select',
-//       							'#title' => 'Año',
-// 								'#empty_option' => t('- Select -'),
-//       							'#empty_value' => '',
-// 	      						'#title_display'=>'invisible',
-// 								'#default_value' => 0,
-//       							'#options' => drupal_map_assoc($year),
-//       							'#required' => false,
-//      						)
-//       					),
-//     			),
-//       'sex' => array('data'=>array(
-//       						'#type'=>'select',
-//       						'#title' => 'no title',
-// 							'#empty_option' => t('- Select -'),
-//       						'#title_display'=>'invisible',
-//       						'#options' => $sexOptions,
-//       						'#required' => false,
-//      						),
-//     					),
-//       'same_house' => array('data'=>array(
-//       						'#type'=>'select',
-//       						'#title' => 'no title',
-// 							'#empty_option' => t('- Select -'),
-//       						'#title_display'=>'invisible',
-//       						'#options' => drupal_map_assoc($YesNoOptions),
-//       						'#required' => false,
-//      						),
-//     					),
-//       'certificate' => array('data'=>array(
-//       						'#type'=>'select',
-//       						'#title' => 'no title',
-// 							'#empty_option' => t('- Select -'),
-//       						'#title_display'=>'invisible',
-//       						'#options' => drupal_map_assoc($YesNoOptions),
-//       						'#required' => false,
-//      						),
-//     					),
-//   	),
-//   );
 
-//   $_13Aheader = array(
-//     'dob' => t('Fecha de nacimiento DD-MM-AAAA'),
-//     'sex' => t('Sexo'),
-//     'same_house' => t('¿Tú y el/la niño/a viven en la misma casa?'),
-//     'certificate' => t('¿Este niño/a tiene un acta de nacimiento dominicana?'),
-//   );
-
-//   $_13Acontent = array(
-//     '#type' => 'tableselect',
-//     '#header' => $_13Aheader,
-//     '#options' => $_13Aoptions,
-//   	'#js_select' => false,
-//   	'#required' => true,
-//  	'#group' => 'documentation',
-//   );
-
-// $_13Acontent['#options'][0]['#attributes']['disabled'] = TRUE;
-// $_13Acontent[0]['#disabled'] = true;
-// $_13Acontent['#options'][1]['#attributes']['disabled'] = TRUE;
-// $_13Acontent[1]['#disabled'] = true;
-// $_13Acontent['#options'][2]['#attributes']['disabled'] = TRUE;
-// $_13Acontent[2]['#disabled'] = true;
-// $_13Acontent['#options'][3]['#attributes']['disabled'] = TRUE;
-// $_13Acontent[3]['#disabled'] = true;
-// $_13Acontent['#options'][4]['#attributes']['disabled'] = TRUE;
-// $_13Acontent[4]['#disabled'] = true;
-
-// array_shift($YesNoOptions);
 
 $_13Acontainer1 = array(
 	'#type' => 'fieldset',
@@ -924,11 +526,25 @@ $form['education']['16A'] = array(
     	),
 	);
 
+$sixteenBOptions = array(
+	'1ro',
+	'2do',
+	'3ro',
+	'4to',
+	'5to',
+	'6to',
+	'7mo',
+	'8vo',
+	'No responde'
+);
+
 $form['education']['16B'] = array(
-		'#type' => 'textfield',
-		'#title' => t('16B. ¿Qué grado estas cursando actualmente?:'),
+		'#type' => 'select',
+		'#title' => t('16B. ¿Qué grado estás cursando actualmente?:'),
 		'#required' => false,
 		'#group' => 'education',
+		'#empty_option' => t('- Select -'),
+		'#options' => drupal_map_assoc($sixteenBOptions),
 		'#states' => array(
       		'visible' => array(
         		array('select[name="16"]' => array('value' => 'Escuela')),
@@ -1157,8 +773,9 @@ $twentyfourOptions = array(
 		'#type' => 'select',
 		'#title' => t('26. Durante la última semana, ¿realizaste algún trabajo por paga o ganancia?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
-		'#required' => true,
+		'#required' => false,
 		'#group' => 'labor',
+		'#empty_option' => t('- Select -'),
 		'#states' => array(
       		'visible' => array(
         		'select[name="25"]' => array('value' => 'Sí'),
@@ -1169,7 +786,7 @@ $twentyfourOptions = array(
 	$form['labor']['26A'] = array(
 		'#type' => 'textfield',
 		'#title' => t('26A. Describe lo que haces en tu trabajo actual:'),
-		'#required' => true,
+		'#required' => FALSE,
 		'#maxlength' => 50,
 		'#states' => array(
       		'visible' => array(
@@ -1183,7 +800,7 @@ $twentyfourOptions = array(
 	$form['labor']['27'] = array(
 		'#type' => 'date',
 		'#title' => t('27. ¿Cuándo comenzaste en tu trabajo actual?'),
-		'#required' => true,
+		'#required' => false,
 		'#default_value' =>	array('year' => 1990, 'month' => null, 'day' => null),
 		'#description' => t('El día puede ser aproximado'),
 		'#states' => array(
@@ -1211,8 +828,9 @@ $twentyfourOptions = array(
 	$form['labor']['28'] = array(
 		'#type' => 'select',
 		'#title' => t('28. ¿En qué lugar realizas este trabajo?'),
-		'#required' => true,
+		'#required' => false,
 		'#options' => drupal_map_assoc($twentyeightOptions),
+		'#empty_option' => t('- Select -'),
 		'#states' => array(
       		'visible' => array(
       			'select[name="25"]' => array('value' => 'Sí'),
@@ -1225,7 +843,7 @@ $twentyfourOptions = array(
 	$form['labor']['28Otro'] = array(
 		'#type' => 'textfield',
 		'#title' => t('28. Otros (especifica):'),
-		'#required' => true,
+		'#required' => false,
 		'#maxlength' => 50,
 		'#states' => array(
       		'visible' => array(
@@ -1240,7 +858,8 @@ $twentyfourOptions = array(
 	$form['labor']['29'] = array(
 		'#type' => 'textfield',
 		'#title' => t('29. ¿Cuántas horas trabajas en un día?'),
-		'#required' => true,
+		'#description' => t('Sólo valores numéricos'),
+		'#required' => false,
 		'#maxlength' => 50,
 		'#states' => array(
       		'visible' => array(
@@ -1254,7 +873,8 @@ $twentyfourOptions = array(
 	$form['labor']['30'] = array(
 		'#type' => 'textfield',
 		'#title' => t('30. ¿Cuántos días trabajas en una semana?'),
-		'#required' => true,
+		'#required' => false,
+		'#description' => t('Sólo valores numéricos'),
 		'#maxlength' => 50,
 		'#states' => array(
       		'visible' => array(
@@ -1268,7 +888,8 @@ $twentyfourOptions = array(
 	$form['labor']['31'] = array(
 		'#type' => 'textfield',
 		'#title' => t('31. En promedio, ¿cuánto ganas en una semana?'),
-		'#required' => true,
+		'#required' => false,
+		'#description' => t('Sólo valores numéricos'),
 		'#maxlength' => 50,
 		'#states' => array(
       		'visible' => array(
@@ -1293,7 +914,8 @@ $twentyfourOptions = array(
 	$form['labor']['32'] = array(
 		'#type' => 'select',
 		'#title' => t('32. ¿En este trabajo tú eres…?'),
-		'#required' => true,
+		'#required' => false,
+		'#empty_option' => t('- Select -'),
 		'#options' => drupal_map_assoc($thirtytwoOptions),
 		'#states' => array(
       		'visible' => array(
@@ -1307,7 +929,7 @@ $twentyfourOptions = array(
 	$form['labor']['32Otro'] = array(
 		'#type' => 'textfield',
 		'#title' => t('32. Otros (especifica):'),
-		'#required' => true,
+		'#required' => false,
 		'#maxlength' => 50,
 		'#states' => array(
       		'visible' => array(
@@ -1330,7 +952,7 @@ $twentyfourOptions = array(
 	$form['labor']['33A'] = array(
 		'#type' => 'textfield',
 		'#title' => t('33A. Describe lo que haces en este trabajo:'),
-		'#required' => true,
+		'#required' => false,
 		'#maxlength' => 50,
 		'#states' => array(
       		'visible' => array(
@@ -1343,7 +965,7 @@ $twentyfourOptions = array(
 	$form['labor']['34'] = array(
 		'#type' => 'date',
 		'#title' => t('34. ¿Cuándo comenzaste este trabajo?'),
-		'#required' => true,
+		'#required' => false,
 		'#default_value' =>	array('year' => 1990, 'month' => null, 'day' => null),
 		'#description' => t('El día puede ser aproximado'),
 		'#states' => array(
@@ -1372,7 +994,7 @@ $twentyfourOptions = array(
 		'#title' => t('35. ¿En qué lugar realizas este trabajo?'),
 		'#options' => drupal_map_assoc($thirtyfiveOptions),
 		'#empty_option' => t('- Select -'),
-		'#required' => true,
+		'#required' => false,
 		'#states' => array(
       		'visible' => array(
       			'select[name="33"]' => array('value' => 'Sí'),
@@ -1383,8 +1005,8 @@ $twentyfourOptions = array(
 
 	$form['labor']['35Otro'] = array(
 		'#type' => 'textfield',
-		'#title' => t('32. Otros (especifica):'),
-		'#required' => true,
+		'#title' => t('35. Otros (especifica):'),
+		'#required' => false,
 		'#maxlength' => 50,
 		'#states' => array(
       		'visible' => array(
@@ -1398,7 +1020,7 @@ $twentyfourOptions = array(
 	$form['labor']['36'] = array(
 		'#type' => 'textfield',
 		'#title' => t('36. ¿Cuántas horas trabajas en un día?'),
-		'#required' => true,
+		'#required' => false,
 		'#maxlength' => 50,
 		'#states' => array(
       		'visible' => array(
@@ -1411,7 +1033,7 @@ $twentyfourOptions = array(
 	$form['labor']['37'] = array(
 		'#type' => 'textfield',
 		'#title' => t('37. ¿Cuántos días trabajas en una semana?'),
-		'#required' => true,
+		'#required' => false,
 		'#maxlength' => 50,
 		'#states' => array(
       		'visible' => array(
@@ -1436,7 +1058,7 @@ $twentyfourOptions = array(
 		'#title' => t('38. ¿En este trabajo tú eres…?'),
 		'#options' => drupal_map_assoc($thirtyeightOptions),
 		'#empty_option' => t('- Select -'),
-		'#required' => true,
+		'#required' => false,
 		'#states' => array(
       		'visible' => array(
       			'select[name="33"]' => array('value' => 'Sí'),
@@ -1447,8 +1069,8 @@ $twentyfourOptions = array(
 
 	$form['labor']['38Otro'] = array(
 		'#type' => 'textfield',
-		'#title' => t('32. Otros (especifica):'),
-		'#required' => true,
+		'#title' => t('38. Otros (especifica):'),
+		'#required' => false,
 		'#maxlength' => 50,
 		'#states' => array(
       		'visible' => array(
@@ -1618,7 +1240,7 @@ $twentyfourOptions = array(
 		'#title' => t('49A. Si la respuesta es afirmativa, ¿sucedió esto en los últimos 12 meses?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#empty_option' => t('- Select -'),
-		'#required' => true,
+		'#required' => false,
 		'#states' => array(
       		'visible' => array(
       			'select[name="49"]' => array('value' => 'Sí'),
@@ -1641,7 +1263,7 @@ $twentyfourOptions = array(
 		'#title' => t('50A. Si la respuesta es afirmativa, ¿sucedió esto en los últimos 12 meses?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#empty_option' => t('- Select -'),
-		'#required' => true,
+		'#required' => false,
 		'#states' => array(
       		'visible' => array(
       			'select[name="50"]' => array('value' => 'Sí'),
@@ -1664,7 +1286,7 @@ $twentyfourOptions = array(
 		'#title' => t('51A. Si la respuesta es afirmativa, ¿sucedió esto en los últimos 12 meses?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#empty_option' => t('- Select -'),
-		'#required' => true,
+		'#required' => false,
 		'#states' => array(
       		'visible' => array(
       			'select[name="51"]' => array('value' => 'Sí'),
@@ -1712,7 +1334,7 @@ $twentyfourOptions = array(
 		'#title' => t('54A. Si la respuesta es afirmativa, en cuál(es) lugar(es) pasó:'),
 		'#options' => drupal_map_assoc($fortyoneOptions),
 		'#empty_option' => t('- Select -'),
-		'#required' => true,
+		'#required' => false,
 		'#states' => array(
       		'visible' => array(
       			'select[name="54"]' => array('value' => 'Sí'),
@@ -1735,7 +1357,7 @@ $twentyfourOptions = array(
 		'#title' => t('55A. Si la respuesta es afirmativa, en cuál(es) lugar(es) pasó:'),
 		'#options' => drupal_map_assoc($fortyoneOptions),
 		'#empty_option' => t('- Select -'),
-		'#required' => true,
+		'#required' => false,
 		'#states' => array(
       		'visible' => array(
       			'select[name="55"]' => array('value' => 'Sí'),
@@ -1758,7 +1380,7 @@ $twentyfourOptions = array(
 		'#title' => t('56A. Si la respuesta es afirmativa, en cuál(es) lugar(es) pasó:'),
 		'#options' => drupal_map_assoc($fortyoneOptions),
 		'#empty_option' => t('- Select -'),
-		'#required' => true,
+		'#required' => false,
 		'#states' => array(
       		'visible' => array(
       			'select[name="56"]' => array('value' => 'Sí'),
@@ -1781,7 +1403,7 @@ $twentyfourOptions = array(
 		'#title' => t('57A. Si la respuesta es afirmativa, en cuál(es) lugar(es) pasó'),
 		'#options' => drupal_map_assoc($fortyoneOptions),
 		'#empty_option' => t('- Select -'),
-		'#required' => true,
+		'#required' => false,
 		'#states' => array(
       		'visible' => array(
       			'select[name="57"]' => array('value' => 'Sí'),
@@ -1804,7 +1426,7 @@ $twentyfourOptions = array(
 		'#title' => t('58A. Si la respuesta es afirmativa, en cuál(es) lugar(es) pasó'),
 		'#options' => drupal_map_assoc($fortyoneOptions),
 		'#empty_option' => t('- Select -'),
-		'#required' => true,
+		'#required' => false,
 		'#states' => array(
       		'visible' => array(
       			'select[name="58"]' => array('value' => 'Sí'),
@@ -1827,7 +1449,7 @@ $twentyfourOptions = array(
 		'#title' => t('59A. Si la respuesta es afirmativa, en cuál(es) lugar(es) pasó'),
 		'#options' => drupal_map_assoc($fortyoneOptions),
 		'#empty_option' => t('- Select -'),
-		'#required' => true,
+		'#required' => false,
 		'#states' => array(
       		'visible' => array(
       			'select[name="59"]' => array('value' => 'Sí'),
@@ -1849,7 +1471,7 @@ $twentyfourOptions = array(
 		'#title' => t('60A. Si la respuesta es afirmativa, en cuál(es) lugar(es) pasó'),
 		'#options' => drupal_map_assoc($fortyoneOptions),
 		'#empty_option' => t('- Select -'),
-		'#required' => true,
+		'#required' => false,
 		'#states' => array(
       		'visible' => array(
       			'select[name="60"]' => array('value' => 'Sí'),
@@ -1871,7 +1493,7 @@ $twentyfourOptions = array(
 		'#title' => t('61A. Si la respuesta es afirmativa, en cuál(es) lugar(es) pasó'),
 		'#options' => drupal_map_assoc($fortyoneOptions),
 		'#empty_option' => t('- Select -'),
-		'#required' => true,
+		'#required' => false,
 		'#states' => array(
       		'visible' => array(
       			'select[name="61"]' => array('value' => 'Sí'),
@@ -1893,7 +1515,7 @@ $twentyfourOptions = array(
 		'#title' => t('62A. Si la respuesta es afirmativa, en cuál(es) lugar(es) pasó'),
 		'#options' => drupal_map_assoc($fortyoneOptions),
 		'#empty_option' => t('- Select -'),
-		'#required' => true,
+		'#required' => false,
 		'#states' => array(
       		'visible' => array(
       			'select[name="62"]' => array('value' => 'Sí'),
@@ -1915,7 +1537,7 @@ $twentyfourOptions = array(
 		'#title' => t('63A. Si la respuesta es afirmativa, en cuál(es) lugar(es) pasó'),
 		'#options' => drupal_map_assoc($fortyoneOptions),
 		'#empty_option' => t('- Select -'),
-		'#required' => true,
+		'#required' => false,
 		'#states' => array(
       		'visible' => array(
       			'select[name="63"]' => array('value' => 'Sí'),
@@ -2009,7 +1631,7 @@ $twentyfourOptions = array(
 		'#title' => t('73A. ¿Actualmente, estás involucrado en una pandilla?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#empty_option' => t('- Select -'),
-		'#required' => true,
+		'#required' => false,
 		'#states' => array(
       		'visible' => array(
       			'select[name="73"]' => array('value' => 'Sí'),
@@ -2030,7 +1652,7 @@ $twentyfourOptions = array(
 		'#title' => t('74A. Si la respuesta es afirmativa, en cuál(es) lugar(es) pasó'),
 		'#options' => drupal_map_assoc($fortyoneOptions),
 		'#empty_option' => t('- Select -'),
-		'#required' => true,
+		'#required' => false,
 		'#states' => array(
       		'visible' => array(
       			'select[name="74"]' => array('value' => 'Sí'),
@@ -2038,8 +1660,6 @@ $twentyfourOptions = array(
     	),
 		'#group' => 'justice',
 	);
-
-
 
 	$form['drugs']['75'] = array(
 		'#type' => 'select',
@@ -2062,7 +1682,7 @@ $twentyfourOptions = array(
 		'#title' => t('76A. En los últimos 12 meses, ¿has consumido alcohol?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#empty_option' => t('- Select -'),
-		'#required' => true,
+		'#required' => false,
 		'#states' => array(
       		'visible' => array(
       			'select[name="76"]' => array('value' => 'Sí'),
@@ -2075,7 +1695,7 @@ $twentyfourOptions = array(
 		'#title' => t('76B. En los últimos 12 meses, ¿has tomado cinco vasos/copas o más de bebidas alcohólicas en el mismo día?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#empty_option' => t('- Select -'),
-		'#required' => true,
+		'#required' => false,
 		'#states' => array(
       		'visible' => array(
       			'select[name="76"]' => array('value' => 'Sí'),
@@ -2096,7 +1716,7 @@ $twentyfourOptions = array(
 		'#title' => t('78. ¿Has usado en alguna ocasión una aguja para inyectarte droga?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#empty_option' => t('- Select -'),
-		'#required' => true,
+		'#required' => false,
 		'#states' => array(
       		'visible' => array(
       			'select[name="77"]' => array('value' => 'Sí'),
@@ -2120,7 +1740,7 @@ $twentyfourOptions = array(
 		'#title' => t('79. Marca con una X todos los nombres de drogas que hayas probado en algún momento:'),
 		'#options' => drupal_map_assoc($seventynineOptions),
 		'#empty_option' => t('- Select -'),
-		'#required' => true,
+		'#required' => false,
 		'#states' => array(
       		'visible' => array(
       			'select[name="77"]' => array('value' => 'Sí'),
@@ -2146,7 +1766,7 @@ $twentyfourOptions = array(
 		'#title' => t('80. Marca con una X todos los nombres de drogas que hayas probado en los últimos 12 meses:'),
 		'#options' => drupal_map_assoc($seventynineOptions),
 		'#empty_option' => t('- Select -'),
-		'#required' => true,
+		'#required' => false,
 		'#states' => array(
       		'visible' => array(
       			'select[name="77"]' => array('value' => 'Sí'),
@@ -2218,18 +1838,6 @@ $twentyfourOptions = array(
 	$form['drugs']['81D'] = array(
 		'#type' => 'textfield',
 		'#title' => t('Heroína'),
-		'#required' => false,
-		'#maxlength' => 50,
-		'#states' => array(
-      		'visible' => array(
-      			'select[name="77"]' => array('value' => 'Sí'),
-      			),
-    		),
-		'#group' => 'drugs',
-	);
-	$form['drugs']['81E'] = array(
-		'#type' => 'textfield',
-		'#title' => t('Metanfetamina o cristal'),
 		'#required' => false,
 		'#maxlength' => 50,
 		'#states' => array(
@@ -2356,7 +1964,7 @@ $twentyfourOptions = array(
 		'#title' => t('86. La última vez que tuviste relaciones sexuales, ¿tú o tu compañero/a utilizó un condón?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#empty_option' => t('- Select -'),
-		'#required' => true,
+		'#required' => false,
 		'#group' => 'sexual',
 		'#states' => array(
       		'visible' => array(
@@ -2409,7 +2017,7 @@ $twentyfourOptions = array(
 		'#title' => t('88. ¿Alguna vez alguien te ha obligado a tener relaciones sexuales?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#empty_option' => t('- Select -'),
-		'#required' => true,
+		'#required' => false,
 		'#group' => 'sexual',
 		'#states' => array(
       		'visible' => array(
@@ -2422,7 +2030,7 @@ $twentyfourOptions = array(
 		'#title' => t('89. ¿Alguna vez has tenido relaciones sexuales por dinero, bienes (celulares, vivienda, etc.) o servicios (protección, comida, etc.)?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#empty_option' => t('- Select -'),
-		'#required' => true,
+		'#required' => false,
 		'#group' => 'sexual',
 		'#states' => array(
       		'visible' => array(
@@ -2442,7 +2050,7 @@ $twentyfourOptions = array(
 		'#title' => t('89B. Si la respuesta es afirmativa, ¿Cuándo fue la última vez?'),
 		'#options' => drupal_map_assoc($eightynineBOptions),
 		'#empty_option' => t('- Select -'),
-		'#required' => true,
+		'#required' => false,
 		'#group' => 'sexual',
 		'#states' => array(
       		'visible' => array(
@@ -2456,7 +2064,7 @@ $twentyfourOptions = array(
 		'#title' => t('90. Si quisieras comprar un condón, ¿crees que podrías encontrarlo?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#empty_option' => t('- Select -'),
-		'#required' => true,
+		'#required' => false,
 		'#group' => 'sexual',
 		'#states' => array(
       		'visible' => array(
@@ -2469,7 +2077,7 @@ $twentyfourOptions = array(
 		'#title' => t('91. Si quisieras tener sexo, ¿crees que podrias convencer a tu pareja de que use condón en caso de que él/ella se niegue a usarlo?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#empty_option' => t('- Select -'),
-		'#required' => true,
+		'#required' => false,
 		'#group' => 'sexual',
 		'#states' => array(
       		'visible' => array(
@@ -2482,7 +2090,7 @@ $twentyfourOptions = array(
 		'#title' => t('92. ¿Te sientes capaz de tener una conversación abierta y honesta sobre sexo con sus padres?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#empty_option' => t('- Select -'),
-		'#required' => true,
+		'#required' => false,
 		'#group' => 'sexual',
 		'#states' => array(
       		'visible' => array(
@@ -2495,7 +2103,7 @@ $twentyfourOptions = array(
 		'#title' => t('93. ¿Alguna vez has tenido una conversación abierta y honesta sobre sexo con tus padres?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#empty_option' => t('- Select -'),
-		'#required' => true,
+		'#required' => false,
 		'#group' => 'sexual',
 		'#states' => array(
       		'visible' => array(
@@ -2508,7 +2116,7 @@ $twentyfourOptions = array(
 		'#title' => t('94. ¿Alguna vez alguien te ha enseñado (o hablado) acerca de las infecciones de transmisión sexual?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#empty_option' => t('- Select -'),
-		'#required' => true,
+		'#required' => false,
 		'#group' => 'sexual',
 		'#states' => array(
       		'visible' => array(
@@ -2531,7 +2139,7 @@ $twentyfourOptions = array(
 		'#title' => t('94A. Si la respuesta es afirmativa, ¿dónde has recibido información? Marca todas las que apliquen'),
 		'#options' => drupal_map_assoc($ninetyfourAOptions),
 		'#empty_option' => t('- Select -'),
-		'#required' => true,
+		'#required' => false,
 		'#group' => 'sexual',
 		'#states' => array(
       		'visible' => array(
@@ -2543,9 +2151,9 @@ $twentyfourOptions = array(
 	$form['sexual']['94AOtro'] = array(
 		'#type' => 'textfield',
 		'#title' => t('94A. Otro (Especifique):'),
-		'#options' => drupal_map_assoc($ninetyfourAOptions),
+// 		'#options' => drupal_map_assoc($ninetyfourAOptions),
 		'#empty_option' => t('- Select -'),
-		'#required' => true,
+		'#required' => false,
 		'#group' => 'sexual',
 		'#states' => array(
       		'visible' => array(
@@ -2560,7 +2168,7 @@ $twentyfourOptions = array(
 		'#title' => t('95. ¿Alguna vez alguien te ha enseñado acerca de la prevención de embarazo?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#empty_option' => t('- Select -'),
-		'#required' => true,
+		'#required' => false,
 		'#group' => 'sexual',
 		'#states' => array(
       		'visible' => array(
@@ -2573,7 +2181,7 @@ $twentyfourOptions = array(
 		'#title' => t('95A. Si la respuesta es afirmativa, ¿dónde has recibido información? Marca todas las que apliquen'),
 		'#options' => drupal_map_assoc($ninetyfourAOptions),
 		'#empty_option' => t('- Select -'),
-		'#required' => true,
+		'#required' => false,
 		'#group' => 'sexual',
 		'#states' => array(
       		'visible' => array(
@@ -2585,9 +2193,9 @@ $twentyfourOptions = array(
 	$form['sexual']['95AOtro'] = array(
 		'#type' => 'textfield',
 		'#title' => t('95A. Otro (Especifique):'),
-		'#options' => drupal_map_assoc($ninetyfourAOptions),
+// 		'#options' => drupal_map_assoc($ninetyfourAOptions),
 		'#empty_option' => t('- Select -'),
-		'#required' => true,
+		'#required' => false,
 		'#group' => 'sexual',
 		'#states' => array(
       		'visible' => array(
@@ -2602,7 +2210,7 @@ $twentyfourOptions = array(
 		'#title' => t('96. ¿Alguna vez alguien te ha enseñado acerca de la infección por VIH?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#empty_option' => t('- Select -'),
-		'#required' => true,
+		'#required' => false,
 		'#group' => 'sexual',
 		'#states' => array(
       		'visible' => array(
@@ -2615,7 +2223,7 @@ $twentyfourOptions = array(
 		'#title' => t('96A. Si la respuesta es afirmativa, ¿dónde has recibido información? Marca todas las que apliquen'),
 		'#options' => drupal_map_assoc($ninetyfourAOptions),
 		'#empty_option' => t('- Select -'),
-		'#required' => true,
+		'#required' => false,
 		'#group' => 'sexual',
 		'#states' => array(
       		'visible' => array(
@@ -2626,10 +2234,10 @@ $twentyfourOptions = array(
 	);
 	$form['sexual']['96AOtro'] = array(
 		'#type' => 'textfield',
-		'#title' => t('95A. Otro (Especifique):'),
-		'#options' => drupal_map_assoc($ninetyfourAOptions),
+		'#title' => t('96A. Otro (Especifique):'),
+// 		'#options' => drupal_map_assoc($ninetyfourAOptions),
 		'#empty_option' => t('- Select -'),
-		'#required' => true,
+		'#required' => false,
 		'#group' => 'sexual',
 		'#states' => array(
       		'visible' => array(
@@ -2643,7 +2251,7 @@ $twentyfourOptions = array(
 	$form['submit'] = array(
 		'#type' => 'submit',
 		'#value' => t('Submit'),
-		'#weight' => 100,
+		'#weight' => 120,
 	);
 
 	return $form;
@@ -2663,44 +2271,171 @@ function ajsurvey_form_submit($form, &$form_state) {
 	$beneficiary = _ajsurvey_getBeneficiaryInfo($uuid);
 	$beneficiaryDetails = $beneficiary['nombre'].' '.$beneficiary['apellido'].' ('.$uuid.')';
 
- 	$_22 = $form_state['values']['22'];
-    $_22_date = $_22['year'].'-'. (strlen($_22['month']) === 1? '0'.$_22['month']:$_22['month']).'-'.(strlen($_22['day']) === 1? '0'.$_22['day']:$_22['day']);
+ 	$registration_date = $form_state['values']['registration_date'];
+    $registration_date_string = $registration_date['year'].'-'. (strlen($registration_date['month']) === 1? '0'.$registration_date['month']:$registration_date['month']).'-'.(strlen($registration_date['day']) === 1? '0'.$registration_date['day']:$registration_date['day']);
 
-// 	_ajsurvey_insert_data(
-// 			$form_state['values']['9'],
-// 			$form_state['values']['9A'],
-// 			$form_state['values']['9AOtro'],
-// 			$form_state['values']['10'],
-// 			$form_state['values']['11'],
-// 			$form_state['values']['11A'],
-// 			$form_state['values']['11B_1'],
-// 			$form_state['values']['12'],
-// 			$form_state['values']['12A'],
-// 			$form_state['values']['13'],
-// 			$form_state['values']['13A'],
-// 			$form_state['values']['13B'],
-// 			$form_state['values']['14A'],
-// 			$form_state['values']['14B'],
-// 			$form_state['values']['15A'],
-// 			$form_state['values']['15B'],
-// 			$form_state['values']['15C'],
-// 			$form_state['values']['15D'],
-// 			$form_state['values']['16'],
-// 			$form_state['values']['17'],
-// 			$form_state['values']['18'],
-// 			$form_state['values']['19'],
-// 			$form_state['values']['19Otro'],
-// 			$form_state['values']['20'],
-// 			$form_state['values']['21'],
-// 			$_22_date,
-// 			$form_state['values']['23'],
-// 			$form_state['values']['23Otro'],
-// 			$form_state['values']['24'],
-// 			$uuid,
-// 			$provider_id);
-
+	_ajsurvey_insert_data(
+			$registration_date_string,
+			$form_state['values']['9'],
+    		$form_state['values']['9Otro'],
+			$form_state['values']['10'],
+			$form_state['values']['10_1'],
+			$form_state['values']['11'],
+    		$form_state['values']['11Otro'],
+			$form_state['values']['12'],
+			$form_state['values']['13'],
+    		$form_state['values']['dob1'],
+    		$form_state['values']['sex1'],
+    		$form_state['values']['samehouse1'],
+    		$form_state['values']['certificate1'],
+    		$form_state['values']['dob2'],
+    		$form_state['values']['sex2'],
+    		$form_state['values']['samehouse2'],
+    		$form_state['values']['certificate2'],
+    		$form_state['values']['dob3'],
+    		$form_state['values']['sex3'],
+    		$form_state['values']['samehouse3'],
+    		$form_state['values']['certificate3'],
+    		$form_state['values']['dob4'],
+    		$form_state['values']['sex4'],
+    		$form_state['values']['samehouse4'],
+    		$form_state['values']['certificate4'],
+			$form_state['values']['14'],
+			$form_state['values']['15'],
+			$form_state['values']['16'],
+			$form_state['values']['16A'],
+			$form_state['values']['16B'],
+			$form_state['values']['16C'],
+			$form_state['values']['16D'],
+			$form_state['values']['17'],
+			$form_state['values']['18'],
+			$form_state['values']['19'],
+			$form_state['values']['20'],
+			$form_state['values']['20A'],
+			$form_state['values']['21'],
+			$form_state['values']['21A'],
+			$form_state['values']['22'],
+			$form_state['values']['23'],
+			$form_state['values']['24'],
+			$form_state['values']['24Otro'],
+			$form_state['values']['25'],
+			$form_state['values']['26'],
+			$form_state['values']['26A'],
+			$form_state['values']['27'],
+			$form_state['values']['28'],
+			$form_state['values']['28Otro'],
+			$form_state['values']['29'],
+			$form_state['values']['30'],
+			$form_state['values']['31'],
+			$form_state['values']['32'],
+			$form_state['values']['32Otro'],
+			$form_state['values']['33'],
+			$form_state['values']['33A'],
+			$form_state['values']['34'],
+			$form_state['values']['35'],
+			$form_state['values']['35Otro'],
+			$form_state['values']['36'],
+			$form_state['values']['37'],
+			$form_state['values']['38'],
+			$form_state['values']['38Otro'],
+			$form_state['values']['39'],
+			$form_state['values']['40'],
+			$form_state['values']['41'],
+			$form_state['values']['42'],
+			$form_state['values']['43'],
+			$form_state['values']['44'],
+			$form_state['values']['45'],
+			$form_state['values']['46'],
+			$form_state['values']['47A'],
+			$form_state['values']['47B'],
+			$form_state['values']['47C'],
+			$form_state['values']['47D'],
+			$form_state['values']['48'],
+			$form_state['values']['49'],
+			$form_state['values']['49A'],
+			$form_state['values']['50'],
+			$form_state['values']['50A'],
+			$form_state['values']['51'],
+			$form_state['values']['51A'],
+			$form_state['values']['52'],
+			$form_state['values']['53'],
+			$form_state['values']['54'],
+			$form_state['values']['54A'],
+			$form_state['values']['55'],
+			$form_state['values']['55A'],
+			$form_state['values']['56'],
+			$form_state['values']['56A'],
+			$form_state['values']['57'],
+			$form_state['values']['57A'],
+			$form_state['values']['58'],
+			$form_state['values']['58A'],
+			$form_state['values']['59'],
+			$form_state['values']['59A'],
+			$form_state['values']['60'],
+			$form_state['values']['60A'],
+			$form_state['values']['61'],
+			$form_state['values']['61A'],
+			$form_state['values']['62'],
+			$form_state['values']['62A'],
+			$form_state['values']['63'],
+			$form_state['values']['63A'],
+			$form_state['values']['64'],
+			$form_state['values']['65'],
+			$form_state['values']['66'],
+			$form_state['values']['67'],
+			$form_state['values']['68'],
+			$form_state['values']['69'],
+			$form_state['values']['70'],
+			$form_state['values']['71'],
+			$form_state['values']['72'],
+			$form_state['values']['73'],
+			$form_state['values']['73A'],
+			$form_state['values']['74'],
+			$form_state['values']['74A'],
+			$form_state['values']['75'],
+			$form_state['values']['76'],
+			$form_state['values']['76A'],
+			$form_state['values']['76B'],
+			$form_state['values']['77'],
+			$form_state['values']['78'],
+			$form_state['values']['79'],
+			$form_state['values']['79Otro'],
+			$form_state['values']['80'],
+			$form_state['values']['80Otro'],
+   			$form_state['values']['81A'],
+   			$form_state['values']['81B'],
+   			$form_state['values']['81C'],
+   			$form_state['values']['81D'],
+   			$form_state['values']['81E'],
+    		$form_state['values']['81F'],
+   			$form_state['values']['81G'],
+   			$form_state['values']['81H'],
+   			$form_state['values']['82'],
+   			$form_state['values']['83'],
+   			$form_state['values']['84'],
+   			$form_state['values']['85'],
+   			$form_state['values']['86'],
+   			$form_state['values']['87'],
+   			$form_state['values']['87Otro'],
+   			$form_state['values']['88'],
+   			$form_state['values']['89'],
+   			$form_state['values']['89B'],
+   			$form_state['values']['90'],
+   			$form_state['values']['91'],
+   			$form_state['values']['92'],
+   			$form_state['values']['93'],
+   			$form_state['values']['94'],
+   			$form_state['values']['94A'],
+   			$form_state['values']['94AOtro'],
+   			$form_state['values']['95'],
+   			$form_state['values']['95A'],
+   			$form_state['values']['95AOtro'],
+   			$form_state['values']['96'],
+   			$form_state['values']['96A'],
+   			$form_state['values']['96AOtro'],
+			$uuid,
+			$provider_id);
 	drupal_set_message(t('The Survey form has been submited succesfully for '.$beneficiaryDetails.'!'));
-
 // 	$form_state['redirect'] = 'mis-beneficiarios';
 
 }
@@ -2731,21 +2466,109 @@ function ajsurvey_form_submit($form, &$form_state) {
     $_13sex1 = $form_state['values']['sex1'];
     $_13samehouse1 = $form_state['values']['samehouse1'];
     $_13certificate1 = $form_state['values']['certificate1'];
+    $_16 = $form_state['values']['16'];
+ 	$_16A = $form_state['values']['16A'];
+ 	$_16B = $form_state['values']['16B'];
+  	$_16C = $form_state['values']['16C'];
+   	$_16D = $form_state['values']['16D'];
+ 	$_17 = $form_state['values']['17'];
+ 	$_18 = $form_state['values']['18'];
+ 	$_19 = $form_state['values']['19'];
+ 	$_24 = $form_state['values']['24'];
+ 	$_24Otro = $form_state['values']['24Otro'];
+ 	$_25 = $form_state['values']['25'];
+ 	$_26 = $form_state['values']['26'];
+  	$_26A = $form_state['values']['26A'];
+   	$_27 = $form_state['values']['27'];
+   	$_28 = $form_state['values']['28'];
+   	$_28Otro = $form_state['values']['28Otro'];
+   	$_29 = $form_state['values']['29'];
+   	$_30 = $form_state['values']['30'];
+   	$_31 = $form_state['values']['31'];
+   	$_32 = $form_state['values']['32'];
+   	$_32Otro = $form_state['values']['32Otro'];
+   	$_30 = $form_state['values']['30'];
+   	$_31 = $form_state['values']['31'];
+   	$_32 = $form_state['values']['32'];
+   	$_33 = $form_state['values']['33'];
+   	$_33A = $form_state['values']['33A'];
+   	$_34 = $form_state['values']['34'];
+   	$_35 = $form_state['values']['35'];
+   	$_35Otro = $form_state['values']['35Otro'];
+   	$_36 = $form_state['values']['36'];
+   	$_37 = $form_state['values']['37'];
+   	$_38 = $form_state['values']['38'];
+   	$_38Otro = $form_state['values']['38Otro'];
+   	$_49 = $form_state['values']['49'];
+   	$_49A = $form_state['values']['49A'];
+   	$_50 = $form_state['values']['50'];
+   	$_50A = $form_state['values']['50A'];
+   	$_51 = $form_state['values']['51'];
+   	$_51A = $form_state['values']['51A'];
+   	$_54 = $form_state['values']['54'];
+   	$_54A = $form_state['values']['54A'];
+   	$_55 = $form_state['values']['55'];
+   	$_55A = $form_state['values']['55A'];
+   	$_56 = $form_state['values']['56'];
+   	$_56A = $form_state['values']['56A'];
+   	$_57 = $form_state['values']['57'];
+   	$_57A = $form_state['values']['57A'];
+   	$_58 = $form_state['values']['58'];
+   	$_58A = $form_state['values']['58A'];
+   	$_59 = $form_state['values']['59'];
+   	$_59A = $form_state['values']['59A'];
+   	$_60 = $form_state['values']['60'];
+   	$_60A = $form_state['values']['60A'];
+   	$_61 = $form_state['values']['61'];
+   	$_61A = $form_state['values']['61A'];
+   	$_62 = $form_state['values']['62'];
+   	$_62A = $form_state['values']['62A'];
+   	$_63 = $form_state['values']['63'];
+   	$_63A = $form_state['values']['63A'];
+   	$_73 = $form_state['values']['73'];
+   	$_73A = $form_state['values']['73A'];
+   	$_74 = $form_state['values']['74'];
+   	$_74A = $form_state['values']['74A'];
+   	$_76 = $form_state['values']['76'];
+   	$_76A = $form_state['values']['76A'];
+   	$_76B = $form_state['values']['76B'];
+   	$_77 = $form_state['values']['77'];
+   	$_78 = $form_state['values']['78'];
+   	$_79 = $form_state['values']['79'];
+   	$_79Otro = $form_state['values']['79Otro'];
+   	$_80 = $form_state['values']['80'];
+   	$_80Otro = $form_state['values']['80Otro'];
+   	$_81A = $form_state['values']['81A'];
+   	$_81B = $form_state['values']['81B'];
+   	$_81C = $form_state['values']['81C'];
+   	$_81D = $form_state['values']['81D'];
+   	$_81E = $form_state['values']['81E'];
+    $_81F = $form_state['values']['81F'];
+   	$_81G = $form_state['values']['81G'];
+   	$_82 = $form_state['values']['82'];
+   	$_83 = $form_state['values']['83'];
+   	$_84 = $form_state['values']['84'];
+   	$_85 = $form_state['values']['85'];
+   	$_86 = $form_state['values']['86'];
+   	$_87 = $form_state['values']['87'];
+   	$_87Otro = $form_state['values']['87Otro'];
+   	$_88 = $form_state['values']['88'];
+   	$_89 = $form_state['values']['89'];
+   	$_89B = $form_state['values']['89B'];
+   	$_90 = $form_state['values']['90'];
+   	$_91 = $form_state['values']['91'];
+   	$_92 = $form_state['values']['92'];
+   	$_93 = $form_state['values']['93'];
+   	$_94 = $form_state['values']['94'];
+   	$_94A = $form_state['values']['94A'];
+   	$_94AOtro = $form_state['values']['94AOtro'];
+   	$_95 = $form_state['values']['95'];
+   	$_95A = $form_state['values']['95A'];
+   	$_95AOtro = $form_state['values']['95AOtro'];
+   	$_96 = $form_state['values']['96'];
+   	$_96A = $form_state['values']['96A'];
+   	$_96AOtro = $form_state['values']['96AOtro'];
 
-//     $_13A_date = $_13A['year'].'-'. (strlen($_13A['month']) === 1? '0'.$_13A['month']:$_13A['month']).'-'.(strlen($_13A['day']) === 1? '0'.$_13A['day']:$_13A['day']);
-//     $_13B = $form_state['values']['13B'];
-//  	$_15A = $form_state['values']['15A'];
-//  	$_15B = $form_state['values']['15B'];
-//  	$_15C = $form_state['values']['15C'];
-//  	$_15D = $form_state['values']['15D'];
-//  	$_17 = $form_state['values']['17'];
-//  	$_18 = $form_state['values']['18'];
-//  	$_19 = $form_state['values']['19'];
-//  	$_19Otro = $form_state['values']['19Otro'];
-//  	$_22 = $form_state['values']['22'];
-//     $_22_date = $_22['year'].'-'. (strlen($_22['month']) === 1? '0'.$_22['month']:$_22['month']).'-'.(strlen($_22['day']) === 1? '0'.$_22['day']:$_22['day']);
-//  	$_23 = $form_state['values']['23'];
-//  	$_23Otro = $form_state['values']['23Otro'];
 
 	$now = date('Y-m-d', time());
 	$currentYear = date('Y', time());
@@ -2793,94 +2616,397 @@ function ajsurvey_form_submit($form, &$form_state) {
 			form_error($form['documentation']['13A1']['certificate1'], t('13A Hijo 1. ¿Este niño/a tiene un acta de nacimiento dominicana?: Campo requerido'));
 		}
 	}
-// 	// QUESTION 11A and 11B.1 --------------------------------------------------------------
-// 	if ($_11 === 'Sí') {
-// 		if (empty($_11A)) {
-// 			form_error($form['education']['11A'], t('11A. ¿Qué grado estás cursando actualmente?: Campo requerido'));
-// 		}
-// 		if (empty($_11B_1)) {
-// 			form_error($form['education']['11B_1'], t('11B.1 ¿Cuál nivel?: Campo requerido'));
-// 		}
-// 	}
 
-// 	// QUESTION 12A -------------------------------------------------------------------------------------
-// 	if ($_12 === 'Sí') {
-// 		if (empty($_12A)) {
-// 			form_error($form['labor']['12A'], t('12A. Si la respuesta es afirmativa, ¿cuáles cursos?: Campo requerido'));
-// 		}
-// 	}
+ 	// QUESTION 16A, 16B, 16C, 16D, 17, 18, 19 --------------------------------------------------------------
+	if($_16 === 'Escuela') {
+	 	if (empty($_16A)) {
+			form_error($form['education']['16A'], t('16A. ¿Cuál es el nombre de tu escuela o universidad?: Campo requerido'));
+		}
+		 if (empty($_16B)) {
+			form_error($form['education']['16B'], t('16B. ¿Qué grado estás cursando actualmente?: Campo requerido'));
+		}
+		if (empty($_16C)) {
+			form_error($form['education']['16C'], t('16C. ¿Cuál nivel?: Campo requerido'));
+		}
+		if (empty($_16D)) {
+			form_error($form['education']['16D'], t('16D. ¿A qué tanda asistes?: Campo requerido'));
+		}
+		if (empty($_17)) {
+			form_error($form['education']['17'], t('17. En el último año, ¿cuántas veces has faltado a la escuela por un día completo sin excusa?: Campo requerido'));
+		}
+		if (empty($_18)) {
+			form_error($form['education']['18'], t('18. En los últimos 12 meses, ¿has sido suspendido/a de la escuela?: Campo requerido'));
+		}
+		if (empty($_19)) {
+			form_error($form['education']['19'], t('19. ¿Actualmente estas asistiendo a algún programa de educación para jóvenes y adultos? Marca la opción que aplique:: Campo requerido'));
+		}
+	}
+	if($_16 === 'Universidad') {
+		if (empty($_16A)) {
+			form_error($form['education']['16A'], t('16A. ¿Cuál es el nombre de tu escuela o universidad?: Campo requerido'));
+		}
+	}
 
-// 	// QUESTION 13A and 13B -------------------------------------------------------------------------------------
-// 	if ($_13 === 'Sí') {
-// 		// Check if the date is empty
-//  		if (empty($_13A_date)) {
-// 			form_error($form['labor']['13A'], t('13A. ¿Cuándo empezaste en este trabajo?: Estos campos son requeridos'));
-// 		}
-// 		// Check if date is no later than today
-// 		if (is_string($_13A_date) && strncmp($_13A_date, $now, 10) > 0 ) {
-// 			form_error($form['labor']['13A'], t('13A. ¿Cuándo empezaste en este trabajo?: Fecha no puede ser después del día de hoy'));
-// 		}
-//  		// Check if the date is valid and has the right format
-// 		if (is_string($_13A_date) && strtotime($_13A_date) === FALSE || ((int)$_13A['year']) < 1991) {
-// 			form_error($form['labor']['13A'], t('13A. ¿Cuándo empezaste en este trabajo?: Fecha no válida'));
-// 		}
-// 		if (empty($_13B)) {
-// 			form_error($form['labor']['13B'], t('13B. ¿Estás en un mejor trabajo o empleo que el anterior?: Campo requerido'));
-// 		}
-// 	}
+ 	// QUESTION 24Otros --------------------------------------------------------------
+	if($_24['Otra meta'] === 'Otra meta') {
+		if (empty($_24Otro)) {
+			form_error($form['education']['24Otro'], t('24.Otra meta (favor especificar): Campo requerido'));
+		}
+	}
 
-// 	// QUESTION 15A, 15B, 15C, 15D -------------------------------------------------------------------------------------
-// 	if (!empty($_15A) && !is_numeric($_15A)) {
-// 		form_error($form['violence']['15A'], t('15A. ¿Cuántas veces has sido transportado por la policía?: Debe ser un valor numérico'));
-// 	}
-//  	if (!empty($_15B) && !is_numeric($_15B)) {
-// 		form_error($form['violence']['15B'], t('15B. ¿Cuántas veces has sido arrestado por la policía?:  Debe ser un valor numérico'));
-// 	}
-//  	if (!empty($_15C) && !is_numeric($_15C)) {
-// 		form_error($form['violence']['15C'], t('15C. ¿Cuántas veces has sido acusado de cometer algún delito en la fiscalía o policía?: Debe ser un valor numérico'));
-// 	}
-//  	if (!empty($_15D) && !is_numeric($_15D)) {
-// 		form_error($form['violence']['15D'], t('15D. ¿Cuántas veces has sido enviado a un centro de atención integral?: Debe ser un valor numérico'));
-// 	}
+  	// QUESTION 26 --------------------------------------------------------------
+	if($_25 === 'Sí') {
+		if (empty($_26)) {
+			form_error($form['labor']['26'], t('26. Durante la última semana, ¿realizaste algún trabajo por paga o ganancia?: Campo requerido'));
+		}
+	}
 
+   	// QUESTION 26A --------------------------------------------------------------
+	if($_26 === 'Sí') {
+		if (empty($_26A)) {
+			form_error($form['labor']['26A'], t('26A. Describe lo que haces en tu trabajo actual: Campo requerido'));
+		}
+		if ((int)($_27['year']) < ((int)$currentYear - 12)) {
+			form_error($form['labor']['27'], t('27. ¿Cuándo comenzaste en tu trabajo actual? Año no válido'));
+		}
+		if (empty($_28)) {
+			form_error($form['labor']['28'], t('28. ¿En qué lugar realizas este trabajo?: Campo requerido'));
+		}
+		if (empty($_29)) {
+			form_error($form['labor']['29'], t('29. ¿Cuántas horas trabajas en un día?: Campo requerido'));
+		} else if (!is_numeric($_29)) {
+			form_error($form['labor']['29'], t('29. ¿Cuántas horas trabajas en un día?: Sólo números permitido'));
+		}
+		if (empty($_30)) {
+			form_error($form['labor']['30'], t('30. ¿Cuántos días trabajas en una semana?: Campo requerido'));
+		} else if (!is_numeric($_30)) {
+			form_error($form['labor']['30'], t('30. ¿Cuántos días trabajas en una semana?: Sólo números permitido'));
+		}
+		if (empty($_31)) {
+			form_error($form['labor']['31'], t('31. En promedio, ¿cuánto ganas en una semana?: Campo requerido'));
+		} else if (!is_numeric($_31)) {
+			form_error($form['labor']['31'], t('31. En promedio, ¿cuánto ganas en una semana?: Sólo números permitido'));
+		}
+		if (empty($_32)) {
+			form_error($form['labor']['32'], t('32. ¿En este trabajo tú eres…?: Campo requerido'));
+		}
+	}
 
-// 	// QUESTION 18 and 19 and 19Otro -------------------------------------------------------------------------------------
-// 	if ($_17 === 'Sí') {
-// 		if (empty($_18)) {
-// 			form_error($form['sexual']['18'], t('18. La última vez que tuviste relaciones sexuales, ¿tú o tu compañero/a utilizó condón?: Campo requerido'));
-// 		}
-// 		if (empty($_19)) {
-// 			form_error($form['sexual']['19'], t('19. La última vez que tuviste relaciones sexuales, ¿cuál método usaste o tu compañero/a para prevenir el embarazo?: Campo requerido'));
-// 		} else if ($_19 === 'Otro (favor especificar)') {
-// 			if (empty($_19Otro)) {
-// 				form_error($form['sexual']['19Otro'], t('19.Otro (favor especificar): Campo requerido'));
-// 			}
-// 		}
-// 	}
+	// QUESTION 28Otro --------------------------------------------------------------
+	if($_28 === 'Otros (especifica)') {
+		if (empty($_28Otro)) {
+			form_error($form['labor']['28Otro'], t('28. Otros (especifica): Campo requerido'));
+		}
+	}
 
-// 	// QUESTION 22 --------------------------------------------------------------
-//  	// Check if the date is empty
-//  	if (empty($_22_date)) {
-// 		form_error($form['exit']['22'], t('22. Fecha de Revisión: Estos campo son requeridos'));
-// 	}
-// 	// 	Check if date is no later than today
-// 	if (is_string($_22_date) && strncmp($_22_date, $now, 10) > 0  ) {
-// 		form_error($form['exit']['22'], t('22. Fecha de Revisión: Esta fecha no puede ser después del día de hoy'));
-// 	}
-//  	// Check if the date is valid and has the right format
-// //  	watchdog('claduia', strlen($_22['month']) );
-// 	if (is_string($_22_date) && strtotime($_22_date) === FALSE || ((int)$_22['year']) < 2012) {
-// 		form_error($form['exit']['22'], t('22. Fecha de Revisión: Esta fecha no es válida'));
-// 	}
+ 	// QUESTION 32Otro --------------------------------------------------------------
+	if($_32 === 'Otros (especifica)') {
+		if (empty($_32Otro)) {
+			form_error($form['labor']['32Otro'], t('32. Otros (especifica): Campo requerido'));
+		}
+	}
 
-// 	// QUESTION 23Otro --------------------------------------------------------------
-// 	if ($_23 === 'Otro (favor especificar)') {
-// 		if (empty($_23Otro)) {
-// 				form_error($form['exit']['23Otro'], t('23.Otro (favor especificar): Campo requerido'));
-// 		}
-// 	}
+	// QUESTION 11A and 11B.1 --------------------------------------------------------------
+	if ($_33 === 'Sí') {
+		if (empty($_33A)) {
+			form_error($form['labor']['33A'], t('33A. Describe lo que haces en este trabajo: Campo requerido'));
+		}
+		if ((int)($_34['year']) < ((int)$currentYear - 12)) {
+			form_error($form['labor']['34'], t('34. ¿Cuándo comenzaste este trabajo?: Año inválido'));
+		}
+		if (empty($_35)) {
+			form_error($form['labor']['35'], t('35. ¿En qué lugar realizas este trabajo?: Campo requerido'));
+		}
+		if (empty($_36)) {
+			form_error($form['labor']['36'], t('36. ¿Cuántas horas trabajas en un día?: Campo requerido'));
+		} else if (!is_numeric($_36)) {
+			form_error($form['labor']['36'], t('36. ¿Cuántas horas trabajas en un día?: Sólo números permitido'));
+		}
+		if (empty($_37)) {
+			form_error($form['labor']['37'], t('37. ¿Cuántos días trabajas en una semana?: Campo requerido'));
+		} else if (!is_numeric($_36)) {
+			form_error($form['labor']['37'], t('37. ¿Cuántos días trabajas en una semana?: Sólo números permitido'));
+		}
+		if (empty($_38)) {
+			form_error($form['labor']['38'], t('38. ¿En este trabajo tú eres…?: Campo requerido'));
+		}
+	}
+
+	// QUESTION 35Otro -------------------------------------------------------------------------------------
+	if ($_35 === 'Otros (especifica)') {
+		if (empty($_35Otro)) {
+			form_error($form['labor']['35Otro'], t('35. Otro: Campo requerido'));
+		}
+	}
+
+ 	// QUESTION 38Otro -------------------------------------------------------------------------------------
+	if ($_38 === 'Otros (especifica)') {
+		if (empty($_38Otro)) {
+			form_error($form['labor']['38Otro'], t('38. Otro: Campo requerido'));
+		}
+	}
+
+ 	// QUESTION 49A --------------------------------------------------------------
+	if($_49 === 'Sí') {
+	 	if (empty($_49A)) {
+			form_error($form['justice']['49A'], t('49A. Si la respuesta es afirmativa, ¿sucedió esto en los últimos 12 meses?: Campo requerido'));
+		}
+	}
+
+  	// QUESTION 50A --------------------------------------------------------------
+	if($_50 === 'Sí') {
+	 	if (empty($_50A)) {
+			form_error($form['justice']['50A'], t('50A. Si la respuesta es afirmativa, ¿sucedió esto en los últimos 12 meses?: Campo requerido'));
+		}
+	}
+
+   	// QUESTION 51A --------------------------------------------------------------
+	if($_51 === 'Sí') {
+	 	if (empty($_51A)) {
+			form_error($form['justice']['51A'], t('51A. Si la respuesta es afirmativa, ¿sucedió esto en los últimos 12 meses?: Campo requerido'));
+		}
+	}
+
+    // QUESTION 54A --------------------------------------------------------------
+	if($_54 === 'Sí') {
+	 	if (empty($_54A)) {
+			form_error($form['justice']['54A'], t('54A. Si la respuesta es afirmativa, en cuál(es) lugar(es) pasó: Campo requerido'));
+		}
+	}
+
+    	// QUESTION 55A --------------------------------------------------------------
+	if($_55 === 'Sí') {
+	 	if (empty($_55A)) {
+			form_error($form['justice']['55A'], t('55A. Si la respuesta es afirmativa, en cuál(es) lugar(es) pasó: Campo requerido'));
+		}
+	}
+
+     // QUESTION 56A --------------------------------------------------------------
+	if($_56 === 'Sí') {
+	 	if (empty($_56A)) {
+			form_error($form['justice']['56A'], t('56A. Si la respuesta es afirmativa, en cuál(es) lugar(es) pasó: Campo requerido'));
+		}
+	}
+
+    // QUESTION 57A --------------------------------------------------------------
+	if($_57 === 'Sí') {
+	 	if (empty($_57A)) {
+			form_error($form['justice']['57A'], t('57A. Si la respuesta es afirmativa, en cuál(es) lugar(es) pasó: Campo requerido'));
+		}
+	}
+
+    // QUESTION 58A --------------------------------------------------------------
+	if($_58 === 'Sí') {
+	 	if (empty($_58A)) {
+			form_error($form['justice']['58A'], t('58A. Si la respuesta es afirmativa, en cuál(es) lugar(es) pasó: Campo requerido'));
+		}
+	}
+
+    // QUESTION 59A --------------------------------------------------------------
+	if($_59 === 'Sí') {
+	 	if (empty($_59A)) {
+			form_error($form['justice']['59A'], t('59A. Si la respuesta es afirmativa, en cuál(es) lugar(es) pasó: Campo requerido'));
+		}
+	}
+
+    // QUESTION 60A --------------------------------------------------------------
+	if($_60 === 'Sí') {
+	 	if (empty($_60A)) {
+			form_error($form['justice']['60A'], t('60A. Si la respuesta es afirmativa, en cuál(es) lugar(es) pasó: Campo requerido'));
+		}
+	}
+
+    // QUESTION 61A --------------------------------------------------------------
+	if($_61 === 'Sí') {
+	 	if (empty($_61A)) {
+			form_error($form['justice']['61A'], t('61A. Si la respuesta es afirmativa, en cuál(es) lugar(es) pasó: Campo requerido'));
+		}
+	}
+
+    // QUESTION 62A --------------------------------------------------------------
+	if($_62 === 'Sí') {
+	 	if (empty($_62A)) {
+			form_error($form['justice']['62A'], t('62A. Si la respuesta es afirmativa, en cuál(es) lugar(es) pasó: Campo requerido'));
+		}
+	}
+
+    // QUESTION 63A --------------------------------------------------------------
+	if($_63 === 'Sí') {
+	 	if (empty($_63A)) {
+			form_error($form['justice']['63A'], t('63A. Si la respuesta es afirmativa, en cuál(es) lugar(es) pasó: Campo requerido'));
+		}
+	}
+
+    // QUESTION 73A --------------------------------------------------------------
+	if($_73 === 'Sí') {
+	 	if (empty($_73A)) {
+			form_error($form['justice']['73A'], t('73A. ¿Actualmente, estás involucrado en una pandilla?: Campo requerido'));
+		}
+	}
+
+    // QUESTION 74A --------------------------------------------------------------
+	if($_74 === 'Sí') {
+	 	if (empty($_74A)) {
+			form_error($form['justice']['74A'], t('74A. Si la respuesta es afirmativa, en cuál(es) lugar(es) pasó: Campo requerido'));
+		}
+	}
+
+    // QUESTION 76A y 76B --------------------------------------------------------------
+	if($_76 === 'Sí') {
+	 	if (empty($_76A)) {
+			form_error($form['drugs']['76A'], t('76A. En los últimos 12 meses, ¿has consumido alcohol?: Campo requerido'));
+		}
+		 if (empty($_76B)) {
+			form_error($form['drugs']['76B'], t('76B. En los últimos 12 meses, ¿has tomado cinco vasos/copas o más de bebidas alcohólicas en el mismo día?: Campo requerido'));
+		}
+	}
+
+     // QUESTION 78, 79, 80, 81 --------------------------------------------------------------
+	if($_77 === 'Sí') {
+	 	if (empty($_78)) {
+			form_error($form['drugs']['78'], t('78. ¿Has usado en alguna ocasión una aguja para inyectarte droga?: Campo requerido'));
+		}
+		if (count(array_unique(array_values($_79))) === 1 && array_unique(array_values($_79))[0] == 0) {
+			form_error($form['drugs']['79'], t('79. Marca con una X todos los nombres de drogas que hayas probado en algún momento: Campo requerido'));
+		}
+	}
+
+  	// QUESTION 79Otro --------------------------------------------------------------
+	if($_79['Otros (especifica)'] === 'Otros (especifica)') {
+		if (empty($_79Otro)) {
+			form_error($form['drugs']['79Otro'], t('79. Otro: Campo requerido'));
+		}
+	}
+
+   	// QUESTION 80Otro --------------------------------------------------------------
+	if($_80['Otros (especifica)'] === 'Otros (especifica)') {
+		if (empty($_80Otro)) {
+			form_error($form['drugs']['80Otro'], t('80. Otro: Campo requerido'));
+		}
+	}
+
+	// 	QUESTION 81A, 81B, 81C, 81D, 81E, 81F, 81G
+	if (!empty($_81A) && !is_numeric($_81A)) {
+		form_error($form['drugs']['81A'], t('Marihuana: Sólo valores numéricos permitido'));
+	}
+ 	if (!empty($_81B) && !is_numeric($_81B)) {
+		form_error($form['drugs']['81B'], t('Crack: Sólo valores numéricos permitido'));
+	}
+  	if (!empty($_81C) && !is_numeric($_81C)) {
+		form_error($form['drugs']['81C'], t('Cocaína en polvo: Sólo valores numéricos permitido'));
+	}
+  	if (!empty($_81D) && !is_numeric($_81D)) {
+		form_error($form['drugs']['81D'], t('Heroína: Sólo valores numéricos permitido'));
+	}
+   	if (!empty($_81E) && !is_numeric($_81E)) {
+		form_error($form['drugs']['81E'], t('Metanfetamina o cristal: Sólo valores numéricos permitido'));
+	}
+   	if (!empty($_81F) && !is_numeric($_81F)) {
+		form_error($form['drugs']['81F'], t('Éxtasis/MDMA: Sólo valores numéricos permitido'));
+	}
+   	if (!empty($_81G) && !is_numeric($_81G)) {
+		form_error($form['drugs']['81G'], t('Inhalantes como pegamento, cemento, pintura, spray: Sólo valores numéricos permitido'));
+	}
+
+ 	// QUESTION 83 -------------------------------------------------------------------------------------
+	if ($_82 === 'Sí') {
+		if (empty($_83)) {
+			form_error($form['sexual']['83'], t('83. ¿Qué edad tenías la primera vez que tuviste relaciones sexuales?: Campo requerido'));
+		}
+		if (empty($_84)) {
+			form_error($form['sexual']['84'], t('84. ¿Con quiénes has tenido relaciones sexuales?: Campo requerido'));
+		}
+		if (empty($_85)) {
+			form_error($form['sexual']['85'], t('85 ¿Con cuántas personas diferentes has tenido relaciones sexuales en los últimos 12 meses?: Campo requerido'));
+		}
+		if (empty($_86)) {
+			form_error($form['sexual']['86'], t('86. La última vez que tuviste relaciones sexuales, ¿tú o tu compañero/a utilizó un condón?: Campo requerido'));
+		}
+		if (empty($_87)) {
+			form_error($form['sexual']['87'], t('87. La última vez que tuviste relaciones sexuales, ¿cuál método...: Campo requerido'));
+		}
+		if (empty($_88)) {
+			form_error($form['sexual']['88'], t('88. ¿Alguna vez alguien te ha obligado a tener relaciones sexuales?: Campo requerido'));
+		}
+		if (empty($_89)) {
+			form_error($form['sexual']['89'], t('89. ¿Alguna vez has tenido relaciones sexuales por dinero, bienes...: Campo requerido'));
+		}
+		if (empty($_90)) {
+			form_error($form['sexual']['90'], t('90. Si quisieras comprar un condón, ¿crees que podrías encontrarlo?: Campo requerido'));
+		}
+		if (empty($_91)) {
+			form_error($form['sexual']['91'], t('91. Si quisieras tener sexo, ¿crees que podrias convencer a tu pareja...: Campo requerido'));
+		}
+		if (empty($_92)) {
+			form_error($form['sexual']['92'], t('92. ¿Te sientes capaz de tener una conversación abierta y honesta...: Campo requerido'));
+		}
+		if (empty($_93)) {
+			form_error($form['sexual']['93'], t('93. ¿Alguna vez has tenido una conversación abierta y honesta...: Campo requerido'));
+		}
+		if (empty($_94)) {
+			form_error($form['sexual']['94'], t('94. ¿Alguna vez alguien te ha enseñado (o hablado) acerca de...: Campo requerido'));
+		}
+		if (empty($_95)) {
+			form_error($form['sexual']['95'], t('95. ¿Alguna vez alguien te ha enseñado acerca de la prevención...: Campo requerido'));
+		}
+		if (empty($_96)) {
+			form_error($form['sexual']['96'], t('96. ¿Alguna vez alguien te ha enseñado acerca de la infección...: Campo requerido'));
+		}
+	}
+
+	// QUESTION 83 -------------------------------------------------------------------------------------
+    if (!empty($_83) && !is_numeric($_83)) {
+		form_error($form['sexual']['83'], t('83. ¿Qué edad tenías la primera vez que tuviste relaciones sexuales?: Sólo valores numéricos permitido'));
+	}
+
+    // QUESTION 87Otro --------------------------------------------------------------
+	if($_87 === 'Otro (favor especificar)') {
+	 	if (empty($_87Otro)) {
+			form_error($form['sexual']['87Otro'], t('87. Otro (favor especificar): Campo requerido'));
+		}
+	}
+
+    // QUESTION 89B --------------------------------------------------------------
+	if($_89 === 'Sí') {
+	 	if (empty($_89B)) {
+			form_error($form['sexual']['89B'], t('89B. Si la respuesta es afirmativa, ¿Cuándo fue la última vez?: Campo requerido'));
+		}
+	}
+	// QUESTION 94A -------------------------------------------------------------------------------------
+	if ($_94 === 'Sí') {
+		if (empty($_94A)) {
+			form_error($form['sexual']['94A'], t('94A. Si la respuesta es afirmativa, ¿dónde has recibido...: Campo requerido'));
+		}
+	}
+ 	// QUESTION 95A -------------------------------------------------------------------------------------
+	if ($_95 === 'Sí') {
+		if (empty($_95A)) {
+			form_error($form['sexual']['95A'], t('95A. Si la respuesta es afirmativa, ¿dónde has recibido...: Campo requerido'));
+		}
+	}
+ 	// QUESTION 96A -------------------------------------------------------------------------------------
+	if ($_96 === 'Sí') {
+		if (empty($_96A)) {
+			form_error($form['sexual']['96A'], t('96A. Si la respuesta es afirmativa, ¿dónde has recibido...: Campo requerido'));
+		}
+	}
+
+	if ($_94A === 'Otro (especifica)') {
+		if (empty($_94AOtro)) {
+			form_error($form['sexual']['94AOtro'], t('94A. Otro (Especifique): Campo requerido'));
+		}
+	}
+ 	if ($_95A === 'Otro (especifica)') {
+		if (empty($_95AOtro)) {
+			form_error($form['sexual']['95AOtro'], t('95A. Otro (Especifique): Campo requerido'));
+		}
+	}
+ 	if ($_96A === 'Otro (especifica)') {
+		if (empty($_96AOtro)) {
+			form_error($form['sexual']['96AOtro'], t('96A. Otro (Especifique): Campo requerido'));
+		}
+	}
  }
-
 
  /**
   * Implements the hook_permissions
@@ -2894,7 +3020,6 @@ function ajsurvey_form_submit($form, &$form_state) {
 	);
  }
 
-
  /**
   *  Callback function that generates content
   */
@@ -2906,39 +3031,174 @@ function _ajsurvey_page() {
  * Script to insert the new form data
  */
 function _ajsurvey_insert_data(
+			$registration_date_string,
 			$_9,
-			$_9A,
-			$_9AOtro,
+    		$_9Otro,
 			$_10,
+			$_10_1,
 			$_11,
-			$_11A,
-			$_11B_1,
+    		$_11Otro,
 			$_12,
-			$_12A,
 			$_13,
-			$_13A,
-			$_13B,
-			$_14A,
-			$_14B,
-			$_15A,
-			$_15B,
-			$_15C,
-			$_15D,
+    		$_dob1,
+    		$_sex1,
+    		$_samehouse1,
+    		$_certificate1,
+    		$_dob2,
+    		$_sex2,
+    		$_samehouse2,
+    		$_certificate2,
+    		$_dob3,
+    		$_sex3,
+    		$_samehouse3,
+    		$_certificate3,
+    		$_dob4,
+    		$_sex4,
+    		$_samehouse4,
+    		$_certificate4,
+			$_14,
+			$_15,
 			$_16,
+			$_16A,
+			$_16B,
+			$_16C,
+			$_16D,
 			$_17,
 			$_18,
 			$_19,
-			$_19Otro,
 			$_20,
+			$_20A,
 			$_21,
+			$_21A,
 			$_22,
 			$_23,
-			$_23Otro,
 			$_24,
+			$_24Otro,
+			$_25,
+			$_26,
+			$_26A,
+			$_27,
+			$_28,
+			$_28Otro,
+			$_29,
+			$_30,
+			$_31,
+			$_32,
+			$_32Otro,
+			$_33,
+			$_33A,
+			$_34,
+			$_35,
+			$_35Otro,
+			$_36,
+			$_37,
+			$_38,
+			$_38Otro,
+			$_39,
+			$_40,
+			$_41,
+			$_42,
+			$_43,
+			$_44,
+			$_45,
+			$_46,
+			$_47A,
+			$_47B,
+			$_47C,
+			$_47D,
+			$_48,
+			$_49,
+			$_49A,
+			$_50,
+			$_50A,
+			$_51,
+			$_51A,
+			$_52,
+			$_53,
+			$_54,
+			$_54A,
+			$_55,
+			$_55A,
+			$_56,
+			$_56A,
+			$_57,
+			$_57A,
+			$_58,
+			$_58A,
+			$_59,
+			$_59A,
+			$_60,
+			$_60A,
+			$_61,
+			$_61A,
+			$_62,
+			$_62A,
+			$_63,
+			$_63A,
+			$_64,
+			$_65,
+			$_66,
+			$_67,
+			$_68,
+			$_69,
+			$_70,
+			$_71,
+			$_72,
+			$_73,
+			$_73A,
+			$_74,
+			$_74A,
+			$_75,
+			$_76,
+			$_76A,
+			$_76B,
+			$_77,
+			$_78,
+			$_79,
+			$_79Otro,
+			$_80,
+			$_80Otro,
+   			$_81A,
+   			$_81B,
+   			$_81C,
+   			$_81D,
+   			$_81E,
+    		$_81F,
+   			$_81G,
+   			$_81H,
+   			$_82,
+   			$_83,
+   			$_84,
+   			$_85,
+   			$_86,
+   			$_87,
+   			$_87Otro,
+   			$_88,
+   			$_89,
+   			$_89B,
+   			$_90,
+   			$_91,
+   			$_92,
+   			$_93,
+   			$_94,
+   			$_94A,
+   			$_94AOtro,
+   			$_95,
+   			$_95A,
+   			$_95AOtro,
+   			$_96,
+   			$_96A,
+   			$_96AOtro,
 			$uuid,
 			$provider_id) {
 	global $user;
 	$currentDate = format_date(time(), 'custom', 'Y-m-d H:i:s');
+
+	if ($_16 === 'Escuela') {
+		$_16_AB = '16ACuáleselnombredetuescuela';
+	} else if ($_16 === 'Universidad') {
+		$_16_AB = '16ACuáleselnombredetuuniversidad';
+	}
 
 	$tableFields =  array(
  		'createdAt' => $currentDate,
@@ -2947,36 +3207,227 @@ function _ajsurvey_insert_data(
 		'uuid' => $uuid,
 		'provider_id' => $provider_id,
 		'user_name' => $user->name,
-		'9Conseguistetuactade' => $_9,
-		'9AOtro' => $_9AOtro,
-		'10Tienescédula' => $_10,
-		'11Estasactualmente' => $_11,
-		'11AQuégradoestascursandoactualmente' => $_11A,
-		'11B1Cuálnivel' => $_11B_1,
-		'12Hascompletadoa' => $_12,
-		'12ASilarespuestaesafirmativacuálescursos' => $_12A,
-		'13Actualmentetienesuntrabajoenquetepaguen' => $_13,
-		'13AMes' => $_13A['month'],
-		'13AAño' => $_13A['year'],
-		'13BEstásenunmejortrabajooempleoqueelanterior' => $_13B,
-		'15ACuántasveceshassido' => $_15A,
-		'15BCuántasveceshassido' => $_15B,
-		'15CCuántasveceshassido' => $_15C,
-		'15DCuántasveceshassidoenviado' => $_15D,
-		'16Enquémedidatuvidaha' => $_16,
-		'17Algunavezhastenidorelacionessexuales' => $_17,
-		'18Laúltimavez' => $_18,
-		'19Laúltimavez' => $_19,
-		'19AOtro' => $_19Otro,
-		'20Siquisierascompraruncondóncreesquepodríasencontrarlo' => $_20,
-		'21Siquisierastenersexo' => $_21,
-		'22FechadeRevisión' => $_22,
-		'23EstatusdeSalida' => $_23,
-		'23AOtro' => $_23Otro,
-		'24Comentarios' => $_24,
+		'Fecha' => $registration_date_string,
+		'9Dóndenaciste' => $_9,
+		'9Dóndenacisteotro' => $_9Otro,
+		'10Tienesunactadenacimientodominicana' => $_10,
+		'101Tienescédula' => $_10_1,
+		'11Cuálestuidiomaprincipal' => $_11,
+		'11IdiomaprincipalOtro' => $_11Otro,
+		'12Cuálestuestadocivil' => $_12,
+		'13Tieneshijos' => $_13,
+		'14Sabesleeryescribir' => $_14,
+		'15Cuálesel' => $_15,
+		'16Actualmenteestasasistiendoa' => $_16,
+		$_16_AB => $_16A,
+		'16BQuégradoestascursandoactualmente' => $_16B,
+		'16CCuálnivel' => $_16C,
+		'16DAquétandaasistes' => $_16D,
+// TODO '' => $_17,
+		'18Enlosúltimos12meseshassidosuspendidoadelaescuela' => $_18,
+// TODO  => $_19,
+		'20Hasrepetidoalgúncursoenlaescuela' => $_20,
+		'20ASilarespuestaesafirmativacuálescursos' => $_20A,
+		'21Hascompletadoalgúncursotécnico' => $_21,
+		'21ASilarespuestaesafirmativacuálescursos' => $_21A,
+		'22Actualmentetededicasa' => $_22,
+		'23Hassidos' => $_23,
+		'Megustaríaleermejor' => $_24['Me gustaría leer mejor'] != 0? 'true':'',
+		'Megustaríamejorarenmatemáticas' => $_24['Me gustaría mejorar en matemáticas'] != 0? 'true':'',
+		'Megustaríamejorarenciencias' => $_24['Me gustaría mejorar en ciencias'] != 0? 'true':'',
+		'Megustaríaestarenlaescuela' => $_24['Me gustaría estar en la escuela'] != 0? 'true':'',
+		'Megustaríahablarelinglés' => $_24['Me gustaría hablar mejor el inglés'] != 0? 'true':'',
+		'Megustaríasabermásacercadeempleos' => $_24['Me gustaría saber más acerca de empleos'] != 0? 'true':'',
+		'Megustaríaterminarlabásica' => $_24['Me gustaría terminar la básica'] != 0? 'true':'',
+		'Megustaríaterminarelbachillerato' => $_24['Me gustaría terminar el bachillerato'] != 0? 'true':'',
+		'MegustaríairalaUniversidad' => $_24['Me gustaría ir a la universidad'] != 0? 'true':'',
+		'Megustaríallevarmemejorconmismaestros' => $_24['Me gustaría llevarme mejor con mis maestros'] != 0? 'true':'',
+		'Megustaríasentirmemásseguroenlaescuela' => $_24['Me gustaría sentirme más seguro en la escuela'] != 0? 'true':'',
+		'Megustaríahablarmejorelespañol' => $_24['Me gustaría hablar mejor el español'] != 0? 'true':'',
+		'Megustaríamejorarmiscalificaciones' => $_24['Me gustaría mejorar mis calificaciones'] != 0? 'true':'',
+		'Notengoningunameta' => $_24['No tengo ninguna meta'] != 0? 'true':'',
+		'Otrasmetas' => $_24Otro,
+		'25Hasreali' => $_25,
+		'26Durantel' => $_26,
+		'26ADescribeloquehaceseneltrabajoactual' => $_26A,
+		'27Mes' => $_27['month'],
+		'27Año' => $_27['year'],
+		'28Enquélugarrealizasestetrabajo' => $_28,
+		'28EnquélugarOtros' => $_28Otro,
+		'29Cuántashorastrabajasenundía' => $_29,
+		'30Cuántosdíastrabajasenunasemana' => $_30,
+		'31Enpromediocuántoganasenunasemana' => $_31,
+		'32Enestetrabajotúeres' => $_32,
+		'32OtroTúeres' => $_32Otro,
+		'33Actualme' => $_33,
+		'33ADescribeloquehacesenestetrabajo' => $_33A,
+		'34Mes' => $_34['month'],
+		'34Año' => $_34['year'],
+		'35Enquélugarrealizasestetrabajo' => $_35,
+		'35EnquélugarrealizasestetrabajoOtros' => $_35Otro,
+		'36Cuántashorastrabajasenundía' => $_36,
+		'37Cuántosdíastrabajasenunasemana' => $_37,
+		'38Enestetrabajotúeres' => $_38,
+		'38EnestetrabajotúeresOtro' => $_38Otro,
+		'39Hasbusca' => $_39,
+		'40Hasparti' => $_40,
+		'41Conquéfr' => $_41,
+		'42Conquéfr' => $_42,
+		'43Enquémedidatuvidahasidoafectadaporladelincuencia' => $_43,
+		'44Entuopin' => $_44,
+		'45Tepreocu' => $_45,
+		'46Lapreocu' => $_46,
+		'47AUnpolicíameamenazóverbalmente' => $_47A,
+		'47BUnpolicíamecobródinerosinjustificación' => $_47B,
+		'47CUnpolicíamequitóalgoquemepertenecia' => $_47C,
+		'47DUnpolicíamemaltratófísicamente' => $_47D,
+		'48Hassidot' => $_48,
+		'49Hassidodetenidoporlapolicíaporalgúnmotivo' => $_49,
+		'49ASucedióestoenlosúltimos12meses' => $_49A,
+		'50Hassidod' => $_50,
+		'50ASucedióestoenlosúltimos12meses' => $_50A,
+		'51Algunode' => $_51,
+		'51ASucedióestoenlosúltimos12meses' => $_51A,
+		'52Enlosúlt' => $_52,
+		'53Enlosúlt' => $_53,
+		'54Enlosúlt' => $_54,
+		'55Enlosúlt' => $_55,
+		'56Enlosúlt' => $_56,
+		'57Enlosúlt' => $_57,
+		'58Enlosúlt' => $_58,
+		'59Enlosúlt' => $_59,
+		'60Enlosúlt' => $_60,
+		'61Enlosúlt' => $_61,
+		'62Enlosúlt' => $_62,
+		'63Enlosúlt' => $_63,
+		'64Enlosúlt' => $_64,
+		'54ACasa' => $_54A === 'Casa'? 'true':'',
+		'54AEscuela' => $_54A === 'Escuela'? 'true':'',
+		'54ABarrio' => $_54A === 'Barrio'? 'true':'',
+		'55ACasa' => $_55A === 'Casa'? 'true':'',
+		'55AEscuela' => $_55A === 'Escuela'? 'true':'',
+		'55ABarrio' => $_55A === 'Barrio'? 'true':'',
+		'56ACasa' => $_56A === 'Casa'? 'true':'',
+		'56AEscuela' => $_56A === 'Escuela'? 'true':'',
+		'56ABarrio' => $_56A === 'Barrio'? 'true':'',
+		'57ACasa' => $_57A === 'Casa'? 'true':'',
+		'57AEscuela' => $_57A === 'Escuela'? 'true':'',
+		'57ABarrio' => $_57A === 'Barrio'? 'true':'',
+		'58ACasa' => $_58A === 'Casa'? 'true':'',
+		'58AEscuela' => $_58A === 'Escuela'? 'true':'',
+		'58ABarrio' => $_58A === 'Barrio'? 'true':'',
+		'59ACasa' => $_59A === 'Casa'? 'true':'',
+		'59AEscuela' => $_59A === 'Escuela'? 'true':'',
+		'59ABarrio' => $_59A === 'Barrio'? 'true':'',
+		'60ACasa' => $_60A === 'Casa'? 'true':'',
+		'60AEscuela' => $_60A === 'Escuela'? 'true':'',
+		'60ABarrio' => $_60A === 'Barrio'? 'true':'',
+		'61ACasa' => $_61A === 'Casa'? 'true':'',
+		'61AEscuela' => $_61A === 'Escuela'? 'true':'',
+		'61ABarrio' => $_61A === 'Barrio'? 'true':'',
+		'62ACasa' => $_62A === 'Casa'? 'true':'',
+		'62AEscuela' => $_62A === 'Escuela'? 'true':'',
+		'62ABarrio' => $_62A === 'Barrio'? 'true':'',
+		'63ACasa' => $_63A === 'Casa'? 'true':'',
+		'63AEscuela' => $_63A === 'Escuela'? 'true':'',
+		'63ABarrio' => $_63A === 'Barrio'? 'true':'',
+		'65Hasdañad' => $_65,
+		'66Algunavezhassidoatacadoorobado' => $_66,
+		'67Algunavezhasatacadoorobadoaalguien' => $_67,
+		'68Algunavezhassidosecuestrado' => $_68,
+		'69Algunavezhassecuestradoaalguien' => $_69,
+		'70Algunave' => $_70,
+		'71Algunave' => $_71,
+		'72Algunavezhasvendidooayudadoavenderdrogas' => $_72,
+		'73Hasestadoinvolucradoenunapandilla' => $_73,
+		'73AActualm' => $_73A,
+		'74Comparte' => $_74,
+		'74ACasa' => $_74A === 'Casa'? 'true':'',
+		'74AEscuela' => $_74A === 'Escuela'? 'true':'',
+		'74ABarrio' => $_74A === 'Barrio'? 'true':'',
+		'75Enlosúlt' => $_75,
+		'76Algunave' => $_76,
+		'76AEnlosúl' => $_76A,
+// TODO '' => $_76B,
+		'77Hasproba' => $_77,
+		'78Hasusado' => $_78,
+		'79AMarihuana' => $_79['Marihuana'] != 0? 'true':'',
+		'79BCrack' => $_79['Crack'] != 0? 'true':'',
+		'79CCocaínaenpolvo' => $_79['Cocaína en polvo'] != 0? 'true':'',
+		'79DHeroína' => $_79['Heroína'] != 0? 'true':'',
+		'79EMetanfetaminaocristal' => $_79['Metanfetamina o cristal'] != 0? 'true':'',
+		'79FxtasisMDMA' => $_79['Éxtasis/MDMA'] != 0? 'true':'',
+		'79GInhalantescomopegamentocementopinturaspray' => $_79['Inhalantes como pegamento, cemento, pintura, spray'] != 0? 'true':'',
+		'79IOtrosespecifica' => $_79Otro,
+		'80AMarihuana' => $_80['Marihuana'] != 0? 'true':'',
+		'80BCrack' => $_80['Crack'] != 0? 'true':'',
+		'80CCocaínaenpolvo' => $_80['Cocaína en polvo'] != 0? 'true':'',
+		'80DHeroína' => $_80['Heroína'] != 0? 'true':'',
+		'80EMetanfetaminaocristal' => $_80['Metanfetamina o cristal'] != 0? 'true':'',
+		'80FxtasisMDMA' => $_80['Éxtasis/MDMA'] != 0? 'true':'',
+		'80GInhalantescomopegamentocementopinturaspray' => $_80['Inhalantes como pegamento, cemento, pintura, spray'] != 0? 'true':'',
+		'80IOtrosespecifica' => $_80Otro,
+		'81AMarihuana' => $_81A,
+		'81BCrack' => $_81B,
+		'81CCocaínaenpolvo' => $_81C,
+		'81DHeroína' => $_81D,
+		'81EMetanfetaminaocristal' => $_81E,
+		'81FxtasisMDMA' => $_81F,
+		'81GInhalantes' => $_81G,
+		'81HOtraespecifica' => $_81H,
+		'82Algunavezhastenidorelacionessexuales' => $_82,
+		'83Quéedadtenías' => $_83,
+		'84Conquiéneshastenidorelacionessexuales' => $_84,
+		'85Concuánt' => $_85,
+		'86Laúltima' => $_86,
+		'87ANoutilicéningún' => $_87 === 'No utilicé ningún método para prevenir el embarazo'? 'true':'',
+		'87BCondón' => $_87 === 'Condón'? 'true':'',
+		'87CCondónfemenino' => $_87 === 'Condón femenino'? 'true':'',
+		'87DPíldoraanticonceptiva' => $_87 === 'Píldora anticonceptiva'? 'true':'',
+		'87ERitmoma' => $_87 === 'Ritmo (mantener relaciones en días no fértiles o cuando no hay ovulación)'? 'true':'',
+		'87FRetirod' => $_87 === 'Retiro (detener la penetración antes de eyacular)'? 'true':'',
+		'87GMelamujereslactando' => $_87 === 'Mela (mujeres lactando)'? 'true':'',
+		'87HDIUcomoMirenaoParagard' => $_87 === 'DIU (como Mirena o Paragard)'? 'true':'',
+		'87IInyecci' => $_87 === 'Inyección (como Depo-Provera), un parche (Ortho Evra), o un anillo (como NuvaRing)'? 'true':'',
+		'87JImplant' => $_87 === 'Implante o norplant (como Implanon o Nexplanon)'? 'true':'',
+		'87KEsterilizaciónfemenina' => $_87 === 'Esterilización femenina'? 'true':'',
+		'87LEsterilizaciónmasculina' => $_87 === 'Esterilización masculina'? 'true':'',
+		'87MNoséInseguro' => $_87 === 'No sé/Inseguro'? 'true':'',
+		'87NOtro' => $_87Otro,
+		'88Algunave' => $_88,
+		'89Algunave' => $_89,
+		'89ASilares' => $_89B,
+		'90Siquisie' => $_90,
+		'91Siquisie' => $_91,
+		'92Tesiente' => $_92,
+		'93Algunave' => $_93,
+		'94Algunave' => $_94,
+		'94AOrientadoraoPsicólogoadelaescuela' => $_94A['Orientador(a) o Psicólogo(a) de la escuela'] != 0? 'true':'',
+		'94APadreoMadre' => $_94A['Padre o Madre'] != 0? 'true':'',
+		'94APromotoradeSalud' => $_94A['Promotor(a) de Salud'] != 0? 'true':'',
+		'94AProfesoradelaescuela' => $_94A['Profesor(a) de la escuela'] != 0? 'true':'',
+		'94AInternet' => $_94A['Internet'] != 0? 'true':'',
+		'94AAmigos' => $_94A['Amigos'] != 0? 'true':'',
+		'94AOtroEspecifique' => $_94AOtro,
+		'95Algunave' => $_95,
+		'95AOrientadoraoPsicólogoadelaescuela' => $_95A['Orientador(a) o Psicólogo(a) de la escuela'] != 0? 'true':'',
+		'95APadreoMadre' => $_95A['Padre o Madre'] != 0? 'true':'',
+		'95APromotoradeSalud' => $_95A['Promotor(a) de Salud'] != 0? 'true':'',
+		'95AProfesoradelaescuela' => $_95A['Profesor(a) de la escuela'] != 0? 'true':'',
+		'95AInternet' => $_95A['Internet'] != 0? 'true':'',
+		'95AAmigos' => $_95A['Amigos'] != 0? 'true':'',
+		'95AOtroEspecifique' => $_95AOtro,
+		'96Algunave' => $_96,
+// 	TODO	'96AOrientadoraoPsicólogoadelaescuela' => $_96A['Orientador(a) o Psicólogo(a) de la escuela'] != 0? 'true':'',
+// TODO		'96APadreoMadre' => $_96A['Padre o Madre'] != 0? 'true':'',
+// TODO		'96APromotoradeSalud' => $_96A['Promotor(a) de Salud'] != 0? 'true':'',
+// TODO		'96AProfesoradelaescuela' => $_96A['Profesor(a) de la escuela'] != 0? 'true':'',
+// TODO		'96AInternet' => $_96A['Internet'] != 0? 'true':'',
+// TODO		'96AAmigos' => $_96A['Amigos'] != 0? 'true':'',
+// TODO		'96AOtroEspecifique' => $_96AOtro,
 	);
 
-	$exit_entry = db_insert('aj_exit')
+	$exit_entry = db_insert('aj_survey')
 	->fields($tableFields);
 	$exit_entry->execute();
 
@@ -3030,7 +3481,7 @@ function _ajsurvey_getBeneficiaryInfo($uuid) {
  */
 function _ajsurvey_alreadyExist($uuid) {
 
-	$query = db_select('aj_exit', 'ajsurvey');
+	$query = db_select('aj_survey', 'ajsurvey');
 	$query->fields('ajsurvey', array('uuid'));
 	$query->condition('uuid', $uuid);
 	$query->range(0,1);
