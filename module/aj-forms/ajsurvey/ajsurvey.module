@@ -49,7 +49,10 @@ function ajsurvey_form($form, &$form_state) {
 
 	if (_ajsurvey_alreadyExist($uuid)) {
 		drupal_set_message(t('There is a Survey form already available for <b>'.$beneficiaryDetails.'</b>'), 'warning');
-		return;
+		 $form['actions']['cancel'] = array(
+  		  '#markup' => l(t('Volver a Lista de Beneficiarios'), 'mis-beneficiarios'),
+ 		 );
+		return $form;
 	}
 
 	// Vertical tabs container
@@ -244,8 +247,6 @@ function ajsurvey_form($form, &$form_state) {
 		'F' => t('Femenino'),
 		'M' => t('Masculino'),
 	);
-
-
 
 $_13Acontainer1 = array(
 	'#type' => 'fieldset',
@@ -1918,17 +1919,17 @@ $twentyfourOptions = array(
 	);
 
 	$eightyfourOptions = array(
-		1 => t('Sólo mujeres'),
-		2 => t('Sólo hombres'),
-		3 => t('Hombres y mujeres'),
-		4 => t('Hombres y mujeres juntos'),
-		14 => t('No responde'),
+		t('Sólo mujeres'),
+		t('Sólo hombres'),
+		t('Hombres y mujeres'),
+		t('Hombres y mujeres juntos'),
+		t('No responde'),
 	);
 	$form['sexual']['84'] = array(
 		'#type' => 'select',
 		'#title' => t('84. ¿Con quiénes has tenido relaciones sexuales?'),
 		'#required' => false,
-		'#options' => $eightyfourOptions,
+		'#options' => drupal_map_assoc($eightyfourOptions),
 		'#empty_option' => t('- Select -'),
 		'#states' => array(
       		'visible' => array(
@@ -1938,19 +1939,19 @@ $twentyfourOptions = array(
 		'#group' => 'sexual',
 	);
 	$eightyfiveOptions = array(
-		1 => t('1'),
-		2 => t('2 a 4'),
-		3 => t('5 a 7'),
-		4 => t('8 a 10'),
-		5 => t('11 a 13'),
-		6 => t('14 o más personas'),
-		7 => t('No responde'),
+		t('1'),
+		t('2 a 4'),
+		t('5 a 7'),
+		t('8 a 10'),
+		t('11 a 13'),
+		t('14 o más personas'),
+		t('No responde'),
 	);
 	$form['sexual']['85'] = array(
 		'#type' => 'select',
 		'#title' => t('85 ¿Con cuántas personas diferentes has tenido relaciones sexuales en los últimos 12 meses?'),
 		'#required' => false,
-		'#options' => $eightyfiveOptions,
+		'#options' => drupal_map_assoc($eightyfiveOptions),
 		'#empty_option' => t('- Select -'),
 		'#states' => array(
       		'visible' => array(
@@ -2159,7 +2160,8 @@ $twentyfourOptions = array(
       		'visible' => array(
         		'select[name="82"]' => array('value' => 'Sí'),
       			'select[name="94"]' => array('value' => 'Sí'),
-      			'select[name="94A"]' => array('value' => 'Otro (especifica)'),
+				'input[name="94A[Otro (especifica)]"]' => array('checked' => TRUE),
+//       			'select[name="94A"]' => array('value' => 'Otro (especifica)'),
       		),
     	),
 	);
@@ -2201,7 +2203,8 @@ $twentyfourOptions = array(
       		'visible' => array(
         		'select[name="82"]' => array('value' => 'Sí'),
       			'select[name="95"]' => array('value' => 'Sí'),
-      			'select[name="95A"]' => array('value' => 'Otro (especifica)'),
+				'input[name="95A[Otro (especifica)]"]' => array('checked' => TRUE),
+//       			'select[name="95A"]' => array('value' => 'Otro (especifica)'),
       		),
     	),
 	);
@@ -2243,7 +2246,8 @@ $twentyfourOptions = array(
       		'visible' => array(
         		'select[name="82"]' => array('value' => 'Sí'),
       			'select[name="96"]' => array('value' => 'Sí'),
-      			'select[name="96A"]' => array('value' => 'Otro (especifica)'),
+				'input[name="96A[Otro (especifica)]"]' => array('checked' => TRUE),
+//       			'select[name="96A"]' => array('value' => 'Otro (especifica)'),
       		),
     	),
 	);
@@ -2451,6 +2455,7 @@ function ajsurvey_form_submit($form, &$form_state) {
  */
  function ajsurvey_form_validate($form, &$form_state) {
 
+
  	if (!isset($form_state['values']['registration_date'])) {
  		return;
  	}
@@ -2569,6 +2574,8 @@ function ajsurvey_form_submit($form, &$form_state) {
    	$_96A = $form_state['values']['96A'];
    	$_96AOtro = $form_state['values']['96AOtro'];
 
+//    	var_dump($_79);
+// 	var_dump($_79['Marihuana'] !== 0? 'true':'');
 
 	$now = date('Y-m-d', time());
 	$currentYear = date('Y', time());
@@ -3201,9 +3208,6 @@ function _ajsurvey_insert_data(
 		$_16_AB = '16ACuáleselnombredetuuniversidad';
 	}
 
-	var_dump($_16);
-	var_dump($_16A);
-	var_dump($_16_AB);
 	$tableFields =  array(
  		'createdAt' => $currentDate,
  		'lastModifiedAt' => $currentDate,
@@ -3220,6 +3224,7 @@ function _ajsurvey_insert_data(
 		'11IdiomaprincipalOtro' => $_11Otro,
 		'12Cuálestuestadocivil' => $_12,
 		'13Tieneshijos' => $_13,
+// TODO fechadenacimeinto and rest of questions
 		'14Sabesleeryescribir' => $_14,
 		'15Cuálesel' => $_15,
 		'16Actualmenteestasasistiendoa' => $_16,
@@ -3237,20 +3242,20 @@ function _ajsurvey_insert_data(
 		'21ASilarespuestaesafirmativacuálescursos' => $_21A,
 		'22Actualmentetededicasa' => $_22,
 		'23Hassidos' => $_23,
-		'Megustaríaleermejor' => $_24['Me gustaría leer mejor'] != 0? 'true':'',
-		'Megustaríamejorarenmatemáticas' => $_24['Me gustaría mejorar en matemáticas'] != 0? 'true':'',
-		'Megustaríamejorarenciencias' => $_24['Me gustaría mejorar en ciencias'] != 0? 'true':'',
-		'Megustaríaestarenlaescuela' => $_24['Me gustaría estar en la escuela'] != 0? 'true':'',
-		'Megustaríahablarelinglés' => $_24['Me gustaría hablar mejor el inglés'] != 0? 'true':'',
-		'Megustaríasabermásacercadeempleos' => $_24['Me gustaría saber más acerca de empleos'] != 0? 'true':'',
-		'Megustaríaterminarlabásica' => $_24['Me gustaría terminar la básica'] != 0? 'true':'',
-		'Megustaríaterminarelbachillerato' => $_24['Me gustaría terminar el bachillerato'] != 0? 'true':'',
-		'MegustaríairalaUniversidad' => $_24['Me gustaría ir a la universidad'] != 0? 'true':'',
-		'Megustaríallevarmemejorconmismaestros' => $_24['Me gustaría llevarme mejor con mis maestros'] != 0? 'true':'',
-		'Megustaríasentirmemásseguroenlaescuela' => $_24['Me gustaría sentirme más seguro en la escuela'] != 0? 'true':'',
-		'Megustaríahablarmejorelespañol' => $_24['Me gustaría hablar mejor el español'] != 0? 'true':'',
-		'Megustaríamejorarmiscalificaciones' => $_24['Me gustaría mejorar mis calificaciones'] != 0? 'true':'',
-		'Notengoningunameta' => $_24['No tengo ninguna meta'] != 0? 'true':'',
+		'Megustaríaleermejor' => $_24['Me gustaría leer mejor'] !== 0? 'true':'',
+		'Megustaríamejorarenmatemáticas' => $_24['Me gustaría mejorar en matemáticas'] !== 0? 'true':'',
+		'Megustaríamejorarenciencias' => $_24['Me gustaría mejorar en ciencias'] !== 0? 'true':'',
+		'Megustaríaestarenlaescuela' => $_24['Me gustaría estar en la escuela'] !== 0? 'true':'',
+		'Megustaríahablarelinglés' => $_24['Me gustaría hablar mejor el inglés'] !== 0? 'true':'',
+		'Megustaríasabermásacercadeempleos' => $_24['Me gustaría saber más acerca de empleos'] !== 0? 'true':'',
+		'Megustaríaterminarlabásica' => $_24['Me gustaría terminar la básica'] !== 0? 'true':'',
+		'Megustaríaterminarelbachillerato' => $_24['Me gustaría terminar el bachillerato'] !== 0? 'true':'',
+		'MegustaríairalaUniversidad' => $_24['Me gustaría ir a la universidad'] !== 0? 'true':'',
+		'Megustaríallevarmemejorconmismaestros' => $_24['Me gustaría llevarme mejor con mis maestros'] !== 0? 'true':'',
+		'Megustaríasentirmemásseguroenlaescuela' => $_24['Me gustaría sentirme más seguro en la escuela'] !== 0? 'true':'',
+		'Megustaríahablarmejorelespañol' => $_24['Me gustaría hablar mejor el español'] !== 0? 'true':'',
+		'Megustaríamejorarmiscalificaciones' => $_24['Me gustaría mejorar mis calificaciones'] !== 0? 'true':'',
+		'Notengoningunameta' => $_24['No tengo ninguna meta'] !== 0? 'true':'',
 		'Otrasmetas' => $_24Otro,
 		'25Hasreali' => $_25,
 		'26Durantel' => $_26,
@@ -3356,21 +3361,21 @@ function _ajsurvey_insert_data(
 // TODO '' => $_76B,
 		'77Hasproba' => $_77,
 		'78Hasusado' => $_78,
-		'79AMarihuana' => $_79['Marihuana'] != 0? 'true':'',
-		'79BCrack' => $_79['Crack'] != 0? 'true':'',
-		'79CCocaínaenpolvo' => $_79['Cocaína en polvo'] != 0? 'true':'',
-		'79DHeroína' => $_79['Heroína'] != 0? 'true':'',
-		'79EMetanfetaminaocristal' => $_79['Metanfetamina o cristal'] != 0? 'true':'',
-		'79FxtasisMDMA' => $_79['Éxtasis/MDMA'] != 0? 'true':'',
-		'79GInhalantescomopegamentocementopinturaspray' => $_79['Inhalantes como pegamento, cemento, pintura, spray'] != 0? 'true':'',
+		'79AMarihuana' => $_79['Marihuana'] !== 0? 'true':'',
+		'79BCrack' => $_79['Crack'] !== 0? 'true':'',
+		'79CCocaínaenpolvo' => $_79['Cocaína en polvo'] !== 0? 'true':'',
+		'79DHeroína' => $_79['Heroína'] !== 0? 'true':'',
+		'79EMetanfetaminaocristal' => $_79['Metanfetamina o cristal'] !== 0? 'true':'',
+		'79FxtasisMDMA' => $_79['Éxtasis/MDMA'] !== 0? 'true':'',
+		'79GInhalantescomopegamentocementopinturaspray' => $_79['Inhalantes como pegamento, cemento, pintura, spray'] !== 0? 'true':'',
 		'79IOtrosespecifica' => $_79Otro,
-		'80AMarihuana' => $_80['Marihuana'] != 0? 'true':'',
-		'80BCrack' => $_80['Crack'] != 0? 'true':'',
-		'80CCocaínaenpolvo' => $_80['Cocaína en polvo'] != 0? 'true':'',
-		'80DHeroína' => $_80['Heroína'] != 0? 'true':'',
-		'80EMetanfetaminaocristal' => $_80['Metanfetamina o cristal'] != 0? 'true':'',
-		'80FxtasisMDMA' => $_80['Éxtasis/MDMA'] != 0? 'true':'',
-		'80GInhalantescomopegamentocementopinturaspray' => $_80['Inhalantes como pegamento, cemento, pintura, spray'] != 0? 'true':'',
+		'80AMarihuana' => $_80['Marihuana'] !== 0? 'true':'',
+		'80BCrack' => $_80['Crack'] !== 0? 'true':'',
+		'80CCocaínaenpolvo' => $_80['Cocaína en polvo'] !== 0? 'true':'',
+		'80DHeroína' => $_80['Heroína'] !== 0? 'true':'',
+		'80EMetanfetaminaocristal' => $_80['Metanfetamina o cristal'] !== 0? 'true':'',
+		'80FxtasisMDMA' => $_80['Éxtasis/MDMA'] !== 0? 'true':'',
+		'80GInhalantescomopegamentocementopinturaspray' => $_80['Inhalantes como pegamento, cemento, pintura, spray'] !== 0? 'true':'',
 		'80IOtrosespecifica' => $_80Otro,
 		'81AMarihuana' => $_81A,
 		'81BCrack' => $_81B,
@@ -3407,20 +3412,20 @@ function _ajsurvey_insert_data(
 		'92Tesiente' => $_92,
 		'93Algunave' => $_93,
 		'94Algunave' => $_94,
-		'94AOrientadoraoPsicólogoadelaescuela' => $_94A['Orientador(a) o Psicólogo(a) de la escuela'] != 0? 'true':'',
-		'94APadreoMadre' => $_94A['Padre o Madre'] != 0? 'true':'',
-		'94APromotoradeSalud' => $_94A['Promotor(a) de Salud'] != 0? 'true':'',
-		'94AProfesoradelaescuela' => $_94A['Profesor(a) de la escuela'] != 0? 'true':'',
-		'94AInternet' => $_94A['Internet'] != 0? 'true':'',
-		'94AAmigos' => $_94A['Amigos'] != 0? 'true':'',
+		'94AOrientadoraoPsicólogoadelaescuela' => $_94A['Orientador(a) o Psicólogo(a) de la escuela'] !== 0? 'true':'',
+		'94APadreoMadre' => $_94A['Padre o Madre'] !== 0? 'true':'',
+		'94APromotoradeSalud' => $_94A['Promotor(a) de Salud'] !== 0? 'true':'',
+		'94AProfesoradelaescuela' => $_94A['Profesor(a) de la escuela'] !== 0? 'true':'',
+		'94AInternet' => $_94A['Internet'] !== 0? 'true':'',
+		'94AAmigos' => $_94A['Amigos'] !== 0? 'true':'',
 		'94AOtroEspecifique' => $_94AOtro,
 		'95Algunave' => $_95,
-		'95AOrientadoraoPsicólogoadelaescuela' => $_95A['Orientador(a) o Psicólogo(a) de la escuela'] != 0? 'true':'',
-		'95APadreoMadre' => $_95A['Padre o Madre'] != 0? 'true':'',
-		'95APromotoradeSalud' => $_95A['Promotor(a) de Salud'] != 0? 'true':'',
-		'95AProfesoradelaescuela' => $_95A['Profesor(a) de la escuela'] != 0? 'true':'',
-		'95AInternet' => $_95A['Internet'] != 0? 'true':'',
-		'95AAmigos' => $_95A['Amigos'] != 0? 'true':'',
+		'95AOrientadoraoPsicólogoadelaescuela' => $_95A['Orientador(a) o Psicólogo(a) de la escuela'] !== 0? 'true':'',
+		'95APadreoMadre' => $_95A['Padre o Madre'] !== 0? 'true':'',
+		'95APromotoradeSalud' => $_95A['Promotor(a) de Salud'] !== 0? 'true':'',
+		'95AProfesoradelaescuela' => $_95A['Profesor(a) de la escuela'] !== 0? 'true':'',
+		'95AInternet' => $_95A['Internet'] !== 0? 'true':'',
+		'95AAmigos' => $_95A['Amigos'] !== 0? 'true':'',
 		'95AOtroEspecifique' => $_95AOtro,
 		'96Algunave' => $_96,
 // 	TODO	'96AOrientadoraoPsicólogoadelaescuela' => $_96A['Orientador(a) o Psicólogo(a) de la escuela'] != 0? 'true':'',

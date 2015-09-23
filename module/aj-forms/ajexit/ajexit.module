@@ -49,7 +49,10 @@ function ajexit_form($form, &$form_state) {
 
 	if (_ajexit_alreadyExist($uuid)) {
 		drupal_set_message(t('There is an Exit form already available for <b>'.$beneficiaryDetails.'</b>'), 'warning');
-		return;
+		 $form['actions']['cancel'] = array(
+  		  '#markup' => l(t('Volver a Lista de Beneficiarios'), 'mis-beneficiarios'),
+ 		 );
+		return $form;
 	}
 
 	// Vertical tabs container

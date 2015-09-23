@@ -50,7 +50,10 @@ function ajmarp_form($form, &$form_state) {
 
 	if (_ajmarp_alreadyExist($uuid)) {
 		drupal_set_message(t('There is a MARP form already available for <b>'.$beneficiaryDetails.'</b>'), 'warning');
-		return;
+		 $form['actions']['cancel'] = array(
+  		  '#markup' => l(t('Volver a Lista de Beneficiarios'), 'mis-beneficiarios'),
+ 		 );
+		return $form;
 	}
 
 	$radioOptions = array(
