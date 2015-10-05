@@ -1,0 +1,1210 @@
+<?php
+
+/**
+ * @filesource
+ * This is the hook_help implementation
+ *
+ * @param path
+ *   Which path of the site we're using to display help
+ * @param arg
+ *   Array that holds the current path as returned from arg() function
+ */
+function ajparticipants_help($path, $arg) {
+	switch ($path) {
+		case "admin/help#ajparticipants":
+			return '<p>' . t("Implementation of the List of Participants") . '</p>';
+			break;
+	}
+}
+
+/**
+ *Implements the hook_menu
+ */
+ function ajparticipants_menu() {
+	$items = array();
+
+	$items['ajparticipants'] = array(
+		'title' => 'List of Participants form',
+		'description' => 'Form to manage the attendence list or participant list',
+		'page callback' => '_ajparticipants_page',
+    	'page arguments' => array('ajparticipants_form'),
+		'access arguments' => array('access ajparticipants content'),
+		'type' => MENU_NORMAL_ITEM,
+	);
+
+	return $items;
+ }
+
+ /**
+  *  Page callback: Current users settings
+  *  @see current_users_menu()
+  */
+function ajparticipants_form($form, &$form_state) {
+
+	$urlParams = drupal_get_query_parameters();
+	if (isset($urlParams['activity_id'])) {
+		$activity_id = $urlParams['activity_id'];
+		$form['hidden_activity_id'] = array(
+				'#type' => 'hidden',
+				'#value' => $activity_id,
+		);
+	} else {
+		$activity_id = $form_state['values']['hidden_activity_id'];
+		$form['hidden_activity_id'] = array(
+				'#type' => 'hidden',
+				'#value' => $activity_id,
+		);
+	}
+
+// 	// Vertical tabs container
+// 	$form['group_tabs'] = array(
+// 		'#type'     => 'vertical_tabs',
+// 		'#attached' => array('library' => array(array('field_group', 'vertical_tabs'))), // Converts fieldsets into tabs
+// 	);
+
+// 	$activity = _ajparticipants_getActivityInfo($activity_id);
+// 	$beneficiaryDetails = $beneficiary['nombre'].' '.$beneficiary['apellido'].' ('.$uuid.')';
+
+// 	$label = '<p>You are creating an Exit form for <b>'.$beneficiaryDetails.'</b></p>';
+// 	$form['doc']['welcome'] = array(
+// 	  '#markup' => $label,
+// 	);
+
+	 $form['table_fieldset'] = array(
+	    '#title' => t("table"),
+	    '#prefix' => '<div id="table_beneficiaries">',
+	    '#suffix' => '</div>',
+	    '#type' => 'fieldset',
+// 	    '#description' => t('This is the table that will be updated'),
+  	);
+	$form['table_fieldset']['table_init'] = array(
+			'#markup' => '<table>'
+	);
+	 $form['table_fieldset']['header_check'] = array(
+	 			'#type' => 'item',
+	 			'#title' => t('¿Cotejar?'),
+// 	 			'#options' => array('asc' => 'asc', 'desc' => 'desc'),
+	 			'#prefix' => '<tr><th>',
+				'#sufix' => '</th>'
+  	);
+
+	$form['table_fieldset']['header_uuid_sort'] = array(
+	 			'#type' => 'select',
+	 			'#title' => t('UUID'),
+	 			'#options' => array('asc' => 'asc', 'desc' => 'desc'),
+	 			'#prefix' => '<th>',
+// 				'#sufix' => '</th>',
+				'#ajax' => array(
+      				'callback' => 'ajax_table_fieldset_callback',
+      				'wrapper' => 'table_beneficiaries',
+      				'method' => 'replace',
+//       				'effect' => 'fade',
+    			),
+		);
+	$form['table_fieldset']['header_uuid_search'] = array(
+	 			'#type' => 'textfield',
+// 	 			'#title' => t('UUID'),
+// 	 			'#options' => array('asc' => 'asc', 'desc' => 'desc'),
+// 	 			'#prefix' => '<th>',
+				'#sufix' => '</th>',
+				'#size' => 5,
+				'#ajax' => array(
+      				'callback' => 'ajax_table_fieldset_callback',
+      				'wrapper' => 'table_beneficiaries',
+      				'method' => 'replace',
+// 					'event' => 'keyup',
+      				'effect' => 'fade',
+					'prevent' => array('click','submit')
+						),
+		);
+	$form['table_fieldset']['header_nombre_sort'] = array(
+	 			'#type' => 'select',
+	 			'#title' => t('Nombre'),
+	 			'#options' => array('asc' => 'asc', 'desc' => 'desc'),
+	 			'#prefix' => '<th>',
+// 				'#sufix' => '</th>',
+				'#ajax' => array(
+      				'callback' => 'ajax_table_fieldset_callback',
+      				'wrapper' => 'table_beneficiaries',
+      				'method' => 'replace',
+
+//       				'effect' => 'fade',
+				),
+	);
+	$form['table_fieldset']['header_nombre_search'] = array(
+	 			'#type' => 'textfield',
+// 	 			'#title' => t('Nombre'),
+// 	 			'#options' => array('asc' => 'asc', 'desc' => 'desc'),
+// 	 			'#prefix' => '<th>',
+				'#sufix' => '</th>',
+				'#size' => 5,
+				'#ajax' => array(
+      				'callback' => 'ajax_table_fieldset_callback',
+      				'wrapper' => 'table_beneficiaries',
+      				'method' => 'replace',
+// 					'event' => 'keyup',
+      				'effect' => 'fade',
+					'prevent' => array('click','submit')
+      				),
+	);
+	$form['table_fieldset']['header_apellido_sort'] = array(
+	 			'#type' => 'select',
+	 			'#title' => t('Apellido'),
+	 			'#options' => array('asc' => 'asc', 'desc' => 'desc'),
+	 			'#prefix' => '<th>',
+// 				'#sufix' => '</th>',
+				'#ajax' => array(
+      				'callback' => 'ajax_table_fieldset_callback',
+      				'wrapper' => 'table_beneficiaries',
+      				'method' => 'replace',
+//       				'effect' => 'fade',
+				),
+		);
+	$form['table_fieldset']['header_apellido_search'] = array(
+	 			'#type' => 'textfield',
+// 	 			'#title' => t('Nombre'),
+// 	 			'#options' => array('asc' => 'asc', 'desc' => 'desc'),
+// 	 			'#prefix' => '<th>',
+				'#sufix' => '</th>',
+				'#size' => 5,
+				'#ajax' => array(
+      				'callback' => 'ajax_table_fieldset_callback',
+      				'wrapper' => 'table_beneficiaries',
+      				'method' => 'replace',
+// 					'event' => 'keyup',
+      				'effect' => 'fade',
+					'prevent' => 'click'
+      				),
+	);
+	$form['table_fieldset']['header_apodo_sort'] = array(
+	 			'#type' => 'select',
+	 			'#title' => t('Apodo'),
+	 			'#options' => array('asc' => 'asc', 'desc' => 'desc'),
+	 			'#prefix' => '<th>',
+// 				'#sufix' => '</th>',
+				'#ajax' => array(
+      				'callback' => 'ajax_table_fieldset_callback',
+      				'wrapper' => 'table_beneficiaries',
+      				'method' => 'replace',
+//       				'effect' => 'fade',
+)
+		);
+	$form['table_fieldset']['header_apodo_search'] = array(
+	 			'#type' => 'textfield',
+// 	 			'#title' => t('Nombre'),
+// 	 			'#options' => array('asc' => 'asc', 'desc' => 'desc'),
+// 	 			'#prefix' => '<th>',
+				'#sufix' => '</th>',
+				'#size' => 5,
+				'#ajax' => array(
+      				'callback' => 'ajax_table_fieldset_callback',
+      				'wrapper' => 'table_beneficiaries',
+      				'method' => 'replace',
+// 					'event' => 'keyup',
+      				'effect' => 'fade',
+      				),
+	);
+	$form['table_fieldset']['header_colateral_sort'] = array(
+	 			'#type' => 'select',
+	 			'#title' => t('¿Colateral?'),
+	 			'#options' => array('asc' => 'asc', 'desc' => 'desc'),
+	 			'#prefix' => '<th>',
+// 				'#sufix' => '</th>',
+				'#ajax' => array(
+      				'callback' => 'ajax_table_fieldset_callback',
+      				'wrapper' => 'table_beneficiaries',
+      				'method' => 'replace',
+//       				'effect' => 'fade',
+)
+		);
+	$form['table_fieldset']['header_colateral_search'] = array(
+	 			'#type' => 'textfield',
+// 	 			'#title' => t('Nombre'),
+// 	 			'#options' => array('asc' => 'asc', 'desc' => 'desc'),
+// 	 			'#prefix' => '<th>',
+				'#sufix' => '</th>',
+				'#size' => 5,
+				'#ajax' => array(
+      				'callback' => 'ajax_table_fieldset_callback',
+      				'wrapper' => 'table_beneficiaries',
+      				'method' => 'replace',
+// 					'event' => 'keyup',
+      				'effect' => 'fade',
+				),
+		);
+	$form['table_fieldset']['header_sexo_sort'] = array(
+	 			'#type' => 'select',
+	 			'#title' => t('Sexo'),
+	 			'#options' => array('asc' => 'asc', 'desc' => 'desc'),
+	 			'#prefix' => '<th>',
+// 				'#sufix' => '</th>',
+				'#ajax' => array(
+      				'callback' => 'ajax_table_fieldset_callback',
+      				'wrapper' => 'table_beneficiaries',
+      				'method' => 'replace',
+//       				'effect' => 'fade',
+)
+		);
+	$form['table_fieldset']['header_sexo_search'] = array(
+	 			'#type' => 'textfield',
+// 	 			'#title' => t('Nombre'),
+// 	 			'#options' => array('asc' => 'asc', 'desc' => 'desc'),
+// 	 			'#prefix' => '<th>',
+				'#sufix' => '</th>',
+				'#size' => 5,
+				'#ajax' => array(
+      				'callback' => 'ajax_table_fieldset_callback',
+      				'wrapper' => 'table_beneficiaries',
+      				'method' => 'replace',
+// 					'event' => 'keyup',
+      				'effect' => 'fade',
+				),
+		);
+	$form['table_fieldset']['header_dob_sor'] = array(
+	 			'#type' => 'select',
+	 			'#title' => t('Nacimiento'),
+	 			'#options' => array('asc' => 'asc', 'desc' => 'desc'),
+	 			'#prefix' => '<th>',
+// 				'#sufix' => '</th>',
+				'#ajax' => array(
+      				'callback' => 'ajax_table_fieldset_callback',
+      				'wrapper' => 'table_beneficiaries',
+      				'method' => 'replace',
+//       				'effect' => 'fade',
+)
+		);
+	$form['table_fieldset']['header_dob_search'] = array(
+	 			'#type' => 'textfield',
+// 	 			'#title' => t('Nombre'),
+// 	 			'#options' => array('asc' => 'asc', 'desc' => 'desc'),
+// 	 			'#prefix' => '<th>',
+				'#sufix' => '</th>',
+				'#size' => 5,
+				'#ajax' => array(
+      				'callback' => 'ajax_table_fieldset_callback',
+      				'wrapper' => 'table_beneficiaries',
+      				'method' => 'replace',
+// 					'event' => 'keyup',
+      				'effect' => 'fade',
+				),
+		);
+	$form['table_fieldset']['header_comunidad_sort'] = array(
+	 			'#type' => 'select',
+	 			'#title' => t('Comunidad'),
+	 			'#options' => array('asc' => 'asc', 'desc' => 'desc'),
+	 			'#prefix' => '<th>',
+// 				'#sufix' => '</th>',
+				'#ajax' => array(
+      				'callback' => 'ajax_table_fieldset_callback',
+      				'wrapper' => 'table_beneficiaries',
+      				'method' => 'replace',
+//       				'effect' => 'fade',
+)
+		);
+	$form['table_fieldset']['header_comunidad_search'] = array(
+	 			'#type' => 'textfield',
+// 	 			'#title' => t('Nombre'),
+// 	 			'#options' => array('asc' => 'asc', 'desc' => 'desc'),
+// 	 			'#prefix' => '<th>',
+				'#sufix' => '</th>',
+				'#size' => 5,
+				'#ajax' => array(
+      				'callback' => 'ajax_table_fieldset_callback',
+      				'wrapper' => 'table_beneficiaries',
+      				'method' => 'replace',
+// 					'event' => 'keyup',
+      				'effect' => 'fade',
+				),
+		);
+	$form['table_fieldset']['header_casa_sort'] = array(
+	 			'#type' => 'select',
+	 			'#title' => t('Tel casa'),
+	 			'#options' => array('asc' => 'asc', 'desc' => 'desc'),
+	 			'#prefix' => '<th>',
+// 				'#sufix' => '</th>',
+				'#ajax' => array(
+      				'callback' => 'ajax_table_fieldset_callback',
+      				'wrapper' => 'table_beneficiaries',
+      				'method' => 'replace',
+//       				'effect' => 'fade',
+)
+		);
+	$form['table_fieldset']['header_casa_search'] = array(
+	 			'#type' => 'textfield',
+// 	 			'#title' => t('Nombre'),
+// 	 			'#options' => array('asc' => 'asc', 'desc' => 'desc'),
+// 	 			'#prefix' => '<th>',
+				'#sufix' => '</th>',
+				'#size' => 5,
+				'#ajax' => array(
+      				'callback' => 'ajax_table_fieldset_callback',
+      				'wrapper' => 'table_beneficiaries',
+      				'method' => 'replace',
+// 					'event' => 'keyup',
+      				'effect' => 'fade',
+				),
+		);
+	$form['table_fieldset']['header_facebook_sort'] = array(
+	 			'#type' => 'select',
+	 			'#title' => t('Facebook'),
+	 			'#options' => array('asc' => 'asc', 'desc' => 'desc'),
+	 			'#prefix' => '<th>',
+// 				'#sufix' => '</th>',
+				'#ajax' => array(
+      				'callback' => 'ajax_table_fieldset_callback',
+      				'wrapper' => 'table_beneficiaries',
+      				'method' => 'replace',
+//       				'effect' => 'fade',
+)
+		);
+	$form['table_fieldset']['header_facebook_search'] = array(
+	 			'#type' => 'textfield',
+// 	 			'#title' => t('Nombre'),
+// 	 			'#options' => array('asc' => 'asc', 'desc' => 'desc'),
+// 	 			'#prefix' => '<th>',
+				'#sufix' => '</th></tr>',
+				'#size' => 5,
+				'#ajax' => array(
+      				'callback' => 'ajax_table_fieldset_callback',
+      				'wrapper' => 'table_beneficiaries',
+      				'method' => 'replace',
+// 					'event' => 'keyup',
+      				'effect' => 'fade',
+				),
+		);
+
+	global $user;
+	$providerID = db_query(
+			'SELECT field_user_provider_target_id
+			FROM {field_revision_field_user_provider}
+			WHERE entity_id = :uid', array(':uid' => $user->uid))->fetchField(0);
+
+// 	$result = db_query('SELECT reg.uuid, reg.nombre, reg.apellido, reg.apodo, reg.sexo,
+// 								reg.dob, reg.barriocomunidad, reg.casa, reg.Estecolateralparticipante,
+// 								reg.NombredeusuariodeFacebook
+// 			FROM {aj_registration} reg where provider_id = :provider',
+// 			array(':provider' => $providerID));
+	$query = db_select('aj_registration', 'reg');
+  	$query
+    ->fields('reg', array('uuid', 'nombre', 'apellido', 'apodo','sexo', 'dob', 'barriocomunidad', 'casa', 'Estecolateralparticipante', 'NombredeusuariodeFacebook'))
+// TODO ----------------------------------------
+->condition('provider_id', 27)
+	->condition('uuid', '%'.(!empty($form_state['values']['header_uuid_search'])? $form_state['values']['header_uuid_search']:'').'%','like')
+	->condition('nombre', '%'.(!empty($form_state['values']['header_nombre_search'])? $form_state['values']['header_nombre_search']:'').'%','like')
+	->condition('apellido', '%'.(!empty($form_state['values']['header_apellido_search'])? $form_state['values']['header_apellido_search']:'').'%','like')
+	->condition('apodo', '%'.(!empty($form_state['values']['header_apodo_search'])? $form_state['values']['header_apodo_search']:'').'%','like')
+	->condition('Estecolateralparticipante', '%'.(!empty($form_state['values']['header_colateral_search'])? $form_state['values']['header_colateral_search']:'').'%','like')
+	->condition('sexo', '%'.(!empty($form_state['values']['header_sexo_search'])? $form_state['values']['header_sexo_search']:'').'%','like')
+	->condition('dob', '%'.(!empty($form_state['values']['header_dob_search'])? $form_state['values']['header_dob_search']:'').'%','like')
+	->condition('barriocomunidad', '%'.(!empty($form_state['values']['header_comunidad_search'])? $form_state['values']['header_comunidad_search']:'').'%','like')
+	->condition('casa', '%'.(!empty($form_state['values']['header_casa_search'])? $form_state['values']['header_casa_search']:'').'%','like')
+	->condition('NombredeusuariodeFacebook', '%'.(!empty($form_state['values']['header_facebook_search'])? $form_state['values']['header_facebook_search']:'').'%','like');
+
+  	if (isset($form_state['triggering_element']['#name']) && $form_state['triggering_element']['#name']=== 'header_uuid_sort') {
+		$query->orderBy('uuid', !empty($form_state['values']['header_uuid_sort'])? $form_state['values']['header_uuid_sort']:'asc');
+  	}
+  	if (isset($form_state['triggering_element']['#name']) && $form_state['triggering_element']['#name']=== 'header_nombre_sort') {
+		$query->orderBy('nombre', !empty($form_state['values']['header_nombre_sort'])? $form_state['values']['header_nombre_sort']:'asc');
+  	}
+  	if (isset($form_state['triggering_element']['#name']) && $form_state['triggering_element']['#name']=== 'header_apellido_sort') {
+		$query->orderBy('apellido', !empty($form_state['values']['header_apellido_sort'])? $form_state['values']['header_apellido_sort']:'asc');
+  	}
+  	if (isset($form_state['triggering_element']['#name']) && $form_state['triggering_element']['#name']=== 'header_apodo_sort') {
+		$query->orderBy('apodo', !empty($form_state['values']['header_apodo_sort'])? $form_state['values']['header_apodo_sort']:'asc');
+  	}
+  	if (isset($form_state['triggering_element']['#name']) && $form_state['triggering_element']['#name']=== 'header_sexo_sort') {
+		$query->orderBy('sexo', !empty($form_state['values']['header_sexo_sort'])? $form_state['values']['header_sexo_sort']:'asc');
+  	}
+  	if (isset($form_state['triggering_element']['#name']) && $form_state['triggering_element']['#name']=== 'header_dob_sort') {
+   		$query->orderBy('dob', !empty($form_state['values']['header_dob_sort'])? $form_state['values']['header_dob_sort']:'asc');
+  	}
+  	if (isset($form_state['triggering_element']['#name']) && $form_state['triggering_element']['#name']=== 'header_comunidad_sort') {
+    	$query->orderBy('barriocomunidad', !empty($form_state['values']['header_comunidad_sort'])? $form_state['values']['header_comunidad_sort']:'asc');
+  	}
+  	if (isset($form_state['triggering_element']['#name']) && $form_state['triggering_element']['#name']=== 'header_casa_sort') {
+    	$query->orderBy('casa', !empty($form_state['values']['header_casa_sort'])? $form_state['values']['header_casa_sort']:'asc');
+  	}
+  	if (isset($form_state['triggering_element']['#name']) && $form_state['triggering_element']['#name']=== 'header_colateral_sort') {
+    	$query->orderBy('Estecolateralparticipante', !empty($form_state['values']['header_colateral_sort'])? $form_state['values']['header_colateral_sort']:'asc');
+  	}
+  	if (isset($form_state['triggering_element']['#name']) && $form_state['triggering_element']['#name']=== 'header_facebook_sort') {
+    	$query->orderBy('NombredeusuariodeFacebook', !empty($form_state['values']['header_facebook_sort'])? $form_state['values']['header_facebook_sort']:'asc');
+  	}
+    $query->range(0, 5);
+    $result = $query->execute();
+
+  	foreach($result as $entry) {
+  		$form['table_fieldset']['checkbox-'.$entry->uuid] = array(
+  				'#type' => 'button',
+  				'#value' => t('+'),
+  				'#prefix' => '<tr><td>',
+  				'#sufix' => '</td>',
+  				'#name' => 'checkbox-'.$entry->uuid,
+  				'#uuid' => $entry->uuid,
+  				'#ajax' => array(
+      				'callback' => 'ajax_checked_table_callback',
+					'wrapper' => 'checked_table',
+  					'method' => 'replace',
+  					'event'=>'click',
+//   					'effect' => 'fade',
+			    ),
+  		);
+		$form['table_fieldset']['uuid'.$entry->uuid] = array(
+				'#markup' => '<td>'.$entry->uuid.'</td>'
+		);
+		$form['table_fieldset']['nombre'.$entry->uuid] = array(
+				'#markup' => '<td>'.$entry->nombre.'</td>'
+		);
+		$form['table_fieldset']['apellido'.$entry->uuid] = array(
+				'#markup' => '<td>'.$entry->apellido.'</td>'
+		);
+		$form['table_fieldset']['apodo'.$entry->uuid] = array(
+				'#markup' => '<td>'.$entry->apodo.'</td>'
+		);
+		$form['table_fieldset']['colateral'.$entry->uuid] = array(
+				'#markup' => '<td>'.$entry->Estecolateralparticipante.'</td>'
+		);
+		$form['table_fieldset']['sexo'.$entry->uuid] = array(
+				'#markup' => '<td>'.$entry->sexo.'</td>'
+		);
+		$form['table_fieldset']['dob'.$entry->uuid] = array(
+				'#markup' => '<td>'.$entry->dob.'</td>'
+		);
+		$form['table_fieldset']['comunidad'.$entry->uuid] = array(
+				'#markup' => '<td>'.$entry->barriocomunidad.'</td>'
+		);
+		$form['table_fieldset']['casa'.$entry->uuid] = array(
+				'#markup' => '<td>'.$entry->casa.'</td>'
+		);
+		$form['table_fieldset']['facebook'.$entry->uuid] = array(
+				'#markup' => '<td>'.$entry->NombredeusuariodeFacebook.'</td></tr>'
+		);
+  }
+
+  	$form['table_fieldset']['table_end'] = array(
+			'#markup' => '</table>'
+	);
+
+  	 $form['checked_table_fieldset'] = array(
+	    '#title' => t("Checking table"),
+	    '#prefix' => '<div id="checked_table">',
+	    '#suffix' => '</div>',
+	    '#type' => 'fieldset',
+// 	    '#description' => t('This is the table that will be updated'),
+  	);
+	$form['checked_table_fieldset']['checked_table_init'] = array(
+			'#markup' => '<table>'
+	);
+
+	$form['checked_table_fieldset']['checked_header_remove'] = array(
+	 			'#type' => 'item',
+	 			'#title' => t('¿Remover?'),
+// 	 			'#options' => array('asc' => 'asc', 'desc' => 'desc'),
+	 			'#prefix' => '<tr><th>',
+				'#sufix' => '</th>'
+  	);
+
+	$form['checked_table_fieldset']['checked_header_uuid_sort'] = array(
+	 			'#type' => 'item',
+	 			'#title' => t('UUID'),
+// 	 			'#options' => array('asc' => 'asc', 'desc' => 'desc'),
+	 			'#prefix' => '<th>',
+				'#sufix' => '</th>',
+		);
+	$form['checked_table_fieldset']['checked_header_nombre_sort'] = array(
+	 			'#type' => 'item',
+	 			'#title' => t('Nombre'),
+// 	 			'#options' => array('asc' => 'asc', 'desc' => 'desc'),
+	 			'#prefix' => '<th>',
+				'#sufix' => '</th>',
+	);
+
+	$form['checked_table_fieldset']['checked_header_apellido_sort'] = array(
+	 			'#type' => 'item',
+	 			'#title' => t('Apellido'),
+// 	 			'#options' => array('asc' => 'asc', 'desc' => 'desc'),
+	 			'#prefix' => '<th>',
+				'#sufix' => '</th>',
+		);
+
+	$form['checked_table_fieldset']['checked_header_apodo_sort'] = array(
+	 			'#type' => 'item',
+	 			'#title' => t('Apodo'),
+// 	 			'#options' => array('asc' => 'asc', 'desc' => 'desc'),
+	 			'#prefix' => '<th>',
+				'#sufix' => '</th>',
+		);
+
+	$form['checked_table_fieldset']['checked_header_colateral_sort'] = array(
+	 			'#type' => 'item',
+	 			'#title' => t('¿Colateral?'),
+// 	 			'#options' => array('asc' => 'asc', 'desc' => 'desc'),
+	 			'#prefix' => '<th>',
+				'#sufix' => '</th>',
+		);
+
+	$form['checked_table_fieldset']['checked_header_sexo_sort'] = array(
+	 			'#type' => 'item',
+	 			'#title' => t('Sexo'),
+// 	 			'#options' => array('asc' => 'asc', 'desc' => 'desc'),
+	 			'#prefix' => '<th>',
+				'#sufix' => '</th>',
+		);
+
+	$form['checked_table_fieldset']['checked_header_dob_sor'] = array(
+	 			'#type' => 'item',
+	 			'#title' => t('Nacimiento'),
+// 	 			'#options' => array('asc' => 'asc', 'desc' => 'desc'),
+	 			'#prefix' => '<th>',
+				'#sufix' => '</th>',
+		);
+
+	$form['checked_table_fieldset']['checked_header_comunidad_sort'] = array(
+	 			'#type' => 'item',
+	 			'#title' => t('Comunidad'),
+// 	 			'#options' => array('asc' => 'asc', 'desc' => 'desc'),
+	 			'#prefix' => '<th>',
+				'#sufix' => '</th>',
+		);
+
+	$form['checked_table_fieldset']['checked_header_casa_sort'] = array(
+	 			'#type' => 'item',
+	 			'#title' => t('Tel casa'),
+// 	 			'#options' => array('asc' => 'asc', 'desc' => 'desc'),
+	 			'#prefix' => '<th>',
+				'#sufix' => '</th>',
+		);
+
+	$form['checked_table_fieldset']['checked_header_facebook_sort'] = array(
+	 			'#type' => 'item',
+	 			'#title' => t('Facebook'),
+// 	 			'#options' => array('asc' => 'asc', 'desc' => 'desc'),
+	 			'#prefix' => '<th>',
+				'#sufix' => '</th></tr>',
+		);
+
+		$query = db_select('aj_registration', 'reg');
+		$query->join('aj_attendance', 'atten', 'reg.uuid = atten.uuid AND atten.activity_id = :activity_id', array(':activity_id' => $activity_id));
+	  	$query->fields('reg', array('uuid', 'nombre', 'apellido', 'apodo','sexo', 'dob', 'barriocomunidad', 'casa', 'Estecolateralparticipante', 'NombredeusuariodeFacebook'));
+// 	 TODO 	->condition('atten.provider_id', 4);
+	 	$result_query = $query->execute();
+	 	$result_array = $result_query->fetchAllAssoc('uuid');
+	 	$query_entries = array();
+	 	foreach($result_array as $key=>$value) {
+			$query_entries[$key] =
+			$key.'_!_'.
+			$value->nombre.'_!_'.
+			$value->apellido.'_!_'.
+			$value->apodo.'_!_'.
+			$value->sexo.'_!_'.
+			$value->dob.'_!_'.
+			$value->barriocomunidad.'_!_'.
+			$value->casa.'_!_'.
+			$value->Estecolateralparticipante.'_!_'.
+			$value->NombredeusuariodeFacebook;
+	 	}
+// 	 	watchdog('claudia', 'first'.implode(';', $checked_entries));
+
+	if (!empty($form_state['values']['hidden_checked_options'])) {
+		$checked_values_for_session = explode(';', $form_state['values']['hidden_checked_options']);
+		foreach($checked_values_for_session as $checked) {
+			array_unshift($query_entries, $checked);
+		}
+// 		watchdog('claudia', 'remaining'.$form_state['values']['hidden_checked_options']);
+	}
+
+	if (!empty($form_state['values']['hidden_to_remove_options'])) {
+		$to_remove_values_for_session = explode(';', $form_state['values']['hidden_to_remove_options']);
+		foreach($to_remove_values_for_session as $to_remove) {
+			$lookup_pos = array_search($to_remove, $query_entries);
+			unset($query_entries[$lookup_pos]);
+		}
+// 		watchdog('claudia', 'remaining'.$form_state['values']['hidden_checked_options']);
+	}
+
+	///////// ADDING NEW ELEMENT TO CHECKED TABLE ////////////////////////////////////////////////////////////////////////
+// 	watchdog('claudia', isset($form_state['triggering_element']['#name'])? 'matched? '. (preg_match('/^checkbox-.*/', $form_state['triggering_element']['#name']) === 1): 'nothing to show');
+  	if (isset($_POST['_triggering_element_name']) && preg_match('/^checkbox-.*/', $_POST['_triggering_element_name'])) {
+  		$uuid = explode('-', $_POST['_triggering_element_name'])[1];
+  		$query = db_select('aj_registration', 'reg');
+	  	$query->fields('reg', array('uuid', 'nombre', 'apellido', 'apodo','sexo', 'dob', 'barriocomunidad', 'casa', 'Estecolateralparticipante', 'NombredeusuariodeFacebook'));
+  		$query->condition('reg.uuid', $uuid);
+		$result = $query->execute()->fetchObject();
+
+  		$newElement = $result->uuid.'_!_'.
+			$result->nombre.'_!_'.
+			$result->apellido.'_!_'.
+			$result->apodo.'_!_'.
+			$result->sexo.'_!_'.
+			$result->dob.'_!_'.
+			$result->barriocomunidad.'_!_'.
+			$result->casa.'_!_'.
+			$result->Estecolateralparticipante.'_!_'.
+			$result->NombredeusuariodeFacebook;
+
+  		///////////////////// Updating new elements to be added to the database ///////////////////////////
+		if (!isset($result_array[$uuid])) {
+			if(!isset($form_state['values']['hidden_checked_options']) || empty($form_state['values']['hidden_checked_options'])) {
+				$form['checked_table_fieldset']['hidden_checked_options'] = array(
+		   			'#type' => 'hidden',
+		   			'#value' => $newElement,
+		 		);
+			} else {
+				$checked_values_for_session = explode(';', $form_state['values']['hidden_checked_options']);
+				$checked_values_for_session[] = $newElement;
+				$form['checked_table_fieldset']['hidden_checked_options'] = array(
+		   			'#type' => 'hidden',
+		   			'#value' => implode(';', array_unique($checked_values_for_session)),
+		 		);
+			}
+			watchdog('claudia', 'new element added ('.count(explode(';', $form['checked_table_fieldset']['hidden_checked_options']['#value'])).'):'.$form['checked_table_fieldset']['hidden_checked_options']['#value']);
+		}
+
+		/////////////// Updating existing element to be deleted from the database ////////////////////////
+		if (isset($result_array[$uuid])) {
+			if ( isset( $form_state['values']['hidden_to_remove_options'] ) && in_array($newElement, explode(';', $form_state['values']['hidden_to_remove_options']))) {
+				$to_remove_values_for_session = explode(';', $form_state['values']['hidden_to_remove_options']);
+				$lookup_pos = array_search($newElement, $to_remove_values_for_session);
+				unset($to_remove_values_for_session[$lookup_pos]);
+				$form['checked_table_fieldset']['hidden_to_remove_options'] = array(
+			   		'#type' => 'hidden',
+			   		'#value' => implode(';', array_unique($to_remove_values_for_session)),
+			 	);
+				watchdog('claudia', 'new element added ('.count(explode(';', $form['checked_table_fieldset']['hidden_to_remove_options']['#value'])).'):'.$form['checked_table_fieldset']['hidden_to_remove_options']['#value']);
+			}
+		}
+
+// 		watchdog('claudia', count($query_entries));
+		array_unshift($query_entries, $newElement);
+// 		watchdog('claudia', count($query_entries));
+  	}
+  		///////// REMOVING NEW ELEMENT TO CHECKED TABLE ////////////////////////////////////////////////////////////////////////
+  		else if (isset($_POST['_triggering_element_name']) && preg_match('/^removecheck-.*/', $_POST['_triggering_element_name'])) {
+  		$uuid = explode('-', $_POST['_triggering_element_name'])[1];
+  		$query = db_select('aj_registration', 'reg');
+	  	$query->fields('reg', array('uuid', 'nombre', 'apellido', 'apodo','sexo', 'dob', 'barriocomunidad', 'casa', 'Estecolateralparticipante', 'NombredeusuariodeFacebook'));
+  		$query->condition('reg.uuid', $uuid);
+		$result = $query->execute()->fetchObject();
+
+  		$existingElement = $result->uuid.'_!_'.
+			$result->nombre.'_!_'.
+			$result->apellido.'_!_'.
+			$result->apodo.'_!_'.
+			$result->sexo.'_!_'.
+			$result->dob.'_!_'.
+			$result->barriocomunidad.'_!_'.
+			$result->casa.'_!_'.
+			$result->Estecolateralparticipante.'_!_'.
+			$result->NombredeusuariodeFacebook;
+
+  		////////// Updating new elements to be added to the database ////////////////////////
+		if (isset($form_state['values']['hidden_checked_options']) && in_array($existingElement, explode(';', $form_state['values']['hidden_checked_options']))) {
+			$checked_values_for_session = explode(';', $form_state['values']['hidden_checked_options']);
+			$lookup_pos = array_search($existingElement, $checked_values_for_session);
+			unset($checked_values_for_session[$lookup_pos]);
+			$form['checked_table_fieldset']['hidden_checked_options'] = array(
+	   			'#type' => 'hidden',
+	   			'#value' => implode(';', array_unique($checked_values_for_session)),
+	 		);
+	// 		watchdog('claudia', $form['checked_table_fieldset']['hidden_checked_options']['#value']);
+	// 		watchdog('claudia', count($query_entries));
+			watchdog('claudia', 'element removed ('.count(explode(';', $form['checked_table_fieldset']['hidden_checked_options']['#value'])).'):'.$form['checked_table_fieldset']['hidden_checked_options']['#value']);
+			$lookup_pos = array_search($existingElement, $query_entries);
+			unset($query_entries[$lookup_pos]);
+	// 		watchdog('claudia', count($query_entries));
+		}
+
+		/////////// Updating existing elements to be removed from the database /////////////////
+		if (isset($result_array[$uuid])) {
+// 			watchdog('claudia', 'existing element to be deleted '. $uuid);
+			if(!isset($form_state['values']['hidden_to_remove_options']) || empty($form_state['values']['hidden_to_remove_options'])) {
+				$form['checked_table_fieldset']['hidden_to_remove_options'] = array(
+		   			'#type' => 'hidden',
+		   			'#value' => $existingElement,
+		 		);
+			} else {
+				$to_remove_values_for_session = explode(';', $form_state['values']['hidden_to_remove_options']);
+				$to_remove_values_for_session[] = $existingElement;
+				$form['checked_table_fieldset']['hidden_to_remove_options'] = array(
+		   			'#type' => 'hidden',
+		   			'#value' => implode(';', array_unique($to_remove_values_for_session)),
+		 		);
+			}
+			watchdog('claudia', 'element to removed from db ('.count(explode(';', $form['checked_table_fieldset']['hidden_to_remove_options']['#value'])).'):'.$form['checked_table_fieldset']['hidden_to_remove_options']['#value']);
+		} else {
+	  		$form['checked_table_fieldset']['hidden_to_remove_options'] = array(
+		   			'#type' => 'hidden',
+		   			'#value' => $form_state['values']['hidden_to_remove_options'],
+		 	);
+			watchdog('claudia', 'nothing to removed from db ('.count(explode(';',$form_state['values']['hidden_to_remove_options'])).'): '.$form_state['values']['hidden_to_remove_options']);
+		}
+		$lookup_pos = array_search($existingElement, $query_entries);
+		unset($query_entries[$lookup_pos]);
+  	} else {
+  		if (isset($form_state['values']['hidden_to_remove_options'])) {
+// 		watchdog('claudia', 'nothing deleted ('.count(explode(';', $form_state['values']['hidden_to_remove_options'])).'): '.$form_state['values']['hidden_to_remove_options']);
+  			$form['checked_table_fieldset']['hidden_to_remove_options'] = array(
+   				'#type' => 'hidden',
+   				'#value' => $form_state['values']['hidden_to_remove_options'],
+	 		);
+			watchdog('claudia', 'nothing to removed from db ('.count(explode(';',$form_state['values']['hidden_to_remove_options'])).'): '.$form_state['values']['hidden_to_remove_options']);
+
+  		}
+
+		if (isset($form_state['values']['hidden_checked_options'])) {
+			watchdog('claudia', 'nothing added ('.count(explode(';',$form_state['values']['hidden_checked_options'])).'): '.$form_state['values']['hidden_checked_options']);
+  			$form['checked_table_fieldset']['hidden_checked_options'] = array(
+	   			'#type' => 'hidden',
+	   			'#value' => $form_state['values']['hidden_checked_options'],
+	 		);
+  		}
+  	}
+//   	else if (!empty($form_state['values']['hidden_checked_options'])) {
+// 		watchdog('claudia', $form['checked_table_fieldset']['hidden_checked_options']['#value']);
+//   		$form['checked_table_fieldset']['hidden_checked_options'] = array(
+// 	   			'#type' => 'hidden',
+// 	   			'#value' => $form_state['values']['hidden_checked_options'],
+// 	 		);
+//   	}
+
+	 foreach($query_entries as $entry) {
+// 	 	watchdog('claduia', $entry);
+	 	$data = explode('_!_', $entry);
+	 	$form['checked_table_fieldset']['removecheck-'.$data[0]] = array(
+  				'#type' => 'button',
+  				'#value' => t('-'),
+  				'#prefix' => '<tr><td><div class = "remove">',
+  				'#sufix' => '</div></td>',
+  				'#name' => 'removecheck-'.$data[0],
+// 	 			'#button_type' => 'reset',
+	 			'#attributes' => array('class' => array('testing')),
+  				'#ajax' => array(
+      				'callback' => 'ajax_checked_table_callback',
+					'wrapper' => 'checked_table',
+  					'method' => 'replace',
+  					'event'=>'click',
+//   					'effect' => 'fade',
+			    ),
+  		);
+		$form['checked_table_fieldset']['uuid'.$data[0]] = array(
+				'#markup' => '<td>'.$data[0].'</td>'
+		);
+		$form['checked_table_fieldset']['nombre'.$data[0]] = array(
+				'#markup' => '<td>'.$data[1].'</td>'
+		);
+		$form['checked_table_fieldset']['apellido'.$data[0]] = array(
+				'#markup' => '<td>'.$data[2].'</td>'
+		);
+		$form['checked_table_fieldset']['apodo'.$data[0]] = array(
+				'#markup' => '<td>'.$data[3].'</td>'
+		);
+		$form['checked_table_fieldset']['colateral'.$data[0]] = array(
+				'#markup' => '<td>'.$data[8].'</td>'
+		);
+		$form['checked_table_fieldset']['sexo'.$data[0]] = array(
+				'#markup' => '<td>'.$data[4].'</td>'
+		);
+		$form['checked_table_fieldset']['dob'.$data[0]] = array(
+				'#markup' => '<td>'.$data[5].'</td>'
+		);
+		$form['checked_table_fieldset']['comunidad'.$data[0]] = array(
+				'#markup' => '<td>'.$data[6].'</td>'
+		);
+		$form['checked_table_fieldset']['casa'.$data[0]] = array(
+				'#markup' => '<td>'.$data[7].'</td>'
+		);
+		$form['checked_table_fieldset']['facebook'.$data[0]] = array(
+				'#markup' => '<td>'.$data[9].'</td></tr>'
+		);
+	 }
+	 $form['checked_table_fieldset']['checked_table_end'] = array(
+			'#markup' => '</table>'
+	);
+//   	$triggerinelement = null;
+//   	if(isset($form_state['triggering_element']['#name'])) {
+//   		$triggerinelement = $form_state['triggering_element']['#name'];
+//   	}
+// 	watchdog('claudia', $triggerinelement===null? 'no event':$triggerinelement);
+
+	$form['submit'] = array(
+		'#type' => 'submit',
+		'#value' => t('Submit'),
+		'#weight' => 100,
+	);
+
+// 	$form['pager'] = array('#markup' => theme('pager'));
+	return $form;
+}
+
+function ajax_table_fieldset_callback($form, $form_state) {
+	watchdog('claudia', 'table_fieldset changed');
+  return $form['table_fieldset'];
+}
+
+function ajax_checked_table_callback($form, $form_state) {
+// 	watchdog('claudia', 'ajaxcall '.$form_state['values']['hidden_checked_options']);
+// 		watchdog('claudia', 'triggered! POST: ' . implode('  ', array_keys($_POST)));
+
+// 		watchdog('claudia', 'triggered! uuid: ' . $form_state['triggering_element']['#uuid'] );
+// 		watchdog('claudia', 'triggered! name: ' . $form_state['triggering_element']['#name'] );
+// 		 $form_state['triggering_element']['#uuid'] = '';
+// 		 $form_state['triggering_element']['#name'] = '';
+	return $form['checked_table_fieldset'];
+}
+
+/**
+ * This is the hook implementation for _form_submit
+ * @param unknown $form
+ * @param unknown $form_state
+ */
+function ajparticipants_form_submit($form, &$form_state) {
+
+	$urlParams = drupal_get_query_parameters();
+	$uuid = $urlParams['uuid'];
+	$provider_id = $urlParams['provider_id'];
+
+	$beneficiary = _ajparticipants_getActivityInfo($uuid);
+	$beneficiaryDetails = $beneficiary['nombre'].' '.$beneficiary['apellido'].' ('.$uuid.')';
+
+ 	$_22 = $form_state['values']['22'];
+    $_22_date = $_22['year'].'-'. (strlen($_22['month']) === 1? '0'.$_22['month']:$_22['month']).'-'.(strlen($_22['day']) === 1? '0'.$_22['day']:$_22['day']);
+
+// 	_ajparticipants_insert_data(
+// 			$form_state['values']['9'],
+// 			$form_state['values']['9A'],
+// 			$form_state['values']['9AOtro'],
+// 			$form_state['values']['10'],
+// 			$form_state['values']['11'],
+// 			$form_state['values']['11A'],
+// 			$form_state['values']['11B_1'],
+// 			$form_state['values']['12'],
+// 			$form_state['values']['12A'],
+// 			$form_state['values']['13'],
+// 			$form_state['values']['13A'],
+// 			$form_state['values']['13B'],
+// 			$form_state['values']['14A'],
+// 			$form_state['values']['14B'],
+// 			$form_state['values']['15A'],
+// 			$form_state['values']['15B'],
+// 			$form_state['values']['15C'],
+// 			$form_state['values']['15D'],
+// 			$form_state['values']['16'],
+// 			$form_state['values']['17'],
+// 			$form_state['values']['18'],
+// 			$form_state['values']['19'],
+// 			$form_state['values']['19Otro'],
+// 			$form_state['values']['20'],
+// 			$form_state['values']['21'],
+// 			$_22_date,
+// 			$form_state['values']['23'],
+// 			$form_state['values']['23Otro'],
+// 			$form_state['values']['24'],
+// 			$uuid,
+// 			$provider_id);
+
+	drupal_set_message(t('The Exit form has been submited succesfully for '.$beneficiaryDetails.'!'));
+
+	$form_state['redirect'] = 'mis-beneficiarios';
+
+}
+
+/**
+ *	Implements validation from the Form API.
+ *
+ * @param $form
+ *   A structured array containing the elements and properties of the form.
+ * @param $form_state
+ *   An array that stores information about the form's current state
+ *   during processing.
+ */
+ function ajparticipants_form_validate($form, &$form_state) {
+
+ 	if (!isset($form_state['values']['9'])) {
+ 		return;
+ 	}
+
+ 	$_9 = $form_state['values']['9'];
+    $_9A = $form_state['values']['9A'];
+    $_9AOtro = $form_state['values']['9AOtro'];
+ 	$_11 = $form_state['values']['11'];
+    $_11A = $form_state['values']['11A'];
+    $_11B_1 = $form_state['values']['11B_1'];
+ 	$_12 = $form_state['values']['12'];
+    $_12A = $form_state['values']['12A'];
+ 	$_13 = $form_state['values']['13'];
+    $_13A = $form_state['values']['13A'];
+    $_13A_date = $_13A['year'].'-'. (strlen($_13A['month']) === 1? '0'.$_13A['month']:$_13A['month']).'-'.(strlen($_13A['day']) === 1? '0'.$_13A['day']:$_13A['day']);
+    $_13B = $form_state['values']['13B'];
+ 	$_15A = $form_state['values']['15A'];
+ 	$_15B = $form_state['values']['15B'];
+ 	$_15C = $form_state['values']['15C'];
+ 	$_15D = $form_state['values']['15D'];
+ 	$_17 = $form_state['values']['17'];
+ 	$_18 = $form_state['values']['18'];
+ 	$_19 = $form_state['values']['19'];
+ 	$_19Otro = $form_state['values']['19Otro'];
+ 	$_22 = $form_state['values']['22'];
+    $_22_date = $_22['year'].'-'. (strlen($_22['month']) === 1? '0'.$_22['month']:$_22['month']).'-'.(strlen($_22['day']) === 1? '0'.$_22['day']:$_22['day']);
+ 	$_23 = $form_state['values']['23'];
+ 	$_23Otro = $form_state['values']['23Otro'];
+
+	$now = date('Y-m-d', time());
+
+	// QUESTION 9A AND 9AOtros --------------------------------------------------------------
+	if($_9 === 'No') {
+	 	if (empty($_9A)) {
+			form_error($form['documentation']['9A'], t('9A. Si no, ¿cuál es la razón principal por la que no tienes un acta? Marca sólo una opción: Campo requerido'));
+		} else if ($_9A === 'Otro (favor especificar)') {
+			if (empty($_9AOtro)) {
+				form_error($form['documentation']['9AOtro'], t('9A.Otro (favor especificar): Campo requerido'));
+			}
+		}
+	}
+
+	// QUESTION 11A and 11B.1 --------------------------------------------------------------
+	if ($_11 === 'Sí') {
+		if (empty($_11A)) {
+			form_error($form['education']['11A'], t('11A. ¿Qué grado estás cursando actualmente?: Campo requerido'));
+		}
+		if (empty($_11B_1)) {
+			form_error($form['education']['11B_1'], t('11B.1 ¿Cuál nivel?: Campo requerido'));
+		}
+	}
+
+	// QUESTION 12A -------------------------------------------------------------------------------------
+	if ($_12 === 'Sí') {
+		if (empty($_12A)) {
+			form_error($form['labor']['12A'], t('12A. Si la respuesta es afirmativa, ¿cuáles cursos?: Campo requerido'));
+		}
+	}
+
+	// QUESTION 13A and 13B -------------------------------------------------------------------------------------
+	if ($_13 === 'Sí') {
+		// Check if the date is empty
+ 		if (empty($_13A_date)) {
+			form_error($form['labor']['13A'], t('13A. ¿Cuándo empezaste en este trabajo?: Estos campos son requeridos'));
+		}
+		// Check if date is no later than today
+		if (is_string($_13A_date) && strncmp($_13A_date, $now, 10) > 0 ) {
+			form_error($form['labor']['13A'], t('13A. ¿Cuándo empezaste en este trabajo?: Fecha no puede ser después del día de hoy'));
+		}
+ 		// Check if the date is valid and has the right format
+		if (is_string($_13A_date) && strtotime($_13A_date) === FALSE || ((int)$_13A['year']) < 1991) {
+			form_error($form['labor']['13A'], t('13A. ¿Cuándo empezaste en este trabajo?: Fecha no válida'));
+		}
+		if (empty($_13B)) {
+			form_error($form['labor']['13B'], t('13B. ¿Estás en un mejor trabajo o empleo que el anterior?: Campo requerido'));
+		}
+	}
+
+	// QUESTION 15A, 15B, 15C, 15D -------------------------------------------------------------------------------------
+	if (!empty($_15A) && !is_numeric($_15A)) {
+		form_error($form['violence']['15A'], t('15A. ¿Cuántas veces has sido transportado por la policía?: Debe ser un valor numérico'));
+	}
+ 	if (!empty($_15B) && !is_numeric($_15B)) {
+		form_error($form['violence']['15B'], t('15B. ¿Cuántas veces has sido arrestado por la policía?:  Debe ser un valor numérico'));
+	}
+ 	if (!empty($_15C) && !is_numeric($_15C)) {
+		form_error($form['violence']['15C'], t('15C. ¿Cuántas veces has sido acusado de cometer algún delito en la fiscalía o policía?: Debe ser un valor numérico'));
+	}
+ 	if (!empty($_15D) && !is_numeric($_15D)) {
+		form_error($form['violence']['15D'], t('15D. ¿Cuántas veces has sido enviado a un centro de atención integral?: Debe ser un valor numérico'));
+	}
+
+
+	// QUESTION 18 and 19 and 19Otro -------------------------------------------------------------------------------------
+	if ($_17 === 'Sí') {
+		if (empty($_18)) {
+			form_error($form['sexual']['18'], t('18. La última vez que tuviste relaciones sexuales, ¿tú o tu compañero/a utilizó condón?: Campo requerido'));
+		}
+		if (empty($_19)) {
+			form_error($form['sexual']['19'], t('19. La última vez que tuviste relaciones sexuales, ¿cuál método usaste o tu compañero/a para prevenir el embarazo?: Campo requerido'));
+		} else if ($_19 === 'Otro (favor especificar)') {
+			if (empty($_19Otro)) {
+				form_error($form['sexual']['19Otro'], t('19.Otro (favor especificar): Campo requerido'));
+			}
+		}
+	}
+
+	// QUESTION 22 --------------------------------------------------------------
+ 	// Check if the date is empty
+ 	if (empty($_22_date)) {
+		form_error($form['exit']['22'], t('22. Fecha de Revisión: Estos campo son requeridos'));
+	}
+	// 	Check if date is no later than today
+	if (is_string($_22_date) && strncmp($_22_date, $now, 10) > 0  ) {
+		form_error($form['exit']['22'], t('22. Fecha de Revisión: Esta fecha no puede ser después del día de hoy'));
+	}
+ 	// Check if the date is valid and has the right format
+//  	watchdog('claduia', strlen($_22['month']) );
+	if (is_string($_22_date) && strtotime($_22_date) === FALSE || ((int)$_22['year']) < 2012) {
+		form_error($form['exit']['22'], t('22. Fecha de Revisión: Esta fecha no es válida'));
+	}
+
+	// QUESTION 23Otro --------------------------------------------------------------
+	if ($_23 === 'Otro (favor especificar)') {
+		if (empty($_23Otro)) {
+				form_error($form['exit']['23Otro'], t('23.Otro (favor especificar): Campo requerido'));
+		}
+	}
+ }
+
+
+ /**
+  * Implements the hook_permissions
+  */
+ function ajparticipants_permission() {
+	return array(
+		'access ajparticipants content' => array(
+				'title' => t('Access content for ajparticipants module'),
+				'description' => t('Control the access for the Exit form'),
+		)
+	);
+ }
+
+
+ /**
+  *  Callback function that generates content
+  */
+function _ajparticipants_page() {
+	return drupal_get_form('ajparticipants_form');
+}
+
+/**
+ * Script to insert the new form data
+ */
+function _ajparticipants_insert_data(
+			$_9,
+			$_9A,
+			$_9AOtro,
+			$_10,
+			$_11,
+			$_11A,
+			$_11B_1,
+			$_12,
+			$_12A,
+			$_13,
+			$_13A,
+			$_13B,
+			$_14A,
+			$_14B,
+			$_15A,
+			$_15B,
+			$_15C,
+			$_15D,
+			$_16,
+			$_17,
+			$_18,
+			$_19,
+			$_19Otro,
+			$_20,
+			$_21,
+			$_22,
+			$_23,
+			$_23Otro,
+			$_24,
+			$uuid,
+			$provider_id) {
+	global $user;
+	$currentDate = format_date(time(), 'custom', 'Y-m-d H:i:s');
+
+	$tableFields =  array(
+ 		'createdAt' => $currentDate,
+ 		'lastModifiedAt' => $currentDate,
+		'created' => $currentDate,
+		'uuid' => $uuid,
+		'provider_id' => $provider_id,
+		'user_name' => $user->name,
+		'9Conseguistetuactade' => $_9,
+		'9AOtro' => $_9AOtro,
+		'10Tienescédula' => $_10,
+		'11Estasactualmente' => $_11,
+		'11AQuégradoestascursandoactualmente' => $_11A,
+		'11B1Cuálnivel' => $_11B_1,
+		'12Hascompletadoa' => $_12,
+		'12ASilarespuestaesafirmativacuálescursos' => $_12A,
+		'13Actualmentetienesuntrabajoenquetepaguen' => $_13,
+		'13AMes' => $_13A['month'],
+		'13AAño' => $_13A['year'],
+		'13BEstásenunmejortrabajooempleoqueelanterior' => $_13B,
+		'15ACuántasveceshassido' => $_15A,
+		'15BCuántasveceshassido' => $_15B,
+		'15CCuántasveceshassido' => $_15C,
+		'15DCuántasveceshassidoenviado' => $_15D,
+		'16Enquémedidatuvidaha' => $_16,
+		'17Algunavezhastenidorelacionessexuales' => $_17,
+		'18Laúltimavez' => $_18,
+		'19Laúltimavez' => $_19,
+		'19AOtro' => $_19Otro,
+		'20Siquisierascompraruncondóncreesquepodríasencontrarlo' => $_20,
+		'21Siquisierastenersexo' => $_21,
+		'22FechadeRevisión' => $_22,
+		'23EstatusdeSalida' => $_23,
+		'23AOtro' => $_23Otro,
+		'24Comentarios' => $_24,
+	);
+
+	$exit_entry = db_insert('aj_exit')
+	->fields($tableFields);
+	$exit_entry->execute();
+
+	$tableFieldsPrograms = array(
+		'created' => $currentDate,
+		'uuid' => $uuid,
+		'provider_id' => $provider_id,
+		'answer' => 'Participado',
+	);
+
+	foreach ($_14A as $programParticipation) {
+		if ($programParticipation !== 0) {
+			$tableFieldsPrograms['program_id'] = $programParticipation;
+			$exit_programs_entry = db_insert('aj_exit_programs')
+			->fields($tableFieldsPrograms);
+			$exit_programs_entry->execute();
+		}
+	}
+
+	$tableFieldsPrograms['answer'] = 'Completado';
+	foreach ($_14B as $programCompleted) {
+		if ($programCompleted !== 0) {
+			$tableFieldsPrograms['program_id'] = $programCompleted;
+			$exit_programs_entry = db_insert('aj_exit_programs')
+			->fields($tableFieldsPrograms);
+			$exit_programs_entry->execute();
+		}
+	}
+}
+
+
+/**
+ * Get the beneficiary info
+ */
+function _ajparticipants_getActivityInfo($uuid) {
+
+	$query = db_select('aj_registration', 'reg');
+	$query->fields('reg', array('nombre'));
+	$query->fields('reg', array('apellido'));
+	$query->fields('reg', array('uuid'));
+	$query->condition('uuid', $uuid);
+	$query->orderBy('nombre', 'ASC');
+	$query->range(0,1);
+
+	$result = $query->execute();
+	return $result->fetchAssoc();
+}
+
+/**
+ * Checks if a given uuid already has an exit entry in the database
+ */
+function _ajparticipants_alreadyExist($uuid) {
+
+	$query = db_select('aj_exit', 'ajparticipants');
+	$query->fields('ajparticipants', array('uuid'));
+	$query->condition('uuid', $uuid);
+	$query->range(0,1);
+
+	$result = $query->execute();
+	$entry =  $result->fetchAssoc();
+
+	return !empty($entry);
+}

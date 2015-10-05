@@ -30,10 +30,10 @@ require_once "./lib/couchDocument.php";
 // open client connection with couchDB
 $client = new couchClient($couch_dsn,$couch_db);
 
-$uuidsCSVFileName = 'input/Indirect_to_Direct_CSA_Sept_4th_2015.csv';
+$uuidsCSVFileName = 'input/a_directos_FPum_5_oct_2015.csv';
 
-$outputCSVFileName = 'output/Indirect_to_Direct_CSA_Sept_4th_2015_UPDATED.csv';
-$outputCSVFileNameMissing = 'output/Indirect_to_Direct_CSA_Sept_4th_2015_ERROR.csv';
+$outputCSVFileName = 'output/a_directos_FPum_5_oct_2015_processed.csv';
+$outputCSVFileNameMissing = 'output/a_directos_FPum_5_oct_2015_notproceed.csv';
 
 $uuidsAry = loadUUIDs($uuidsCSVFileName);
 
@@ -167,15 +167,11 @@ function getCouchCurrentDate(){
 
 function updateCouchDoc($docId){
     global $client, $updatedUUIDs;
-
-
     try {
         $doc = $client->getDoc($docId);
-
         $doc->lastModifiedAt = getCouchCurrentDate();
         $doc->system_updated_col = "true";
         $doc->Estecolateralparticipante = "No";
-
 
         // update document
         $response = $client->storeDoc($doc);
