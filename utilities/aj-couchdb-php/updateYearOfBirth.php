@@ -30,10 +30,10 @@ require_once "./lib/couchDocument.php";
 // open client connection with couchDB
 $client = new couchClient($couch_dsn,$couch_db);
 
-$uuidsCSVFileName = 'input/toUpdateYearOfBirth_part2.csv';
+$uuidsCSVFileName = 'input/updateYearOfBirthAllProviders12Oct2015.csv';
 
-$outputCSVFileName = 'output/updatedYearOfBirthUUIDs_part2.csv';
-$outputCSVFileNameMissing = 'output/notUpdatedYearOfBirthUUIDs_part2.csv';
+$outputCSVFileName = 'output/updateYearOfBirthAllProviders12Oct2015_PROCESSED.csv';
+$outputCSVFileNameMissing = 'output/updateYearOfBirthAllProviders12Oct2015_ERROR.csv';
 
 $uuidsAry = loadUUIDs($uuidsCSVFileName);
 
@@ -115,7 +115,7 @@ function getDocIdByUUID($uuid)
 {
     $docId = null;
     // DEV
- //    $req_url = 'http://54.204.20.212:5984/coconut/_design/coconut/_view/byUUID?key=%22'.$uuid.'%22&include_docs=true';
+//     $req_url = 'http://54.204.20.212:5984/coconut/_design/coconut/_view/byUUID?key=%22'.$uuid.'%22&include_docs=true';
 
     // PROD
     $req_url = 'http://107.20.181.244:5984/coconut/_design/coconut/_view/byUUID?key=%22'.$uuid.'%22&include_docs=true';
