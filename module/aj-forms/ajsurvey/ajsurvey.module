@@ -55,6 +55,12 @@ function ajsurvey_form($form, &$form_state) {
 		return $form;
 	}
 
+	$label = '<p>You are creating a Survey form for <b>'.$beneficiaryDetails.'</b></p>';
+	$form['welcome'] = array(
+		'#type' => 'item',
+		'#markup' => $label,
+	);
+
 	// Vertical tabs container
 	$form['group_tabs'] = array(
 		'#type'     => 'vertical_tabs',
@@ -122,12 +128,6 @@ function ajsurvey_form($form, &$form_state) {
     	'#collapsible' => TRUE,
     	'#collapsed' => true,
     	'#group' => 'group_tabs',
-	);
-
-	$label = '<p>You are creating a Survey form for <b>'.$beneficiaryDetails.'</b></p>';
-	$form['welcome'] = array(
-		'#type' => 'item',
-		'#markup' => $label,
 	);
 
 	$YesNoOptions = array(
@@ -704,12 +704,12 @@ $twentytwoOptions = array(
 );
 
 $form['education']['22'] = array(
-	'#type' => 'select',
+	'#type' => 'item',
 	'#title' => t('22. Actualmente te dedicas a:'),
-	'#required' => true,
+	'#description' => t('Estudiar y trabajar, Solo estudiar, Solo trabajar, No estudio y no trabajo'),
 	'#group' => 'education',
-	'#empty_option' => t('- Select -'),
-	'#options' => drupal_map_assoc($twentytwoOptions),
+	'#prefix' => '<table><tr><td>imagen aqui</td><td>',
+	'#suffix' => '</tr></table>',
 	);
 
 $form['education']['23'] = array(
@@ -2254,8 +2254,9 @@ $twentyfourOptions = array(
 
 	$form['submit'] = array(
 		'#type' => 'submit',
+		'#prefix' => '<br>',
 		'#value' => t('Submit'),
-		'#weight' => 120,
+		'#weight' => 150,
 	);
 
 	return $form;
@@ -2456,7 +2457,7 @@ function ajsurvey_form_submit($form, &$form_state) {
  function ajsurvey_form_validate($form, &$form_state) {
 
 
- 	if (!isset($form_state['values']['registration_date'])) {
+ 	if (!isset($form['documentation']['registration_date'])) {
  		return;
  	}
 
@@ -2594,7 +2595,7 @@ function ajsurvey_form_submit($form, &$form_state) {
 		form_error($form['documentation']['registration_date'], t('Fecha de Encuesta: Fecha no válida'));
 	}
 
-	// QUESTION 11Otros --------------------------------------------------------------
+	// QUESTION 9Otros --------------------------------------------------------------
 	if($_9 === 'Otro') {
 	 	if (empty($_9Otro)) {
 			form_error($form['documentation']['9Otro'], t('9. Otro: Campo requerido'));
@@ -2603,7 +2604,7 @@ function ajsurvey_form_submit($form, &$form_state) {
 
 	// QUESTION 11Otros --------------------------------------------------------------
 	if($_11 === 'Otro') {
-	 	if (empty($_9Otro)) {
+	 	if (empty($_11Otro)) {
 			form_error($form['documentation']['11Otro'], t('11. Otro: Campo requerido'));
 		}
 	}
@@ -3208,6 +3209,11 @@ function _ajsurvey_insert_data(
 		$_16_AB = '16ACuáleselnombredetuuniversidad';
 	}
 
+    $child1_date_string = $_dob1['year'].'-'. (strlen($_dob1['month']) === 1? '0'.$_dob1['month']:$_dob1['month']).'-'.(strlen($_dob1['day']) === 1? '0'.$_dob1['day']:$_dob1['day']);
+    $child2_date_string = $_dob2['year'].'-'. (strlen($_dob2['month']) === 1? '0'.$_dob2['month']:$_dob2['month']).'-'.(strlen($_dob2['day']) === 1? '0'.$_dob2['day']:$_dob2['day']);
+    $child3_date_string = $_dob3['year'].'-'. (strlen($_dob3['month']) === 1? '0'.$_dob3['month']:$_dob3['month']).'-'.(strlen($_dob3['day']) === 1? '0'.$_dob3['day']:$_dob3['day']);
+    $child4_date_string = $_dob4['year'].'-'. (strlen($_dob4['month']) === 1? '0'.$_dob4['month']:$_dob4['month']).'-'.(strlen($_dob4['day']) === 1? '0'.$_dob4['day']:$_dob4['day']);
+
 	$tableFields =  array(
  		'createdAt' => $currentDate,
  		'lastModifiedAt' => $currentDate,
@@ -3224,7 +3230,22 @@ function _ajsurvey_insert_data(
 		'11IdiomaprincipalOtro' => $_11Otro,
 		'12Cuálestuestadocivil' => $_12,
 		'13Tieneshijos' => $_13,
-// TODO fechadenacimeinto and rest of questions
+		'13AFecha1' => $child1_date_string,
+		'13Asexo1' => $_sex1,
+		'13AMismaCasa1' => $_samehouse1,
+		'13AActaDeNacimiento1' => $_certificate1,
+		'13Afecha2' => $child2_date_string,
+		'13Asexo2' => $_sex2,
+		'13AMismaCasa2' => $_samehouse2,
+		'13AActaDeNacimiento2' => $_certificate2,
+		'13Afecha3' => $child3_date_string,
+		'13Asexo3' => $_sex3,
+		'13AMismaCasa3' => $_samehouse3,
+		'13AActaDeNacimiento3' => $_certificate3,
+		'13Afecha4' => $child4_date_string,
+		'13Asexo4' => $_sex4,
+		'13AMismaCasa4' => $_samehouse4,
+		'13AActaDeNacimiento4' => $_certificate4,
 		'14Sabesleeryescribir' => $_14,
 		'15Cuálesel' => $_15,
 		'16Actualmenteestasasistiendoa' => $_16,
@@ -3233,9 +3254,9 @@ function _ajsurvey_insert_data(
 		'16BQuégradoestascursandoactualmente' => $_16B,
 		'16CCuálnivel' => $_16C,
 		'16DAquétandaasistes' => $_16D,
-// TODO '' => $_17,
+        '17EnElUltimoAnoCuantaVecesHasFaltadoEscuela' => $_17,
 		'18Enlosúltimos12meseshassidosuspendidoadelaescuela' => $_18,
-// TODO  => $_19,
+		'19ActualmenteEstasAsistiendoAlgunProgramaDeEduca' => $_19,
 		'20Hasrepetidoalgúncursoenlaescuela' => $_20,
 		'20ASilarespuestaesafirmativacuálescursos' => $_20A,
 		'21Hascompletadoalgúncursotécnico' => $_21,
@@ -3310,7 +3331,6 @@ function _ajsurvey_insert_data(
 		'61Enlosúlt' => $_61,
 		'62Enlosúlt' => $_62,
 		'63Enlosúlt' => $_63,
-		'64Enlosúlt' => $_64,
 		'54ACasa' => $_54A === 'Casa'? 'true':'',
 		'54AEscuela' => $_54A === 'Escuela'? 'true':'',
 		'54ABarrio' => $_54A === 'Barrio'? 'true':'',
@@ -3341,6 +3361,7 @@ function _ajsurvey_insert_data(
 		'63ACasa' => $_63A === 'Casa'? 'true':'',
 		'63AEscuela' => $_63A === 'Escuela'? 'true':'',
 		'63ABarrio' => $_63A === 'Barrio'? 'true':'',
+		'64Enlosúlt' => $_64,
 		'65Hasdañad' => $_65,
 		'66Algunavezhassidoatacadoorobado' => $_66,
 		'67Algunavezhasatacadoorobadoaalguien' => $_67,
@@ -3358,7 +3379,7 @@ function _ajsurvey_insert_data(
 		'75Enlosúlt' => $_75,
 		'76Algunave' => $_76,
 		'76AEnlosúl' => $_76A,
-// TODO '' => $_76B,
+		'76BEnLosUltimos12MesesHasTomado5Vasos' => $_76B,
 		'77Hasproba' => $_77,
 		'78Hasusado' => $_78,
 		'79AMarihuana' => $_79['Marihuana'] !== 0? 'true':'',
@@ -3428,13 +3449,13 @@ function _ajsurvey_insert_data(
 		'95AAmigos' => $_95A['Amigos'] !== 0? 'true':'',
 		'95AOtroEspecifique' => $_95AOtro,
 		'96Algunave' => $_96,
-// 	TODO	'96AOrientadoraoPsicólogoadelaescuela' => $_96A['Orientador(a) o Psicólogo(a) de la escuela'] != 0? 'true':'',
-// TODO		'96APadreoMadre' => $_96A['Padre o Madre'] != 0? 'true':'',
-// TODO		'96APromotoradeSalud' => $_96A['Promotor(a) de Salud'] != 0? 'true':'',
-// TODO		'96AProfesoradelaescuela' => $_96A['Profesor(a) de la escuela'] != 0? 'true':'',
-// TODO		'96AInternet' => $_96A['Internet'] != 0? 'true':'',
-// TODO		'96AAmigos' => $_96A['Amigos'] != 0? 'true':'',
-// TODO		'96AOtroEspecifique' => $_96AOtro,
+		'96AOrientadoraoPsicólogoadelaescuela' => $_96A['Orientador(a) o Psicólogo(a) de la escuela'] != 0? 'true':'',
+		'96APadreoMadre' => $_96A['Padre o Madre'] != 0? 'true':'',
+		'96APromotoradeSalud' => $_96A['Promotor(a) de Salud'] != 0? 'true':'',
+		'96AProfesoradelaescuela' => $_96A['Profesor(a) de la escuela'] != 0? 'true':'',
+		'96AInternet' => $_96A['Internet'] != 0? 'true':'',
+		'96AAmigos' => $_96A['Amigos'] != 0? 'true':'',
+		'96AOtroEspecifique' => $_96AOtro,
 	);
 
 	$exit_entry = db_insert('aj_survey')

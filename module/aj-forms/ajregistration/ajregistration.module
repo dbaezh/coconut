@@ -974,7 +974,13 @@ function ajregistration_form($form, &$form_state) {
 		'#type' => 'select',
 		'#title' => t('5. ¿Tienes Teléfono de Casa? '),
 		'#options' => drupal_map_assoc($YesNoOptions),
-		'#required' => TRUE,
+		'#required' => false,
+		'#empty_option' => t('- Select -'),
+		'#states' => array(
+      		'invisible' => array(
+        		'select[name="beneficiary_type"]' => array('value' => 'Sí'),
+      		),
+    	),
 	);
 
 	$form['5B_1'] = array(
@@ -986,6 +992,7 @@ function ajregistration_form($form, &$form_state) {
 		'#states' => array(
       		'visible' => array(
         		'select[name="5B"]' => array('value' => 'Sí'),
+      			'select[name="beneficiary_type"]' => array('value' => 'No'),
       			),
     		),
 	);
@@ -1075,6 +1082,30 @@ function ajregistration_form($form, &$form_state) {
     		),
 	);
 
+	$form['8A_indirect'] = array(
+		'#type' => 'textfield',
+		'#title' => t('8. Institución:'),
+		'#required' => false,
+		'#maxlength' => 50,
+		'#states' => array(
+      		'invisible' => array(
+        		'select[name="beneficiary_type"]' => array('value' => 'No'),
+      			),
+    		),
+	);
+
+	$form['8B_indirect'] = array(
+		'#type' => 'textfield',
+		'#title' => t('8. Función:'),
+		'#required' => false,
+		'#maxlength' => 50,
+		'#states' => array(
+      		'invisible' => array(
+        		'select[name="beneficiary_type"]' => array('value' => 'No'),
+      			),
+    		),
+	);
+
 	$form['8C'] = array(
 		'#type' => 'textfield',
 		'#title' => t('8. Teléfono de la persona de contacto:'),
@@ -1088,8 +1119,9 @@ function ajregistration_form($form, &$form_state) {
     		),
 	);
 
-	$form['exit']['submit'] = array(
+	$form['submit'] = array(
 		'#type' => 'submit',
+		'#prefix' => '<br>',
 		'#value' => t('Submit'),
 		'#weight' => 100,
 	);
@@ -1196,6 +1228,8 @@ function ajregistration_form_submit($form, &$form_state) {
 			$form_state['values']['7A'],
 			$form_state['values']['8A'],
 			$form_state['values']['8B'],
+			$form_state['values']['8A_indirect'],
+			$form_state['values']['8B_indirect'],
 			$form_state['values']['8C'],
 			$newUUID,
 			$provider_id);
@@ -1246,6 +1280,8 @@ function ajregistration_form_submit($form, &$form_state) {
  	$_7A = $form_state['values']['7A'];
  	$_8A = $form_state['values']['8A'];
  	$_8B = $form_state['values']['8B'];
+ 	$_8A_indirect = $form_state['values']['8A_indirect'];
+ 	$_8B_indirect = $form_state['values']['8B_indirect'];
  	$_8C = $form_state['values']['8C'];
 
 	$now = date('Y-m-d', time());
@@ -1269,12 +1305,12 @@ function ajregistration_form_submit($form, &$form_state) {
 
    	// QUESTION 1A --------------------------------------------------------------
 	if (!preg_match($alphabethicDashPattern, $_1A) || preg_match($alphabethicDashPattern, $_1A) == 0) {
-		form_error($form['1A'], t('1. Nombre: Nombre no válido'));
+		form_error($form['1A'], t('1. Nombre: Nombre no válido. Sólo se permiten valores alfabéticos'));
 	}
 
     // QUESTION 1B --------------------------------------------------------------
 	if (!preg_match($alphabethicDashPattern, $_1B) || preg_match($alphabethicDashPattern, $_1B) == 0) {
-		form_error($form['1B'], t('1. Apellido: Apellido no válido'));
+		form_error($form['1B'], t('1. Apellido: Apellido no válido. Sólo se permiten valores alfabéticos'));
 	}
 
     // QUESTION 1C -------------------------------------------------------------------------------------
@@ -1287,7 +1323,7 @@ function ajregistration_form_submit($form, &$form_state) {
 	 	if (empty($_1C_A)) {
 			form_error($form['1C_A'], t('1. Apodo: Campo obligatorio'));
 		} else if (!preg_match($alphabethicDashPattern, $_1C_A) || preg_match($alphabethicDashPattern, $_1C_A) == 0) {
-			form_error($form['1C_A'], t('1. Apodo: Apodo no válido'));
+			form_error($form['1C_A'], t('1. Apodo: Apodo no válido. Sólo se permiten valores alfabéticos'));
 		}
 	}
 
@@ -1303,7 +1339,7 @@ function ajregistration_form_submit($form, &$form_state) {
 	}
  	// Check if the date is valid and has the right format
 	if (is_string($_3date) && strtotime($_3date) === FALSE && $_beneType === 'No' || (!_ajregistration_between11And24($_3date) && $_beneType === 'No')) {
-		form_error($form['3'], t('3. Fecha de Nacimiento: Fecha no válida. Edad debe ser entre 11 y 21 años'));
+		form_error($form['3'], t('3. Fecha de Nacimiento: Fecha no válida. Edad debe ser entre 11 y 24 años'));
 	}
 
 	// QUESTION 5A --------------------------------------------------------------
@@ -1313,6 +1349,12 @@ function ajregistration_form_submit($form, &$form_state) {
 		} else if (!preg_match($phoneNumberPattern, $_5A_1) || preg_match($phoneNumberPattern, $_5A_1) == 0) {
 			form_error($form['5A_1'], t('5. Teléfono Celular: Número de Teléfono no válido'));
 		}
+	}
+
+      // QUESTION 5B --------------------------------------------------------------
+	if($_beneType === 'No' && empty($_5B)) {
+		watchdog('claduia', 'question 5' .$_beneType);
+		form_error($form['5B'], t('5. ¿Tienes Teléfono de Casa?: Campo requerido'));
 	}
 
  	// QUESTION 5B --------------------------------------------------------------
@@ -1347,12 +1389,22 @@ function ajregistration_form_submit($form, &$form_state) {
 
     // QUESTION 8A --------------------------------------------------------------
 	if (!empty($_8A) && (!preg_match($alphabethicDashPattern, $_8A) || preg_match($alphabethicDashPattern, $_8A) == 0)) {
-		form_error($form['8A'], t('8. Nombre de la persona de contacto:'));
+		form_error($form['8A'], t('8. Nombre de la persona de contacto: Sólo se permiten valores alfabéticos'));
 	}
 
     // QUESTION 8B --------------------------------------------------------------
 	if (!empty($_8B) && (!preg_match($alphabethicDashPattern, $_8B) || preg_match($alphabethicDashPattern, $_8B) == 0)) {
-		form_error($form['8B'], t('8. Parentesco o persona relacionada:'));
+		form_error($form['8B'], t('8. Parentesco o persona relacionada: Sólo se permiten valores alfabéticos'));
+	}
+
+     // QUESTION 8A_Indirect --------------------------------------------------------------
+	if (!empty($_8A_indirect) && (!preg_match($alphabethicDashPattern, $_8A_indirect) || preg_match($alphabethicDashPattern, $_8A_indirect) == 0)) {
+		form_error($form['8A_indirect'], t('8. Institución: Sólo se permiten valores alfabéticos'));
+	}
+
+    // QUESTION 8B_Indirect --------------------------------------------------------------
+	if (!empty($_8B_indirect) && (!preg_match($alphabethicDashPattern, $_8B_indirect) || preg_match($alphabethicDashPattern, $_8B_indirect) == 0)) {
+		form_error($form['8B_indirect'], t('8. Función: Sólo se permiten valores alfabéticos'));
 	}
 
   	// QUESTION 8 --------------------------------------------------------------
@@ -1545,6 +1597,8 @@ function _ajregistration_insert_data(
 			$_7A,
 			$_8A,
 			$_8B,
+			$_8A_indirect,
+			$_8B_indirect,
 			$_8C,
 			$uuid,
 			$provider_id) {
@@ -1577,6 +1631,8 @@ function _ajregistration_insert_data(
 		'NombredeusuariodeFacebook' => $_7A,
 		'Nombredepersonadecontacto' => $_8A,
 		'Parentescoopersonarelacionada' => $_8B,
+		'8institucion' => $_8A_indirect,
+		'8funcion' => $_8B_indirect,
 		'Teléfono' => $_8C,
 		'Estecolateralparticipante' => $beneficiary_type,
 		'Tieneunnumerodetelefonoenlacasa' => $_5B,

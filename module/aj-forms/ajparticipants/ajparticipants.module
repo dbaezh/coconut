@@ -87,6 +87,7 @@ function ajparticipants_form($form, &$form_state) {
 	    '#prefix' => '<div id="table_beneficiaries">',
 	    '#suffix' => '</div>',
 	    '#type' => 'fieldset',
+	 	'#collapsible' => TRUE,
 	    '#description' => t('You can search for any beneficiary using any of the fields below. Maximum of 5 beneficiaries will be displayed'),
   	);
 
@@ -416,6 +417,7 @@ function ajparticipants_form($form, &$form_state) {
 	    '#prefix' => '<div id="checked_table">',
 	    '#suffix' => '</div>',
 	    '#type' => 'fieldset',
+  	 	'#collapsible' => TRUE,
 	    '#description' => t('This is the list of participants for this activity'),
   	);
 	$form['checked_table_fieldset']['checked_table_init'] = array(

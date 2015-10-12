@@ -55,6 +55,11 @@ function ajexit_form($form, &$form_state) {
 		return $form;
 	}
 
+	$label = '<p>You are creating an Exit form for <b>'.$beneficiaryDetails.'</b></p>';
+	$form['welcome'] = array(
+	  '#markup' => $label,
+	);
+
 	// Vertical tabs container
 	$form['group_tabs'] = array(
 		'#type'     => 'vertical_tabs',
@@ -110,11 +115,6 @@ function ajexit_form($form, &$form_state) {
     	'#type'  => 'fieldset',
     	'#title' => t('Cierre'),
     	'#group' => 'group_tabs',
-	);
-
-	$label = '<p>You are creating an Exit form for <b>'.$beneficiaryDetails.'</b></p>';
-	$form['doc']['welcome'] = array(
-	  '#markup' => $label,
 	);
 
 	$YesNoOptions = array(
@@ -499,10 +499,11 @@ function ajexit_form($form, &$form_state) {
 		'#required' => FALSE,
 	);
 
-	$form['exit']['submit'] = array(
+	$form['submit'] = array(
 		'#type' => 'submit',
+		'#prefix' => '<br>',
 		'#value' => t('Submit'),
-		'#weight' => 100,
+		'#weight' => 150,
 	);
 
 	return $form;
@@ -575,7 +576,7 @@ function ajexit_form_submit($form, &$form_state) {
  */
  function ajexit_form_validate($form, &$form_state) {
 
- 	if (!isset($form_state['values']['9'])) {
+ 	if (!isset($form['documentation']['9'])) {
  		return;
  	}
 
@@ -605,6 +606,11 @@ function ajexit_form_submit($form, &$form_state) {
  	$_23Otro = $form_state['values']['23Otro'];
 
 	$now = date('Y-m-d', time());
+
+// 	watchdog('claudia', $_22_date);
+// 	var_dump($_22_date);
+// 	drupal_set_message(t('22. Fecha de Revisión: Esta fecha no es válida'));
+// 	form_error($form, t('heyyyyy'));
 
 	// QUESTION 9A AND 9AOtros --------------------------------------------------------------
 	if($_9 === 'No') {
@@ -772,6 +778,7 @@ function _ajexit_insert_data(
 		'provider_id' => $provider_id,
 		'user_name' => $user->name,
 		'9Conseguistetuactade' => $_9,
+		'9APorQueNoTienesActaDeNacimeinto' => $_9A,
 		'9AOtro' => $_9AOtro,
 		'10Tienescédula' => $_10,
 		'11Estasactualmente' => $_11,
