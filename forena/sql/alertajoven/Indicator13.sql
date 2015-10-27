@@ -33,12 +33,12 @@ FROM
     FROM
         (SELECT DISTINCT
         reg.provider_id,
-            reg.provider_name,
+            field_agency_name_value as provider_name,
             reg.uuid,
             DATE_FORMAT(FROM_DAYS(DATEDIFF(DATE_FORMAT(NOW(), '%Y-%m-%d'), reg.dob)), '%Y') + 0 AS age
     FROM
         bitnami_drupal7.aj_survey sur
-    JOIN bitnami_drupal7.aj_registration reg ON sur.uuid = reg.uuid
+    JOIN bitnami_drupal7.aj_registration reg ON sur.uuid = reg.uuid join bitnami_drupal7.field_data_field_agency_name  on (sur.provider_id = field_data_field_agency_name.entity_id) join bitnami_drupal7.field_data_field_agency_active on (sur.provider_id = field_data_field_agency_active.entity_id)
     WHERE
      1 = 1 
 --SWITCH=:collateral
@@ -56,7 +56,8 @@ and SUBSTRING(sur.createdAt, 1, 10) >= :from_date
 and SUBSTRING(sur.createdAt, 1, 10) <= :to_date
 --END
 and reg.provider_id != ''
-                
+and field_agency_active_value = 1  
+and field_data_field_agency_name.entity_id != 12              
             AND 16Actualmenteestasasistiendoa = 'Ninguno'
             AND (26Durantel = 'No' || 26Durantel = '')) uniqueRecords
     GROUP BY provider_id WITH ROLLUP) rollUP) as tb1
@@ -81,12 +82,12 @@ and reg.provider_id != ''
         FROM
             (SELECT DISTINCT
             reg.provider_id,
-                reg.provider_name,
+                field_agency_name_value as provider_name,
                 reg.uuid,
                 DATE_FORMAT(FROM_DAYS(DATEDIFF(DATE_FORMAT(NOW(), '%Y-%m-%d'), reg.dob)), '%Y') + 0 AS age
         FROM
             bitnami_drupal7.aj_survey sur
-        JOIN bitnami_drupal7.aj_registration reg ON sur.uuid = reg.uuid
+        JOIN bitnami_drupal7.aj_registration reg ON sur.uuid = reg.uuid join bitnami_drupal7.field_data_field_agency_name on (sur.provider_id = field_data_field_agency_name.entity_id) join bitnami_drupal7.field_data_field_agency_active on (sur.provider_id = field_data_field_agency_active.entity_id)
         WHERE
    1 = 1 
 --SWITCH=:collateral
@@ -104,6 +105,8 @@ and SUBSTRING(sur.createdAt, 1, 10) >= :from_date
 and SUBSTRING(sur.createdAt, 1, 10) <= :to_date
 --END
 and reg.provider_id != ''
+and field_agency_active_value = 1
+and field_data_field_agency_name.entity_id != 12
                 ) uniqueRecords
         GROUP BY provider_id WITH ROLLUP) rollup2) as tb2 
         using (provider_id)

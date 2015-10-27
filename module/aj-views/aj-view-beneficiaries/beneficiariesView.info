@@ -1,5 +1,4 @@
 name = List of Beneficiaries
 description = This is the List of Beneficiaries
-version = "7.x-1.0"
 core = 7.x
 php = 5.2

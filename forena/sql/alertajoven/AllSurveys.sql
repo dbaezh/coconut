@@ -1,9 +1,10 @@
 -- ACCESS=access content
 SELECT 
     `aj_survey`.`provider_id`,
-    `aj_survey`.`provider_name`,
+    field_agency_name_value as `provider_name`,
     `aj_survey`.`uuid`,
-    `aj_survey`.`Fecha`,
+    nombre, apellido, dob, sexo, provincia, municipio, BarrioComunidad, Estecolateralparticipante,
+    `aj_survey`.`Fecha` as FechaDeEncuesta,
     `aj_survey`.`9Dóndenaciste`,
     `aj_survey`.`9Dóndenacisteotro`,
 	`aj_survey`.`10Tienesunactadenacimientodominicana`,
@@ -13,7 +14,22 @@ SELECT
     `aj_survey`.`11IdiomaprincipalOtro`,
     `aj_survey`.`12Cuálestuestadocivil`,
     `aj_survey`.`13Tieneshijos`,
-    `aj_survey`.`Fechadenacimiento`,
+    `aj_survey`.`13Afecha1`,
+    `aj_survey`.`13Afecha2`,
+    `aj_survey`.`13Afecha3`,
+    `aj_survey`.`13Afecha4`,        
+    `aj_survey`.`13Asexo1`,    
+	`aj_survey`.`13Asexo2`,
+	`aj_survey`.`13Asexo3`,    
+	`aj_survey`.`13Asexo4`,    
+	`aj_survey`.`13AMismaCasa1`,    
+	`aj_survey`.`13AMismaCasa2`,    
+	`aj_survey`.`13AMismaCasa3`,    
+	`aj_survey`.`13AMismaCasa4`,    
+	`aj_survey`.`13AActaDeNacimiento1`,    
+	`aj_survey`.`13AActaDeNacimiento2`,
+	`aj_survey`.`13AActaDeNacimiento3`,    
+	`aj_survey`.`13AActaDeNacimiento4`,
     `aj_survey`.`14Sabesleeryescribir`,
     `aj_survey`.`15Cuálesel`,
     `aj_survey`.`16Actualmenteestasasistiendoa`,
@@ -22,7 +38,9 @@ SELECT
     `aj_survey`.`16BQuégradoestascursandoactualmente`,
     `aj_survey`.`16CCuálnivel`,
     `aj_survey`.`16DAquétandaasistes`,
+    `aj_survey`.`17EnElUltimoAnoCuantaVecesHasFaltadoEscuela`,    
     `aj_survey`.`18Enlosúltimos12meseshassidosuspendidoadelaescuela`,
+    `aj_survey`.`19ActualmenteEstasAsistiendoAlgunProgramaDeEduca`,  
     `aj_survey`.`20Hasrepetidoalgúncursoenlaescuela`,
     `aj_survey`.`20ASilarespuestaesafirmativacuálescursos`,
     `aj_survey`.`21Hascompletadoalgúncursotécnico`,
@@ -145,6 +163,7 @@ SELECT
     `aj_survey`.`75Enlosúlt`,
     `aj_survey`.`76Algunave`,
     `aj_survey`.`76AEnlosúl`,
+    `aj_survey`.`76BEnLosUltimos12MesesHasTomado5Vasos`,
     `aj_survey`.`77Hasproba`,
     `aj_survey`.`78Hasusado`,
     `aj_survey`.`79AMarihuana`,
@@ -214,18 +233,42 @@ SELECT
     `aj_survey`.`95AAmigos`,
     `aj_survey`.`95AOtroEspecifique`,
     `aj_survey`.`96Algunave`,
-	`aj_survey`.`98AOtroEspecifique`,
-	`aj_survey`.`id`,
-    `aj_survey`.`_id`,
-    `aj_survey`.`_rev`,
+	`aj_survey`.`96AOrientadoraoPsicólogoadelaescuela`,
+	`aj_survey`.`96APadreoMadre`,
+	`aj_survey`.`96APromotoradeSalud`,
+	`aj_survey`.`96AProfesoradelaescuela`,
+	`aj_survey`.`96AInternet`,
+	`aj_survey`.`96AAmigos`,
+	`aj_survey`.`96AOtroEspecifique`,
+-- 	`aj_survey`.`id`,
+--     `aj_survey`.`_id`,
+--     `aj_survey`.`_rev`,
     `aj_survey`.`createdAt`,
     `aj_survey`.`lastModifiedAt`,
-    `aj_survey`.`created`,
-    `aj_survey`.`changed`,
-    `aj_survey`.`Completado`,
-    `aj_survey`.`question`,
+    
+--     `aj_survey`.`created`,
+--     `aj_survey`.`changed`,
+--     `aj_survey`.`Completado`,
+--     `aj_survey`.`question`,
     `aj_survey`.`user_name`
-FROM `bitnami_drupal7`.`aj_survey`
+FROM `bitnami_drupal7`.`aj_survey` join `bitnami_drupal7`.field_data_field_agency_name on (aj_survey.provider_id=entity_id) join `bitnami_drupal7`.`aj_registration` using(uuid) 
 where 
 1 =1
-and provider_id in (12)
+--IF=:provider_id
+and aj_survey.provider_id in (:provider_id)
+
+--IF=:from_date
+and aj_survey.Fecha >= :from_date
+--END
+--IF=:to_date
+and aj_survey.Fecha <= :to_date
+--END
+
+--IF=:from_date_creation
+and SUBSTRING(aj_survey.createdAt, 1, 10) >= :from_date_creation
+--END
+--IF=:to_date_creation
+and SUBSTRING(aj_survey.createdAt, 1, 10) <= :to_date_creation
+--END
+
+limit 50

@@ -13,18 +13,18 @@ function beneficiariesView_views_api() {
 function beneficiariesView_views_default_views() {
 
 $view = new view();
-$view->name = 'mis-beneficiarios';
+$view->name = 'mis-beneficiariosv2';
 $view->description = 'Beneficiaries view';
 $view->tag = ' default';
 $view->base_table = 'aj_registration';
-$view->human_name = 'mis-beneficiarios';
+$view->human_name = 'mis-beneficiariosv2';
 $view->core = 7;
 $view->api_version = '3.0';
 $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
 
 /* Display: Master */
 $handler = $view->new_display('default', 'Master', 'default');
-$handler->display->display_options['title'] = 'Lista de Beneficiarios';
+$handler->display->display_options['title'] = 'Lista de Beneficiarios v2';
 $handler->display->display_options['use_ajax'] = TRUE;
 $handler->display->display_options['use_more_always'] = FALSE;
 $handler->display->display_options['access']['type'] = 'role';
@@ -267,10 +267,11 @@ $handler->display->display_options['filters']['Estecolateralparticipante']['oper
 $handler->display->display_options['filters']['Estecolateralparticipante']['value'] = 'Sí';
 
 /* Display: Lista de Beneficiarios */
-$handler = $view->new_display('page', 'Lista de Beneficiarios', 'page');
-$handler->display->display_options['path'] = 'mis-beneficiarios';
+$handler = $view->new_display('page', 'Lista de Beneficiariosv2', 'page');
+$handler->display->display_options['path'] = 'mis-beneficiariosv2';
 $handler->display->display_options['menu']['type'] = 'normal';
-$handler->display->display_options['menu']['title'] = 'Lista de Beneficiarios';
+$handler->display->display_options['menu']['title'] = 'Lista de Beneficiarios v2';
+
 
 
 

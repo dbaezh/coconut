@@ -45,17 +45,17 @@ function ajsurvey_form($form, &$form_state) {
 	$uuid = $urlParams['uuid'];
 
 	$beneficiary = _ajsurvey_getBeneficiaryInfo($uuid);
-	$beneficiaryDetails = $beneficiary['nombre'].' '.$beneficiary['apellido'].' ('.$uuid.')';
+	$beneficiaryDetails = $beneficiary['nombre'].' '.$beneficiary['apellido'].' ( UUID es '.$uuid.' )';
 
 	if (_ajsurvey_alreadyExist($uuid)) {
-		drupal_set_message(t('There is a Survey form already available for <b>'.$beneficiaryDetails.'</b>'), 'warning');
+		drupal_set_message(t('Ya existe una Encuesta de Participante disponible para <b>'.$beneficiaryDetails.'</b>'), 'warning');
 		 $form['actions']['cancel'] = array(
   		  '#markup' => l(t('Volver a Lista de Beneficiarios'), 'mis-beneficiarios'),
  		 );
 		return $form;
 	}
 
-	$label = '<p>You are creating a Survey form for <b>'.$beneficiaryDetails.'</b></p>';
+	$label = '<p> Estás creando una Encuesta de Participantes para <b>'.$beneficiaryDetails.'</b></p>';
 	$form['welcome'] = array(
 		'#type' => 'item',
 		'#markup' => $label,
@@ -70,7 +70,7 @@ function ajsurvey_form($form, &$form_state) {
 	// Tab 1
 	$form['documentation'] = array(
     	'#type'  => 'fieldset',
-    	'#title' => t('Demográficos y Documentación'),
+    	'#title' => t('Demográficos y Documentación (9 - 13A)'),
     	'#collapsible' => TRUE,
     	'#collapsed' => true,
     	'#group' => 'group_tabs',
@@ -79,7 +79,7 @@ function ajsurvey_form($form, &$form_state) {
 	// Tab 2
 	$form['education'] = array(
     	'#type'  => 'fieldset',
-    	'#title' => t('Eduación'),
+    	'#title' => t('Educación (14 - 24)'),
     	'#collapsible' => TRUE,
     	'#collapsed' => true,
     	'#group' => 'group_tabs',
@@ -88,7 +88,7 @@ function ajsurvey_form($form, &$form_state) {
 	// Tab 3
 	$form['labor'] = array(
     	'#type'  => 'fieldset',
-    	'#title' => t('Laboral'),
+    	'#title' => t('Laboral (25 - 40)'),
     	'#collapsible' => TRUE,
     	'#collapsed' => true,
     	'#group' => 'group_tabs',
@@ -97,7 +97,7 @@ function ajsurvey_form($form, &$form_state) {
 	// Tab 4
 	$form['security'] = array(
     	'#type'  => 'fieldset',
-    	'#title' => t('Seguridad Personal'),
+    	'#title' => t('Seguridad Personal (41 - 47D)'),
 		'#collapsible' => TRUE,
     	'#collapsed' => true,
     	'#group' => 'group_tabs',
@@ -106,7 +106,7 @@ function ajsurvey_form($form, &$form_state) {
 	// Tab 5
 	$form['justice'] = array(
     	'#type'  => 'fieldset',
-    	'#title' => t('Sistema de Justicia'),
+    	'#title' => t('Sistema de Justicia (48 - 74)'),
     	'#collapsible' => TRUE,
     	'#collapsed' => true,
     	'#group' => 'group_tabs',
@@ -115,7 +115,7 @@ function ajsurvey_form($form, &$form_state) {
 	// Tab 6
 	$form['drugs'] = array(
     	'#type'  => 'fieldset',
-    	'#title' => t('Uso de Sustancias'),
+    	'#title' => t('Uso de Sustancias (75 - 81)'),
     	'#collapsible' => TRUE,
     	'#collapsed' => true,
     	'#group' => 'group_tabs',
@@ -124,7 +124,7 @@ function ajsurvey_form($form, &$form_state) {
 	// Tab 7
 	$form['sexual'] = array(
     	'#type'  => 'fieldset',
-    	'#title' => t('Actividad Sexual'),
+    	'#title' => t('Actividad Sexual (82 - 96A)'),
     	'#collapsible' => TRUE,
     	'#collapsed' => true,
     	'#group' => 'group_tabs',
@@ -703,13 +703,22 @@ $twentytwoOptions = array(
 	'No responde'
 );
 
+// $form['education']['22'] = array(
+// 	'#type' => 'item',
+// 	'#title' => t('22. Actualmente te dedicas a:'),
+// 	'#description' => t('Estudiar y trabajar, Solo estudiar, Solo trabajar, No estudio y no trabajo'),
+// 	'#group' => 'education',
+// 	'#prefix' => '<table><tr><td>imagen aqui</td><td>',
+// 	'#suffix' => '</tr></table>',
+// 	);
+
 $form['education']['22'] = array(
-	'#type' => 'item',
+	'#type' => 'select',
 	'#title' => t('22. Actualmente te dedicas a:'),
-	'#description' => t('Estudiar y trabajar, Solo estudiar, Solo trabajar, No estudio y no trabajo'),
+	'#required' => true,
 	'#group' => 'education',
-	'#prefix' => '<table><tr><td>imagen aqui</td><td>',
-	'#suffix' => '</tr></table>',
+	'#empty_option' => t('- Select -'),
+	'#options' => drupal_map_assoc($twentytwoOptions),
 	);
 
 $form['education']['23'] = array(
@@ -2065,65 +2074,65 @@ $twentyfourOptions = array(
 		'#title' => t('90. Si quisieras comprar un condón, ¿crees que podrías encontrarlo?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#empty_option' => t('- Select -'),
-		'#required' => false,
+		'#required' => true,
 		'#group' => 'sexual',
-		'#states' => array(
-      		'visible' => array(
-        		'select[name="82"]' => array('value' => 'Sí'),
-      		),
-    	),
+// 		'#states' => array(
+//       		'visible' => array(
+//         		'select[name="82"]' => array('value' => 'Sí'),
+//       		),
+//     	),
 	);
 	$form['sexual']['91'] = array(
 		'#type' => 'select',
 		'#title' => t('91. Si quisieras tener sexo, ¿crees que podrias convencer a tu pareja de que use condón en caso de que él/ella se niegue a usarlo?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#empty_option' => t('- Select -'),
-		'#required' => false,
+		'#required' => true,
 		'#group' => 'sexual',
-		'#states' => array(
-      		'visible' => array(
-        		'select[name="82"]' => array('value' => 'Sí'),
-      		),
-    	),
+// 		'#states' => array(
+//       		'visible' => array(
+//         		'select[name="82"]' => array('value' => 'Sí'),
+//       		),
+//     	),
 	);
 	$form['sexual']['92'] = array(
 		'#type' => 'select',
 		'#title' => t('92. ¿Te sientes capaz de tener una conversación abierta y honesta sobre sexo con sus padres?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#empty_option' => t('- Select -'),
-		'#required' => false,
+		'#required' => true,
 		'#group' => 'sexual',
-		'#states' => array(
-      		'visible' => array(
-        		'select[name="82"]' => array('value' => 'Sí'),
-      		),
-    	),
+// 		'#states' => array(
+//       		'visible' => array(
+//         		'select[name="82"]' => array('value' => 'Sí'),
+//       		),
+//     	),
 	);
 	$form['sexual']['93'] = array(
 		'#type' => 'select',
 		'#title' => t('93. ¿Alguna vez has tenido una conversación abierta y honesta sobre sexo con tus padres?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#empty_option' => t('- Select -'),
-		'#required' => false,
+		'#required' => true,
 		'#group' => 'sexual',
-		'#states' => array(
-      		'visible' => array(
-        		'select[name="82"]' => array('value' => 'Sí'),
-      		),
-    	),
+// 		'#states' => array(
+//       		'visible' => array(
+//         		'select[name="82"]' => array('value' => 'Sí'),
+//       		),
+//     	),
 	);
 	$form['sexual']['94'] = array(
 		'#type' => 'select',
 		'#title' => t('94. ¿Alguna vez alguien te ha enseñado (o hablado) acerca de las infecciones de transmisión sexual?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#empty_option' => t('- Select -'),
-		'#required' => false,
+		'#required' => true,
 		'#group' => 'sexual',
-		'#states' => array(
-      		'visible' => array(
-        		'select[name="82"]' => array('value' => 'Sí'),
-      		),
-    	),
+// 		'#states' => array(
+//       		'visible' => array(
+//         		'select[name="82"]' => array('value' => 'Sí'),
+//       		),
+//     	),
 	);
 	$ninetyfourAOptions = array(
 		'Orientador(a) o Psicólogo(a) de la escuela',
@@ -2144,7 +2153,7 @@ $twentyfourOptions = array(
 		'#group' => 'sexual',
 		'#states' => array(
       		'visible' => array(
-        		'select[name="82"]' => array('value' => 'Sí'),
+//         		'select[name="82"]' => array('value' => 'Sí'),
       			'select[name="94"]' => array('value' => 'Sí'),
       		),
     	),
@@ -2158,7 +2167,7 @@ $twentyfourOptions = array(
 		'#group' => 'sexual',
 		'#states' => array(
       		'visible' => array(
-        		'select[name="82"]' => array('value' => 'Sí'),
+//         		'select[name="82"]' => array('value' => 'Sí'),
       			'select[name="94"]' => array('value' => 'Sí'),
 				'input[name="94A[Otro (especifica)]"]' => array('checked' => TRUE),
 //       			'select[name="94A"]' => array('value' => 'Otro (especifica)'),
@@ -2170,13 +2179,13 @@ $twentyfourOptions = array(
 		'#title' => t('95. ¿Alguna vez alguien te ha enseñado acerca de la prevención de embarazo?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#empty_option' => t('- Select -'),
-		'#required' => false,
+		'#required' => true,
 		'#group' => 'sexual',
-		'#states' => array(
-      		'visible' => array(
-        		'select[name="82"]' => array('value' => 'Sí'),
-      		),
-    	),
+// 		'#states' => array(
+//       		'visible' => array(
+//         		'select[name="82"]' => array('value' => 'Sí'),
+//       		),
+//     	),
 	);
 	$form['sexual']['95A'] = array(
 		'#type' => 'checkboxes',
@@ -2187,7 +2196,7 @@ $twentyfourOptions = array(
 		'#group' => 'sexual',
 		'#states' => array(
       		'visible' => array(
-        		'select[name="82"]' => array('value' => 'Sí'),
+//         		'select[name="82"]' => array('value' => 'Sí'),
       			'select[name="95"]' => array('value' => 'Sí'),
       		),
     	),
@@ -2201,7 +2210,7 @@ $twentyfourOptions = array(
 		'#group' => 'sexual',
 		'#states' => array(
       		'visible' => array(
-        		'select[name="82"]' => array('value' => 'Sí'),
+//         		'select[name="82"]' => array('value' => 'Sí'),
       			'select[name="95"]' => array('value' => 'Sí'),
 				'input[name="95A[Otro (especifica)]"]' => array('checked' => TRUE),
 //       			'select[name="95A"]' => array('value' => 'Otro (especifica)'),
@@ -2213,13 +2222,13 @@ $twentyfourOptions = array(
 		'#title' => t('96. ¿Alguna vez alguien te ha enseñado acerca de la infección por VIH?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#empty_option' => t('- Select -'),
-		'#required' => false,
+		'#required' => true,
 		'#group' => 'sexual',
-		'#states' => array(
-      		'visible' => array(
-        		'select[name="82"]' => array('value' => 'Sí'),
-      		),
-    	),
+// 		'#states' => array(
+//       		'visible' => array(
+//         		'select[name="82"]' => array('value' => 'Sí'),
+//       		),
+//     	),
 	);
 	$form['sexual']['96A'] = array(
 		'#type' => 'checkboxes',
@@ -2230,7 +2239,7 @@ $twentyfourOptions = array(
 		'#group' => 'sexual',
 		'#states' => array(
       		'visible' => array(
-        		'select[name="82"]' => array('value' => 'Sí'),
+//         		'select[name="82"]' => array('value' => 'Sí'),
       			'select[name="96"]' => array('value' => 'Sí'),
       		),
     	),
@@ -2244,7 +2253,7 @@ $twentyfourOptions = array(
 		'#group' => 'sexual',
 		'#states' => array(
       		'visible' => array(
-        		'select[name="82"]' => array('value' => 'Sí'),
+//         		'select[name="82"]' => array('value' => 'Sí'),
       			'select[name="96"]' => array('value' => 'Sí'),
 				'input[name="96A[Otro (especifica)]"]' => array('checked' => TRUE),
 //       			'select[name="96A"]' => array('value' => 'Otro (especifica)'),
@@ -2252,11 +2261,25 @@ $twentyfourOptions = array(
     	),
 	);
 
-	$form['submit'] = array(
+	$form['actions'] = array('#type' => 'actions');
+
+	$form['actions']['cancel'] = array(
 		'#type' => 'submit',
-		'#prefix' => '<br>',
-		'#value' => t('Submit'),
-		'#weight' => 150,
+		'#prefix' => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<div style="display: inline-block; width: 200px;" class = "remove"><br>',
+		'#sufix' => '</div> <br>',
+		'#value' => t('Cancelar'),
+		'#limit_validation_errors' => array(),
+		'#submit' => array('ajregistration_form_submit'),
+		'#weight' => 100,
+	);
+
+	$form['actions']['submit'] = array(
+		'#type' => 'submit',
+		'#prefix' => '',
+		'#sufix' => '',
+		'#value' => t('Guardar'),
+		'#weight' => 100,
 	);
 
 	return $form;
@@ -2269,12 +2292,18 @@ $twentyfourOptions = array(
  */
 function ajsurvey_form_submit($form, &$form_state) {
 
+	if ( $form_state['clicked_button']['#value'] === 'Cancelar' ) {
+		drupal_set_message('Formulario descartado', 'warning');
+		$form_state['redirect'] = 'mis-beneficiarios';
+		return;
+	}
+
 	$urlParams = drupal_get_query_parameters();
 	$uuid = $urlParams['uuid'];
 	$provider_id = $urlParams['provider_id'];
 
 	$beneficiary = _ajsurvey_getBeneficiaryInfo($uuid);
-	$beneficiaryDetails = $beneficiary['nombre'].' '.$beneficiary['apellido'].' ('.$uuid.')';
+	$beneficiaryDetails = $beneficiary['nombre'].' '.$beneficiary['apellido'].' ( UUID es '.$uuid.' )';
 
  	$registration_date = $form_state['values']['registration_date'];
     $registration_date_string = $registration_date['year'].'-'. (strlen($registration_date['month']) === 1? '0'.$registration_date['month']:$registration_date['month']).'-'.(strlen($registration_date['day']) === 1? '0'.$registration_date['day']:$registration_date['day']);
@@ -2440,7 +2469,7 @@ function ajsurvey_form_submit($form, &$form_state) {
    			$form_state['values']['96AOtro'],
 			$uuid,
 			$provider_id);
-	drupal_set_message(t('The Survey form has been submited succesfully for '.$beneficiaryDetails.'!'));
+	drupal_set_message('¡La Encuesta de Participante ha sido creada satisfactoriamente para <b>'.$beneficiaryDetails.'</b>!');
 	$form_state['redirect'] = 'mis-beneficiarios';
 
 }
@@ -2874,8 +2903,11 @@ function ajsurvey_form_submit($form, &$form_state) {
 	 	if (empty($_78)) {
 			form_error($form['drugs']['78'], t('78. ¿Has usado en alguna ocasión una aguja para inyectarte droga?: Campo requerido'));
 		}
-		if (count(array_unique(array_values($_79))) === 1 && array_unique(array_values($_79))[0] == 0) {
+		if (count(array_unique(array_values($_79))) === 1 && array_unique(array_values($_79))[0] === 0) {
 			form_error($form['drugs']['79'], t('79. Marca con una X todos los nombres de drogas que hayas probado en algún momento: Campo requerido'));
+		}
+		if (count(array_unique(array_values($_80))) === 1 && array_unique(array_values($_80))[0] === 0) {
+			form_error($form['drugs']['80'], t('80. Marca con una X todos los nombres de drogas que hayas probado en los últimos 12 meses:'));
 		}
 	}
 
@@ -2939,27 +2971,27 @@ function ajsurvey_form_submit($form, &$form_state) {
 		if (empty($_89)) {
 			form_error($form['sexual']['89'], t('89. ¿Alguna vez has tenido relaciones sexuales por dinero, bienes...: Campo requerido'));
 		}
-		if (empty($_90)) {
-			form_error($form['sexual']['90'], t('90. Si quisieras comprar un condón, ¿crees que podrías encontrarlo?: Campo requerido'));
-		}
-		if (empty($_91)) {
-			form_error($form['sexual']['91'], t('91. Si quisieras tener sexo, ¿crees que podrias convencer a tu pareja...: Campo requerido'));
-		}
-		if (empty($_92)) {
-			form_error($form['sexual']['92'], t('92. ¿Te sientes capaz de tener una conversación abierta y honesta...: Campo requerido'));
-		}
-		if (empty($_93)) {
-			form_error($form['sexual']['93'], t('93. ¿Alguna vez has tenido una conversación abierta y honesta...: Campo requerido'));
-		}
-		if (empty($_94)) {
-			form_error($form['sexual']['94'], t('94. ¿Alguna vez alguien te ha enseñado (o hablado) acerca de...: Campo requerido'));
-		}
-		if (empty($_95)) {
-			form_error($form['sexual']['95'], t('95. ¿Alguna vez alguien te ha enseñado acerca de la prevención...: Campo requerido'));
-		}
-		if (empty($_96)) {
-			form_error($form['sexual']['96'], t('96. ¿Alguna vez alguien te ha enseñado acerca de la infección...: Campo requerido'));
-		}
+// 		if (empty($_90)) {
+// 			form_error($form['sexual']['90'], t('90. Si quisieras comprar un condón, ¿crees que podrías encontrarlo?: Campo requerido'));
+// 		}
+// 		if (empty($_91)) {
+// 			form_error($form['sexual']['91'], t('91. Si quisieras tener sexo, ¿crees que podrias convencer a tu pareja...: Campo requerido'));
+// 		}
+// 		if (empty($_92)) {
+// 			form_error($form['sexual']['92'], t('92. ¿Te sientes capaz de tener una conversación abierta y honesta...: Campo requerido'));
+// 		}
+// 		if (empty($_93)) {
+// 			form_error($form['sexual']['93'], t('93. ¿Alguna vez has tenido una conversación abierta y honesta...: Campo requerido'));
+// 		}
+// 		if (empty($_94)) {
+// 			form_error($form['sexual']['94'], t('94. ¿Alguna vez alguien te ha enseñado (o hablado) acerca de...: Campo requerido'));
+// 		}
+// 		if (empty($_95)) {
+// 			form_error($form['sexual']['95'], t('95. ¿Alguna vez alguien te ha enseñado acerca de la prevención...: Campo requerido'));
+// 		}
+// 		if (empty($_96)) {
+// 			form_error($form['sexual']['96'], t('96. ¿Alguna vez alguien te ha enseñado acerca de la infección...: Campo requerido'));
+// 		}
 	}
 
 	// QUESTION 83 -------------------------------------------------------------------------------------
@@ -2981,35 +3013,36 @@ function ajsurvey_form_submit($form, &$form_state) {
 		}
 	}
 	// QUESTION 94A -------------------------------------------------------------------------------------
+
 	if ($_94 === 'Sí') {
-		if (empty($_94A)) {
+		if (count(array_unique(array_values($_94A))) === 1 && array_unique(array_values($_94A))[0] === 0) {
 			form_error($form['sexual']['94A'], t('94A. Si la respuesta es afirmativa, ¿dónde has recibido...: Campo requerido'));
 		}
 	}
  	// QUESTION 95A -------------------------------------------------------------------------------------
 	if ($_95 === 'Sí') {
-		if (empty($_95A)) {
+		if (count(array_unique(array_values($_95A))) === 1 && array_unique(array_values($_95A))[0] === 0) {
 			form_error($form['sexual']['95A'], t('95A. Si la respuesta es afirmativa, ¿dónde has recibido...: Campo requerido'));
 		}
 	}
  	// QUESTION 96A -------------------------------------------------------------------------------------
 	if ($_96 === 'Sí') {
-		if (empty($_96A)) {
+		if (count(array_unique(array_values($_96A))) === 1 && array_unique(array_values($_96A))[0] === 0) {
 			form_error($form['sexual']['96A'], t('96A. Si la respuesta es afirmativa, ¿dónde has recibido...: Campo requerido'));
 		}
 	}
 
-	if ($_94A === 'Otro (especifica)') {
+	if ($_94A['Otro (especifica)'] === 'Otro (especifica)') {
 		if (empty($_94AOtro)) {
 			form_error($form['sexual']['94AOtro'], t('94A. Otro (Especifique): Campo requerido'));
 		}
 	}
- 	if ($_95A === 'Otro (especifica)') {
+ 	if ($_95A['Otro (especifica)'] === 'Otro (especifica)') {
 		if (empty($_95AOtro)) {
 			form_error($form['sexual']['95AOtro'], t('95A. Otro (Especifique): Campo requerido'));
 		}
 	}
- 	if ($_96A === 'Otro (especifica)') {
+ 	if ($_96A['Otro (especifica)'] === 'Otro (especifica)') {
 		if (empty($_96AOtro)) {
 			form_error($form['sexual']['96AOtro'], t('96A. Otro (Especifique): Campo requerido'));
 		}

@@ -48,14 +48,14 @@ function ajexit_form($form, &$form_state) {
 	$beneficiaryDetails = $beneficiary['nombre'].' '.$beneficiary['apellido'].' ('.$uuid.')';
 
 	if (_ajexit_alreadyExist($uuid)) {
-		drupal_set_message(t('There is an Exit form already available for <b>'.$beneficiaryDetails.'</b>'), 'warning');
+		drupal_set_message(t('Ya existe un Formulario de Salida disponible para <b>'.$beneficiaryDetails.'</b>'), 'warning');
 		 $form['actions']['cancel'] = array(
   		  '#markup' => l(t('Volver a Lista de Beneficiarios'), 'mis-beneficiarios'),
  		 );
 		return $form;
 	}
 
-	$label = '<p>You are creating an Exit form for <b>'.$beneficiaryDetails.'</b></p>';
+	$label = '<p>Estás creando un Formulario de Salida para <b>'.$beneficiaryDetails.'</b></p>';
 	$form['welcome'] = array(
 	  '#markup' => $label,
 	);
@@ -78,7 +78,7 @@ function ajexit_form($form, &$form_state) {
 	// Tab 2
 	$form['education'] = array(
     	'#type'  => 'fieldset',
-    	'#title' => t('Eduación'),
+    	'#title' => t('Educación'),
     	'#group' => 'group_tabs',
 	);
 
@@ -499,11 +499,25 @@ function ajexit_form($form, &$form_state) {
 		'#required' => FALSE,
 	);
 
-	$form['submit'] = array(
+	$form['actions'] = array('#type' => 'actions');
+
+	$form['actions']['cancel'] = array(
 		'#type' => 'submit',
-		'#prefix' => '<br>',
-		'#value' => t('Submit'),
-		'#weight' => 150,
+		'#prefix' => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<div style="display: inline-block; width: 200px;" class = "remove"><br>',
+		'#sufix' => '</div> <br>',
+		'#value' => t('Cancelar'),
+		'#limit_validation_errors' => array(),
+		'#submit' => array('ajregistration_form_submit'),
+		'#weight' => 100,
+	);
+
+	$form['actions']['submit'] = array(
+		'#type' => 'submit',
+		'#prefix' => '',
+		'#sufix' => '',
+		'#value' => t('Guardar'),
+		'#weight' => 100,
 	);
 
 	return $form;
@@ -515,6 +529,12 @@ function ajexit_form($form, &$form_state) {
  * @param unknown $form_state
  */
 function ajexit_form_submit($form, &$form_state) {
+
+	if ( $form_state['clicked_button']['#value'] === 'Cancelar' ) {
+		drupal_set_message('Formulario descartado', 'warning');
+		$form_state['redirect'] = 'mis-beneficiarios';
+		return;
+	}
 
 	$urlParams = drupal_get_query_parameters();
 	$uuid = $urlParams['uuid'];
@@ -559,7 +579,7 @@ function ajexit_form_submit($form, &$form_state) {
 			$uuid,
 			$provider_id);
 
-	drupal_set_message(t('The Exit form has been submited succesfully for '.$beneficiaryDetails.'!'));
+	drupal_set_message('El Formulario de Salida ha sido guardado satisfactoriamente para <b>'.$beneficiaryDetails.'</b>!');
 
 	$form_state['redirect'] = 'mis-beneficiarios';
 
@@ -778,7 +798,7 @@ function _ajexit_insert_data(
 		'provider_id' => $provider_id,
 		'user_name' => $user->name,
 		'9Conseguistetuactade' => $_9,
-		'9APorQueNoTienesActaDeNacimeinto' => $_9A,
+		'9APorQueNoTienesActaDeNacimiento' => $_9A,
 		'9AOtro' => $_9AOtro,
 		'10Tienescédula' => $_10,
 		'11Estasactualmente' => $_11,
