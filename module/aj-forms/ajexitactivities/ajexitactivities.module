@@ -50,7 +50,7 @@ function ajexitactivities_form($form, &$form_state) {
 
 	foreach ($programs as $record) {
 		$suffix = $isAdmin? ' (' . $record->field_agency_name_value . ')':'';
-				watchdog('ajexitactivities', '$suffix ' . $suffix);
+		//watchdog('ajexitactivities', '$suffix ' . $suffix);
 
 		switch($record->field_programname_name_value) {
 			case 'Documentación':
@@ -67,6 +67,12 @@ function ajexitactivities_form($form, &$form_state) {
 				break;
 			case 'Espacio para Crecer':
 				$activityNamesOpt[$record->entity_id . '_4'] = t('Jóvenes graduados de EPC ' . $suffix);
+				break;
+			case 'LVPE: Ventajas Permanecer Escuela':
+				$activityNamesOpt[$record->entity_id . '_5'] = t('Jóvenes que han completado LVPE ' . $suffix);
+				break;
+			case 'La Compañia':
+				$activityNamesOpt[$record->entity_id . '_6'] = t('Jóvenes que han completado La Compañía ' . $suffix);
 				break;
 		}
 	}
@@ -149,6 +155,12 @@ function ajexitactivities_form_submit($form, &$form_state) {
 			break;
 		case 4:
 			$activity_name_full = 'Graduados de EPC - '.$activity_name_sufix;
+			break;
+		case 5:
+			$activity_name_full = 'Terminan LVPE - '.$activity_name_sufix;
+			break;
+		case 6:
+			$activity_name_full = 'Terminan La Compañía - '.$activity_name_sufix;
 			break;
 	}
 
