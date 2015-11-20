@@ -48,7 +48,6 @@ when :exit_activity_name = 'Obtienen documentación - ' then '.*Obtienen documen
 when :exit_activity_name = 'Graduados de EPC - ' then '.*Graduados de EPC - .*'
 when :exit_activity_name = 'Obtienen empleo o pasantía pagada - ' then '.*Obtienen empleo o pasantía pagada - .*'
 when :exit_activity_name = 'Reinsertados en la escuela - ' then '.*Reinsertados en la escuela - .*'
-end
 		  
 --IF=:from_date
 and field_data_field_activity_date.field_activity_date_value >= :from_date
