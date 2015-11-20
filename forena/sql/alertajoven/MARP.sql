@@ -20,6 +20,20 @@ where 1 = 1
 --IF=:provider_id
 	and provider.entity_id in (:provider_id)
 --END
+--SWITCH=:collateral
+-- estecolateralparticipante can have 1 of 4 values: No, Si, No Sabe (which means Don't know), blank (which means no value, not set)
+--CASE=collateral
+and Estecolateralparticipante = 'Sí'
+--CASE=nonCollateral
+and Estecolateralparticipante != 'Sí'
+--END
+
+--IF=:from_date
+and SUBSTRING(marp.createdAt, 1, 10) >= :from_date
+--END
+--IF=:to_date
+and SUBSTRING(marp.createdAt, 1, 10) <= :to_date
+--END
 and  marp.Hombresquetienensexoconhombres = 'true'
 ) distinctHSH
 group by provider_id
@@ -47,6 +61,20 @@ where 1 = 1
 --IF=:provider_id
 	and provider.entity_id in (:provider_id)
 --END
+--SWITCH=:collateral
+-- estecolateralparticipante can have 1 of 4 values: No, Si, No Sabe (which means Don't know), blank (which means no value, not set)
+--CASE=collateral
+and Estecolateralparticipante = 'Sí'
+--CASE=nonCollateral
+and Estecolateralparticipante != 'Sí'
+--END
+
+--IF=:from_date
+and SUBSTRING(marp.createdAt, 1, 10) >= :from_date
+--END
+--IF=:to_date
+and SUBSTRING(marp.createdAt, 1, 10) <= :to_date
+--END
 and  marp.Lostrabajadoresdelsexo = 'true'
 ) distinctTRSX
 group by provider_id
@@ -73,6 +101,20 @@ join bitnami_drupal7.field_data_field_agency_name provider on provider.entity_id
 where 1 = 1 
 --IF=:provider_id
 	and provider.entity_id in (:provider_id)
+--END
+--SWITCH=:collateral
+-- estecolateralparticipante can have 1 of 4 values: No, Si, No Sabe (which means Don't know), blank (which means no value, not set)
+--CASE=collateral
+and Estecolateralparticipante = 'Sí'
+--CASE=nonCollateral
+and Estecolateralparticipante != 'Sí'
+--END
+
+--IF=:from_date
+and SUBSTRING(marp.createdAt, 1, 10) >= :from_date
+--END
+--IF=:to_date
+and SUBSTRING(marp.createdAt, 1, 10) <= :to_date
 --END
 and  marp.Usuariosdedrogasintravenosas = 'true'
 ) distinctPWID
