@@ -115,14 +115,14 @@ function ajparticipants_form($form, &$form_state) {
 	$form['table_fieldset']['header_uuid_search'] = array(
 	 			'#type' => 'textfield',
 				'#sufix' => '</th>',
-				'#size' => 5,
-				'#ajax' => array(
-      				'callback' => 'ajax_table_fieldset_callback',
-      				'wrapper' => 'table_beneficiaries',
-      				'method' => 'replace',
-      				'effect' => 'fade',
-					'prevent' => array('click','submit')
-						),
+				'#size' => 9,
+// 				'#ajax' => array(
+//       				'callback' => 'ajax_table_fieldset_callback',
+//       				'wrapper' => 'table_beneficiaries',
+//       				'method' => 'replace',
+//       				'effect' => 'fade',
+// 					'prevent' => array('click','submit')
+// 						),
 		);
 	$form['table_fieldset']['header_nombre_sort'] = array(
 	 			'#type' => 'select',
@@ -138,14 +138,14 @@ function ajparticipants_form($form, &$form_state) {
 	$form['table_fieldset']['header_nombre_search'] = array(
 	 			'#type' => 'textfield',
 				'#sufix' => '</th>',
-				'#size' => 5,
-				'#ajax' => array(
-      				'callback' => 'ajax_table_fieldset_callback',
-      				'wrapper' => 'table_beneficiaries',
-      				'method' => 'replace',
-      				'effect' => 'fade',
-					'prevent' => array('click','submit')
-      				),
+				'#size' => 10,
+// 				'#ajax' => array(
+//       				'callback' => 'ajax_table_fieldset_callback',
+//       				'wrapper' => 'table_beneficiaries',
+//       				'method' => 'replace',
+//       				'effect' => 'fade',
+// 					'prevent' => array('click','submit')
+//       				),
 	);
 	$form['table_fieldset']['header_apellido_sort'] = array(
 	 			'#type' => 'select',
@@ -161,14 +161,14 @@ function ajparticipants_form($form, &$form_state) {
 	$form['table_fieldset']['header_apellido_search'] = array(
 	 			'#type' => 'textfield',
 				'#sufix' => '</th>',
-				'#size' => 5,
-				'#ajax' => array(
-      				'callback' => 'ajax_table_fieldset_callback',
-      				'wrapper' => 'table_beneficiaries',
-      				'method' => 'replace',
-      				'effect' => 'fade',
-					'prevent' => 'click'
-      				),
+				'#size' => 10,
+// 				'#ajax' => array(
+//       				'callback' => 'ajax_table_fieldset_callback',
+//       				'wrapper' => 'table_beneficiaries',
+//       				'method' => 'replace',
+//       				'effect' => 'fade',
+// 					'prevent' => 'click'
+//       				),
 	);
 	$form['table_fieldset']['header_apodo_sort'] = array(
 	 			'#type' => 'select',
@@ -184,17 +184,17 @@ function ajparticipants_form($form, &$form_state) {
 	$form['table_fieldset']['header_apodo_search'] = array(
 	 			'#type' => 'textfield',
 				'#sufix' => '</th>',
-				'#size' => 5,
-				'#ajax' => array(
-      				'callback' => 'ajax_table_fieldset_callback',
-      				'wrapper' => 'table_beneficiaries',
-      				'method' => 'replace',
-      				'effect' => 'fade',
-      				),
+				'#size' => 10,
+// 				'#ajax' => array(
+//       				'callback' => 'ajax_table_fieldset_callback',
+//       				'wrapper' => 'table_beneficiaries',
+//       				'method' => 'replace',
+//       				'effect' => 'fade',
+//       				),
 	);
 	$form['table_fieldset']['header_colateral_sort'] = array(
 	 			'#type' => 'select',
-	 			'#title' => t('¿Indirecto?'),
+	 			'#title' => t('Indirecto'),
 	 			'#options' => array('asc' => 'asc', 'desc' => 'desc'),
 	 			'#prefix' => '<th>',
 				'#ajax' => array(
@@ -206,13 +206,13 @@ function ajparticipants_form($form, &$form_state) {
 	$form['table_fieldset']['header_colateral_search'] = array(
 	 			'#type' => 'textfield',
 				'#sufix' => '</th>',
-				'#size' => 5,
-				'#ajax' => array(
-      				'callback' => 'ajax_table_fieldset_callback',
-      				'wrapper' => 'table_beneficiaries',
-      				'method' => 'replace',
-      				'effect' => 'fade',
-				),
+				'#size' => 2,
+// 				'#ajax' => array(
+//       				'callback' => 'ajax_table_fieldset_callback',
+//       				'wrapper' => 'table_beneficiaries',
+//       				'method' => 'replace',
+//       				'effect' => 'fade',
+// 				),
 		);
 	$form['table_fieldset']['header_sexo_sort'] = array(
 	 			'#type' => 'select',
@@ -228,13 +228,13 @@ function ajparticipants_form($form, &$form_state) {
 	$form['table_fieldset']['header_sexo_search'] = array(
 	 			'#type' => 'textfield',
 				'#sufix' => '</th>',
-				'#size' => 5,
-				'#ajax' => array(
-      				'callback' => 'ajax_table_fieldset_callback',
-      				'wrapper' => 'table_beneficiaries',
-      				'method' => 'replace',
-      				'effect' => 'fade',
-				),
+				'#size' => 2,
+// 				'#ajax' => array(
+//       				'callback' => 'ajax_table_fieldset_callback',
+//       				'wrapper' => 'table_beneficiaries',
+//       				'method' => 'replace',
+//       				'effect' => 'fade',
+// 				),
 		);
 	$form['table_fieldset']['header_dob_sor'] = array(
 	 			'#type' => 'select',
@@ -250,13 +250,13 @@ function ajparticipants_form($form, &$form_state) {
 	$form['table_fieldset']['header_dob_search'] = array(
 	 			'#type' => 'textfield',
 				'#sufix' => '</th>',
-				'#size' => 5,
-				'#ajax' => array(
-      				'callback' => 'ajax_table_fieldset_callback',
-      				'wrapper' => 'table_beneficiaries',
-      				'method' => 'replace',
-      				'effect' => 'fade',
-				),
+				'#size' => 10,
+// 				'#ajax' => array(
+//       				'callback' => 'ajax_table_fieldset_callback',
+//       				'wrapper' => 'table_beneficiaries',
+//       				'method' => 'replace',
+//       				'effect' => 'fade',
+// 				),
 		);
 	$form['table_fieldset']['header_comunidad_sort'] = array(
 	 			'#type' => 'select',
@@ -272,13 +272,13 @@ function ajparticipants_form($form, &$form_state) {
 	$form['table_fieldset']['header_comunidad_search'] = array(
 	 			'#type' => 'textfield',
 				'#sufix' => '</th>',
-				'#size' => 5,
-				'#ajax' => array(
-      				'callback' => 'ajax_table_fieldset_callback',
-      				'wrapper' => 'table_beneficiaries',
-      				'method' => 'replace',
-      				'effect' => 'fade',
-				),
+				'#size' => 10,
+// 				'#ajax' => array(
+//       				'callback' => 'ajax_table_fieldset_callback',
+//       				'wrapper' => 'table_beneficiaries',
+//       				'method' => 'replace',
+//       				'effect' => 'fade',
+// 				),
 		);
 	$form['table_fieldset']['header_casa_sort'] = array(
 	 			'#type' => 'select',
@@ -293,15 +293,29 @@ function ajparticipants_form($form, &$form_state) {
 		);
 	$form['table_fieldset']['header_casa_search'] = array(
 	 			'#type' => 'textfield',
-				'#sufix' => '</th>',
-				'#size' => 5,
-				'#ajax' => array(
-      				'callback' => 'ajax_table_fieldset_callback',
-      				'wrapper' => 'table_beneficiaries',
-      				'method' => 'replace',
-      				'effect' => 'fade',
-				),
+				'#sufix' => '</th></tr>',
+				'#size' => 10,
+// 				'#ajax' => array(
+//       				'callback' => 'ajax_table_fieldset_callback',
+//       				'wrapper' => 'table_beneficiaries',
+//       				'method' => 'replace',
+//       				'effect' => 'fade',
+// 				),
 		);
+	
+	$form['table_fieldset']['search_button'] = array(
+			'#type' => 'button',
+			'#value' => t('Buscar'),
+			'#prefix' => '<tr><th colspan="4"></th><th colspan="6">',
+			'#sufix' => '</th></tr>',
+			'#name' => 'search_button',
+			'#ajax' => array(
+					'callback' => 'ajax_table_fieldset_callback',
+					'wrapper' => 'table_beneficiaries',
+					'method' => 'replace',
+					'event'=>'click',
+			),
+	);
 
 // 	global $user;
 	$query = db_select('aj_registration', 'reg');
@@ -460,7 +474,7 @@ function ajparticipants_form($form, &$form_state) {
 
 	$form['checked_table_fieldset']['checked_header_colateral_sort'] = array(
 	 			'#type' => 'item',
-	 			'#title' => t('¿Indirecto?'),
+	 			'#title' => t('Indirecto'),
 	 			'#prefix' => '<th>',
 				'#sufix' => '</th>',
 		);
