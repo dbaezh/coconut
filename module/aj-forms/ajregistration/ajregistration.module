@@ -526,7 +526,8 @@ function ajregistration_form($form, &$form_state) {
 		13 => t('LA BARQUITA'),
 		14 => t('EL DIQUE'),
 		15 => t('BRISAS DEL OZAMA'),
-		16 => t('OTRO'),
+		16 => t('LOS TRES BRAZOS'),
+		17 => t('OTRO'),
 	);
 
 	$form['2D'] = array(
