@@ -1,5 +1,5 @@
 -- ACCESS=access content
-SELECT 
+SELECT distinct
     `aj_survey`.`provider_id`,
     field_agency_name_value as `provider_name`,
     `aj_survey`.`uuid`,
@@ -251,7 +251,8 @@ SELECT
 --     `aj_survey`.`Completado`,
 --     `aj_survey`.`question`,
     `aj_survey`.`user_name`
-FROM `bitnami_drupal7`.`aj_survey` join `bitnami_drupal7`.field_data_field_agency_name on (aj_survey.provider_id=entity_id) join `bitnami_drupal7`.`aj_registration` using(uuid) 
+FROM `bitnami_drupal7`.`aj_survey` join `bitnami_drupal7`.field_data_field_agency_name on (aj_survey.provider_id=entity_id) 
+join `bitnami_drupal7`.`aj_registration` using(uuid) 
 where 
 1 =1
 --IF=:provider_id

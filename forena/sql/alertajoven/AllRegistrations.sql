@@ -1,5 +1,5 @@
 -- ACCESS=access content
-SELECT 
+SELECT distinct
     aj_registration.provider_id,
     field_agency_name_value as provider_name,
     aj_registration.uuid,
