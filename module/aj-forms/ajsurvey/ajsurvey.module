@@ -772,7 +772,7 @@ $twentyfourOptions = array(
 	);
 
 	$form['labor']['25'] = array(
-		'#type' => 'radios',
+		'#type' => 'select',
 		'#title' => t('25. ¿Has realizado alguna vez un trabajo por paga o ganancia?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#required' => TRUE,
@@ -780,7 +780,7 @@ $twentyfourOptions = array(
 	);
 
 	$form['labor']['26'] = array(
-		'#type' => 'radios',
+		'#type' => 'select',
 		'#title' => t('26. Durante la última semana, ¿realizaste algún trabajo por paga o ganancia?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#required' => false,
@@ -836,7 +836,7 @@ $twentyfourOptions = array(
 	);
 
 	$form['labor']['28'] = array(
-		'#type' => 'radios',
+		'#type' => 'select',
 		'#title' => t('28. ¿En qué lugar realizas este trabajo?'),
 		'#required' => false,
 		'#options' => drupal_map_assoc($twentyeightOptions),
@@ -952,7 +952,7 @@ $twentyfourOptions = array(
 	);
 
 	$form['labor']['33'] = array(
-		'#type' => 'radios',
+		'#type' => 'select',
 		'#title' => t('33. Actualmente, ¿realizas algún trabajo sin paga?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#required' => TRUE,
@@ -1159,7 +1159,7 @@ $twentyfourOptions = array(
 	);
 
 	$form['security']['44'] = array(
-		'#type' => 'radios',
+		'#type' => 'select',
 		'#title' => t('44. En tu opinión, ¿la delincuencia es un problema grave en tu barrio?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#empty_option' => t('- Select -'),
@@ -1192,7 +1192,7 @@ $twentyfourOptions = array(
 	);
 
 	$form['security']['47A'] = array(
-		'#type' => 'radios',
+		'#type' => 'select',
 		'#title' => t('47A. Un policía me amenazó verbalmente'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#empty_option' => t('- Select -'),
@@ -1201,7 +1201,7 @@ $twentyfourOptions = array(
 	);
 
 	$form['security']['47B'] = array(
-		'#type' => 'radios',
+		'#type' => 'select',
 		'#title' => t('47B. Un policía me cobró dinero sin justificación'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#empty_option' => t('- Select -'),
@@ -1210,7 +1210,7 @@ $twentyfourOptions = array(
 	);
 
 	$form['security']['47C'] = array(
-		'#type' => 'radios',
+		'#type' => 'select',
 		'#title' => t('47C. Un policía me quitó algo que me pertenecia'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#empty_option' => t('- Select -'),
@@ -1219,7 +1219,7 @@ $twentyfourOptions = array(
 	);
 
 	$form['security']['47D'] = array(
-		'#type' => 'radios',
+		'#type' => 'select',
 		'#title' => t('47D. Un policía me maltrató físicamente'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#empty_option' => t('- Select -'),
@@ -1228,7 +1228,7 @@ $twentyfourOptions = array(
 	);
 
 	$form['justice']['48'] = array(
-		'#type' => 'radios',
+		'#type' => 'select',
 		'#title' => t('48. ¿Has sido transportado en una patrulla policial por una redada o por sospecha de la policía hacía ti?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#empty_option' => t('- Select -'),
@@ -1237,7 +1237,7 @@ $twentyfourOptions = array(
 	);
 
 	$form['justice']['49'] = array(
-		'#type' => 'radios',
+		'#type' => 'select',
 		'#title' => t('49. ¿Has sido detenido por la policía por algún motivo?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#empty_option' => t('- Select -'),
@@ -1246,7 +1246,7 @@ $twentyfourOptions = array(
 	);
 
 	$form['justice']['49A'] = array(
-		'#type' => 'radios',
+		'#type' => 'select',
 		'#title' => t('49A. Si la respuesta es afirmativa, ¿sucedió esto en los últimos 12 meses?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#empty_option' => t('- Select -'),
@@ -1260,7 +1260,7 @@ $twentyfourOptions = array(
 	);
 
 	$form['justice']['50'] = array(
-		'#type' => 'radios',
+		'#type' => 'select',
 		'#title' => t('50. ¿Has sido detenido por la policía acusado de cometer algún delito?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#empty_option' => t('- Select -'),
@@ -1269,7 +1269,7 @@ $twentyfourOptions = array(
 	);
 
 	$form['justice']['50A'] = array(
-		'#type' => 'radios',
+		'#type' => 'select',
 		'#title' => t('50A. Si la respuesta es afirmativa, ¿sucedió esto en los últimos 12 meses?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#empty_option' => t('- Select -'),
@@ -1283,7 +1283,7 @@ $twentyfourOptions = array(
 	);
 
 	$form['justice']['51'] = array(
-		'#type' => 'radios',
+		'#type' => 'select',
 		'#title' => t('51. Alguno de tus amigos ¿ha sido detenido alguna vez por la policía?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#empty_option' => t('- Select -'),
@@ -1292,7 +1292,7 @@ $twentyfourOptions = array(
 	);
 
 	$form['justice']['51A'] = array(
-		'#type' => 'radios',
+		'#type' => 'select',
 		'#title' => t('51A. Si la respuesta es afirmativa, ¿sucedió esto en los últimos 12 meses?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#empty_option' => t('- Select -'),
@@ -1306,7 +1306,7 @@ $twentyfourOptions = array(
 	);
 
 	$form['justice']['52'] = array(
-		'#type' => 'radios',
+		'#type' => 'select',
 		'#title' => t('52. En los últimos 12 meses, ¿has tomado algo de una tienda sin pagar por ella?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#empty_option' => t('- Select -'),
@@ -1315,7 +1315,7 @@ $twentyfourOptions = array(
 	);
 
 	$form['justice']['53'] = array(
-		'#type' => 'radios',
+		'#type' => 'select',
 		'#title' => t('53. En los últimos 12 meses, ¿has participado en alguna pelea o riña?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#empty_option' => t('- Select -'),
@@ -1324,7 +1324,7 @@ $twentyfourOptions = array(
 	);
 
 	$form['justice']['54'] = array(
-		'#type' => 'radios',
+		'#type' => 'select',
 		'#title' => t('54. En los últimos 12 meses, ¿has llevado un cuchillo, puñal o machete?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#empty_option' => t('- Select -'),
@@ -1354,7 +1354,7 @@ $twentyfourOptions = array(
 	);
 
 	$form['justice']['55'] = array(
-		'#type' => 'radios',
+		'#type' => 'select',
 		'#title' => t('55. En los últimos 12 meses, ¿has llevado un arma de fuego?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#empty_option' => t('- Select -'),
@@ -1377,7 +1377,7 @@ $twentyfourOptions = array(
 	);
 
 	$form['justice']['56'] = array(
-		'#type' => 'radios',
+		'#type' => 'select',
 		'#title' => t('56. En los últimos 12 meses, ¿has visto a alguien que estaba siendo apuñalado, cortado o baleado?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#empty_option' => t('- Select -'),
@@ -1400,7 +1400,7 @@ $twentyfourOptions = array(
 	);
 
 	$form['justice']['57'] = array(
-		'#type' => 'radios',
+		'#type' => 'select',
 		'#title' => t('57. En los últimos 12 meses, ¿alguien te ha amenazado con un cuchillo o una pistola?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#empty_option' => t('- Select -'),
@@ -1423,7 +1423,7 @@ $twentyfourOptions = array(
 	);
 
 	$form['justice']['58'] = array(
-		'#type' => 'radios',
+		'#type' => 'select',
 		'#title' => t('58. En los últimos 12 meses, ¿alguien te ha cortado o apuñalado tan gravemente que tuviste que ir a un médico?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#empty_option' => t('- Select -'),
@@ -1446,7 +1446,7 @@ $twentyfourOptions = array(
 	);
 
 	$form['justice']['59'] = array(
-		'#type' => 'radios',
+		'#type' => 'select',
 		'#title' => t('59. En los últimos 12 meses, ¿alguien te ha disparado con un arma de fuego?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#empty_option' => t('- Select -'),
@@ -1468,7 +1468,7 @@ $twentyfourOptions = array(
 		'#group' => 'justice',
 	);
 	$form['justice']['60'] = array(
-		'#type' => 'radios',
+		'#type' => 'select',
 		'#title' => t('60. En los últimos 12 meses ¿has amenazado a alguien con cortarle, apuñalarle o dispararle?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#empty_option' => t('- Select -'),
@@ -1490,7 +1490,7 @@ $twentyfourOptions = array(
 		'#group' => 'justice',
 	);
 	$form['justice']['61'] = array(
-		'#type' => 'radios',
+		'#type' => 'select',
 		'#title' => t('61. En los últimos 12 meses, ¿has amenazado a alguien con un cuchillo o arma?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#empty_option' => t('- Select -'),
@@ -1512,7 +1512,7 @@ $twentyfourOptions = array(
 		'#group' => 'justice',
 	);
 	$form['justice']['62'] = array(
-		'#type' => 'radios',
+		'#type' => 'select',
 		'#title' => t('62. En los últimos 12 meses, ¿has cortado o apuñalado a alguien?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#empty_option' => t('- Select -'),
@@ -1534,7 +1534,7 @@ $twentyfourOptions = array(
 		'#group' => 'justice',
 	);
 	$form['justice']['63'] = array(
-		'#type' => 'radios',
+		'#type' => 'select',
 		'#title' => t('63. En los últimos 12 meses, ¿le has disparado a alguien?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#empty_option' => t('- Select -'),
@@ -1557,7 +1557,7 @@ $twentyfourOptions = array(
 	);
 
 	$form['justice']['64'] = array(
-		'#type' => 'radios',
+		'#type' => 'select',
 		'#title' => t('64. En los últimos 12 meses, ¿has tenido algún amigo o miembro de tu familia que le han disparado, cortado o apuñalado?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#empty_option' => t('- Select -'),
@@ -1565,7 +1565,7 @@ $twentyfourOptions = array(
 		'#group' => 'justice',
 	);
 	$form['justice']['65'] = array(
-		'#type' => 'radios',
+		'#type' => 'select',
 		'#title' => t('65. ¿Has dañado o destruido a propósito artículos que no te pertenecen?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#empty_option' => t('- Select -'),
@@ -1573,7 +1573,7 @@ $twentyfourOptions = array(
 		'#group' => 'justice',
 	);
 	$form['justice']['66'] = array(
-		'#type' => 'radios',
+		'#type' => 'select',
 		'#title' => t('66. ¿Alguna vez has sido atacado o robado?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#empty_option' => t('- Select -'),
@@ -1581,7 +1581,7 @@ $twentyfourOptions = array(
 		'#group' => 'justice',
 	);
 	$form['justice']['67'] = array(
-		'#type' => 'radios',
+		'#type' => 'select',
 		'#title' => t('67. ¿Alguna vez has atacado o robado a alguien?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#empty_option' => t('- Select -'),
@@ -1589,7 +1589,7 @@ $twentyfourOptions = array(
 		'#group' => 'justice',
 	);
 	$form['justice']['68'] = array(
-		'#type' => 'radios',
+		'#type' => 'select',
 		'#title' => t('68. ¿Alguna vez has sido secuestrado?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#empty_option' => t('- Select -'),
@@ -1597,7 +1597,7 @@ $twentyfourOptions = array(
 		'#group' => 'justice',
 	);
 	$form['justice']['69'] = array(
-		'#type' => 'radios',
+		'#type' => 'select',
 		'#title' => t('69. ¿Alguna vez has secuestrado a alguien?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#empty_option' => t('- Select -'),
@@ -1605,7 +1605,7 @@ $twentyfourOptions = array(
 		'#group' => 'justice',
 	);
 	$form['justice']['70'] = array(
-		'#type' => 'radios',
+		'#type' => 'select',
 		'#title' => t('70. ¿Alguna vez has robado algo de una tienda o algo que no te pertenecía que tenía un valor menor de RD$200?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#empty_option' => t('- Select -'),
@@ -1613,7 +1613,7 @@ $twentyfourOptions = array(
 		'#group' => 'justice',
 	);
 	$form['justice']['71'] = array(
-		'#type' => 'radios',
+		'#type' => 'select',
 		'#title' => t('71. ¿Alguna vez ha robado algo de una tienda o algo que no te pertenecía que tenía un valor mayor de RD$200 (incluyendo carros)?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#empty_option' => t('- Select -'),
@@ -1621,7 +1621,7 @@ $twentyfourOptions = array(
 		'#group' => 'justice',
 	);
 	$form['justice']['72'] = array(
-		'#type' => 'radios',
+		'#type' => 'select',
 		'#title' => t('72. ¿Alguna vez has vendido o ayudado a vender drogas?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#empty_option' => t('- Select -'),
@@ -1629,7 +1629,7 @@ $twentyfourOptions = array(
 		'#group' => 'justice',
 	);
 	$form['justice']['73'] = array(
-		'#type' => 'radios',
+		'#type' => 'select',
 		'#title' => t('73. ¿Has estado involucrado en una pandilla?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#empty_option' => t('- Select -'),
@@ -1637,7 +1637,7 @@ $twentyfourOptions = array(
 		'#group' => 'justice',
 	);
 	$form['justice']['73A'] = array(
-		'#type' => 'radios',
+		'#type' => 'select',
 		'#title' => t('73A. ¿Actualmente, estás involucrado en una pandilla?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#empty_option' => t('- Select -'),
@@ -1650,7 +1650,7 @@ $twentyfourOptions = array(
 		'#group' => 'justice',
 	);
 	$form['justice']['74'] = array(
-		'#type' => 'radios',
+		'#type' => 'select',
 		'#title' => t('74. ¿Compartes tiempo o te relacionas con miembros de una pandilla?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#empty_option' => t('- Select -'),
@@ -1672,7 +1672,7 @@ $twentyfourOptions = array(
 	);
 
 	$form['drugs']['75'] = array(
-		'#type' => 'radios',
+		'#type' => 'select',
 		'#title' => t('75. En los últimos 12 meses, ¿has hablado o compartido con alguien borracho o drogado?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#empty_option' => t('- Select -'),
@@ -1680,7 +1680,7 @@ $twentyfourOptions = array(
 		'#group' => 'drugs',
 	);
 	$form['drugs']['76'] = array(
-		'#type' => 'radios',
+		'#type' => 'select',
 		'#title' => t('76. ¿Alguna vez has tomado una bebida alcohólica, una copa/vaso entero, no sólo un sorbo?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#empty_option' => t('- Select -'),
@@ -1688,7 +1688,7 @@ $twentyfourOptions = array(
 		'#group' => 'drugs',
 	);
 	$form['drugs']['76A'] = array(
-		'#type' => 'radios',
+		'#type' => 'select',
 		'#title' => t('76A. En los últimos 12 meses, ¿has consumido alcohol?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#empty_option' => t('- Select -'),
@@ -1701,7 +1701,7 @@ $twentyfourOptions = array(
 		'#group' => 'drugs',
 	);
 	$form['drugs']['76B'] = array(
-		'#type' => 'radios',
+		'#type' => 'select',
 		'#title' => t('76B. En los últimos 12 meses, ¿has tomado cinco vasos/copas o más de bebidas alcohólicas en el mismo día?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#empty_option' => t('- Select -'),
@@ -1714,7 +1714,7 @@ $twentyfourOptions = array(
 		'#group' => 'drugs',
 	);
 	$form['drugs']['77'] = array(
-		'#type' => 'radios',
+		'#type' => 'select',
 		'#title' => t('77. ¿Has probado alguna vez alguna de estas drogas: marihuana, cocaína,heroína, pastillas, crack, cemento o cualquier otra cosa para drogarse?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#empty_option' => t('- Select -'),
@@ -1722,7 +1722,7 @@ $twentyfourOptions = array(
 		'#group' => 'drugs',
 	);
 	$form['drugs']['78'] = array(
-		'#type' => 'radios',
+		'#type' => 'select',
 		'#title' => t('78. ¿Has usado en alguna ocasión una aguja para inyectarte droga?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#empty_option' => t('- Select -'),
@@ -1906,7 +1906,7 @@ $twentyfourOptions = array(
 		'#group' => 'drugs',
 	);
 	$form['sexual']['82'] = array(
-		'#type' => 'radios',
+		'#type' => 'select',
 		'#title' => t('82. ¿Alguna vez has tenido relaciones sexuales?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#empty_option' => t('- Select -'),
@@ -1970,7 +1970,7 @@ $twentyfourOptions = array(
 		'#group' => 'sexual',
 	);
 	$form['sexual']['86'] = array(
-		'#type' => 'radios',
+		'#type' => 'select',
 		'#title' => t('86. La última vez que tuviste relaciones sexuales, ¿tú o tu compañero/a utilizó un condón?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#empty_option' => t('- Select -'),
@@ -2023,7 +2023,7 @@ $twentyfourOptions = array(
     	),
 	);
 	$form['sexual']['88'] = array(
-		'#type' => 'radios',
+		'#type' => 'select',
 		'#title' => t('88. ¿Alguna vez alguien te ha obligado a tener relaciones sexuales?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#empty_option' => t('- Select -'),
@@ -2036,7 +2036,7 @@ $twentyfourOptions = array(
     	),
 	);
 	$form['sexual']['89'] = array(
-		'#type' => 'radios',
+		'#type' => 'select',
 		'#title' => t('89. ¿Alguna vez has tenido relaciones sexuales por dinero, bienes (celulares, vivienda, etc.) o servicios (protección, comida, etc.)?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#empty_option' => t('- Select -'),
@@ -2070,7 +2070,7 @@ $twentyfourOptions = array(
     	),
 	);
 	$form['sexual']['90'] = array(
-		'#type' => 'radios',
+		'#type' => 'select',
 		'#title' => t('90. Si quisieras comprar un condón, ¿crees que podrías encontrarlo?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#empty_option' => t('- Select -'),
@@ -2083,7 +2083,7 @@ $twentyfourOptions = array(
 //     	),
 	);
 	$form['sexual']['91'] = array(
-		'#type' => 'radios',
+		'#type' => 'select',
 		'#title' => t('91. Si quisieras tener sexo, ¿crees que podrias convencer a tu pareja de que use condón en caso de que él/ella se niegue a usarlo?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#empty_option' => t('- Select -'),
@@ -2096,7 +2096,7 @@ $twentyfourOptions = array(
 //     	),
 	);
 	$form['sexual']['92'] = array(
-		'#type' => 'radios',
+		'#type' => 'select',
 		'#title' => t('92. ¿Te sientes capaz de tener una conversación abierta y honesta sobre sexo con sus padres?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#empty_option' => t('- Select -'),
@@ -2109,7 +2109,7 @@ $twentyfourOptions = array(
 //     	),
 	);
 	$form['sexual']['93'] = array(
-		'#type' => 'radios',
+		'#type' => 'select',
 		'#title' => t('93. ¿Alguna vez has tenido una conversación abierta y honesta sobre sexo con tus padres?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#empty_option' => t('- Select -'),
@@ -2122,7 +2122,7 @@ $twentyfourOptions = array(
 //     	),
 	);
 	$form['sexual']['94'] = array(
-		'#type' => 'radios',
+		'#type' => 'select',
 		'#title' => t('94. ¿Alguna vez alguien te ha enseñado (o hablado) acerca de las infecciones de transmisión sexual?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#empty_option' => t('- Select -'),
@@ -2175,7 +2175,7 @@ $twentyfourOptions = array(
     	),
 	);
 	$form['sexual']['95'] = array(
-		'#type' => 'radios',
+		'#type' => 'select',
 		'#title' => t('95. ¿Alguna vez alguien te ha enseñado acerca de la prevención de embarazo?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#empty_option' => t('- Select -'),
