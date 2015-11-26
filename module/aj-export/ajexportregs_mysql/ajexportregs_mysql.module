@@ -29,7 +29,7 @@ function ajexportregs_mysql_cron_queue_info()
 
     $queues['ajexportregs_mysql'] = array(
         'worker callback' => 'load_export_regs_worker_mysql',
-        'time' => 600, // time in seconds, this is the duration that the job will be CALLED, e.g.
+        'time' => 10, // time in seconds, this is the duration that the job will be CALLED, e.g.
     // after it finish it will be called again until the time is up.
     );
 
@@ -87,8 +87,10 @@ function load_export_regs_worker_mysql($item)
 			    aj_registration.lastModifiedAt as FechaModificación,
 			    aj_registration.user_name as UsuarioCreador
 			FROM bitnami_drupal7.aj_registration
-			join bitnami_drupal7.field_data_field_agency_name on (provider_id = entity_id) 
-    		order by provider_id'
+			join bitnami_drupal7.field_data_field_agency_name on (provider_id = entity_id)
+    		where uuid != :uuid and provider_id != :provider_id
+    		order by provider_id',
+    		array(':uuid' => '', ':provider_id' => '')
     );
     
     $entry =  $query->fetchAllAssoc('uuid');

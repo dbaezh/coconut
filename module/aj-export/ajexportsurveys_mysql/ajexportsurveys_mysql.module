@@ -29,7 +29,7 @@ function ajexportsurveys_mysql_cron_queue_info()
 
     $queues['ajexportsurveys_mysql'] = array(
         'worker callback' => 'load_export_surveys_worker',
-        'time' => 36000, // time in seconds, this is the duration that the job will be CALLED, e.g.
+        'time' => 15, // time in seconds, this is the duration that the job will be CALLED, e.g.
         // after it finish it will be called again until the time is up.
     );
 
@@ -365,7 +365,7 @@ function getSurveyJoinRegistration() {
     	join
 			field_data_field_agency_name ON (aj_survey.provider_id = entity_id)
 	Order by OrganizaciónID 
-			limit 40000'
+			limit 60000'
 			);
 	
 	return $query->fetchAllAssoc('uuid');
