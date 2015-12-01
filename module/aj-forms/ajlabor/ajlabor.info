@@ -1,5 +1,5 @@
-name = AJ Exit Form
-description = Implementation of the Exit Survey
+name = AJ Labor Form
+description = Implementation of the Labor Survey Survey
 core = 7.x
 ;
-configure =	admin/config/content/ajexit
+configure =	admin/config/content/ajlabor

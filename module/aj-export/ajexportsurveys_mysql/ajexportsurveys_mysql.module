@@ -52,47 +52,65 @@ function load_export_surveys_worker()
         $regKeys = variable_get("ajRegKeys");
         $surveyKeys = variable_get("ajSurveyKeys");
 
-        $entry =  getSurveyJoinRegistration();
-        $numRows = sizeof($entry);
-        ajetllog_log("ajexportsurveys_mysql", "MESSAGE", "Surveys+Registrations rows fetched:".$numRows);
-        watchdog('ajexportsurveys_mysql', 'Total of Surveys+Registrations '. $numRows);
-        
-        
         $linesAry = array();
-
+        $providerIds = array();
         // write header line
         $headerLine = ajexportsurveys_writeHeader($regKeys, $surveyKeys);
-        
+
         // add header line on the top
         array_push($linesAry, $headerLine);
         
-        // Adding query result
-        $providerIds = array();
-        foreach ($entry as $row) {
-        	$rowAsArray = (array) $row;
-        	// save provider id
-        	if (!array_key_exists($rowAsArray['OrganizaciónID'], $providerIds)) {
-        		$providerIds[$rowAsArray['OrganizaciónID']] = $rowAsArray['OrganizaciónID'];
-        	}
-        	
-        	$line = "";
-        	
-        	foreach ($regKeys as $key) {
-        		$line = $line.(str_replace(',',' ',$rowAsArray[$key])). ', ';
-        	}
-        	
-        	foreach ($surveyKeys as $key) {
-        		$line = $line.(str_replace(',',' ',$rowAsArray[$key])). ', ';
-        	}
-        	
-        	array_push($linesAry, $line);
+        $ROW_COUNT = 30000;
+        $totalRowCount =  db_query('select count(distinct uuid) from aj_survey')->fetchField(0);
+        ajetllog_log("ajexportsurveys_mysql", "MESSAGE", ($totalRowCount." will be exported"));
+        $numCalls = ceil($totalRowCount / $ROW_COUNT);
+        ajetllog_log("ajexportsurveys_mysql", "MESSAGE", "The database will be called the following number of times: ".$numCalls);
+
+        for ($i = 0; $i < $numCalls*$ROW_COUNT; $i) {
+	        $entry =  getSurveyJoinRegistration($i, $ROW_COUNT);
+	        $numRows = sizeof($entry);
+	        ajetllog_log("ajexportsurveys_mysql", "MESSAGE", "Surveys+Registrations rows fetched:".$numRows);
+	        watchdog('ajexportsurveys_mysql', 'Total of Surveys+Registrations '. $numRows);
+
+	        foreach ($entry as $row) {
+	        	$rowAsArray = (array) $row;
+	        	// save provider id
+	        	if (!array_key_exists($rowAsArray['OrganizaciónID'], $providerIds)) {
+	        		$providerIds[$rowAsArray['OrganizaciónID']] = $rowAsArray['OrganizaciónID'];
+	        	}
+	        	
+	        	$line = "";
+	        	
+	        	foreach ($regKeys as $key) {
+	        		$line = $line.(str_replace(',',' ',$rowAsArray[$key])). ', ';
+	        	}
+	        	
+	        	foreach ($surveyKeys as $key) {
+	        		$line = $line.(str_replace(',',' ',$rowAsArray[$key])). ', ';
+	        	}
+	        	
+	        	array_push($linesAry, $line);
+	        	
+	        	// free memory
+	        	unset($entry[$row->uuid]);
+	        	unset($rowAsArray);
+	        	unset($row);
+	        }
+	        unset($entry);
+	        ajetllog_log("ajexportsurveys_mysql", "MESSAGE", ($i." + ". $ROW_COUNT . " = ". ($i + $ROW_COUNT)));
+	        $i = $i + $ROW_COUNT;
         }
+        
+        ajetllog_log("ajexportsurveys_mysql", "MESSAGE", "Data array ready to be exported");
 
         // generate all data
         ajexporsurveys_generateAllData($linesAry);
+        ajetllog_log("ajexportsurveys_mysql", "MESSAGE", "Evaluators csv file exported");
 
         // export data by provider
         ajexportsurveys_generateDataByProvider($providerIds, $linesAry);
+        ajetllog_log("ajexportsurveys_mysql", "MESSAGE", "Providers csv file exported");
+        
 
         // clean
         ajexportsurveys_deleteModuleVariables();
@@ -104,9 +122,9 @@ function load_export_surveys_worker()
     }
 }
 
-function getSurveyJoinRegistration() {
+function getSurveyJoinRegistration($limit, $offset) {
 	$query = db_query(
-			'select distinct 
+			'select 
 			`aj_survey`.provider_id as OrganizaciónID,
             field_agency_name_value as OrganizaciónNombre,
             `aj_survey`.uuid,
@@ -359,13 +377,16 @@ function getSurveyJoinRegistration() {
             `aj_survey`.`lastModifiedAt`,
             `aj_survey`.`user_name` as UsuarioCreador
     FROM
-        `aj_survey` 
+        aj_survey
         join 
        		 aj_registration using (uuid)
     	join
 			field_data_field_agency_name ON (aj_survey.provider_id = entity_id)
-	Order by OrganizaciónID 
-			limit 60000'
+		where aj_survey.uuid != :uuid and aj_survey.provider_id != :provider_id 
+		group by uuid
+		Order by OrganizaciónID 
+			LIMIT  ' . $limit . ', ' . $offset,
+			array(':uuid' => '', ':provider_id' => '' )
 			);
 	
 	return $query->fetchAllAssoc('uuid');
@@ -402,14 +423,13 @@ function ajexportsurveys_generateDataByProvider($providerIds, $linesAry){
     // push the header
     foreach ($providerIds as $pId) {
         $lineAryByProvider[$pId] = array();
-        array_push($lineAryByProvider[$pId],$linesAry[0]);
+        array_push($lineAryByProvider[$pId], $linesAry[0]);
     }
 
     // skip the header and start from the 2nd element
     for($i = 1; $i < sizeof($linesAry); $i++) {
         $lnAry = explode(',', $linesAry[$i]);
 
-        // remove "" from provider id
         $id = $lnAry[0];
 
         if ($id == "" || $id == null)
@@ -419,16 +439,18 @@ function ajexportsurveys_generateDataByProvider($providerIds, $linesAry){
         if (array_key_exists($id, $lineAryByProvider)) {
             array_push($lineAryByProvider[$id], $linesAry[$i]);
         }
+        
+        // free memory
+        $linesAry[$i] = null;
     }
 
-
     foreach($lineAryByProvider as $providerId=>$lines) {
-
         // convert array to string
         $data = implode("\r\n", $lines);
 
         // dump data to the file
         ajexportsurveys_generateFile($providerId, $data);
+        
     }
 
 }

@@ -50,8 +50,9 @@ function ajexitactivities_form($form, &$form_state) {
 
 	foreach ($programs as $record) {
 		$suffix = $isAdmin? ' (' . $record->field_agency_name_value . ')':'';
-		//watchdog('ajexitactivities', '$suffix ' . $suffix);
-
+// 		watchdog('ajexitactivities', '$suffix ' . $suffix);
+		
+		
 		switch($record->field_programname_name_value) {
 			case 'Documentación':
 				$activityNamesOpt[$record->entity_id . '_0'] = t('Jóvenes que obtienen documentación '. $suffix);
@@ -74,8 +75,13 @@ function ajexitactivities_form($form, &$form_state) {
 			case 'La Compañia':
 				$activityNamesOpt[$record->entity_id . '_6'] = t('Jóvenes que han completado La Compañía ' . $suffix);
 				break;
+			default:
+// 				watchdog('ajexitactivities', '$program_name ' . $record->field_programname_name_value);
+				
 		}
 	}
+	
+// 	watchdog('ajexitactivities', implode(', ', $activityNamesOpt));
 
 	$form['activity_name_prefix'] = array(
 			'#type' => 'select',
