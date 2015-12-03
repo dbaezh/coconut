@@ -772,7 +772,7 @@ $twentyfourOptions = array(
 	);
 
 	$form['labor']['25'] = array(
-		'#type' => 'select',
+		'#type' => 'radio',
 		'#title' => t('25. ¿Has realizado alguna vez un trabajo por paga o ganancia?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#required' => TRUE,
@@ -780,7 +780,7 @@ $twentyfourOptions = array(
 	);
 
 	$form['labor']['26'] = array(
-		'#type' => 'select',
+		'#type' => 'radio',
 		'#title' => t('26. Durante la última semana, ¿realizaste algún trabajo por paga o ganancia?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#required' => false,
