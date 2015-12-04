@@ -45,35 +45,27 @@ function ajlabor_form($form, &$form_state) {
 	$uuid = $urlParams['uuid'];
 
 	$beneficiary = _ajlabor_getBeneficiaryInfo($uuid);
-	$beneficiaryDetails = $beneficiary['nombre'].' '.$beneficiary['apellido'].' ('.$uuid.'). Su edad es '. $beneficiary['edad']. ' años';
+	$beneficiaryDetails = $beneficiary['nombre'].' '.$beneficiary['apellido'].' ('.$uuid.'). Su edad actual es '. $beneficiary['edad']. ' años';
 
-// 	if (_ajlabor_alreadyExist($uuid)) {
-// 		drupal_set_message(t('Ya existe una Encuesta de Inserción Laboral disponible para <b>'.$beneficiaryDetails.'</b>'), 'warning');
-// 		 $form['actions']['cancel'] = array(
-//   		  '#markup' => l(t('Volver a Lista de Beneficiarios'), 'mis-beneficiarios'),
-//  		 );
-// 		return $form;
-// 	}
+	if (_ajlabor_alreadyExist($uuid)) {
+		drupal_set_message(t('Ya existe una Encuesta de Inserción Laboral disponible para <b>'.$beneficiaryDetails.'</b>'), 'warning');
+		 $form['actions']['cancel'] = array(
+  		  '#markup' => l(t('Volver a Lista de Beneficiarios'), 'mis-beneficiarios'),
+ 		 );
+		return $form;
+	}
 
 	$label = '<p>Estás creando una Encuesta de Inserción Laboral para <b>'.$beneficiaryDetails.'</b></p>';
 	$form['welcome'] = array(
 	  '#markup' => $label,
 	);
 
-// 	// Vertical tabs container
-// 	$form['group_tabs'] = array(
-// 		'#type'     => 'vertical_tabs',
-// 		'#attached' => array('library' => array(array('field_group', 'vertical_tabs'))), // Converts fieldsets into tabs
-// 	);
-
-	
 	// 	// Tab 3
 	$form['initial'] = array(
 			'#type'  => 'fieldset',
 			'#title' => t('Participación en el programa'),
 			'#collapsible' => true,
 			'#collapsed' => false,
-			//     	'#group' => 'group_tabs',
 	);
 	
 	// Tab 1
@@ -89,7 +81,6 @@ function ajlabor_form($form, &$form_state) {
 							array('select[name="3"]' => array('value' => 'Sí')),
 					),
 					),
-//     	'#group' => 'group_tabs',
 	);
 
 // 	// Tab 2
@@ -107,36 +98,6 @@ function ajlabor_form($form, &$form_state) {
 					),
 					),
 	);
-
-
-
-// 	// Tab 4
-// 	$form['programs'] = array(
-//     	'#type'  => 'fieldset',
-//     	'#title' => t('Programas'),
-//     	'#group' => 'group_tabs',
-// 	);
-
-// 	// Tab 5
-// 	$form['violence'] = array(
-//     	'#type'  => 'fieldset',
-//     	'#title' => t('Crimen y Violencia'),
-//     	'#group' => 'group_tabs',
-// 	);
-
-// 	// Tab 6
-// 	$form['sexual'] = array(
-//     	'#type'  => 'fieldset',
-//     	'#title' => t('Educación Sexual'),
-//     	'#group' => 'group_tabs',
-// 	);
-
-// 	// Tab 7
-// 	$form['exit'] = array(
-//     	'#type'  => 'fieldset',
-//     	'#title' => t('Cierre'),
-//     	'#group' => 'group_tabs',
-// 	);
 
 	$YesNoOptions = array(
 		1 => t('Sí'),
@@ -191,16 +152,6 @@ function ajlabor_form($form, &$form_state) {
 							array('select[name="2"]' => array('value' => 'Sí'), array('select[name="4"]' => array('value' => 'Sí'))),
 							array('select[name="3"]' => array('value' => 'Sí'), array('select[name="4"]' => array('value' => 'Sí'))),
 					),
-// 					'invisible' => array(
-					// 							array('select[name="1"]' => array('value' => 'No')),
-					// 							array('select[name="2"]' => array('value' => 'No')),
-					// 							array('select[name="3"]' => array('value' => 'No')),
-					// 							array('select[name="1"]' => array('value' => '')),
-					// 							array('select[name="2"]' => array('value' => '')),
-					// 							array('select[name="3"]' => array('value' => '')),
-// 							array('select[name="4"]' => array('!value' => 'Sí')),
-// 							array('select[name="4"]' => array('value' => '')),
-// 					),
 			),
 	);
 	
@@ -285,7 +236,7 @@ function ajlabor_form($form, &$form_state) {
 	
 	$form['laboral']['6_1Otro'] = array(
 			'#type' => 'textfield',
-			'#title' => t('6.Otro (favor especificar):'),
+			'#title' => t('6.1 Otro (favor especificar):'),
 			'#required' => FALSE,
 			'#maxlength' => 50,
 			'#states' => array(
@@ -540,45 +491,36 @@ function ajlabor_form_submit($form, &$form_state) {
 	$beneficiary = _ajlabor_getBeneficiaryInfo($uuid);
 	$beneficiaryDetails = $beneficiary['nombre'].' '.$beneficiary['apellido'].' ('.$uuid.')';
 
-//  	$_22 = $form_state['values']['22'];
-//     $_22_date = $_22['year'].'-'. (strlen($_22['month']) === 1? '0'.$_22['month']:$_22['month']).'-'.(strlen($_22['day']) === 1? '0'.$_22['day']:$_22['day']);
+	_ajlabor_insert_data(
+			$form_state['values']['1'],
+			$form_state['values']['2'],
+			$form_state['values']['3'],
+			$form_state['values']['4'],
+			$form_state['values']['4_1'],
+			$form_state['values']['5'],
+			$form_state['values']['6'],
+			$form_state['values']['6Otro'],
+			$form_state['values']['6_1'],
+			$form_state['values']['6_1Otro'],
+			$form_state['values']['7'],
+			$form_state['values']['8'],
+			$form_state['values']['8_1'],
+			$form_state['values']['9'],
+			$form_state['values']['9_1'],
+			$form_state['values']['10'],
+			$form_state['values']['11'],
+			$form_state['values']['11Otro'],
+			$form_state['values']['11_1'],
+			$form_state['values']['11_1Otro'],
+			$form_state['values']['12'],
+			$form_state['values']['13'],
+			$form_state['values']['14'],
+			$uuid,
+			$provider_id);
 
-// 	_ajlabor_insert_data(
-// 			$form_state['values']['9'],
-// 			$form_state['values']['9A'],
-// 			$form_state['values']['9AOtro'],
-// 			$form_state['values']['10'],
-// 			$form_state['values']['11'],
-// 			$form_state['values']['11A'],
-// 			$form_state['values']['11B_1'],
-// 			$form_state['values']['12'],
-// 			$form_state['values']['12A'],
-// 			$form_state['values']['13'],
-// 			$form_state['values']['13A'],
-// 			$form_state['values']['13B'],
-// 			$form_state['values']['14A'],
-// 			$form_state['values']['14B'],
-// 			$form_state['values']['15A'],
-// 			$form_state['values']['15B'],
-// 			$form_state['values']['15C'],
-// 			$form_state['values']['15D'],
-// 			$form_state['values']['16'],
-// 			$form_state['values']['17'],
-// 			$form_state['values']['18'],
-// 			$form_state['values']['19'],
-// 			$form_state['values']['19Otro'],
-// 			$form_state['values']['20'],
-// 			$form_state['values']['21'],
-// 			$_22_date,
-// 			$form_state['values']['23'],
-// 			$form_state['values']['23Otro'],
-// 			$form_state['values']['24'],
-// 			$uuid,
-// 			$provider_id);
+	drupal_set_message('La encuesta de Inserción Laboral ha sido guardado satisfactoriamente para <b>'.$beneficiaryDetails.'</b>!');
 
-// 	drupal_set_message('La encuesta de inserción laboral ha sido guardado satisfactoriamente para <b>'.$beneficiaryDetails.'</b>!');
-
-// 	$form_state['redirect'] = 'mis-beneficiarios';
+	$form_state['redirect'] = 'mis-beneficiarios';
 
 }
 
@@ -616,6 +558,7 @@ function ajlabor_form_submit($form, &$form_state) {
  	$_11 = $form_state['values']['11'];
  	$_11Otro = $form_state['values']['11Otro'];
  	$_11_1 = $form_state['values']['11_1'];
+ 	$_11_1Otro = $form_state['values']['11_1Otro'];
  	$_12 = $form_state['values']['12'];
  	$_13 = $form_state['values']['13'];
  	$_14 = $form_state['values']['14'];
@@ -763,106 +706,93 @@ function _ajlabor_page() {
  * Script to insert the new form data
  */
 function _ajlabor_insert_data(
+			$_1,
+			$_2,
+			$_3,
+			$_4,
+			$_4_1,
+			$_5,
+			$_6,
+			$_6Otro,
+			$_6_1,
+			$_6_1Otro,
+			$_7,
+			$_8,
+			$_8_1,
 			$_9,
-			$_9A,
-			$_9AOtro,
+			$_9_1,
 			$_10,
 			$_11,
-			$_11A,
-			$_11B_1,
+			$_11Otro,
+			$_11_1,
+			$_11_1Otro,
 			$_12,
-			$_12A,
 			$_13,
-			$_13A,
-			$_13B,
-			$_14A,
-			$_14B,
-			$_15A,
-			$_15B,
-			$_15C,
-			$_15D,
-			$_16,
-			$_17,
-			$_18,
-			$_19,
-			$_19Otro,
-			$_20,
-			$_21,
-			$_22,
-			$_23,
-			$_23Otro,
-			$_24,
+			$_14,
 			$uuid,
 			$provider_id) {
 	global $user;
 	$currentDate = format_date(time(), 'custom', 'Y-m-d H:i:s');
 
 	$tableFields =  array(
- 		'createdAt' => $currentDate,
- 		'lastModifiedAt' => $currentDate,
 		'created' => $currentDate,
 		'uuid' => $uuid,
 		'provider_id' => $provider_id,
 		'user_name' => $user->name,
-		'9Conseguistetuactade' => $_9,
-		'9APorQueNoTienesActaDeNacimiento' => $_9A,
-		'9AOtro' => $_9AOtro,
-		'10Tienescédula' => $_10,
-		'11Estasactualmente' => $_11,
-		'11AQuégradoestascursandoactualmente' => $_11A,
-		'11B1Cuálnivel' => $_11B_1,
-		'12Hascompletadoa' => $_12,
-		'12ASilarespuestaesafirmativacuálescursos' => $_12A,
-		'13Actualmentetienesuntrabajoenquetepaguen' => $_13,
-		'13AMes' => $_13A['month'],
-		'13AAño' => $_13A['year'],
-		'13BEstásenunmejortrabajooempleoqueelanterior' => $_13B,
-		'15ACuántasveceshassido' => $_15A,
-		'15BCuántasveceshassido' => $_15B,
-		'15CCuántasveceshassido' => $_15C,
-		'15DCuántasveceshassidoenviado' => $_15D,
-		'16Enquémedidatuvidaha' => $_16,
-		'17Algunavezhastenidorelacionessexuales' => $_17,
-		'18Laúltimavez' => $_18,
-		'19Laúltimavez' => $_19,
-		'19AOtro' => $_19Otro,
-		'20Siquisierascompraruncondóncreesquepodríasencontrarlo' => $_20,
-		'21Siquisierastenersexo' => $_21,
-		'22FechadeRevisión' => $_22,
-		'23EstatusdeSalida' => $_23,
-		'23AOtro' => $_23Otro,
-		'24Comentarios' => $_24,
+		'1_HasparticipadoenalguncursodelproyectoAlerta' => $_1,
+		'2_Hasparticipadoenalguntallerocursodelproyecto' => $_2,
+		'3_Hasparticipadoenalguntallerocursodelproyecto' => $_3,
+		'4_Actualmentetienesuntrabajoenel' => $_4,
+		'4_1Quehacesenesetrabajo' => $_4_1,
+		'5_Cuantotiempotienesenestetrabajo' => $_5,
+		'6_Estetrabajoes' => $_6,
+		'6_Otrofavorespecificar' => $_6Otro,
+		'6_1Bajocualcondicion' => $_6_1,
+		'6_1Otrofavorespecificar' => $_6_1Otro,
+		'7_Cuantoganasenunasemana' => $_7,
+		'8_Cuandoiniciasteelcursotecnicoyaestabas' => $_8,
+		'8_1Considerasquetutrabajoactual' => $_8_1,
+		'9_Enlosultimos12meseshashecho' => $_9,
+		'9_1Quehaciasenesetrabajo' => $_9_1,
+		'10_Cuantotiempodurasteenestetrabajo' => $_10,
+		'11_Esetrabajoera' => $_11,
+		'11_Otrofavorespecificar' => $_11Otro,
+		'11_1Bajocualcondicion' => $_11,
+		'11_1Otrofavorespecificar' => $_11_1Otro,
+		'12_Cuantoganabasenunasemana' => $_12,
+		'13_Hasrecibidounprestamoatravesdelproyecto' => $_13,
+		'14_Tienesunnegociopropio' => $_14,
 	);
 
 	$labor_entry = db_insert('aj_labor')
 	->fields($tableFields);
 	$labor_entry->execute();
 
-	$tableFieldsPrograms = array(
-		'created' => $currentDate,
-		'uuid' => $uuid,
-		'provider_id' => $provider_id,
-		'answer' => 'Participado',
-	);
+// 	$tableFieldsPrograms = array(
+// 		'created' => $currentDate,
+// 		'uuid' => $uuid,
+// 		'provider_id' => $provider_id,
+// 		'answer' => 'Participado',
+// 	);
 
-	foreach ($_14A as $programParticipation) {
-		if ($programParticipation !== 0) {
-			$tableFieldsPrograms['program_id'] = $programParticipation;
-			$exit_programs_entry = db_insert('aj_exit_programs')
-			->fields($tableFieldsPrograms);
-			$exit_programs_entry->execute();
-		}
-	}
+// 	foreach ($_14A as $programParticipation) {
+// 		if ($programParticipation !== 0) {
+// 			$tableFieldsPrograms['program_id'] = $programParticipation;
+// 			$exit_programs_entry = db_insert('aj_exit_programs')
+// 			->fields($tableFieldsPrograms);
+// 			$exit_programs_entry->execute();
+// 		}
+// 	}
 
-	$tableFieldsPrograms['answer'] = 'Completado';
-	foreach ($_14B as $programCompleted) {
-		if ($programCompleted !== 0) {
-			$tableFieldsPrograms['program_id'] = $programCompleted;
-			$exit_programs_entry = db_insert('aj_exit_programs')
-			->fields($tableFieldsPrograms);
-			$exit_programs_entry->execute();
-		}
-	}
+// 	$tableFieldsPrograms['answer'] = 'Completado';
+// 	foreach ($_14B as $programCompleted) {
+// 		if ($programCompleted !== 0) {
+// 			$tableFieldsPrograms['program_id'] = $programCompleted;
+// 			$exit_programs_entry = db_insert('aj_exit_programs')
+// 			->fields($tableFieldsPrograms);
+// 			$exit_programs_entry->execute();
+// 		}
+// 	}
 }
 
 
@@ -873,8 +803,6 @@ function _ajlabor_getBeneficiaryInfo($uuid) {
 
 	$query = db_select('aj_registration', 'reg');
 	$query->fields('reg', array('nombre', 'apellido', 'uuid'));
-// 	$query->fields('reg', array('edad'));
-// 	$query->fields('reg', array('uuid'));
 	$query->condition('uuid', $uuid);
 	$query->orderBy('nombre', 'ASC');
 	$query->addExpression("DATE_FORMAT(FROM_DAYS(DATEDIFF(DATE_FORMAT(NOW(), '%Y-%m-%d'), dob)), '%Y')+0", 'edad');
