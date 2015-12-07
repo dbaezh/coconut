@@ -14,9 +14,8 @@ ini_set("display_errors", 1);
 function ajexportsurveys_mysql_cron() {
 
     $queue = DrupalQueue::get('ajexportsurveys_mysql');
-    $queue->createItem("arg1");
+    $queue->createItem(0);
 }
-
 
 /**
  * Cron jobs info.
@@ -25,11 +24,11 @@ function ajexportsurveys_mysql_cron() {
  */
 function ajexportsurveys_mysql_cron_queue_info()
 {
-    $queues = array();
+//     $queues = array();
 
     $queues['ajexportsurveys_mysql'] = array(
         'worker callback' => 'load_export_surveys_worker',
-        'time' => 15, // time in seconds, this is the duration that the job will be CALLED, e.g.
+        'time' => 1, // time in seconds, this is the duration that the job will be CALLED, e.g.
         // after it finish it will be called again until the time is up.
     );
 
@@ -60,8 +59,8 @@ function load_export_surveys_worker()
         // add header line on the top
         array_push($linesAry, $headerLine);
         
-        $ROW_COUNT = 30000;
-        $totalRowCount =  db_query('select count(distinct uuid) from aj_survey')->fetchField(0);
+        $ROW_COUNT = 40000;
+        $totalRowCount =  db_query('select count(uuid) from aj_survey')->fetchField(0);
         ajetllog_log("ajexportsurveys_mysql", "MESSAGE", ($totalRowCount." will be exported"));
         $numCalls = ceil($totalRowCount / $ROW_COUNT);
         ajetllog_log("ajexportsurveys_mysql", "MESSAGE", "The database will be called the following number of times: ".$numCalls);
@@ -89,13 +88,15 @@ function load_export_surveys_worker()
 	        		$line = $line.(str_replace(',',' ',$rowAsArray[$key])). ', ';
 	        	}
 	        	
-	        	array_push($linesAry, $line);
+	        	$linesAry[$row->uuid] = $line; // This will avoid duplicates as well
+// 	        	array_push($linesAry, $line);
 	        	
 	        	// free memory
 	        	unset($entry[$row->uuid]);
 	        	unset($rowAsArray);
 	        	unset($row);
 	        }
+	        
 	        unset($entry);
 	        ajetllog_log("ajexportsurveys_mysql", "MESSAGE", ($i." + ". $ROW_COUNT . " = ". ($i + $ROW_COUNT)));
 	        $i = $i + $ROW_COUNT;
@@ -111,14 +112,12 @@ function load_export_surveys_worker()
         ajexportsurveys_generateDataByProvider($providerIds, $linesAry);
         ajetllog_log("ajexportsurveys_mysql", "MESSAGE", "Providers csv file exported");
         
-
         // clean
         ajexportsurveys_deleteModuleVariables();
 
         ajetllog_log("ajexportsurveys_mysql", "MESSAGE", "*****Survey data successfully exported.");
-    }catch(Exception $e){
+    } catch(Exception $e) {
         ajetllog_log("ajexportsurveys_mysql", "ERROR", $e->getMessage());
-
     }
 }
 
@@ -383,7 +382,6 @@ function getSurveyJoinRegistration($limit, $offset) {
     	join
 			field_data_field_agency_name ON (aj_survey.provider_id = entity_id)
 		where aj_survey.uuid != :uuid and aj_survey.provider_id != :provider_id 
-		group by uuid
 		Order by OrganizaciónID 
 			LIMIT  ' . $limit . ', ' . $offset,
 			array(':uuid' => '', ':provider_id' => '' )
@@ -417,7 +415,7 @@ function ajexporsurveys_generateAllData($linesAry){
  * @param $lineAry
  *
  */
-function ajexportsurveys_generateDataByProvider($providerIds, $linesAry){
+function ajexportsurveys_generateDataByProvider($providerIds, $linesAry) {
     $lineAryByProvider = array();
 
     // push the header
@@ -427,8 +425,8 @@ function ajexportsurveys_generateDataByProvider($providerIds, $linesAry){
     }
 
     // skip the header and start from the 2nd element
-    for($i = 1; $i < sizeof($linesAry); $i++) {
-        $lnAry = explode(',', $linesAry[$i]);
+    foreach($linesAry as $line) {
+        $lnAry = explode(',', $line);
 
         $id = $lnAry[0];
 
@@ -437,11 +435,11 @@ function ajexportsurveys_generateDataByProvider($providerIds, $linesAry){
 
         // push the line into the array
         if (array_key_exists($id, $lineAryByProvider)) {
-            array_push($lineAryByProvider[$id], $linesAry[$i]);
+            array_push($lineAryByProvider[$id], $line);
         }
         
         // free memory
-        $linesAry[$i] = null;
+        $line = null;
     }
 
     foreach($lineAryByProvider as $providerId=>$lines) {
@@ -452,13 +450,12 @@ function ajexportsurveys_generateDataByProvider($providerIds, $linesAry){
         ajexportsurveys_generateFile($providerId, $data);
         
     }
-
 }
 
 /**
  * Writes header line for the CSV file.
  */
-function ajexportsurveys_writeHeader($regKeys, $surveyKeys){
+function ajexportsurveys_writeHeader($regKeys, $surveyKeys) {
 
     $line = "";
     // write header

@@ -14,10 +14,10 @@ ini_set("display_errors", 1);
 function ajexportregs_mysql_cron() {
 
   $queue = DrupalQueue::get('ajexportregs_mysql');
-  $queue->createItem("arg1");
+  $queue->createItem(0);
 }
 
-
+	
 /**
 * Cron jobs info.
 *
@@ -29,7 +29,7 @@ function ajexportregs_mysql_cron_queue_info()
 
     $queues['ajexportregs_mysql'] = array(
         'worker callback' => 'load_export_regs_worker_mysql',
-        'time' => 10, // time in seconds, this is the duration that the job will be CALLED, e.g.
+        'time' => 1, // time in seconds, this is the duration that the job will be CALLED, e.g.
     // after it finish it will be called again until the time is up.
     );
 
