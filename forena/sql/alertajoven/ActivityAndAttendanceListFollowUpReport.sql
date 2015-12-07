@@ -54,10 +54,10 @@ SELECT  distinct
 -- 	and  FROM_UNIXTIME(actProp.created,'%Y-%m-%d %H:%i:%s') <= '2015-10-26 00:00:00'
 
 --IF=:from_date
-and  FROM_UNIXTIME(actProp.created,'%Y-%m-%d %H:%i:%s') >= :from_date
+and  FROM_UNIXTIME(actProp.created,'%Y-%m-%d') >= :from_date
 --END
 --IF=:to_date
-and  FROM_UNIXTIME(actProp.created,'%Y-%m-%d %H:%i:%s') <= :to_date
+and  FROM_UNIXTIME(actProp.created,'%Y-%m-%d') <= :to_date
 --END
 
  -- and  field_activity_date_value <= '2015-03-31 00:00:00'
