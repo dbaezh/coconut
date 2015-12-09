@@ -136,6 +136,13 @@ function ajsurvey_form($form, &$form_state) {
 		3 => 'No responde',
 	);
 
+	$YesNoOptionsRadios = array(
+			'Si' => 'Si', 
+			'No' => 'No', 
+			'No Responde'=> 'No Responde'
+			
+	);
+		
 	$form['documentation']['registration_date'] = array(
 		'#type' => 'date',
 		'#title' => t('Fecha de Encuesta:'),
@@ -772,1453 +779,1453 @@ $twentyfourOptions = array(
 	);
 
 	$form['labor']['25'] = array(
-		'#type' => 'radio',
+		'#type' => 'radios',
 		'#title' => t('25. ¿Has realizado alguna vez un trabajo por paga o ganancia?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#required' => TRUE,
 		'#group' => 'labor',
+			
 	);
-
 	$form['labor']['26'] = array(
-		'#type' => 'radio',
-		'#title' => t('26. Durante la última semana, ¿realizaste algún trabajo por paga o ganancia?'),
-		'#options' => drupal_map_assoc($YesNoOptions),
-		'#required' => false,
-		'#group' => 'labor',
-		'#empty_option' => t('- Select -'),
-		'#states' => array(
-      		'visible' => array(
-        		'select[name="25"]' => array('value' => 'Sí'),
-      		),
-    	),
-	);
-
+			'#type' => 'radios',
+			'#title' => t('26. Durante la última semana, ¿realizaste algún trabajo por paga o ganancia?'),
+			'#options' => drupal_map_assoc($YesNoOptions),
+			'#required' => false,
+			'#group' => 'labor',
+			'#states' => array(
+					'visible' => array(
+							'input[name="25"]' => array('value' => 'Sí'),
+					),
+			),
+	);	
+	
 	$form['labor']['26A'] = array(
-		'#type' => 'textfield',
-		'#title' => t('26A. Describe lo que haces en tu trabajo actual:'),
-		'#required' => FALSE,
-		'#maxlength' => 50,
-		'#states' => array(
-      		'visible' => array(
-      			'select[name="25"]' => array('value' => 'Sí'),
-        		'select[name="26"]' => array('value' => 'Sí'),
-      		),
-    	),
-		'#group' => 'labor',
+			'#type' => 'textfield',
+			'#title' => t('26A. Describe lo que haces en tu trabajo actual:'),
+			'#required' => FALSE,
+			'#maxlength' => 50,
+			'#states' => array(
+					'visible' => array(
+							':input[name="25"]' => array('value' => 'Sí'),
+							':input[name="26"]' => array('value' => 'Sí'),
+					),
+			),
+			'#group' => 'labor',
 	);
-
+	
 	$form['labor']['27'] = array(
-		'#type' => 'date',
-		'#title' => t('27. ¿Cuándo comenzaste en tu trabajo actual?'),
-		'#required' => false,
-		'#default_value' =>	array('year' => 1990, 'month' => null, 'day' => null),
-		'#description' => t('El día puede ser aproximado'),
-		'#states' => array(
-      		'visible' => array(
-      			'select[name="25"]' => array('value' => 'Sí'),
-        		'select[name="26"]' => array('value' => 'Sí'),
-      		),
-    	),
-		'#group' => 'labor',
+			'#type' => 'date',
+			'#title' => t('27. ¿Cuándo comenzaste en tu trabajo actual?'),
+			'#required' => false,
+			'#default_value' =>	array('year' => 1990, 'month' => null, 'day' => null),
+			'#description' => t('El día puede ser aproximado'),
+			'#states' => array(
+					'visible' => array(
+							'input[name="25"]' => array('value' => 'Sí'),
+							'input[name="26"]' => array('value' => 'Sí'),
+					),
+			),
+			'#group' => 'labor',
 	);
-
+	
 	$twentyeightOptions = array(
-		'En mi casa',
-		'Plantación/rancho/jardín',
-		'En la casa del jefe/patrón',
-		'Sitio de construcción',
-		'En la calle',
-		'Maquiladora/fábrica',
-		'Colmado/Tienda/Mercado/Kiosco/Almacén',
-		'Sitio de cantera/una mina',
-		'Otros (especifica)',
-		'No responde'
+			'En mi casa',
+			'Plantación/rancho/jardín',
+			'En la casa del jefe/patrón',
+			'Sitio de construcción',
+			'En la calle',
+			'Maquiladora/fábrica',
+			'Colmado/Tienda/Mercado/Kiosco/Almacén',
+			'Sitio de cantera/una mina',
+			'Otros (especifica)',
+			'No responde'
 	);
-
+	
 	$form['labor']['28'] = array(
-		'#type' => 'select',
-		'#title' => t('28. ¿En qué lugar realizas este trabajo?'),
-		'#required' => false,
-		'#options' => drupal_map_assoc($twentyeightOptions),
-		'#empty_option' => t('- Select -'),
-		'#states' => array(
-      		'visible' => array(
-      			'select[name="25"]' => array('value' => 'Sí'),
-        		'select[name="26"]' => array('value' => 'Sí'),
-      		),
-    	),
-		'#group' => 'labor',
+			'#type' => 'select',
+			'#title' => t('28. ¿En qué lugar realizas este trabajo?'),
+			'#required' => false,
+			'#options' => drupal_map_assoc($twentyeightOptions),
+			'#empty_option' => t('- Select -'),
+			'#states' => array(
+					'visible' => array(
+							'input[name="25"]' => array('value' => 'Sí'),
+							'input[name="26"]' => array('value' => 'Sí'),
+					),
+			),
+			'#group' => 'labor',
 	);
-
+	
 	$form['labor']['28Otro'] = array(
-		'#type' => 'textfield',
-		'#title' => t('28. Otros (especifica):'),
-		'#required' => false,
-		'#maxlength' => 50,
-		'#states' => array(
-      		'visible' => array(
-      			'select[name="25"]' => array('value' => 'Sí'),
-      			'select[name="26"]' => array('value' => 'Sí'),
-        		'select[name="28"]' => array('value' => 'Otros (especifica)'),
-      			),
-    		),
-		'#group' => 'labor',
+			'#type' => 'textfield',
+			'#title' => t('28. Otros (especifica):'),
+			'#required' => false,
+			'#maxlength' => 50,
+			'#states' => array(
+					'visible' => array(
+							'input[name="25"]' => array('value' => 'Sí'),
+							'input[name="26"]' => array('value' => 'Sí'),
+							'select[name="28"]' => array('value' => 'Otros (especifica)'),
+					),
+			),
+			'#group' => 'labor',
 	);
-
+	
 	$form['labor']['29'] = array(
-		'#type' => 'textfield',
-		'#title' => t('29. ¿Cuántas horas trabajas en un día?'),
-		'#description' => t('Sólo valores numéricos'),
-		'#required' => false,
-		'#maxlength' => 50,
-		'#states' => array(
-      		'visible' => array(
-      			'select[name="25"]' => array('value' => 'Sí'),
-        		'select[name="26"]' => array('value' => 'Sí'),
-      		),
-    	),
-		'#group' => 'labor',
+			'#type' => 'textfield',
+			'#title' => t('29. ¿Cuántas horas trabajas en un día?'),
+			'#description' => t('Sólo valores numéricos'),
+			'#required' => false,
+			'#maxlength' => 50,
+			'#states' => array(
+					'visible' => array(
+							'input[name="25"]' => array('value' => 'Sí'),
+							'input[name="26"]' => array('value' => 'Sí'),
+					),
+			),
+			'#group' => 'labor',
 	);
-
+	
 	$form['labor']['30'] = array(
-		'#type' => 'textfield',
-		'#title' => t('30. ¿Cuántos días trabajas en una semana?'),
-		'#required' => false,
-		'#description' => t('Sólo valores numéricos'),
-		'#maxlength' => 50,
-		'#states' => array(
-      		'visible' => array(
-      			'select[name="25"]' => array('value' => 'Sí'),
-        		'select[name="26"]' => array('value' => 'Sí'),
-      		),
-    	),
-		'#group' => 'labor',
+			'#type' => 'textfield',
+			'#title' => t('30. ¿Cuántos días trabajas en una semana?'),
+			'#required' => false,
+			'#description' => t('Sólo valores numéricos'),
+			'#maxlength' => 50,
+			'#states' => array(
+					'visible' => array(
+							'input[name="25"]' => array('value' => 'Sí'),
+							'input[name="26"]' => array('value' => 'Sí'),
+					),
+			),
+			'#group' => 'labor',
 	);
-
+	
 	$form['labor']['31'] = array(
-		'#type' => 'textfield',
-		'#title' => t('31. En promedio, ¿cuánto ganas en una semana?'),
-		'#required' => false,
-		'#description' => t('Sólo valores numéricos'),
-		'#maxlength' => 50,
-		'#states' => array(
-      		'visible' => array(
-      			'select[name="25"]' => array('value' => 'Sí'),
-        		'select[name="26"]' => array('value' => 'Sí'),
-      		),
-    	),
-		'#group' => 'labor',
+			'#type' => 'textfield',
+			'#title' => t('31. En promedio, ¿cuánto ganas en una semana?'),
+			'#required' => false,
+			'#description' => t('Sólo valores numéricos'),
+			'#maxlength' => 50,
+			'#states' => array(
+					'visible' => array(
+							'input[name="25"]' => array('value' => 'Sí'),
+							'input[name="26"]' => array('value' => 'Sí'),
+					),
+			),
+			'#group' => 'labor',
 	);
-
+	
 	$thirtytwoOptions = array(
-		'Empleado con salario',
-		'Empleado sin salario',
-		'Jefe',
-		'Ayudante familiar',
-		'Ayudante general',
-		'Por cuenta propia',
-		'Otros (especifica)',
-		'No responde'
+			'Empleado con salario',
+			'Empleado sin salario',
+			'Jefe',
+			'Ayudante familiar',
+			'Ayudante general',
+			'Por cuenta propia',
+			'Otros (especifica)',
+			'No responde'
 	);
-
+	
 	$form['labor']['32'] = array(
-		'#type' => 'select',
-		'#title' => t('32. ¿En este trabajo tú eres…?'),
-		'#required' => false,
-		'#empty_option' => t('- Select -'),
-		'#options' => drupal_map_assoc($thirtytwoOptions),
-		'#states' => array(
-      		'visible' => array(
-      			'select[name="25"]' => array('value' => 'Sí'),
-        		'select[name="26"]' => array('value' => 'Sí'),
-      		),
-    	),
-		'#group' => 'labor',
+			'#type' => 'select',
+			'#title' => t('32. ¿En este trabajo tú eres…?'),
+			'#required' => false,
+			'#empty_option' => t('- Select -'),
+			'#options' => drupal_map_assoc($thirtytwoOptions),
+			'#states' => array(
+					'visible' => array(
+							'input[name="25"]' => array('value' => 'Sí'),
+							'input[name="26"]' => array('value' => 'Sí'),
+					),
+			),
+			'#group' => 'labor',
 	);
-
+	
 	$form['labor']['32Otro'] = array(
-		'#type' => 'textfield',
-		'#title' => t('32. Otros (especifica):'),
-		'#required' => false,
-		'#maxlength' => 50,
-		'#states' => array(
-      		'visible' => array(
-      			'select[name="25"]' => array('value' => 'Sí'),
-      			'select[name="26"]' => array('value' => 'Sí'),
-        		'select[name="32"]' => array('value' => 'Otros (especifica)'),
-      			),
-    		),
-		'#group' => 'labor',
+			'#type' => 'textfield',
+			'#title' => t('32. Otros (especifica):'),
+			'#required' => false,
+			'#maxlength' => 50,
+			'#states' => array(
+					'visible' => array(
+							'input[name="25"]' => array('value' => 'Sí'),
+							'input[name="26"]' => array('value' => 'Sí'),
+							'select[name="32"]' => array('value' => 'Otros (especifica)'),
+					),
+			),
+			'#group' => 'labor',
 	);
-
+	
 	$form['labor']['33'] = array(
-		'#type' => 'select',
-		'#title' => t('33. Actualmente, ¿realizas algún trabajo sin paga?'),
-		'#options' => drupal_map_assoc($YesNoOptions),
-		'#required' => TRUE,
-		'#group' => 'labor',
+			'#type' => 'radios',
+			'#title' => t('33. Actualmente, ¿realizas algún trabajo sin paga?'),
+			'#options' => drupal_map_assoc($YesNoOptions),
+			'#required' => TRUE,
+			'#group' => 'labor',
 	);
-
+	
 	$form['labor']['33A'] = array(
-		'#type' => 'textfield',
-		'#title' => t('33A. Describe lo que haces en este trabajo:'),
-		'#required' => false,
-		'#maxlength' => 50,
-		'#states' => array(
-      		'visible' => array(
-      			'select[name="33"]' => array('value' => 'Sí'),
-      		),
-    	),
-		'#group' => 'labor',
+			'#type' => 'textfield',
+			'#title' => t('33A. Describe lo que haces en este trabajo:'),
+			'#required' => false,
+			'#maxlength' => 50,
+			'#states' => array(
+					'visible' => array(
+							'input[name="33"]' => array('value' => 'Sí'),
+					),
+			),
+			'#group' => 'labor',
 	);
-
+	
 	$form['labor']['34'] = array(
-		'#type' => 'date',
-		'#title' => t('34. ¿Cuándo comenzaste este trabajo?'),
-		'#required' => false,
-		'#default_value' =>	array('year' => 1990, 'month' => null, 'day' => null),
-		'#description' => t('El día puede ser aproximado'),
-		'#states' => array(
-      		'visible' => array(
-      			'select[name="33"]' => array('value' => 'Sí'),
-      		),
-    	),
-		'#group' => 'labor',
+			'#type' => 'date',
+			'#title' => t('34. ¿Cuándo comenzaste este trabajo?'),
+			'#required' => false,
+			'#default_value' =>	array('year' => 1990, 'month' => null, 'day' => null),
+			'#description' => t('El día puede ser aproximado'),
+			'#states' => array(
+					'visible' => array(
+							'input[name="33"]' => array('value' => 'Sí'),
+					),
+			),
+			'#group' => 'labor',
 	);
-
+	
 	$thirtyfiveOptions = array(
-		'En mi casa',
-		'En la casa del jefe/patrón',
-		'En la calle',
-		'Maquiladora/fábrica',
-		'Colmado/Tienda/Mercado/Kiosco/Almacén',
-		'Plantación/rancho/jardín',
-		'Sitio de construcción',
-		'Sitio de cantera/una mina',
-		'Otros (especifica)',
-		'No responde'
+			'En mi casa',
+			'En la casa del jefe/patrón',
+			'En la calle',
+			'Maquiladora/fábrica',
+			'Colmado/Tienda/Mercado/Kiosco/Almacén',
+			'Plantación/rancho/jardín',
+			'Sitio de construcción',
+			'Sitio de cantera/una mina',
+			'Otros (especifica)',
+			'No responde'
 	);
-
+	
 	$form['labor']['35'] = array(
-		'#type' => 'select',
-		'#title' => t('35. ¿En qué lugar realizas este trabajo?'),
-		'#options' => drupal_map_assoc($thirtyfiveOptions),
-		'#empty_option' => t('- Select -'),
-		'#required' => false,
-		'#states' => array(
-      		'visible' => array(
-      			'select[name="33"]' => array('value' => 'Sí'),
-      		),
-    	),
-		'#group' => 'labor',
+			'#type' => 'select',
+			'#title' => t('35. ¿En qué lugar realizas este trabajo?'),
+			'#options' => drupal_map_assoc($thirtyfiveOptions),
+			'#empty_option' => t('- Select -'),
+			'#required' => false,
+			'#states' => array(
+					'visible' => array(
+							'input[name="33"]' => array('value' => 'Sí'),
+					),
+			),
+			'#group' => 'labor',
 	);
-
+	
 	$form['labor']['35Otro'] = array(
-		'#type' => 'textfield',
-		'#title' => t('35. Otros (especifica):'),
-		'#required' => false,
-		'#maxlength' => 50,
-		'#states' => array(
-      		'visible' => array(
-      			'select[name="33"]' => array('value' => 'Sí'),
-        		'select[name="35"]' => array('value' => 'Otros (especifica)'),
-      			),
-    		),
-		'#group' => 'labor',
+			'#type' => 'textfield',
+			'#title' => t('35. Otros (especifica):'),
+			'#required' => false,
+			'#maxlength' => 50,
+			'#states' => array(
+					'visible' => array(
+							'input[name="33"]' => array('value' => 'Sí'),
+							'select[name="35"]' => array('value' => 'Otros (especifica)'),
+					),
+			),
+			'#group' => 'labor',
 	);
-
+	
 	$form['labor']['36'] = array(
-		'#type' => 'textfield',
-		'#title' => t('36. ¿Cuántas horas trabajas en un día?'),
-		'#required' => false,
-		'#maxlength' => 50,
-		'#states' => array(
-      		'visible' => array(
-      			'select[name="33"]' => array('value' => 'Sí'),
-      		),
-    	),
-		'#group' => 'labor',
+			'#type' => 'textfield',
+			'#title' => t('36. ¿Cuántas horas trabajas en un día?'),
+			'#required' => false,
+			'#maxlength' => 50,
+			'#states' => array(
+					'visible' => array(
+							'input[name="33"]' => array('value' => 'Sí'),
+					),
+			),
+			'#group' => 'labor',
 	);
-
+	
 	$form['labor']['37'] = array(
-		'#type' => 'textfield',
-		'#title' => t('37. ¿Cuántos días trabajas en una semana?'),
-		'#required' => false,
-		'#maxlength' => 50,
-		'#states' => array(
-      		'visible' => array(
-      			'select[name="33"]' => array('value' => 'Sí'),
-      		),
-    	),
-		'#group' => 'labor',
+			'#type' => 'textfield',
+			'#title' => t('37. ¿Cuántos días trabajas en una semana?'),
+			'#required' => false,
+			'#maxlength' => 50,
+			'#states' => array(
+					'visible' => array(
+							'input[name="33"]' => array('value' => 'Sí'),
+					),
+			),
+			'#group' => 'labor',
 	);
-
+	
 	$thirtyeightOptions = array(
-		'Empleado sin salario',
-		'Jefe',
-		'Ayudante familiar',
-		'Ayudante general',
-		'Por cuenta propia',
-		'Otros (especifica)',
-		'No responde'
+			'Empleado sin salario',
+			'Jefe',
+			'Ayudante familiar',
+			'Ayudante general',
+			'Por cuenta propia',
+			'Otros (especifica)',
+			'No responde'
 	);
-
+	
 	$form['labor']['38'] = array(
-		'#type' => 'select',
-		'#title' => t('38. ¿En este trabajo tú eres…?'),
-		'#options' => drupal_map_assoc($thirtyeightOptions),
-		'#empty_option' => t('- Select -'),
-		'#required' => false,
-		'#states' => array(
-      		'visible' => array(
-      			'select[name="33"]' => array('value' => 'Sí'),
-      		),
-    	),
-		'#group' => 'labor',
+			'#type' => 'select',
+			'#title' => t('38. ¿En este trabajo tú eres…?'),
+			'#options' => drupal_map_assoc($thirtyeightOptions),
+			'#empty_option' => t('- Select -'),
+			'#required' => false,
+			'#states' => array(
+					'visible' => array(
+							'input[name="33"]' => array('value' => 'Sí'),
+					),
+			),
+			'#group' => 'labor',
 	);
-
+	
 	$form['labor']['38Otro'] = array(
-		'#type' => 'textfield',
-		'#title' => t('38. Otros (especifica):'),
-		'#required' => false,
-		'#maxlength' => 50,
-		'#states' => array(
-      		'visible' => array(
-      			'select[name="33"]' => array('value' => 'Sí'),
-        		'select[name="38"]' => array('value' => 'Otros (especifica)'),
-      			),
-    		),
-		'#group' => 'labor',
+			'#type' => 'textfield',
+			'#title' => t('38. Otros (especifica):'),
+			'#required' => false,
+			'#maxlength' => 50,
+			'#states' => array(
+					'visible' => array(
+							'input[name="33"]' => array('value' => 'Sí'),
+							'select[name="38"]' => array('value' => 'Otros (especifica)'),
+					),
+			),
+			'#group' => 'labor',
 	);
-
+	
 	$form['labor']['39'] = array(
-		'#type' => 'select',
-		'#title' => t('39. ¿Has buscado un nuevo o mejor empleo en el último mes?'),
-		'#options' => drupal_map_assoc($YesNoOptions),
-		'#empty_option' => t('- Select -'),
-		'#required' => true,
-		'#group' => 'labor',
+			'#type' => 'radios',
+			'#title' => t('39. ¿Has buscado un nuevo o mejor empleo en el último mes?'),
+			'#options' => drupal_map_assoc($YesNoOptions),
+			'#empty_option' => t('- Select -'),
+			'#required' => true,
+			'#group' => 'labor',
 	);
-
+	
 	$form['labor']['40'] = array(
-		'#type' => 'select',
-		'#title' => t('40. ¿Has participado en algún programa de desarrollo de empleo. (Ejemplo: Juventud y Empleo, Programa de Parcelas)?'),
-		'#options' => drupal_map_assoc($YesNoOptions),
-		'#empty_option' => t('- Select -'),
-		'#required' => true,
-		'#group' => 'labor',
+			'#type' => 'radios',
+			'#title' => t('40. ¿Has participado en algún programa de desarrollo de empleo. (Ejemplo: Juventud y Empleo, Programa de Parcelas)?'),
+			'#options' => drupal_map_assoc($YesNoOptions),
+			'#empty_option' => t('- Select -'),
+			'#required' => true,
+			'#group' => 'labor',
 	);
-
+	
 	$fortyoneOptions = array(
-		'Muy a menudo',
-		'Algo a menudo',
-		'Rara vez',
-		'Nunca',
-		'No sé',
-		'No responde'
+			'Muy a menudo',
+			'Algo a menudo',
+			'Rara vez',
+			'Nunca',
+			'No sé',
+			'No responde'
 	);
-
+	
 	$form['security']['41'] = array(
-		'#type' => 'select',
-		'#title' => t('41. ¿Con qué frecuencia te preocupa ser víctima de la delincuencia en tu barrio?'),
-		'#options' => drupal_map_assoc($fortyoneOptions),
-		'#empty_option' => t('- Select -'),
-		'#required' => true,
-		'#group' => 'security',
+			'#type' => 'select',
+			'#title' => t('41. ¿Con qué frecuencia te preocupa ser víctima de la delincuencia en tu barrio?'),
+			'#options' => drupal_map_assoc($fortyoneOptions),
+			'#empty_option' => t('- Select -'),
+			'#required' => true,
+			'#group' => 'security',
 	);
-
+	
 	$form['security']['42'] = array(
-		'#type' => 'select',
-		'#title' => t('42. ¿Con qué frecuencia te preocupa ser víctima de la delincuencia en tu escuela o universidad?'),
-		'#options' => drupal_map_assoc($fortyoneOptions),
-		'#empty_option' => t('- Select -'),
-		'#required' => true,
-		'#group' => 'security',
+			'#type' => 'select',
+			'#title' => t('42. ¿Con qué frecuencia te preocupa ser víctima de la delincuencia en tu escuela o universidad?'),
+			'#options' => drupal_map_assoc($fortyoneOptions),
+			'#empty_option' => t('- Select -'),
+			'#required' => true,
+			'#group' => 'security',
 	);
-
+	
 	$fortythreeOptions = array(
-		1 => t('1'),
-		2 => t('2'),
-		3 => t('3'),
-		4 => t('4'),
-		5 => t('5'),
-		6 => t('6'),
-		7 => t('7'),
-		8 => t('8'),
-		9 => t('9'),
-		10 => t('10'),
+			1 => t('1'),
+			2 => t('2'),
+			3 => t('3'),
+			4 => t('4'),
+			5 => t('5'),
+			6 => t('6'),
+			7 => t('7'),
+			8 => t('8'),
+			9 => t('9'),
+			10 => t('10'),
 	);
-
+	
 	$form['security']['43'] = array(
-		'#type' => 'select',
-		'#title' => t('43. ¿En qué medida tu vida ha sido afectada por la delincuencia? '),
-		'#description' => t('En una puntuación de 1 al 10, donde 1 es NINGUN IMPACTO Y 10 es IMPACTO TOTAL'),
-		'#options' => drupal_map_assoc($fortythreeOptions),
-		'#required' => TRUE,
-		'#group' => 'security',
+			'#type' => 'select',
+			'#title' => t('43. ¿En qué medida tu vida ha sido afectada por la delincuencia? '),
+			'#description' => t('En una puntuación de 1 al 10, donde 1 es NINGUN IMPACTO Y 10 es IMPACTO TOTAL'),
+			'#options' => drupal_map_assoc($fortythreeOptions),
+			'#required' => TRUE,
+			'#group' => 'security',
 	);
-
+	
 	$form['security']['44'] = array(
-		'#type' => 'select',
-		'#title' => t('44. En tu opinión, ¿la delincuencia es un problema grave en tu barrio?'),
-		'#options' => drupal_map_assoc($YesNoOptions),
-		'#empty_option' => t('- Select -'),
-		'#required' => true,
-		'#group' => 'security',
+			'#type' => 'radios',
+			'#title' => t('44. En tu opinión, ¿la delincuencia es un problema grave en tu barrio?'),
+			'#options' => drupal_map_assoc($YesNoOptions),
+			'#empty_option' => t('- Select -'),
+			'#required' => true,
+			'#group' => 'security',
 	);
-
+	
 	$form['security']['45'] = array(
-		'#type' => 'select',
-		'#title' => t('45. ¿Te preocupa la presencia de pandillas en tu barrio?'),
-		'#options' => drupal_map_assoc($fortyoneOptions),
-		'#empty_option' => t('- Select -'),
-		'#required' => true,
-		'#group' => 'security',
+			'#type' => 'select',
+			'#title' => t('45. ¿Te preocupa la presencia de pandillas en tu barrio?'),
+			'#options' => drupal_map_assoc($fortyoneOptions),
+			'#empty_option' => t('- Select -'),
+			'#required' => true,
+			'#group' => 'security',
 	);
-
+	
 	$form['security']['46'] = array(
-		'#type' => 'select',
-		'#title' => t('46. La preocupación por la delincuencia o crimen en tu barrio, ¿te impide realizar las cosas que deseas hacer?'),
-		'#options' => drupal_map_assoc($fortyoneOptions),
-		'#empty_option' => t('- Select -'),
-		'#required' => true,
-		'#group' => 'security',
+			'#type' => 'select',
+			'#title' => t('46. La preocupación por la delincuencia o crimen en tu barrio, ¿te impide realizar las cosas que deseas hacer?'),
+			'#options' => drupal_map_assoc($fortyoneOptions),
+			'#empty_option' => t('- Select -'),
+			'#required' => true,
+			'#group' => 'security',
 	);
-
+	
 	$form['security']['47'] = array(
-		'#type' => 'item',
-	 	'#markup' => '<p><b>47. ¿Has tenido alguna vez algunas de las siguientes experiencias con la policía?</b></p>',
-		'#group' => 'security',
+			'#type' => 'item',
+			'#markup' => '<p><b>47. ¿Has tenido alguna vez algunas de las siguientes experiencias con la policía?</b></p>',
+			'#group' => 'security',
 	);
-
+	
 	$form['security']['47A'] = array(
-		'#type' => 'select',
-		'#title' => t('47A. Un policía me amenazó verbalmente'),
-		'#options' => drupal_map_assoc($YesNoOptions),
-		'#empty_option' => t('- Select -'),
-		'#required' => true,
-		'#group' => 'security',
+			'#type' => 'radios',
+			'#title' => t('47A. Un policía me amenazó verbalmente'),
+			'#options' => drupal_map_assoc($YesNoOptions),
+			'#empty_option' => t('- Select -'),
+			'#required' => true,
+			'#group' => 'security',
 	);
-
+	
 	$form['security']['47B'] = array(
-		'#type' => 'select',
-		'#title' => t('47B. Un policía me cobró dinero sin justificación'),
-		'#options' => drupal_map_assoc($YesNoOptions),
-		'#empty_option' => t('- Select -'),
-		'#required' => true,
-		'#group' => 'security',
+			'#type' => 'radios',
+			'#title' => t('47B. Un policía me cobró dinero sin justificación'),
+			'#options' => drupal_map_assoc($YesNoOptions),
+			'#empty_option' => t('- Select -'),
+			'#required' => true,
+			'#group' => 'security',
 	);
-
+	
 	$form['security']['47C'] = array(
-		'#type' => 'select',
-		'#title' => t('47C. Un policía me quitó algo que me pertenecia'),
-		'#options' => drupal_map_assoc($YesNoOptions),
-		'#empty_option' => t('- Select -'),
-		'#required' => true,
-		'#group' => 'security',
+			'#type' => 'radios',
+			'#title' => t('47C. Un policía me quitó algo que me pertenecia'),
+			'#options' => drupal_map_assoc($YesNoOptions),
+			'#empty_option' => t('- Select -'),
+			'#required' => true,
+			'#group' => 'security',
 	);
-
+	
 	$form['security']['47D'] = array(
-		'#type' => 'select',
-		'#title' => t('47D. Un policía me maltrató físicamente'),
-		'#options' => drupal_map_assoc($YesNoOptions),
-		'#empty_option' => t('- Select -'),
-		'#required' => true,
-		'#group' => 'security',
+			'#type' => 'radios',
+			'#title' => t('47D. Un policía me maltrató físicamente'),
+			'#options' => drupal_map_assoc($YesNoOptions),
+			'#empty_option' => t('- Select -'),
+			'#required' => true,
+			'#group' => 'security',
 	);
-
+	
 	$form['justice']['48'] = array(
-		'#type' => 'select',
-		'#title' => t('48. ¿Has sido transportado en una patrulla policial por una redada o por sospecha de la policía hacía ti?'),
-		'#options' => drupal_map_assoc($YesNoOptions),
-		'#empty_option' => t('- Select -'),
-		'#required' => true,
-		'#group' => 'justice',
+			'#type' => 'radios',
+			'#title' => t('48. ¿Has sido transportado en una patrulla policial por una redada o por sospecha de la policía hacía ti?'),
+			'#options' => drupal_map_assoc($YesNoOptions),
+			'#empty_option' => t('- Select -'),
+			'#required' => true,
+			'#group' => 'justice',
 	);
-
+	
 	$form['justice']['49'] = array(
-		'#type' => 'select',
-		'#title' => t('49. ¿Has sido detenido por la policía por algún motivo?'),
-		'#options' => drupal_map_assoc($YesNoOptions),
-		'#empty_option' => t('- Select -'),
-		'#required' => true,
-		'#group' => 'justice',
+			'#type' => 'radios',
+			'#title' => t('49. ¿Has sido detenido por la policía por algún motivo?'),
+			'#options' => drupal_map_assoc($YesNoOptions),
+			'#empty_option' => t('- Select -'),
+			'#required' => true,
+			'#group' => 'justice',
 	);
-
+	
 	$form['justice']['49A'] = array(
-		'#type' => 'select',
-		'#title' => t('49A. Si la respuesta es afirmativa, ¿sucedió esto en los últimos 12 meses?'),
-		'#options' => drupal_map_assoc($YesNoOptions),
-		'#empty_option' => t('- Select -'),
-		'#required' => false,
-		'#states' => array(
-      		'visible' => array(
-      			'select[name="49"]' => array('value' => 'Sí'),
-      			),
-    	),
-		'#group' => 'justice',
+			'#type' => 'radios',
+			'#title' => t('49A. Si la respuesta es afirmativa, ¿sucedió esto en los últimos 12 meses?'),
+			'#options' => drupal_map_assoc($YesNoOptions),
+			'#empty_option' => t('- Select -'),
+			'#required' => false,
+			'#states' => array(
+					'visible' => array(
+							'input[name="49"]' => array('value' => 'Sí'),
+					),
+			),
+			'#group' => 'justice',
 	);
-
+	
 	$form['justice']['50'] = array(
-		'#type' => 'select',
-		'#title' => t('50. ¿Has sido detenido por la policía acusado de cometer algún delito?'),
-		'#options' => drupal_map_assoc($YesNoOptions),
-		'#empty_option' => t('- Select -'),
-		'#required' => true,
-		'#group' => 'justice',
+			'#type' => 'radios',
+			'#title' => t('50. ¿Has sido detenido por la policía acusado de cometer algún delito?'),
+			'#options' => drupal_map_assoc($YesNoOptions),
+			'#empty_option' => t('- Select -'),
+			'#required' => true,
+			'#group' => 'justice',
 	);
-
+	
 	$form['justice']['50A'] = array(
-		'#type' => 'select',
-		'#title' => t('50A. Si la respuesta es afirmativa, ¿sucedió esto en los últimos 12 meses?'),
-		'#options' => drupal_map_assoc($YesNoOptions),
-		'#empty_option' => t('- Select -'),
-		'#required' => false,
-		'#states' => array(
-      		'visible' => array(
-      			'select[name="50"]' => array('value' => 'Sí'),
-      			),
-    	),
-		'#group' => 'justice',
+			'#type' => 'radios',
+			'#title' => t('50A. Si la respuesta es afirmativa, ¿sucedió esto en los últimos 12 meses?'),
+			'#options' => drupal_map_assoc($YesNoOptions),
+			'#empty_option' => t('- Select -'),
+			'#required' => false,
+			'#states' => array(
+					'visible' => array(
+							'input[name="50"]' => array('value' => 'Sí'),
+					),
+			),
+			'#group' => 'justice',
 	);
-
+	
 	$form['justice']['51'] = array(
-		'#type' => 'select',
-		'#title' => t('51. Alguno de tus amigos ¿ha sido detenido alguna vez por la policía?'),
-		'#options' => drupal_map_assoc($YesNoOptions),
-		'#empty_option' => t('- Select -'),
-		'#required' => true,
-		'#group' => 'justice',
+			'#type' => 'radios',
+			'#title' => t('51. Alguno de tus amigos ¿ha sido detenido alguna vez por la policía?'),
+			'#options' => drupal_map_assoc($YesNoOptions),
+			'#empty_option' => t('- Select -'),
+			'#required' => true,
+			'#group' => 'justice',
 	);
-
+	
 	$form['justice']['51A'] = array(
-		'#type' => 'select',
-		'#title' => t('51A. Si la respuesta es afirmativa, ¿sucedió esto en los últimos 12 meses?'),
-		'#options' => drupal_map_assoc($YesNoOptions),
-		'#empty_option' => t('- Select -'),
-		'#required' => false,
-		'#states' => array(
-      		'visible' => array(
-      			'select[name="51"]' => array('value' => 'Sí'),
-      			),
-    	),
-		'#group' => 'justice',
+			'#type' => 'radios',
+			'#title' => t('51A. Si la respuesta es afirmativa, ¿sucedió esto en los últimos 12 meses?'),
+			'#options' => drupal_map_assoc($YesNoOptions),
+			'#empty_option' => t('- Select -'),
+			'#required' => false,
+			'#states' => array(
+					'visible' => array(
+							'input[name="51"]' => array('value' => 'Sí'),
+					),
+			),
+			'#group' => 'justice',
 	);
-
+	
 	$form['justice']['52'] = array(
-		'#type' => 'select',
-		'#title' => t('52. En los últimos 12 meses, ¿has tomado algo de una tienda sin pagar por ella?'),
-		'#options' => drupal_map_assoc($YesNoOptions),
-		'#empty_option' => t('- Select -'),
-		'#required' => true,
-		'#group' => 'justice',
+			'#type' => 'radios',
+			'#title' => t('52. En los últimos 12 meses, ¿has tomado algo de una tienda sin pagar por ella?'),
+			'#options' => drupal_map_assoc($YesNoOptions),
+			'#empty_option' => t('- Select -'),
+			'#required' => true,
+			'#group' => 'justice',
 	);
-
+	
 	$form['justice']['53'] = array(
-		'#type' => 'select',
-		'#title' => t('53. En los últimos 12 meses, ¿has participado en alguna pelea o riña?'),
-		'#options' => drupal_map_assoc($YesNoOptions),
-		'#empty_option' => t('- Select -'),
-		'#required' => true,
-		'#group' => 'justice',
+			'#type' => 'radios',
+			'#title' => t('53. En los últimos 12 meses, ¿has participado en alguna pelea o riña?'),
+			'#options' => drupal_map_assoc($YesNoOptions),
+			'#empty_option' => t('- Select -'),
+			'#required' => true,
+			'#group' => 'justice',
 	);
-
+	
 	$form['justice']['54'] = array(
-		'#type' => 'select',
-		'#title' => t('54. En los últimos 12 meses, ¿has llevado un cuchillo, puñal o machete?'),
-		'#options' => drupal_map_assoc($YesNoOptions),
-		'#empty_option' => t('- Select -'),
-		'#required' => true,
-		'#group' => 'justice',
+			'#type' => 'radios',
+			'#title' => t('54. En los últimos 12 meses, ¿has llevado un cuchillo, puñal o machete?'),
+			'#options' => drupal_map_assoc($YesNoOptions),
+			'#empty_option' => t('- Select -'),
+			'#required' => true,
+			'#group' => 'justice',
 	);
-
+	
 	$fortyoneOptions = array(
-		'Casa',
-		'Escuela',
-		'Barrio',
-		'No responde'
+			'Casa',
+			'Escuela',
+			'Barrio',
+			'No responde'
 	);
-
+	
 	$form['justice']['54A'] = array(
-		'#type' => 'select',
-		'#title' => t('54A. Si la respuesta es afirmativa, en cuál(es) lugar(es) pasó:'),
-		'#options' => drupal_map_assoc($fortyoneOptions),
-		'#empty_option' => t('- Select -'),
-		'#required' => false,
-		'#states' => array(
-      		'visible' => array(
-      			'select[name="54"]' => array('value' => 'Sí'),
-      			),
-    	),
-		'#group' => 'justice',
+			'#type' => 'select',
+			'#title' => t('54A. Si la respuesta es afirmativa, en cuál(es) lugar(es) pasó:'),
+			'#options' => drupal_map_assoc($fortyoneOptions),
+			'#empty_option' => t('- Select -'),
+			'#required' => false,
+			'#states' => array(
+					'visible' => array(
+							'input[name="54"]' => array('value' => 'Sí'),
+					),
+			),
+			'#group' => 'justice',
 	);
-
+	
 	$form['justice']['55'] = array(
-		'#type' => 'select',
-		'#title' => t('55. En los últimos 12 meses, ¿has llevado un arma de fuego?'),
-		'#options' => drupal_map_assoc($YesNoOptions),
-		'#empty_option' => t('- Select -'),
-		'#required' => true,
-		'#group' => 'justice',
+			'#type' => 'radios',
+			'#title' => t('55. En los últimos 12 meses, ¿has llevado un arma de fuego?'),
+			'#options' => drupal_map_assoc($YesNoOptions),
+			'#empty_option' => t('- Select -'),
+			'#required' => true,
+			'#group' => 'justice',
 	);
-
+	
 	$form['justice']['55A'] = array(
-		'#type' => 'select',
-		'#title' => t('55A. Si la respuesta es afirmativa, en cuál(es) lugar(es) pasó:'),
-		'#options' => drupal_map_assoc($fortyoneOptions),
-		'#empty_option' => t('- Select -'),
-		'#required' => false,
-		'#states' => array(
-      		'visible' => array(
-      			'select[name="55"]' => array('value' => 'Sí'),
-      			),
-    	),
-		'#group' => 'justice',
+			'#type' => 'select',
+			'#title' => t('55A. Si la respuesta es afirmativa, en cuál(es) lugar(es) pasó:'),
+			'#options' => drupal_map_assoc($fortyoneOptions),
+			'#empty_option' => t('- Select -'),
+			'#required' => false,
+			'#states' => array(
+					'visible' => array(
+							'input[name="55"]' => array('value' => 'Sí'),
+					),
+			),
+			'#group' => 'justice',
 	);
-
+	
 	$form['justice']['56'] = array(
-		'#type' => 'select',
-		'#title' => t('56. En los últimos 12 meses, ¿has visto a alguien que estaba siendo apuñalado, cortado o baleado?'),
-		'#options' => drupal_map_assoc($YesNoOptions),
-		'#empty_option' => t('- Select -'),
-		'#required' => true,
-		'#group' => 'justice',
+			'#type' => 'radios',
+			'#title' => t('56. En los últimos 12 meses, ¿has visto a alguien que estaba siendo apuñalado, cortado o baleado?'),
+			'#options' => drupal_map_assoc($YesNoOptions),
+			'#empty_option' => t('- Select -'),
+			'#required' => true,
+			'#group' => 'justice',
 	);
-
+	
 	$form['justice']['56A'] = array(
-		'#type' => 'select',
-		'#title' => t('56A. Si la respuesta es afirmativa, en cuál(es) lugar(es) pasó:'),
-		'#options' => drupal_map_assoc($fortyoneOptions),
-		'#empty_option' => t('- Select -'),
-		'#required' => false,
-		'#states' => array(
-      		'visible' => array(
-      			'select[name="56"]' => array('value' => 'Sí'),
-      			),
-    	),
-		'#group' => 'justice',
+			'#type' => 'select',
+			'#title' => t('56A. Si la respuesta es afirmativa, en cuál(es) lugar(es) pasó:'),
+			'#options' => drupal_map_assoc($fortyoneOptions),
+			'#empty_option' => t('- Select -'),
+			'#required' => false,
+			'#states' => array(
+					'visible' => array(
+							'input[name="56"]' => array('value' => 'Sí'),
+					),
+			),
+			'#group' => 'justice',
 	);
-
+	
 	$form['justice']['57'] = array(
-		'#type' => 'select',
-		'#title' => t('57. En los últimos 12 meses, ¿alguien te ha amenazado con un cuchillo o una pistola?'),
-		'#options' => drupal_map_assoc($YesNoOptions),
-		'#empty_option' => t('- Select -'),
-		'#required' => true,
-		'#group' => 'justice',
+			'#type' => 'radios',
+			'#title' => t('57. En los últimos 12 meses, ¿alguien te ha amenazado con un cuchillo o una pistola?'),
+			'#options' => drupal_map_assoc($YesNoOptions),
+			'#empty_option' => t('- Select -'),
+			'#required' => true,
+			'#group' => 'justice',
 	);
-
+	
 	$form['justice']['57A'] = array(
-		'#type' => 'select',
-		'#title' => t('57A. Si la respuesta es afirmativa, en cuál(es) lugar(es) pasó'),
-		'#options' => drupal_map_assoc($fortyoneOptions),
-		'#empty_option' => t('- Select -'),
-		'#required' => false,
-		'#states' => array(
-      		'visible' => array(
-      			'select[name="57"]' => array('value' => 'Sí'),
-      			),
-    	),
-		'#group' => 'justice',
+			'#type' => 'select',
+			'#title' => t('57A. Si la respuesta es afirmativa, en cuál(es) lugar(es) pasó'),
+			'#options' => drupal_map_assoc($fortyoneOptions),
+			'#empty_option' => t('- Select -'),
+			'#required' => false,
+			'#states' => array(
+					'visible' => array(
+							'input[name="57"]' => array('value' => 'Sí'),
+					),
+			),
+			'#group' => 'justice',
 	);
-
+	
 	$form['justice']['58'] = array(
-		'#type' => 'select',
-		'#title' => t('58. En los últimos 12 meses, ¿alguien te ha cortado o apuñalado tan gravemente que tuviste que ir a un médico?'),
-		'#options' => drupal_map_assoc($YesNoOptions),
-		'#empty_option' => t('- Select -'),
-		'#required' => true,
-		'#group' => 'justice',
+			'#type' => 'radios',
+			'#title' => t('58. En los últimos 12 meses, ¿alguien te ha cortado o apuñalado tan gravemente que tuviste que ir a un médico?'),
+			'#options' => drupal_map_assoc($YesNoOptions),
+			'#empty_option' => t('- Select -'),
+			'#required' => true,
+			'#group' => 'justice',
 	);
-
+	
 	$form['justice']['58A'] = array(
-		'#type' => 'select',
-		'#title' => t('58A. Si la respuesta es afirmativa, en cuál(es) lugar(es) pasó'),
-		'#options' => drupal_map_assoc($fortyoneOptions),
-		'#empty_option' => t('- Select -'),
-		'#required' => false,
-		'#states' => array(
-      		'visible' => array(
-      			'select[name="58"]' => array('value' => 'Sí'),
-      			),
-    	),
-		'#group' => 'justice',
+			'#type' => 'select',
+			'#title' => t('58A. Si la respuesta es afirmativa, en cuál(es) lugar(es) pasó'),
+			'#options' => drupal_map_assoc($fortyoneOptions),
+			'#empty_option' => t('- Select -'),
+			'#required' => false,
+			'#states' => array(
+					'visible' => array(
+							'input[name="58"]' => array('value' => 'Sí'),
+					),
+			),
+			'#group' => 'justice',
 	);
-
+	
 	$form['justice']['59'] = array(
-		'#type' => 'select',
-		'#title' => t('59. En los últimos 12 meses, ¿alguien te ha disparado con un arma de fuego?'),
-		'#options' => drupal_map_assoc($YesNoOptions),
-		'#empty_option' => t('- Select -'),
-		'#required' => true,
-		'#group' => 'justice',
+			'#type' => 'radios',
+			'#title' => t('59. En los últimos 12 meses, ¿alguien te ha disparado con un arma de fuego?'),
+			'#options' => drupal_map_assoc($YesNoOptions),
+			'#empty_option' => t('- Select -'),
+			'#required' => true,
+			'#group' => 'justice',
 	);
-
+	
 	$form['justice']['59A'] = array(
-		'#type' => 'select',
-		'#title' => t('59A. Si la respuesta es afirmativa, en cuál(es) lugar(es) pasó'),
-		'#options' => drupal_map_assoc($fortyoneOptions),
-		'#empty_option' => t('- Select -'),
-		'#required' => false,
-		'#states' => array(
-      		'visible' => array(
-      			'select[name="59"]' => array('value' => 'Sí'),
-      			),
-    	),
-		'#group' => 'justice',
+			'#type' => 'select',
+			'#title' => t('59A. Si la respuesta es afirmativa, en cuál(es) lugar(es) pasó'),
+			'#options' => drupal_map_assoc($fortyoneOptions),
+			'#empty_option' => t('- Select -'),
+			'#required' => false,
+			'#states' => array(
+					'visible' => array(
+							'input[name="59"]' => array('value' => 'Sí'),
+					),
+			),
+			'#group' => 'justice',
 	);
 	$form['justice']['60'] = array(
-		'#type' => 'select',
-		'#title' => t('60. En los últimos 12 meses ¿has amenazado a alguien con cortarle, apuñalarle o dispararle?'),
-		'#options' => drupal_map_assoc($YesNoOptions),
-		'#empty_option' => t('- Select -'),
-		'#required' => true,
-		'#group' => 'justice',
+			'#type' => 'radios',
+			'#title' => t('60. En los últimos 12 meses ¿has amenazado a alguien con cortarle, apuñalarle o dispararle?'),
+			'#options' => drupal_map_assoc($YesNoOptions),
+			'#empty_option' => t('- Select -'),
+			'#required' => true,
+			'#group' => 'justice',
 	);
-
+	
 	$form['justice']['60A'] = array(
-		'#type' => 'select',
-		'#title' => t('60A. Si la respuesta es afirmativa, en cuál(es) lugar(es) pasó'),
-		'#options' => drupal_map_assoc($fortyoneOptions),
-		'#empty_option' => t('- Select -'),
-		'#required' => false,
-		'#states' => array(
-      		'visible' => array(
-      			'select[name="60"]' => array('value' => 'Sí'),
-      			),
-    	),
-		'#group' => 'justice',
+			'#type' => 'select',
+			'#title' => t('60A. Si la respuesta es afirmativa, en cuál(es) lugar(es) pasó'),
+			'#options' => drupal_map_assoc($fortyoneOptions),
+			'#empty_option' => t('- Select -'),
+			'#required' => false,
+			'#states' => array(
+					'visible' => array(
+							'input[name="60"]' => array('value' => 'Sí'),
+					),
+			),
+			'#group' => 'justice',
 	);
 	$form['justice']['61'] = array(
-		'#type' => 'select',
-		'#title' => t('61. En los últimos 12 meses, ¿has amenazado a alguien con un cuchillo o arma?'),
-		'#options' => drupal_map_assoc($YesNoOptions),
-		'#empty_option' => t('- Select -'),
-		'#required' => true,
-		'#group' => 'justice',
+			'#type' => 'radios',
+			'#title' => t('61. En los últimos 12 meses, ¿has amenazado a alguien con un cuchillo o arma?'),
+			'#options' => drupal_map_assoc($YesNoOptions),
+			'#empty_option' => t('- Select -'),
+			'#required' => true,
+			'#group' => 'justice',
 	);
-
+	
 	$form['justice']['61A'] = array(
-		'#type' => 'select',
-		'#title' => t('61A. Si la respuesta es afirmativa, en cuál(es) lugar(es) pasó'),
-		'#options' => drupal_map_assoc($fortyoneOptions),
-		'#empty_option' => t('- Select -'),
-		'#required' => false,
-		'#states' => array(
-      		'visible' => array(
-      			'select[name="61"]' => array('value' => 'Sí'),
-      			),
-    	),
-		'#group' => 'justice',
+			'#type' => 'select',
+			'#title' => t('61A. Si la respuesta es afirmativa, en cuál(es) lugar(es) pasó'),
+			'#options' => drupal_map_assoc($fortyoneOptions),
+			'#empty_option' => t('- Select -'),
+			'#required' => false,
+			'#states' => array(
+					'visible' => array(
+							'input[name="61"]' => array('value' => 'Sí'),
+					),
+			),
+			'#group' => 'justice',
 	);
 	$form['justice']['62'] = array(
-		'#type' => 'select',
-		'#title' => t('62. En los últimos 12 meses, ¿has cortado o apuñalado a alguien?'),
-		'#options' => drupal_map_assoc($YesNoOptions),
-		'#empty_option' => t('- Select -'),
-		'#required' => true,
-		'#group' => 'justice',
+			'#type' => 'radios',
+			'#title' => t('62. En los últimos 12 meses, ¿has cortado o apuñalado a alguien?'),
+			'#options' => drupal_map_assoc($YesNoOptions),
+			'#empty_option' => t('- Select -'),
+			'#required' => true,
+			'#group' => 'justice',
 	);
-
+	
 	$form['justice']['62A'] = array(
-		'#type' => 'select',
-		'#title' => t('62A. Si la respuesta es afirmativa, en cuál(es) lugar(es) pasó'),
-		'#options' => drupal_map_assoc($fortyoneOptions),
-		'#empty_option' => t('- Select -'),
-		'#required' => false,
-		'#states' => array(
-      		'visible' => array(
-      			'select[name="62"]' => array('value' => 'Sí'),
-      			),
-    	),
-		'#group' => 'justice',
+			'#type' => 'select',
+			'#title' => t('62A. Si la respuesta es afirmativa, en cuál(es) lugar(es) pasó'),
+			'#options' => drupal_map_assoc($fortyoneOptions),
+			'#empty_option' => t('- Select -'),
+			'#required' => false,
+			'#states' => array(
+					'visible' => array(
+							'input[name="62"]' => array('value' => 'Sí'),
+					),
+			),
+			'#group' => 'justice',
 	);
 	$form['justice']['63'] = array(
-		'#type' => 'select',
-		'#title' => t('63. En los últimos 12 meses, ¿le has disparado a alguien?'),
-		'#options' => drupal_map_assoc($YesNoOptions),
-		'#empty_option' => t('- Select -'),
-		'#required' => true,
-		'#group' => 'justice',
+			'#type' => 'radios',
+			'#title' => t('63. En los últimos 12 meses, ¿le has disparado a alguien?'),
+			'#options' => drupal_map_assoc($YesNoOptions),
+			'#empty_option' => t('- Select -'),
+			'#required' => true,
+			'#group' => 'justice',
 	);
-
+	
 	$form['justice']['63A'] = array(
-		'#type' => 'select',
-		'#title' => t('63A. Si la respuesta es afirmativa, en cuál(es) lugar(es) pasó'),
-		'#options' => drupal_map_assoc($fortyoneOptions),
-		'#empty_option' => t('- Select -'),
-		'#required' => false,
-		'#states' => array(
-      		'visible' => array(
-      			'select[name="63"]' => array('value' => 'Sí'),
-      			),
-    	),
-		'#group' => 'justice',
+			'#type' => 'select',
+			'#title' => t('63A. Si la respuesta es afirmativa, en cuál(es) lugar(es) pasó'),
+			'#options' => drupal_map_assoc($fortyoneOptions),
+			'#empty_option' => t('- Select -'),
+			'#required' => false,
+			'#states' => array(
+					'visible' => array(
+							'input[name="63"]' => array('value' => 'Sí'),
+					),
+			),
+			'#group' => 'justice',
 	);
-
+	
 	$form['justice']['64'] = array(
-		'#type' => 'select',
-		'#title' => t('64. En los últimos 12 meses, ¿has tenido algún amigo o miembro de tu familia que le han disparado, cortado o apuñalado?'),
-		'#options' => drupal_map_assoc($YesNoOptions),
-		'#empty_option' => t('- Select -'),
-		'#required' => true,
-		'#group' => 'justice',
+			'#type' => 'radios',
+			'#title' => t('64. En los últimos 12 meses, ¿has tenido algún amigo o miembro de tu familia que le han disparado, cortado o apuñalado?'),
+			'#options' => drupal_map_assoc($YesNoOptions),
+			'#empty_option' => t('- Select -'),
+			'#required' => true,
+			'#group' => 'justice',
 	);
 	$form['justice']['65'] = array(
-		'#type' => 'select',
-		'#title' => t('65. ¿Has dañado o destruido a propósito artículos que no te pertenecen?'),
-		'#options' => drupal_map_assoc($YesNoOptions),
-		'#empty_option' => t('- Select -'),
-		'#required' => true,
-		'#group' => 'justice',
+			'#type' => 'radios',
+			'#title' => t('65. ¿Has dañado o destruido a propósito artículos que no te pertenecen?'),
+			'#options' => drupal_map_assoc($YesNoOptions),
+			'#empty_option' => t('- Select -'),
+			'#required' => true,
+			'#group' => 'justice',
 	);
 	$form['justice']['66'] = array(
-		'#type' => 'select',
-		'#title' => t('66. ¿Alguna vez has sido atacado o robado?'),
-		'#options' => drupal_map_assoc($YesNoOptions),
-		'#empty_option' => t('- Select -'),
-		'#required' => true,
-		'#group' => 'justice',
+			'#type' => 'radios',
+			'#title' => t('66. ¿Alguna vez has sido atacado o robado?'),
+			'#options' => drupal_map_assoc($YesNoOptions),
+			'#empty_option' => t('- Select -'),
+			'#required' => true,
+			'#group' => 'justice',
 	);
 	$form['justice']['67'] = array(
-		'#type' => 'select',
-		'#title' => t('67. ¿Alguna vez has atacado o robado a alguien?'),
-		'#options' => drupal_map_assoc($YesNoOptions),
-		'#empty_option' => t('- Select -'),
-		'#required' => true,
-		'#group' => 'justice',
+			'#type' => 'radios',
+			'#title' => t('67. ¿Alguna vez has atacado o robado a alguien?'),
+			'#options' => drupal_map_assoc($YesNoOptions),
+			'#empty_option' => t('- Select -'),
+			'#required' => true,
+			'#group' => 'justice',
 	);
 	$form['justice']['68'] = array(
-		'#type' => 'select',
-		'#title' => t('68. ¿Alguna vez has sido secuestrado?'),
-		'#options' => drupal_map_assoc($YesNoOptions),
-		'#empty_option' => t('- Select -'),
-		'#required' => true,
-		'#group' => 'justice',
+			'#type' => 'radios',
+			'#title' => t('68. ¿Alguna vez has sido secuestrado?'),
+			'#options' => drupal_map_assoc($YesNoOptions),
+			'#empty_option' => t('- Select -'),
+			'#required' => true,
+			'#group' => 'justice',
 	);
 	$form['justice']['69'] = array(
-		'#type' => 'select',
-		'#title' => t('69. ¿Alguna vez has secuestrado a alguien?'),
-		'#options' => drupal_map_assoc($YesNoOptions),
-		'#empty_option' => t('- Select -'),
-		'#required' => true,
-		'#group' => 'justice',
+			'#type' => 'radios',
+			'#title' => t('69. ¿Alguna vez has secuestrado a alguien?'),
+			'#options' => drupal_map_assoc($YesNoOptions),
+			'#empty_option' => t('- Select -'),
+			'#required' => true,
+			'#group' => 'justice',
 	);
 	$form['justice']['70'] = array(
-		'#type' => 'select',
-		'#title' => t('70. ¿Alguna vez has robado algo de una tienda o algo que no te pertenecía que tenía un valor menor de RD$200?'),
-		'#options' => drupal_map_assoc($YesNoOptions),
-		'#empty_option' => t('- Select -'),
-		'#required' => true,
-		'#group' => 'justice',
+			'#type' => 'radios',
+			'#title' => t('70. ¿Alguna vez has robado algo de una tienda o algo que no te pertenecía que tenía un valor menor de RD$200?'),
+			'#options' => drupal_map_assoc($YesNoOptions),
+			'#empty_option' => t('- Select -'),
+			'#required' => true,
+			'#group' => 'justice',
 	);
 	$form['justice']['71'] = array(
-		'#type' => 'select',
-		'#title' => t('71. ¿Alguna vez ha robado algo de una tienda o algo que no te pertenecía que tenía un valor mayor de RD$200 (incluyendo carros)?'),
-		'#options' => drupal_map_assoc($YesNoOptions),
-		'#empty_option' => t('- Select -'),
-		'#required' => true,
-		'#group' => 'justice',
+			'#type' => 'radios',
+			'#title' => t('71. ¿Alguna vez ha robado algo de una tienda o algo que no te pertenecía que tenía un valor mayor de RD$200 (incluyendo carros)?'),
+			'#options' => drupal_map_assoc($YesNoOptions),
+			'#empty_option' => t('- Select -'),
+			'#required' => true,
+			'#group' => 'justice',
 	);
 	$form['justice']['72'] = array(
-		'#type' => 'select',
-		'#title' => t('72. ¿Alguna vez has vendido o ayudado a vender drogas?'),
-		'#options' => drupal_map_assoc($YesNoOptions),
-		'#empty_option' => t('- Select -'),
-		'#required' => true,
-		'#group' => 'justice',
+			'#type' => 'radios',
+			'#title' => t('72. ¿Alguna vez has vendido o ayudado a vender drogas?'),
+			'#options' => drupal_map_assoc($YesNoOptions),
+			'#empty_option' => t('- Select -'),
+			'#required' => true,
+			'#group' => 'justice',
 	);
 	$form['justice']['73'] = array(
-		'#type' => 'select',
-		'#title' => t('73. ¿Has estado involucrado en una pandilla?'),
-		'#options' => drupal_map_assoc($YesNoOptions),
-		'#empty_option' => t('- Select -'),
-		'#required' => true,
-		'#group' => 'justice',
+			'#type' => 'radios',
+			'#title' => t('73. ¿Has estado involucrado en una pandilla?'),
+			'#options' => drupal_map_assoc($YesNoOptions),
+			'#empty_option' => t('- Select -'),
+			'#required' => true,
+			'#group' => 'justice',
 	);
 	$form['justice']['73A'] = array(
-		'#type' => 'select',
-		'#title' => t('73A. ¿Actualmente, estás involucrado en una pandilla?'),
-		'#options' => drupal_map_assoc($YesNoOptions),
-		'#empty_option' => t('- Select -'),
-		'#required' => false,
-		'#states' => array(
-      		'visible' => array(
-      			'select[name="73"]' => array('value' => 'Sí'),
-      			),
-    	),
-		'#group' => 'justice',
+			'#type' => 'radios',
+			'#title' => t('73A. ¿Actualmente, estás involucrado en una pandilla?'),
+			'#options' => drupal_map_assoc($YesNoOptions),
+			'#empty_option' => t('- Select -'),
+			'#required' => false,
+			'#states' => array(
+					'visible' => array(
+							'input[name="73"]' => array('value' => 'Sí'),
+					),
+			),
+			'#group' => 'justice',
 	);
 	$form['justice']['74'] = array(
-		'#type' => 'select',
-		'#title' => t('74. ¿Compartes tiempo o te relacionas con miembros de una pandilla?'),
-		'#options' => drupal_map_assoc($YesNoOptions),
-		'#empty_option' => t('- Select -'),
-		'#required' => true,
-		'#group' => 'justice',
+			'#type' => 'radios',
+			'#title' => t('74. ¿Compartes tiempo o te relacionas con miembros de una pandilla?'),
+			'#options' => drupal_map_assoc($YesNoOptions),
+			'#empty_option' => t('- Select -'),
+			'#required' => true,
+			'#group' => 'justice',
 	);
 	$form['justice']['74A'] = array(
-		'#type' => 'select',
-		'#title' => t('74A. Si la respuesta es afirmativa, en cuál(es) lugar(es) pasó'),
-		'#options' => drupal_map_assoc($fortyoneOptions),
-		'#empty_option' => t('- Select -'),
-		'#required' => false,
-		'#states' => array(
-      		'visible' => array(
-      			'select[name="74"]' => array('value' => 'Sí'),
-      			),
-    	),
-		'#group' => 'justice',
+			'#type' => 'select',
+			'#title' => t('74A. Si la respuesta es afirmativa, en cuál(es) lugar(es) pasó'),
+			'#options' => drupal_map_assoc($fortyoneOptions),
+			'#empty_option' => t('- Select -'),
+			'#required' => false,
+			'#states' => array(
+					'visible' => array(
+							'input[name="74"]' => array('value' => 'Sí'),
+					),
+			),
+			'#group' => 'justice',
 	);
-
+	
 	$form['drugs']['75'] = array(
-		'#type' => 'select',
-		'#title' => t('75. En los últimos 12 meses, ¿has hablado o compartido con alguien borracho o drogado?'),
-		'#options' => drupal_map_assoc($YesNoOptions),
-		'#empty_option' => t('- Select -'),
-		'#required' => true,
-		'#group' => 'drugs',
+			'#type' => 'radios',
+			'#title' => t('75. En los últimos 12 meses, ¿has hablado o compartido con alguien borracho o drogado?'),
+			'#options' => drupal_map_assoc($YesNoOptions),
+			'#empty_option' => t('- Select -'),
+			'#required' => true,
+			'#group' => 'drugs',
 	);
 	$form['drugs']['76'] = array(
-		'#type' => 'select',
-		'#title' => t('76. ¿Alguna vez has tomado una bebida alcohólica, una copa/vaso entero, no sólo un sorbo?'),
-		'#options' => drupal_map_assoc($YesNoOptions),
-		'#empty_option' => t('- Select -'),
-		'#required' => true,
-		'#group' => 'drugs',
+			'#type' => 'radios',
+			'#title' => t('76. ¿Alguna vez has tomado una bebida alcohólica, una copa/vaso entero, no sólo un sorbo?'),
+			'#options' => drupal_map_assoc($YesNoOptions),
+			'#empty_option' => t('- Select -'),
+			'#required' => true,
+			'#group' => 'drugs',
 	);
 	$form['drugs']['76A'] = array(
-		'#type' => 'select',
-		'#title' => t('76A. En los últimos 12 meses, ¿has consumido alcohol?'),
-		'#options' => drupal_map_assoc($YesNoOptions),
-		'#empty_option' => t('- Select -'),
-		'#required' => false,
-		'#states' => array(
-      		'visible' => array(
-      			'select[name="76"]' => array('value' => 'Sí'),
-      			),
-    	),
-		'#group' => 'drugs',
+			'#type' => 'radios',
+			'#title' => t('76A. En los últimos 12 meses, ¿has consumido alcohol?'),
+			'#options' => drupal_map_assoc($YesNoOptions),
+			'#empty_option' => t('- Select -'),
+			'#required' => false,
+			'#states' => array(
+					'visible' => array(
+							'input[name="76"]' => array('value' => 'Sí'),
+					),
+			),
+			'#group' => 'drugs',
 	);
 	$form['drugs']['76B'] = array(
-		'#type' => 'select',
-		'#title' => t('76B. En los últimos 12 meses, ¿has tomado cinco vasos/copas o más de bebidas alcohólicas en el mismo día?'),
-		'#options' => drupal_map_assoc($YesNoOptions),
-		'#empty_option' => t('- Select -'),
-		'#required' => false,
-		'#states' => array(
-      		'visible' => array(
-      			'select[name="76"]' => array('value' => 'Sí'),
-      			),
-    	),
-		'#group' => 'drugs',
+			'#type' => 'radios',
+			'#title' => t('76B. En los últimos 12 meses, ¿has tomado cinco vasos/copas o más de bebidas alcohólicas en el mismo día?'),
+			'#options' => drupal_map_assoc($YesNoOptions),
+			'#empty_option' => t('- Select -'),
+			'#required' => false,
+			'#states' => array(
+					'visible' => array(
+							'input[name="76"]' => array('value' => 'Sí'),
+					),
+			),
+			'#group' => 'drugs',
 	);
 	$form['drugs']['77'] = array(
-		'#type' => 'select',
-		'#title' => t('77. ¿Has probado alguna vez alguna de estas drogas: marihuana, cocaína,heroína, pastillas, crack, cemento o cualquier otra cosa para drogarse?'),
-		'#options' => drupal_map_assoc($YesNoOptions),
-		'#empty_option' => t('- Select -'),
-		'#required' => true,
-		'#group' => 'drugs',
+			'#type' => 'radios',
+			'#title' => t('77. ¿Has probado alguna vez alguna de estas drogas: marihuana, cocaína,heroína, pastillas, crack, cemento o cualquier otra cosa para drogarse?'),
+			'#options' => drupal_map_assoc($YesNoOptions),
+			'#empty_option' => t('- Select -'),
+			'#required' => true,
+			'#group' => 'drugs',
 	);
 	$form['drugs']['78'] = array(
-		'#type' => 'select',
-		'#title' => t('78. ¿Has usado en alguna ocasión una aguja para inyectarte droga?'),
-		'#options' => drupal_map_assoc($YesNoOptions),
-		'#empty_option' => t('- Select -'),
-		'#required' => false,
-		'#states' => array(
-      		'visible' => array(
-      			'select[name="77"]' => array('value' => 'Sí'),
-      			),
-    	),
-		'#group' => 'drugs',
+			'#type' => 'radios',
+			'#title' => t('78. ¿Has usado en alguna ocasión una aguja para inyectarte droga?'),
+			'#options' => drupal_map_assoc($YesNoOptions),
+			'#empty_option' => t('- Select -'),
+			'#required' => false,
+			'#states' => array(
+					'visible' => array(
+							'input[name="77"]' => array('value' => 'Sí'),
+					),
+			),
+			'#group' => 'drugs',
 	);
 	$seventynineOptions = array(
-		'Marihuana',
-		'Cocaína en polvo',
-		'Metanfetamina o cristal',
-		'Inhalantes como pegamento, cemento, pintura, spray',
-		'Crack',
-		'Heroína',
-		'Éxtasis/MDMA',
-		'Otros (especifica)',
-		'No responde'
+			'Marihuana',
+			'Cocaína en polvo',
+			'Metanfetamina o cristal',
+			'Inhalantes como pegamento, cemento, pintura, spray',
+			'Crack',
+			'Heroína',
+			'Éxtasis/MDMA',
+			'Otros (especifica)',
+			'No responde'
 	);
 	$form['drugs']['79'] = array(
-		'#type' => 'checkboxes',
-		'#title' => t('79. Marca con una X todos los nombres de drogas que hayas probado en algún momento:'),
-		'#options' => drupal_map_assoc($seventynineOptions),
-		'#empty_option' => t('- Select -'),
-		'#required' => false,
-		'#states' => array(
-      		'visible' => array(
-      			'select[name="77"]' => array('value' => 'Sí'),
-      			),
-    	),
-		'#group' => 'drugs',
+			'#type' => 'checkboxes',
+			'#title' => t('79. Marca con una X todos los nombres de drogas que hayas probado en algún momento:'),
+			'#options' => drupal_map_assoc($seventynineOptions),
+			'#empty_option' => t('- Select -'),
+			'#required' => false,
+			'#states' => array(
+					'visible' => array(
+							'input[name="77"]' => array('value' => 'Sí'),
+					),
+			),
+			'#group' => 'drugs',
 	);
 	$form['drugs']['79Otro'] = array(
-		'#type' => 'textfield',
-		'#title' => t('79. Otros (especifica):'),
-		'#required' => false,
-		'#maxlength' => 50,
-		'#states' => array(
-      		'visible' => array(
-      			'select[name="77"]' => array('value' => 'Sí'),
-        		'input[name="79[Otros (especifica)]"]' => array('checked' => TRUE),
-      			),
-    		),
-		'#group' => 'drugs',
+			'#type' => 'textfield',
+			'#title' => t('79. Otros (especifica):'),
+			'#required' => false,
+			'#maxlength' => 50,
+			'#states' => array(
+					'visible' => array(
+							'input[name="77"]' => array('value' => 'Sí'),
+							'input[name="79[Otros (especifica)]"]' => array('checked' => TRUE),
+					),
+			),
+			'#group' => 'drugs',
 	);
 	$form['drugs']['80'] = array(
-		'#type' => 'checkboxes',
-		'#title' => t('80. Marca con una X todos los nombres de drogas que hayas probado en los últimos 12 meses:'),
-		'#options' => drupal_map_assoc($seventynineOptions),
-		'#empty_option' => t('- Select -'),
-		'#required' => false,
-		'#states' => array(
-      		'visible' => array(
-      			'select[name="77"]' => array('value' => 'Sí'),
-      			),
-    	),
-		'#group' => 'drugs',
+			'#type' => 'checkboxes',
+			'#title' => t('80. Marca con una X todos los nombres de drogas que hayas probado en los últimos 12 meses:'),
+			'#options' => drupal_map_assoc($seventynineOptions),
+			'#empty_option' => t('- Select -'),
+			'#required' => false,
+			'#states' => array(
+					'visible' => array(
+							'input[name="77"]' => array('value' => 'Sí'),
+					),
+			),
+			'#group' => 'drugs',
 	);
 	$form['drugs']['80Otro'] = array(
-		'#type' => 'textfield',
-		'#title' => t('79. Otros (especifica):'),
-		'#required' => false,
-		'#maxlength' => 50,
-		'#states' => array(
-      		'visible' => array(
-      			'select[name="77"]' => array('value' => 'Sí'),
-        		'input[name="80[Otros (especifica)]"]' => array('checked' => TRUE),
-      			),
-    		),
-		'#group' => 'drugs',
+			'#type' => 'textfield',
+			'#title' => t('79. Otros (especifica):'),
+			'#required' => false,
+			'#maxlength' => 50,
+			'#states' => array(
+					'visible' => array(
+							'input[name="77"]' => array('value' => 'Sí'),
+							'input[name="80[Otros (especifica)]"]' => array('checked' => TRUE),
+					),
+			),
+			'#group' => 'drugs',
 	);
-
+	
 	$label = '<p><b>81. En caso de que hayas probado alguna o varias drogas, lee cada nombre y dinos ¿qué edad tenías la primera vez que la probaste?</b></p>';
 	$form['drugs']['81'] = array(
-		'#type' => 'item',
-		'#markup' => $label,
-		'#states' => array(
-      		'visible' => array(
-      			'select[name="77"]' => array('value' => 'Sí'),
-      			),
-    	),
-		'#group' => 'drugs',
+			'#type' => 'item',
+			'#markup' => $label,
+			'#states' => array(
+					'visible' => array(
+							'input[name="77"]' => array('value' => 'Sí'),
+					),
+			),
+			'#group' => 'drugs',
 	);
 	$form['drugs']['81A'] = array(
-		'#type' => 'textfield',
-		'#title' => t('Marihuana'),
-		'#required' => false,
-		'#maxlength' => 50,
-		'#states' => array(
-      		'visible' => array(
-      			'select[name="77"]' => array('value' => 'Sí'),
-      			),
-    		),
-		'#group' => 'drugs',
+			'#type' => 'textfield',
+			'#title' => t('Marihuana'),
+			'#required' => false,
+			'#maxlength' => 50,
+			'#states' => array(
+					'visible' => array(
+							'input[name="77"]' => array('value' => 'Sí'),
+					),
+			),
+			'#group' => 'drugs',
 	);
 	$form['drugs']['81B'] = array(
-		'#type' => 'textfield',
-		'#title' => t('Crack'),
-		'#required' => false,
-		'#maxlength' => 50,
-		'#states' => array(
-      		'visible' => array(
-      			'select[name="77"]' => array('value' => 'Sí'),
-      			),
-    		),
-		'#group' => 'drugs',
+			'#type' => 'textfield',
+			'#title' => t('Crack'),
+			'#required' => false,
+			'#maxlength' => 50,
+			'#states' => array(
+					'visible' => array(
+							'input[name="77"]' => array('value' => 'Sí'),
+					),
+			),
+			'#group' => 'drugs',
 	);
 	$form['drugs']['81C'] = array(
-		'#type' => 'textfield',
-		'#title' => t('Cocaína en polvo'),
-		'#required' => false,
-		'#maxlength' => 50,
-		'#states' => array(
-      		'visible' => array(
-      			'select[name="77"]' => array('value' => 'Sí'),
-      			),
-    		),
-		'#group' => 'drugs',
+			'#type' => 'textfield',
+			'#title' => t('Cocaína en polvo'),
+			'#required' => false,
+			'#maxlength' => 50,
+			'#states' => array(
+					'visible' => array(
+							'input[name="77"]' => array('value' => 'Sí'),
+					),
+			),
+			'#group' => 'drugs',
 	);
 	$form['drugs']['81D'] = array(
-		'#type' => 'textfield',
-		'#title' => t('Heroína'),
-		'#required' => false,
-		'#maxlength' => 50,
-		'#states' => array(
-      		'visible' => array(
-      			'select[name="77"]' => array('value' => 'Sí'),
-      			),
-    		),
-		'#group' => 'drugs',
+			'#type' => 'textfield',
+			'#title' => t('Heroína'),
+			'#required' => false,
+			'#maxlength' => 50,
+			'#states' => array(
+					'visible' => array(
+							'input[name="77"]' => array('value' => 'Sí'),
+					),
+			),
+			'#group' => 'drugs',
 	);
 	$form['drugs']['81E'] = array(
-		'#type' => 'textfield',
-		'#title' => t('Metanfetamina o cristal'),
-		'#required' => false,
-		'#maxlength' => 50,
-		'#states' => array(
-      		'visible' => array(
-      			'select[name="77"]' => array('value' => 'Sí'),
-      			),
-    		),
-		'#group' => 'drugs',
+			'#type' => 'textfield',
+			'#title' => t('Metanfetamina o cristal'),
+			'#required' => false,
+			'#maxlength' => 50,
+			'#states' => array(
+					'visible' => array(
+							'input[name="77"]' => array('value' => 'Sí'),
+					),
+			),
+			'#group' => 'drugs',
 	);
 	$form['drugs']['81F'] = array(
-		'#type' => 'textfield',
-		'#title' => t('Éxtasis/MDMA'),
-		'#required' => false,
-		'#maxlength' => 50,
-		'#states' => array(
-      		'visible' => array(
-      			'select[name="77"]' => array('value' => 'Sí'),
-      			),
-    		),
-		'#group' => 'drugs',
+			'#type' => 'textfield',
+			'#title' => t('Éxtasis/MDMA'),
+			'#required' => false,
+			'#maxlength' => 50,
+			'#states' => array(
+					'visible' => array(
+							'input[name="77"]' => array('value' => 'Sí'),
+					),
+			),
+			'#group' => 'drugs',
 	);
 	$form['drugs']['81G'] = array(
-		'#type' => 'textfield',
-		'#title' => t('Inhalantes como pegamento, cemento, pintura, spray'),
-		'#required' => false,
-		'#maxlength' => 50,
-		'#states' => array(
-      		'visible' => array(
-      			'select[name="77"]' => array('value' => 'Sí'),
-      			),
-    		),
-		'#group' => 'drugs',
+			'#type' => 'textfield',
+			'#title' => t('Inhalantes como pegamento, cemento, pintura, spray'),
+			'#required' => false,
+			'#maxlength' => 50,
+			'#states' => array(
+					'visible' => array(
+							'input[name="77"]' => array('value' => 'Sí'),
+					),
+			),
+			'#group' => 'drugs',
 	);
 	$form['drugs']['81Otro'] = array(
-		'#type' => 'textfield',
-		'#title' => t('Otra (especifica):'),
-		'#required' => false,
-		'#maxlength' => 50,
-		'#states' => array(
-      		'visible' => array(
-      			'select[name="77"]' => array('value' => 'Sí'),
-      			),
-    		),
-		'#group' => 'drugs',
+			'#type' => 'textfield',
+			'#title' => t('Otra (especifica):'),
+			'#required' => false,
+			'#maxlength' => 50,
+			'#states' => array(
+					'visible' => array(
+							'input[name="77"]' => array('value' => 'Sí'),
+					),
+			),
+			'#group' => 'drugs',
 	);
 	$form['sexual']['82'] = array(
-		'#type' => 'select',
-		'#title' => t('82. ¿Alguna vez has tenido relaciones sexuales?'),
-		'#options' => drupal_map_assoc($YesNoOptions),
-		'#empty_option' => t('- Select -'),
-		'#required' => true,
-		'#group' => 'sexual',
+			'#type' => 'radios',
+			'#title' => t('82. ¿Alguna vez has tenido relaciones sexuales?'),
+			'#options' => drupal_map_assoc($YesNoOptions),
+			'#empty_option' => t('- Select -'),
+			'#required' => true,
+			'#group' => 'sexual',
 	);
 	$form['sexual']['83'] = array(
-		'#type' => 'textfield',
-		'#title' => t('83. ¿Qué edad tenías la primera vez que tuviste relaciones sexuales?'),
-		'#required' => false,
-		'#maxlength' => 3,
-		'#size' => 10,
-		'#states' => array(
-      		'visible' => array(
-      			'select[name="82"]' => array('value' => 'Sí'),
-      			),
-    		),
-		'#group' => 'sexual',
+			'#type' => 'textfield',
+			'#title' => t('83. ¿Qué edad tenías la primera vez que tuviste relaciones sexuales?'),
+			'#required' => false,
+			'#maxlength' => 3,
+			'#size' => 10,
+			'#states' => array(
+					'visible' => array(
+							'input[name="82"]' => array('value' => 'Sí'),
+					),
+			),
+			'#group' => 'sexual',
 	);
-
+	
 	$eightyfourOptions = array(
-		t('Sólo mujeres'),
-		t('Sólo hombres'),
-		t('Hombres y mujeres'),
-		t('Hombres y mujeres juntos'),
-		t('No responde'),
+			t('Sólo mujeres'),
+			t('Sólo hombres'),
+			t('Hombres y mujeres'),
+			t('Hombres y mujeres juntos'),
+			t('No responde'),
 	);
 	$form['sexual']['84'] = array(
-		'#type' => 'select',
-		'#title' => t('84. ¿Con quiénes has tenido relaciones sexuales?'),
-		'#required' => false,
-		'#options' => drupal_map_assoc($eightyfourOptions),
-		'#empty_option' => t('- Select -'),
-		'#states' => array(
-      		'visible' => array(
-      			'select[name="82"]' => array('value' => 'Sí'),
-      			),
-    		),
-		'#group' => 'sexual',
+			'#type' => 'select',
+			'#title' => t('84. ¿Con quiénes has tenido relaciones sexuales?'),
+			'#required' => false,
+			'#options' => drupal_map_assoc($eightyfourOptions),
+			'#empty_option' => t('- Select -'),
+			'#states' => array(
+					'visible' => array(
+							'input[name="82"]' => array('value' => 'Sí'),
+					),
+			),
+			'#group' => 'sexual',
 	);
 	$eightyfiveOptions = array(
-		t('1'),
-		t('2 a 4'),
-		t('5 a 7'),
-		t('8 a 10'),
-		t('11 a 13'),
-		t('14 o más personas'),
-		t('No responde'),
+			t('1'),
+			t('2 a 4'),
+			t('5 a 7'),
+			t('8 a 10'),
+			t('11 a 13'),
+			t('14 o más personas'),
+			t('No responde'),
 	);
 	$form['sexual']['85'] = array(
-		'#type' => 'select',
-		'#title' => t('85 ¿Con cuántas personas diferentes has tenido relaciones sexuales en los últimos 12 meses?'),
-		'#required' => false,
-		'#options' => drupal_map_assoc($eightyfiveOptions),
-		'#empty_option' => t('- Select -'),
-		'#states' => array(
-      		'visible' => array(
-      			'select[name="82"]' => array('value' => 'Sí'),
-      			),
-    		),
-		'#group' => 'sexual',
+			'#type' => 'select',
+			'#title' => t('85 ¿Con cuántas personas diferentes has tenido relaciones sexuales en los últimos 12 meses?'),
+			'#required' => false,
+			'#options' => drupal_map_assoc($eightyfiveOptions),
+			'#empty_option' => t('- Select -'),
+			'#states' => array(
+					'visible' => array(
+							'input[name="82"]' => array('value' => 'Sí'),
+					),
+			),
+			'#group' => 'sexual',
 	);
 	$form['sexual']['86'] = array(
-		'#type' => 'select',
-		'#title' => t('86. La última vez que tuviste relaciones sexuales, ¿tú o tu compañero/a utilizó un condón?'),
-		'#options' => drupal_map_assoc($YesNoOptions),
-		'#empty_option' => t('- Select -'),
-		'#required' => false,
-		'#group' => 'sexual',
-		'#states' => array(
-      		'visible' => array(
-      			'select[name="82"]' => array('value' => 'Sí'),
-      			),
-    	),
+			'#type' => 'radios',
+			'#title' => t('86. La última vez que tuviste relaciones sexuales, ¿tú o tu compañero/a utilizó un condón?'),
+			'#options' => drupal_map_assoc($YesNoOptions),
+			'#empty_option' => t('- Select -'),
+			'#required' => false,
+			'#group' => 'sexual',
+			'#states' => array(
+					'visible' => array(
+							'input[name="82"]' => array('value' => 'Sí'),
+					),
+			),
 	);
 	$eightysevenOptions = array(
-		1 => t('No utilicé ningún método para prevenir el embarazo'),
-		2 => t('Condón'),
-		3 => t('Condón femenino'),
-		4 => t('Píldora anticonceptiva'),
-		5 => t('Ritmo (mantener relaciones en días no fértiles o cuando no hay ovulación)'),
-		6 => t('Retiro (detener la penetración antes de eyacular)'),
-		7 => t('Mela (mujeres lactando)'),
-		8 => t('DIU (como Mirena o Paragard)'),
-		9 => t('Inyección (como Depo-Provera), un parche (Ortho Evra), o un anillo (como NuvaRing)'),
-		10 => t('Implante o norplant (como Implanon o Nexplanon)'),
-		11 => t('Esterilización femenina'),
-		12 => t('Esterilización masculina'),
-		13 => t('Otro (favor especificar)'),
-		14 => t('No sé/Inseguro'),
+			1 => t('No utilicé ningún método para prevenir el embarazo'),
+			2 => t('Condón'),
+			3 => t('Condón femenino'),
+			4 => t('Píldora anticonceptiva'),
+			5 => t('Ritmo (mantener relaciones en días no fértiles o cuando no hay ovulación)'),
+			6 => t('Retiro (detener la penetración antes de eyacular)'),
+			7 => t('Mela (mujeres lactando)'),
+			8 => t('DIU (como Mirena o Paragard)'),
+			9 => t('Inyección (como Depo-Provera), un parche (Ortho Evra), o un anillo (como NuvaRing)'),
+			10 => t('Implante o norplant (como Implanon o Nexplanon)'),
+			11 => t('Esterilización femenina'),
+			12 => t('Esterilización masculina'),
+			13 => t('Otro (favor especificar)'),
+			14 => t('No sé/Inseguro'),
 	);
 	$form['sexual']['87'] = array(
-		'#type' => 'radios',
-		'#title' => t('87. La última vez que tuviste relaciones sexuales, ¿cuál método usaste o tu compañero/a para prevenir el embarazo?'),
-		'#options' => drupal_map_assoc($eightysevenOptions),
-		'#empty_option' => t('- Select '),
-		'#required' => FALSE,
-		'#states' => array(
-      		'visible' => array(
-        		'select[name="82"]' => array('value' => 'Sí'),
-      		),
-    	),
+			'#type' => 'radios',
+			'#title' => t('87. La última vez que tuviste relaciones sexuales, ¿cuál método usaste o tu compañero/a para prevenir el embarazo?'),
+			'#options' => drupal_map_assoc($eightysevenOptions),
+			'#empty_option' => t('- Select '),
+			'#required' => FALSE,
+			'#states' => array(
+					'visible' => array(
+							'input[name="82"]' => array('value' => 'Sí'),
+					),
+			),
 	);
 	$form['sexual']['87Otro'] = array(
-		'#type' => 'textfield',
-		'#title' => t('87.Otro (favor especificar).'),
-		'#required' => FALSE,
-		'#maxlength' => 50,
-		'#states' => array(
-      		'visible' => array(
-      			'select[name="82"]' => array('value' => 'Sí'),
-        		'input[name="87"]' => array('value' => 'Otro (favor especificar)'),
-      			),
-    	),
+			'#type' => 'textfield',
+			'#title' => t('87.Otro (favor especificar).'),
+			'#required' => FALSE,
+			'#maxlength' => 50,
+			'#states' => array(
+					'visible' => array(
+							'input[name="82"]' => array('value' => 'Sí'),
+							'input[name="87"]' => array('value' => 'Otro (favor especificar)'),
+					),
+			),
 	);
 	$form['sexual']['88'] = array(
-		'#type' => 'select',
-		'#title' => t('88. ¿Alguna vez alguien te ha obligado a tener relaciones sexuales?'),
-		'#options' => drupal_map_assoc($YesNoOptions),
-		'#empty_option' => t('- Select -'),
-		'#required' => false,
-		'#group' => 'sexual',
-		'#states' => array(
-      		'visible' => array(
-        		'select[name="82"]' => array('value' => 'Sí'),
-      		),
-    	),
+			'#type' => 'radios',
+			'#title' => t('88. ¿Alguna vez alguien te ha obligado a tener relaciones sexuales?'),
+			'#options' => drupal_map_assoc($YesNoOptions),
+			'#empty_option' => t('- Select -'),
+			'#required' => false,
+			'#group' => 'sexual',
+			'#states' => array(
+					'visible' => array(
+							'input[name="82"]' => array('value' => 'Sí'),
+					),
+			),
 	);
 	$form['sexual']['89'] = array(
-		'#type' => 'select',
-		'#title' => t('89. ¿Alguna vez has tenido relaciones sexuales por dinero, bienes (celulares, vivienda, etc.) o servicios (protección, comida, etc.)?'),
-		'#options' => drupal_map_assoc($YesNoOptions),
-		'#empty_option' => t('- Select -'),
-		'#required' => false,
-		'#group' => 'sexual',
-		'#states' => array(
-      		'visible' => array(
-        		'select[name="82"]' => array('value' => 'Sí'),
-      		),
-    	),
+			'#type' => 'radios',
+			'#title' => t('89. ¿Alguna vez has tenido relaciones sexuales por dinero, bienes (celulares, vivienda, etc.) o servicios (protección, comida, etc.)?'),
+			'#options' => drupal_map_assoc($YesNoOptions),
+			'#empty_option' => t('- Select -'),
+			'#required' => false,
+			'#group' => 'sexual',
+			'#states' => array(
+					'visible' => array(
+							'input[name="82"]' => array('value' => 'Sí'),
+					),
+			),
 	);
 	$eightynineBOptions = array(
-		1 => t('La semana pasada'),
-		2 => t('En los últimos 6 meses'),
-		3 => t('En los últimos 12 meses'),
-		4 => t('Hace más de 1 año'),
-		5 => t('No responde'),
+			1 => t('La semana pasada'),
+			2 => t('En los últimos 6 meses'),
+			3 => t('En los últimos 12 meses'),
+			4 => t('Hace más de 1 año'),
+			5 => t('No responde'),
 	);
 	$form['sexual']['89B'] = array(
-		'#type' => 'select',
-		'#title' => t('89B. Si la respuesta es afirmativa, ¿Cuándo fue la última vez?'),
-		'#options' => drupal_map_assoc($eightynineBOptions),
-		'#empty_option' => t('- Select -'),
-		'#required' => false,
-		'#group' => 'sexual',
-		'#states' => array(
-      		'visible' => array(
-        		'select[name="82"]' => array('value' => 'Sí'),
-      			'select[name="89"]' => array('value' => 'Sí'),
-      		),
-    	),
+			'#type' => 'select',
+			'#title' => t('89B. Si la respuesta es afirmativa, ¿Cuándo fue la última vez?'),
+			'#options' => drupal_map_assoc($eightynineBOptions),
+			'#empty_option' => t('- Select -'),
+			'#required' => false,
+			'#group' => 'sexual',
+			'#states' => array(
+					'visible' => array(
+							'input[name="82"]' => array('value' => 'Sí'),
+							'input[name="89"]' => array('value' => 'Sí'),
+					),
+			),
 	);
 	$form['sexual']['90'] = array(
-		'#type' => 'select',
-		'#title' => t('90. Si quisieras comprar un condón, ¿crees que podrías encontrarlo?'),
-		'#options' => drupal_map_assoc($YesNoOptions),
-		'#empty_option' => t('- Select -'),
-		'#required' => true,
-		'#group' => 'sexual',
-// 		'#states' => array(
-//       		'visible' => array(
-//         		'select[name="82"]' => array('value' => 'Sí'),
-//       		),
-//     	),
+			'#type' => 'radios',
+			'#title' => t('90. Si quisieras comprar un condón, ¿crees que podrías encontrarlo?'),
+			'#options' => drupal_map_assoc($YesNoOptions),
+			'#empty_option' => t('- Select -'),
+			'#required' => true,
+			'#group' => 'sexual',
+			// 		'#states' => array(
+					//       		'visible' => array(
+							//         		'select[name="82"]' => array('value' => 'Sí'),
+							//       		),
+					//     	),
 	);
 	$form['sexual']['91'] = array(
-		'#type' => 'select',
-		'#title' => t('91. Si quisieras tener sexo, ¿crees que podrias convencer a tu pareja de que use condón en caso de que él/ella se niegue a usarlo?'),
-		'#options' => drupal_map_assoc($YesNoOptions),
-		'#empty_option' => t('- Select -'),
-		'#required' => true,
-		'#group' => 'sexual',
-// 		'#states' => array(
-//       		'visible' => array(
-//         		'select[name="82"]' => array('value' => 'Sí'),
-//       		),
-//     	),
+			'#type' => 'radios',
+			'#title' => t('91. Si quisieras tener sexo, ¿crees que podrias convencer a tu pareja de que use condón en caso de que él/ella se niegue a usarlo?'),
+			'#options' => drupal_map_assoc($YesNoOptions),
+			'#empty_option' => t('- Select -'),
+			'#required' => true,
+			'#group' => 'sexual',
+			// 		'#states' => array(
+					//       		'visible' => array(
+							//         		'select[name="82"]' => array('value' => 'Sí'),
+							//       		),
+					//     	),
 	);
 	$form['sexual']['92'] = array(
-		'#type' => 'select',
-		'#title' => t('92. ¿Te sientes capaz de tener una conversación abierta y honesta sobre sexo con sus padres?'),
-		'#options' => drupal_map_assoc($YesNoOptions),
-		'#empty_option' => t('- Select -'),
-		'#required' => true,
-		'#group' => 'sexual',
-// 		'#states' => array(
-//       		'visible' => array(
-//         		'select[name="82"]' => array('value' => 'Sí'),
-//       		),
-//     	),
+			'#type' => 'radios',
+			'#title' => t('92. ¿Te sientes capaz de tener una conversación abierta y honesta sobre sexo con sus padres?'),
+			'#options' => drupal_map_assoc($YesNoOptions),
+			'#empty_option' => t('- Select -'),
+			'#required' => true,
+			'#group' => 'sexual',
+			// 		'#states' => array(
+					//       		'visible' => array(
+							//         		'select[name="82"]' => array('value' => 'Sí'),
+							//       		),
+					//     	),
 	);
 	$form['sexual']['93'] = array(
-		'#type' => 'select',
-		'#title' => t('93. ¿Alguna vez has tenido una conversación abierta y honesta sobre sexo con tus padres?'),
-		'#options' => drupal_map_assoc($YesNoOptions),
-		'#empty_option' => t('- Select -'),
-		'#required' => true,
-		'#group' => 'sexual',
-// 		'#states' => array(
-//       		'visible' => array(
-//         		'select[name="82"]' => array('value' => 'Sí'),
-//       		),
-//     	),
+			'#type' => 'radios',
+			'#title' => t('93. ¿Alguna vez has tenido una conversación abierta y honesta sobre sexo con tus padres?'),
+			'#options' => drupal_map_assoc($YesNoOptions),
+			'#empty_option' => t('- Select -'),
+			'#required' => true,
+			'#group' => 'sexual',
+			// 		'#states' => array(
+					//       		'visible' => array(
+							//         		'select[name="82"]' => array('value' => 'Sí'),
+							//       		),
+					//     	),
 	);
 	$form['sexual']['94'] = array(
-		'#type' => 'select',
-		'#title' => t('94. ¿Alguna vez alguien te ha enseñado (o hablado) acerca de las infecciones de transmisión sexual?'),
-		'#options' => drupal_map_assoc($YesNoOptions),
-		'#empty_option' => t('- Select -'),
-		'#required' => true,
-		'#group' => 'sexual',
-// 		'#states' => array(
-//       		'visible' => array(
-//         		'select[name="82"]' => array('value' => 'Sí'),
-//       		),
-//     	),
+			'#type' => 'radios',
+			'#title' => t('94. ¿Alguna vez alguien te ha enseñado (o hablado) acerca de las infecciones de transmisión sexual?'),
+			'#options' => drupal_map_assoc($YesNoOptions),
+			'#empty_option' => t('- Select -'),
+			'#required' => true,
+			'#group' => 'sexual',
+			// 		'#states' => array(
+					//       		'visible' => array(
+							//         		'select[name="82"]' => array('value' => 'Sí'),
+							//       		),
+					//     	),
 	);
 	$ninetyfourAOptions = array(
-		'Orientador(a) o Psicólogo(a) de la escuela',
-		'Profesor(a) de la escuela',
-		'Amigos',
-		'Padre o Madre',
-		'Internet',
-		'Promotor(a) de Salud',
-		'Otro (especifica)',
-		'No responde'
+			'Orientador(a) o Psicólogo(a) de la escuela',
+			'Profesor(a) de la escuela',
+			'Amigos',
+			'Padre o Madre',
+			'Internet',
+			'Promotor(a) de Salud',
+			'Otro (especifica)',
+			'No responde'
 	);
 	$form['sexual']['94A'] = array(
-		'#type' => 'checkboxes',
-		'#title' => t('94A. Si la respuesta es afirmativa, ¿dónde has recibido información? Marca todas las que apliquen'),
-		'#options' => drupal_map_assoc($ninetyfourAOptions),
-		'#empty_option' => t('- Select -'),
-		'#required' => false,
-		'#group' => 'sexual',
-		'#states' => array(
-      		'visible' => array(
-//         		'select[name="82"]' => array('value' => 'Sí'),
-      			'select[name="94"]' => array('value' => 'Sí'),
-      		),
-    	),
+			'#type' => 'checkboxes',
+			'#title' => t('94A. Si la respuesta es afirmativa, ¿dónde has recibido información? Marca todas las que apliquen'),
+			'#options' => drupal_map_assoc($ninetyfourAOptions),
+			'#empty_option' => t('- Select -'),
+			'#required' => false,
+			'#group' => 'sexual',
+			'#states' => array(
+					'visible' => array(
+					//         		'select[name="82"]' => array('value' => 'Sí'),
+							'input[name="94"]' => array('value' => 'Sí'),
+					),
+			),
 	);
 	$form['sexual']['94AOtro'] = array(
-		'#type' => 'textfield',
-		'#title' => t('94A. Otro (Especifique):'),
-// 		'#options' => drupal_map_assoc($ninetyfourAOptions),
-		'#empty_option' => t('- Select -'),
-		'#required' => false,
-		'#group' => 'sexual',
-		'#states' => array(
-      		'visible' => array(
-//         		'select[name="82"]' => array('value' => 'Sí'),
-      			'select[name="94"]' => array('value' => 'Sí'),
-				'input[name="94A[Otro (especifica)]"]' => array('checked' => TRUE),
-//       			'select[name="94A"]' => array('value' => 'Otro (especifica)'),
-      		),
-    	),
+			'#type' => 'textfield',
+			'#title' => t('94A. Otro (Especifique):'),
+			// 		'#options' => drupal_map_assoc($ninetyfourAOptions),
+			'#empty_option' => t('- Select -'),
+			'#required' => false,
+			'#group' => 'sexual',
+			'#states' => array(
+					'visible' => array(
+					//         		'select[name="82"]' => array('value' => 'Sí'),
+							'input[name="94"]' => array('value' => 'Sí'),
+							'input[name="94A[Otro (especifica)]"]' => array('checked' => TRUE),
+							//       			'select[name="94A"]' => array('value' => 'Otro (especifica)'),
+					),
+			),
 	);
 	$form['sexual']['95'] = array(
-		'#type' => 'select',
-		'#title' => t('95. ¿Alguna vez alguien te ha enseñado acerca de la prevención de embarazo?'),
-		'#options' => drupal_map_assoc($YesNoOptions),
-		'#empty_option' => t('- Select -'),
-		'#required' => true,
-		'#group' => 'sexual',
-// 		'#states' => array(
-//       		'visible' => array(
-//         		'select[name="82"]' => array('value' => 'Sí'),
-//       		),
-//     	),
+			'#type' => 'radios',
+			'#title' => t('95. ¿Alguna vez alguien te ha enseñado acerca de la prevención de embarazo?'),
+			'#options' => drupal_map_assoc($YesNoOptions),
+			'#empty_option' => t('- Select -'),
+			'#required' => true,
+			'#group' => 'sexual',
+			// 		'#states' => array(
+					//       		'visible' => array(
+							//         		'select[name="82"]' => array('value' => 'Sí'),
+							//       		),
+					//     	),
 	);
 	$form['sexual']['95A'] = array(
-		'#type' => 'checkboxes',
-		'#title' => t('95A. Si la respuesta es afirmativa, ¿dónde has recibido información? Marca todas las que apliquen'),
-		'#options' => drupal_map_assoc($ninetyfourAOptions),
-		'#empty_option' => t('- Select -'),
-		'#required' => false,
-		'#group' => 'sexual',
-		'#states' => array(
-      		'visible' => array(
-//         		'select[name="82"]' => array('value' => 'Sí'),
-      			'select[name="95"]' => array('value' => 'Sí'),
-      		),
-    	),
+			'#type' => 'checkboxes',
+			'#title' => t('95A. Si la respuesta es afirmativa, ¿dónde has recibido información? Marca todas las que apliquen'),
+			'#options' => drupal_map_assoc($ninetyfourAOptions),
+			'#empty_option' => t('- Select -'),
+			'#required' => false,
+			'#group' => 'sexual',
+			'#states' => array(
+					'visible' => array(
+					//         		'select[name="82"]' => array('value' => 'Sí'),
+							'input[name="95"]' => array('value' => 'Sí'),
+					),
+			),
 	);
 	$form['sexual']['95AOtro'] = array(
-		'#type' => 'textfield',
-		'#title' => t('95A. Otro (Especifique):'),
-// 		'#options' => drupal_map_assoc($ninetyfourAOptions),
-		'#empty_option' => t('- Select -'),
-		'#required' => false,
-		'#group' => 'sexual',
-		'#states' => array(
-      		'visible' => array(
-//         		'select[name="82"]' => array('value' => 'Sí'),
-      			'select[name="95"]' => array('value' => 'Sí'),
-				'input[name="95A[Otro (especifica)]"]' => array('checked' => TRUE),
-//       			'select[name="95A"]' => array('value' => 'Otro (especifica)'),
-      		),
-    	),
+			'#type' => 'textfield',
+			'#title' => t('95A. Otro (Especifique):'),
+			// 		'#options' => drupal_map_assoc($ninetyfourAOptions),
+			'#empty_option' => t('- Select -'),
+			'#required' => false,
+			'#group' => 'sexual',
+			'#states' => array(
+					'visible' => array(
+					//         		'select[name="82"]' => array('value' => 'Sí'),
+							'input[name="95"]' => array('value' => 'Sí'),
+							'input[name="95A[Otro (especifica)]"]' => array('checked' => TRUE),
+							//       			'select[name="95A"]' => array('value' => 'Otro (especifica)'),
+					),
+			),
 	);
+	
 	$form['sexual']['96'] = array(
-		'#type' => 'select',
+		'#type' => 'radios',
 		'#title' => t('96. ¿Alguna vez alguien te ha enseñado acerca de la infección por VIH?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#empty_option' => t('- Select -'),
@@ -2240,7 +2247,7 @@ $twentyfourOptions = array(
 		'#states' => array(
       		'visible' => array(
 //         		'select[name="82"]' => array('value' => 'Sí'),
-      			'select[name="96"]' => array('value' => 'Sí'),
+      			'input[name="96"]' => array('value' => 'Sí'),
       		),
     	),
 	);
@@ -2254,7 +2261,7 @@ $twentyfourOptions = array(
 		'#states' => array(
       		'visible' => array(
 //         		'select[name="82"]' => array('value' => 'Sí'),
-      			'select[name="96"]' => array('value' => 'Sí'),
+      			'input[name="96"]' => array('value' => 'Sí'),
 				'input[name="96A[Otro (especifica)]"]' => array('checked' => TRUE),
 //       			'select[name="96A"]' => array('value' => 'Otro (especifica)'),
       		),

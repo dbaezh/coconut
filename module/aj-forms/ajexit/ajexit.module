@@ -123,7 +123,7 @@ function ajexit_form($form, &$form_state) {
 	);
 
 	$form['documentation']['9'] = array(
-		'#type' => 'select',
+		'#type' => 'radios',
 		'#title' => t('9. ¿Conseguiste tu acta de nacimiento luego de entrar a Alerta Joven?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#required' => TRUE,
@@ -154,7 +154,7 @@ function ajexit_form($form, &$form_state) {
 		'#required' => FALSE,
 		 '#states' => array(
       		'visible' => array(
-        		'select[name="9"]' => array('value' => 'No'),
+        		'input[name="9"]' => array('value' => 'No'),
       		),
     	),
 		'#group' => 'documentation',
@@ -174,7 +174,7 @@ function ajexit_form($form, &$form_state) {
 	);
 
 	$form['documentation']['10'] = array(
-		'#type' => 'select',
+		'#type' => 'radios',
 		'#title' => t('10. ¿Tienes cédula?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#required' => TRUE,
@@ -182,7 +182,7 @@ function ajexit_form($form, &$form_state) {
 	);
 
 	$form['education']['11'] = array(
-		'#type' => 'select',
+		'#type' => 'radios',
 		'#title' => t('11. ¿Estas actualmente asistiendo a una escuela o universidad?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#required' => TRUE,
@@ -196,7 +196,7 @@ function ajexit_form($form, &$form_state) {
 		'#maxlength' => 50,
 		'#states' => array(
       		'visible' => array(
-        		'select[name="11"]' => array('value' => 'Sí'),
+        		'input[name="11"]' => array('value' => 'Sí'),
       			),
     		),
 		'#group' => 'education',
@@ -216,14 +216,14 @@ function ajexit_form($form, &$form_state) {
 		'#required' => FALSE,
 		 '#states' => array(
       		'visible' => array(
-        		'select[name="11"]' => array('value' => 'Sí'),
+        		'input[name="11"]' => array('value' => 'Sí'),
       		),
     	),
 		'#group' => 'education',
 	);
 
 	$form['labor']['12'] = array(
-		'#type' => 'select',
+		'#type' => 'radios',
 		'#title' => t('12. ¿Has completado algún curso técnico luego de entrar a Alerta Joven?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#required' => TRUE,
@@ -237,14 +237,14 @@ function ajexit_form($form, &$form_state) {
 		'#maxlength' => 50,
 		'#states' => array(
       		'visible' => array(
-        		'select[name="12"]' => array('value' => 'Sí'),
+        		'input[name="12"]' => array('value' => 'Sí'),
       			),
     	),
 		'#group' => 'labor',
 	);
 
 	$form['labor']['13'] = array(
-		'#type' => 'select',
+		'#type' => 'radios',
 		'#title' => t('13. ¿Actualmente tienes un trabajo en que te paguen?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#required' => TRUE,
@@ -259,7 +259,7 @@ function ajexit_form($form, &$form_state) {
 		'#default_value' =>	array('year' => 1990, 'month' => null, 'day' => null),
 		'#states' => array(
       		'visible' => array(
-        		'select[name="13"]' => array('value' => 'Sí'),
+        		'input[name="13"]' => array('value' => 'Sí'),
       		),
     	),
 		'#group' => 'labor',
@@ -279,7 +279,7 @@ function ajexit_form($form, &$form_state) {
 		'#required' => FALSE,
 		'#states' => array(
       		'visible' => array(
-        		'select[name="13"]' => array('value' => 'Sí'),
+        		'input[name="13"]' => array('value' => 'Sí'),
       		),
     	),
 		'#group' => 'labor',
@@ -380,21 +380,21 @@ function ajexit_form($form, &$form_state) {
 	);
 
 	$form['sexual']['17'] = array(
-		'#type' => 'select',
+		'#type' => 'radios',
 		'#title' => t('17. ¿Alguna vez has tenido relaciones sexuales?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#required' => TRUE,
 	);
 
 	$form['sexual']['18'] = array(
-		'#type' => 'select',
+		'#type' => 'radios',
 		'#title' => t('18. La última vez que tuviste relaciones sexuales, ¿tú o tu compañero/a utilizó condón? '),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#empty_option' => t('- Select '),
 		'#required' => FALSE,
 		'#states' => array(
       		'visible' => array(
-        		'select[name="17"]' => array('value' => 'Sí'),
+        		'input[name="17"]' => array('value' => 'Sí'),
       		),
     	),
 	);
@@ -424,7 +424,7 @@ function ajexit_form($form, &$form_state) {
 		'#required' => FALSE,
 		'#states' => array(
       		'visible' => array(
-        		'select[name="17"]' => array('value' => 'Sí'),
+        		'input[name="17"]' => array('value' => 'Sí'),
       		),
     	),
 	);
@@ -442,7 +442,7 @@ function ajexit_form($form, &$form_state) {
 	);
 
 	$form['sexual']['20'] = array(
-		'#type' => 'select',
+		'#type' => 'radios',
 		'#title' => t('20. Si quisieras comprar un condón, ¿crees que podrías encontrarlo?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#required' => TRUE,
