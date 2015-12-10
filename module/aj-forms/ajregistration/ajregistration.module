@@ -7,7 +7,7 @@ include_once 'C32.php';
  * @param path
  *   Which path of the site we're using to display help
  * @param arg
- *   Array that holds the current path as returned from arg() function
+ *   Array that holds the current  path as returned from arg() function
  */
 function ajregistration_help($path, $arg) {
 	switch ($path) {
@@ -161,8 +161,20 @@ function ajregistration_form($form, &$form_state) {
 		31 => t('BARRIO LINDO'),
 		32 => t('LA HERREDURA'),
 		33 => t('HATO MAYOR'),
-		34 => t('OTRO'),
-	);
+			34 => t('ENSANCHE LIBERTAD'),
+			35 => t('LA CIENAGA'),
+			36 => t('URBANIZACION REAL'),
+			37 => t('SAN FERNANDO'),
+			38 => t('VILLA PROGRESO'),
+			39 => t('HOYO DE LIMA'),
+			40 => t('CECARA'),
+			41 => t('LOS SANTOS ARRIBA'),
+			42 => t('ENSANCHE MELLA 1'),
+			43 => t('EL INGENIO ARRIBA'),
+			44 => t('PADRE LAS CASA'),
+			45 => t('OTRO'),
+			
+				);
 
 	$SantiagoVillaBisonoOptions = array(
 		1 => t('EL CERRO'),
