@@ -323,7 +323,12 @@ function ajetlsurveys_genInsertQueryPart2($doc){
             $val = ajetlsurveys_processFecha($doc);
             $query = $query . $val . " ";
         }else if ($key === "27Mes"){
-            $val = $doc[$key];
+        	if (isset($doc['27Mes'])) {
+            	$val = $doc[$key];
+        	} else {
+//         		ajetllog_log("ajetlsurveys", "MESSAGE", "27Mes is not set for " . $doc['uuid']);
+        		$val = '';
+        	}
             if (strlen($val) > 16)
                 $val = "";
             $query = $query . "'" . $val . "' ";
@@ -518,7 +523,7 @@ function ajetlsurveys_insertSurvey($doc){
     try{
         $result = db_query($query);
     }catch(Exception $e){
-        ajetllog_error("ajetlsurveys", "MySQL ERROR", "MySQL error.", $e->getMessage(), "");
+        ajetllog_error("ajetlsurveys", "MySQL ERROR", "MySQL error.", $e->getMessage() . '. uuid: '. $doc['uuid'], $doc['provider_id']);
 //  		ajetllog_error("ajetlsurveys", "MySQL ERROR", $query, "");
     }
 

@@ -13,8 +13,9 @@ ini_set("display_errors", 1);
  */
 function ajexportsurveys_mysql_cron() {
 
-    $queue = DrupalQueue::get('ajexportsurveys_mysql');
-    $queue->createItem(0);
+		load_export_surveys_worker();
+//     $queue = DrupalQueue::get('ajexportsurveys_mysql');
+//     $queue->createItem(0);
 }
 
 /**

@@ -43,11 +43,12 @@ function ajlabor_form($form, &$form_state) {
 
 	$urlParams = drupal_get_query_parameters();
 	$uuid = $urlParams['uuid'];
+	$editing = false;
 
 	$beneficiary = _ajlabor_getBeneficiaryInfo($uuid);
 	$beneficiaryDetails = $beneficiary['nombre'].' '.$beneficiary['apellido'].' ('.$uuid.'). Su edad actual es '. $beneficiary['edad']. ' años';
 
-	if (!_ajbeneficiaryEligible($uuid)) {  //TODO validate this is the rigjt condition
+	if (!_ajbeneficiaryEligible($uuid)) {
 		drupal_set_message(t('Este beneficiario no cumple las condiciones para completar una encuesta laboral: <b>'.$beneficiaryDetails.'</b>'), 'error');
 		$form['actions']['cancel'] = array(
 				'#markup' => l(t('Volver a Lista de Beneficiarios'), 'mis-beneficiarios'),
@@ -55,17 +56,19 @@ function ajlabor_form($form, &$form_state) {
 		return $form;
 	}
 	
-	if (!true) { // check if 6 months has passed  TODO
-		drupal_set_message(t('Han transcurrido más de 6 meses desde que este beneficiario salió del proyecto Alerta Joven: <b>'.$beneficiaryDetails.'</b>'), 'error');
-		$form['actions']['cancel'] = array(
-				'#markup' => l(t('Volver a Lista de Beneficiarios'), 'mis-beneficiarios'),
-		);
-		return $form;
-	}
-	
 	if (_ajlabor_alreadyExist($uuid)) {
-		$label = '<p>Estás <b>****EDITANDO****</b> una Encuesta de Inserción Laboral para <b>'.$beneficiaryDetails.'</b></p>';
-		$existingLaborForm = _ajlabor_getExistingLaborForm($uuid);
+		if (!_ajlabor_isEditable($uuid)) {
+			drupal_set_message(t('Han transcurrido más de 6 meses desde que la Encuesta Laboral fue creada 
+					o no cumple las condiciones para edición para el beneficiario: <b>'.$beneficiaryDetails.'</b>'), 'error');
+			$form['actions']['cancel'] = array(
+					'#markup' => l(t('Volver a Lista de Beneficiarios'), 'mis-beneficiarios'),
+			);
+			return $form;
+		} else {
+			$editing = true;
+			$label = '<p>Estás <b>****EDITANDO****</b> una Encuesta de Inserción Laboral para <b>'.$beneficiaryDetails.'</b></p>';
+			$existingLaborForm = _ajlabor_getExistingLaborForm($uuid);
+		}
 	} else {
 		$label = '<p>Estás creando una <b>NUEVA</b> Encuesta de Inserción Laboral para <b>'.$beneficiaryDetails.'</b></p>';
 	}
@@ -74,15 +77,15 @@ function ajlabor_form($form, &$form_state) {
 	  '#markup' => $label,
 	);
 	
-	// 	// Tab 3
+	//  Tab 1
 	$form['initial'] = array(
 			'#type'  => 'fieldset',
 			'#title' => t('Participación en el programa'),
 			'#collapsible' => true,
-			'#collapsed' => false,
+			'#collapsed' => $editing,
 	);
 	
-	// Tab 1
+	// Tab 2
 	$form['laboral'] = array(
     	'#type'  => 'fieldset',
     	'#title' => t('Condición Laboral'),
@@ -94,15 +97,15 @@ function ajlabor_form($form, &$form_state) {
 							array('select[name="2"]' => array('value' => 'Sí')),
 							array('select[name="3"]' => array('value' => 'Sí')),
 					),
-					),
+			),
 	);
 
-// 	// Tab 2
+	// Tab 3
 	$form['credits'] = array(
     	'#type'  => 'fieldset',
     	'#title' => t('Obtención de Microcréditos'),
     	'#collapsible' => true,
-    	'#collapsed' => false,
+    	'#collapsed' => $editing,
     	'#group' => 'group_tabs',
 			'#states' => array(
 					'visible' => array(
@@ -110,7 +113,7 @@ function ajlabor_form($form, &$form_state) {
 							array('select[name="2"]' => array('value' => 'Sí')),
 							array('select[name="3"]' => array('value' => 'Sí')),
 					),
-					),
+			),
 	);
 
 	$YesNoOptions = array(
@@ -124,6 +127,7 @@ function ajlabor_form($form, &$form_state) {
 		'#default_value' => (isset($existingLaborForm)? $existingLaborForm['1_HasparticipadoenalguncursodelproyectoAlerta']:null),
 		'#options' => drupal_map_assoc($YesNoOptions),
 		'#required' => TRUE,
+		'#disabled' => $editing,
 	);
 	
 	$form['initial']['2'] = array(
@@ -132,6 +136,7 @@ function ajlabor_form($form, &$form_state) {
 			'#default_value' => (isset($existingLaborForm)? $existingLaborForm['2_Hasparticipadoenalguntallerocursodelproyecto']:null),
 			'#options' => drupal_map_assoc($YesNoOptions),
 			'#required' => TRUE,
+			'#disabled' => $editing,
 	);
 	
 	$form['initial']['3'] = array(
@@ -140,6 +145,7 @@ function ajlabor_form($form, &$form_state) {
 			'#default_value' => (isset($existingLaborForm)? $existingLaborForm['3_Hasparticipadoenalguntallerocursodelproyecto']:null),
 			'#options' => drupal_map_assoc($YesNoOptions),
 			'#required' => TRUE,
+			'#disabled' => $editing,
 	);
 
 	$form['laboral']['4'] = array(
@@ -895,17 +901,18 @@ function _ajlabor_getBeneficiaryInfo($uuid) {
  */
 function _ajbeneficiaryEligible($uuid) {
 	
-	$targetPrograms = [2, 3, 10, 18, 22]; // Autoempleo, CTV, Colocación Laboral, Microcréditos, La companía
-	$today6MonthsAgo = format_date(strtotime('6 months ago'), 'custom', 'Y-m-d H:i:s');
+	$targetPrograms = [2, 3, 18, 22]; // Autoempleo, CTV, Microcréditos, La Compañía
 	
 	$query = db_query(
 			'SELECT uuid
-			FROM {aj_exit_programs}
-			WHERE uuid = :uuid and program_id in (:targetPrograms) and created >= :today6MonthsAgo and answer = :completado', 
+			FROM {aj_attendance}
+			JOIN {field_data_field_activity_program} on aj_attendance.activity_id = field_data_field_activity_program.entity_id
+			JOIN {field_data_field_program_name} on field_data_field_program_name.entity_id = field_data_field_activity_program.field_activity_program_target_id
+			JOIN {field_data_field_programname_name} on field_data_field_programname_name.entity_id = field_data_field_program_name.field_program_name_target_id
+			WHERE uuid = :uuid 
+				and field_data_field_programname_name.entity_id in (:targetPrograms)', 
 			array(':uuid' => $uuid,
-				  ':targetPrograms' => $targetPrograms,
-				  ':today6MonthsAgo' => $today6MonthsAgo,
-				  ':completado' => 'Completado'
+				  ':targetPrograms' => $targetPrograms
 			));
 	$result = $query->fetchField(0);
 
@@ -914,15 +921,41 @@ function _ajbeneficiaryEligible($uuid) {
 	}
 	
 	return false;
-	
 }
+
+function _ajlabor_isEditable($uuid) {
+	$today6MonthsAgo = format_date(strtotime('6 months ago'), 'custom', 'Y-m-d H:i:s');
+
+	$query = db_query(
+			'SELECT uuid
+			FROM {aj_labor}
+			WHERE uuid = :uuid 
+			and :today6MonthsAgo <= created
+			and 4_Actualmentetienesuntrabajoenel = :actualmenteTienesTrabajoActual
+			and 9_Enlosultimos12meseshashecho = :trabajoEnLos12Meses',
+			array(':uuid' => $uuid,
+				':today6MonthsAgo' => $today6MonthsAgo,
+					':actualmenteTienesTrabajoActual' => 'No',
+					':trabajoEnLos12Meses' => 'No'
+			));
+	
+	$result = $query->fetchField(0);
+	
+	if ($result) {
+		return true;
+	}
+	
+	return false;
+}
+
 
 function _ajlabor_getExistingLaborForm($uuid) {
 	$query = db_query(
 			'SELECT * 
 			FROM {aj_labor}
 			WHERE uuid = :uuid',
-			array(':uuid' => $uuid,
+			array(
+					':uuid' => $uuid
 			));
 	return $query->fetchAssoc();
 }

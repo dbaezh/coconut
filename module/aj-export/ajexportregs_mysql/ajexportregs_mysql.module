@@ -13,8 +13,9 @@ ini_set("display_errors", 1);
 */
 function ajexportregs_mysql_cron() {
 
-  $queue = DrupalQueue::get('ajexportregs_mysql');
-  $queue->createItem(0);
+	load_export_regs_worker_mysql();
+//   $queue = DrupalQueue::get('ajexportregs_mysql');
+//   $queue->createItem(0);
 }
 
 	
@@ -40,7 +41,7 @@ function ajexportregs_mysql_cron_queue_info()
  * The queue job worker.
  *
  */
-function load_export_regs_worker_mysql($item)
+function load_export_regs_worker_mysql()
 {
 
  try{
