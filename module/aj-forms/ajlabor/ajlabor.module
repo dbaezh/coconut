@@ -49,7 +49,8 @@ function ajlabor_form($form, &$form_state) {
 	$beneficiaryDetails = $beneficiary['nombre'].' '.$beneficiary['apellido'].' ('.$uuid.'). Su edad actual es '. $beneficiary['edad']. ' años';
 
 	if (!_ajbeneficiaryEligible($uuid)) {
-		drupal_set_message(t('Este beneficiario no cumple las condiciones para completar una encuesta laboral: <b>'.$beneficiaryDetails.'</b>'), 'error');
+		drupal_set_message(t('Este beneficiario no ha participado en los programas Capacitación Teécnico vocacional,
+				Microcréditos, Auto empleo/Empredurismo o La Compañía: <b>'.$beneficiaryDetails.'</b>'), 'error');
 		$form['actions']['cancel'] = array(
 				'#markup' => l(t('Volver a Lista de Beneficiarios'), 'mis-beneficiarios'),
 		);
@@ -58,8 +59,8 @@ function ajlabor_form($form, &$form_state) {
 	
 	if (_ajlabor_alreadyExist($uuid)) {
 		if (!_ajlabor_isEditable($uuid)) {
-			drupal_set_message(t('Han transcurrido más de 6 meses desde que la Encuesta Laboral fue creada 
-					o no cumple las condiciones para edición para el beneficiario: <b>'.$beneficiaryDetails.'</b>'), 'error');
+			drupal_set_message(t('Han transcurrido más de 3 meses desde que la Encuesta Laboral fue creada 
+					o no cumple las condiciones para ser editada: <b>'.$beneficiaryDetails.'</b>'), 'error');
 			$form['actions']['cancel'] = array(
 					'#markup' => l(t('Volver a Lista de Beneficiarios'), 'mis-beneficiarios'),
 			);
@@ -338,6 +339,7 @@ function ajlabor_form($form, &$form_state) {
 			'#default_value' => (isset($existingLaborForm)? $existingLaborForm['9_Enlosultimos12meseshashecho']:null),
 			'#options' => drupal_map_assoc($YesNoOptions),
 			'#empty_option' => t('- Select -'),
+			'#disabled' => $editing,
 			'#required' => FALSE,
 			'#states' => array(
 					'visible' => array(
@@ -353,6 +355,7 @@ function ajlabor_form($form, &$form_state) {
 			'#title' => t('9.1 ¿Qué hacías en ese trabajo?'),
 			'#default_value' => (isset($existingLaborForm)? $existingLaborForm['9_1Quehaciasenesetrabajo']:null),
 			'#size' => 30,
+			'#disabled' => $editing,
 			'#maxlength' => 30,
 			'#required' => FALSE,
 			'#states' => array(
@@ -371,6 +374,7 @@ function ajlabor_form($form, &$form_state) {
 			'#options' => drupal_map_assoc($_5Options),
 			'#empty_option' => t('- Select -'),
 			'#required' => FALSE,
+			'#disabled' => $editing,
 			'#states' => array(
 					'visible' => array (
 							array('select[name="1"]' => array('value' => 'Sí'), array('select[name="9"]' => array('value' => 'Sí'))),
@@ -387,6 +391,7 @@ function ajlabor_form($form, &$form_state) {
 			'#options' => drupal_map_assoc($_6Options),
 			'#empty_option' => t('- Select -'),
 			'#required' => FALSE,
+			'#disabled' => $editing,
 			'#states' => array(
 					'visible' => array (
 							array('select[name="1"]' => array('value' => 'Sí'), array('select[name="9"]' => array('value' => 'Sí'))),
@@ -418,6 +423,7 @@ function ajlabor_form($form, &$form_state) {
 			'#options' => drupal_map_assoc($_6_1Options),
 			'#empty_option' => t('- Select -'),
 			'#required' => FALSE,
+			'#disabled' => $editing,
 			'#states' => array(
 					'visible' => array (
 							array('select[name="1"]' => array('value' => 'Sí'), array('select[name="9"]' => array('value' => 'Sí'))),
@@ -432,6 +438,7 @@ function ajlabor_form($form, &$form_state) {
 			'#title' => t('11.1 Otro (favor especificar):'),
 			'#default_value' => (isset($existingLaborForm)? $existingLaborForm['11_1Otrofavorespecificar']:null),
 			'#required' => FALSE,
+			'#disabled' => $editing,
 			'#maxlength' => 50,
 			'#states' => array(
 					'visible' => array (
@@ -448,6 +455,7 @@ function ajlabor_form($form, &$form_state) {
 			'#default_value' => (isset($existingLaborForm)? $existingLaborForm['12_Cuantoganabasenunasemana']:null),
 			'#options' => drupal_map_assoc($_7Options),
 			'#empty_option' => t('- Select -'),
+			'#disabled' => $editing,
 			'#required' => FALSE,
 			'#states' => array(
 					'visible' => array (
@@ -464,6 +472,7 @@ function ajlabor_form($form, &$form_state) {
 			'#default_value' => (isset($existingLaborForm)? $existingLaborForm['13_Hasrecibidounprestamoatravesdelproyecto']:null),
 			'#options' => drupal_map_assoc($YesNoOptions),
 			'#empty_option' => t('- Select -'),
+			'#disabled' => $editing,
 			'#required' => FALSE,
 			'#states' => array(
 					'visible' => array(
@@ -480,6 +489,7 @@ function ajlabor_form($form, &$form_state) {
 			'#default_value' => (isset($existingLaborForm)? $existingLaborForm['14_Tienesunnegociopropio']:null),
 			'#options' => drupal_map_assoc($YesNoOptions),
 			'#empty_option' => t('- Select -'),
+			'#disabled' => $editing,
 			'#required' => FALSE,
 			'#states' => array(
 					'visible' => array(
@@ -924,7 +934,7 @@ function _ajbeneficiaryEligible($uuid) {
 }
 
 function _ajlabor_isEditable($uuid) {
-	$today6MonthsAgo = format_date(strtotime('6 months ago'), 'custom', 'Y-m-d H:i:s');
+	$today6MonthsAgo = format_date(strtotime('3 months ago'), 'custom', 'Y-m-d H:i:s');
 
 	$query = db_query(
 			'SELECT uuid
