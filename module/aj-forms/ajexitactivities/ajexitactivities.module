@@ -214,6 +214,7 @@ function ajexitactivities_form_submit($form, &$form_state) {
 		form_set_error('field_activity_date', t('The activity date can\'t be later than today'));
 	}
 
+	
  }
 
 
