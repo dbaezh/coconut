@@ -871,7 +871,7 @@ function _ajlabor_insert_data(
 		'10_Cuantotiempodurasteenestetrabajo' => $_10,
 		'11_Esetrabajoera' => $_11,
 		'11_Otrofavorespecificar' => $_11Otro,
-		'11_1Bajocualcondicion' => $_11,
+		'11_1Bajocualcondicion' => $_11_1,
 		'11_1Otrofavorespecificar' => $_11_1Otro,
 		'12_Cuantoganabasenunasemana' => $_12,
 		'13_Hasrecibidounprestamoatravesdelproyecto' => $_13,

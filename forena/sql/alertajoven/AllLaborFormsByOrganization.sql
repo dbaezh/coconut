@@ -34,7 +34,7 @@ SELECT `labor`.`provider_id`,
     `labor`.`created`
 from `bitnami_drupal7`.`aj_labor` labor
 join bitnami_drupal7.field_data_field_agency_name agency on agency.entity_id = provider_id
-join bitnami_drupal7.aj_registration regs using(uuid)
+join (select uuid, nombre, apellido, sexo, dob from bitnami_drupal7.aj_registration group by uuid) regs using(uuid)
 where 1 = 1 
 and labor.provider_id in (:provider_id)
 --IF=:from_date
