@@ -135,7 +135,6 @@ function ajorganizationprofile_form($form, &$form_state) {
 					'header' => array('<b>Meta Global</b>', '<b>Meta</d>', '<b>Alcanzado</b>'), 'rows' => $rows, 'attributes' =>  array('style' => 'width: 80%'))));
 	
 	$rows = array();
-// 	var_dump($agencyGoals);
 	foreach ($programsListWithTotalOfActivities as $entry) {
 		$total11_17 = isset($programsListWithTotalParticipant11_17[$entry->field_programname_name_value]) ? $programsListWithTotalParticipant11_17[$entry->field_programname_name_value]->total_participants : '';
 		$total18_24 = isset($programsListWithTotalParticipant18_24[$entry->field_programname_name_value]) ? $programsListWithTotalParticipant18_24[$entry->field_programname_name_value]->total_participants : '';
@@ -378,7 +377,4 @@ function _ajorganizationprofile_getGoals($provider_id) {
 			WHERE agency_id = :provider_id',
 			array(':provider_id' => $provider_id))->fetchAssoc();
 }
-
-
-
 
