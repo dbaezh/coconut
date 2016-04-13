@@ -57,9 +57,9 @@ function ajexitactivities_form($form, &$form_state) {
 			case 'Documentación':
 				$activityNamesOpt[$record->entity_id . '_0'] = t('Jóvenes que obtienen documentación '. $suffix);
 				break;
-			case 'Auto empleo/Empredurismo':
-				$activityNamesOpt[$record->entity_id . '_1'] = t('Jóvenes que obtienen empleo o pasantía pagada ' . $suffix);
-				break;
+		//	case 'Auto empleo/Empredurismo':
+			//	$activityNamesOpt[$record->entity_id . '_1'] = t('Jóvenes que obtienen empleo o pasantía pagada ' . $suffix);
+				//break;
 			case 'Capacitación Técnico Vocacional':
 				$activityNamesOpt[$record->entity_id . '_2'] = t('Jóvenes que terminan capacitación técnica ' . $suffix);
 				break;
@@ -150,9 +150,9 @@ function ajexitactivities_form_submit($form, &$form_state) {
 		case 0:
 			$activity_name_full = 'Obtienen documentación - '.$activity_name_sufix;
 			break;
-		case 1:
-			$activity_name_full = 'Obtienen empleo o pasantía pagada - '.$activity_name_sufix;
-			break;
+	//	case 1:
+		//	$activity_name_full = 'Obtienen empleo o pasantía pagada - '.$activity_name_sufix;
+			//break;
 		case 2:
 			$activity_name_full = 'Terminan capacitación técnica - '.$activity_name_sufix;
 			break;
