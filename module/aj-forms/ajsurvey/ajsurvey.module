@@ -147,7 +147,7 @@ function ajsurvey_form($form, &$form_state) {
 		'#type' => 'date',
 		'#title' => t('Fecha de Encuesta:'),
 		'#required' => true,
-		'#default_value' =>	array('year' => 2012, 'month' => null, 'day' => null),
+		'#default_value' =>	array('year' => 1990, 'month' => null, 'day' => null),
 		'#group' => 'documentation',
 	);
 
@@ -2628,13 +2628,9 @@ function ajsurvey_form_submit($form, &$form_state) {
 	}
  	// Check if the date is valid and has the right format
 	if (is_string($registration_date_string) && strtotime($registration_date_string) === FALSE || ((int)$registration_date['year']) < 2012) {
-		form_error($form['documentation']['registration_date'], t('Fecha de Encuesta: Año no válido'));
+		form_error($form['documentation']['registration_date'], t('Fecha de Encuesta:  Fecha no válida'));
 	}
-	// Check if the date is valid and has the right format
-	if (is_string($registration_date_string)&& strtotime($registration_date_string) === FALSE || ((int)$registration_date['month']) <9 )
-	{
-		form_error($form['documentation']['registration_date'], t('Fecha de Encuesta: Mes no válido'));
-	}
+
 	// QUESTION 9Otros --------------------------------------------------------------
 	if($_9 === 'Otro') {
 	 	if (empty($_9Otro)) {
