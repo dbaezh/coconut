@@ -56,6 +56,14 @@ function ajlabor_form($form, &$form_state) {
 		);
 		return $form;
 	}
+	if (_aj_exit_($uuid)) {
+	
+		drupal_set_message(t('Ya existe un Formulario de Salida disponible para <b>'.$beneficiaryDetails.'</b>. No se puede editar este contacto'), 'warning');
+		$form['actions']['cancel'] = array(
+				'#markup' => l(t('Volver a Lista de Beneficiarios'), 'mis-beneficiarios'),
+		);
+		return $form;
+	}
 	
 	if (_ajlabor_alreadyExist($uuid)) {
 		if (!_ajlabor_isEditable($uuid)) {

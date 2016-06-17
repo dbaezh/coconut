@@ -42,6 +42,7 @@ function ajparticipants_help($path, $arg) {
 function ajparticipants_form($form, &$form_state) {
 
 	$urlParams = drupal_get_query_parameters();
+
 	if (isset($urlParams['activity_id'])) {
 		$activity_id = str_replace(",", "", $urlParams['activity_id']);
 		str_replace(",", "", $activity_id);
@@ -376,6 +377,9 @@ function ajparticipants_form($form, &$form_state) {
     $result = $query->execute();
 
   	foreach($result as $entry) {
+  	
+  		if (!_aj_exit_ ($entry->uuid)){		
+  		
   		$form['table_fieldset']['checkbox-'.$entry->uuid] = array(
   				'#type' => 'button',
   				'#value' => t('+'),
@@ -420,8 +424,57 @@ function ajparticipants_form($form, &$form_state) {
 // 		$form['table_fieldset']['facebook'.$entry->uuid] = array(
 // 				'#markup' => '<td>'.$entry->NombredeusuariodeFacebook.'</td></tr>'
 // 		);
-  }
-
+  } 
+  else if (_aj_exit_ ($entry->uuid)){
+   	
+  	$form['table_fieldset']['checkbox-'.$entry->uuid] = array(
+  			'#type' => 'button',
+  			'#value' => t('x'),
+  			'#prefix' => '<tr><td>',
+  			'#sufix' => '</td>',
+  			'#disabled'=>true,
+  			'#name' => 'checkbox-'.$entry->uuid,
+  			'#uuid' => $entry->uuid,
+  			'#ajax' => array(
+  					'callback' => 'ajax_checked_table_callback',
+  					'wrapper' => 'checked_table',
+  					'method' => 'replace',
+  					'event'=>'click',
+  			),
+  	);
+  	$form['table_fieldset']['uuid'.$entry->uuid] = array(
+  			'#markup' => '<td>'.$entry->uuid.'</td>'
+  	);
+  	$form['table_fieldset']['nombre'.$entry->uuid] = array(
+  			'#markup' => '<td>'.$entry->nombre.'</td>'
+  	);
+  	$form['table_fieldset']['apellido'.$entry->uuid] = array(
+  			'#markup' => '<td>'.$entry->apellido.'</td>'
+  	);
+  	$form['table_fieldset']['apodo'.$entry->uuid] = array(
+  			'#markup' => '<td>'.$entry->apodo.'</td>'
+  	);
+  	$form['table_fieldset']['colateral'.$entry->uuid] = array(
+  			'#markup' => '<td>'.$entry->Estecolateralparticipante.'</td>'
+  	);
+  	$form['table_fieldset']['sexo'.$entry->uuid] = array(
+  			'#markup' => '<td>'.$entry->sexo.'</td>'
+  	);
+  	$form['table_fieldset']['dob'.$entry->uuid] = array(
+  			'#markup' => '<td>'.$entry->dob.'</td>'
+  	);
+  	$form['table_fieldset']['comunidad'.$entry->uuid] = array(
+  			'#markup' => '<td>'.$entry->barriocomunidad.'</td>'
+  	);
+  	$form['table_fieldset']['casa'.$entry->uuid] = array(
+  			'#markup' => '<td>'.$entry->casa.'</td></tr>'
+  	);
+  	// 		$form['table_fieldset']['facebook'.$entry->uuid] = array(
+  	// 				'#markup' => '<td>'.$entry->NombredeusuariodeFacebook.'</td></tr>'
+  	// 		);
+ 	 }
+ }
+  	
   	$form['table_fieldset']['table_end'] = array(
 			'#markup' => '</table>'
 	);
@@ -995,3 +1048,5 @@ function _ajparticipants_uuidAttendanceEntry($uuid, $activity_id) {
 	$result = $query->execute();
 	return $result->fetchAssoc();
 }
+
+

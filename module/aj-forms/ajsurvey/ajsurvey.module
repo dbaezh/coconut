@@ -54,6 +54,14 @@ function ajsurvey_form($form, &$form_state) {
  		 );
 		return $form;
 	}
+	if (_aj_exit_($uuid)) {
+	
+		drupal_set_message(t('Ya existe un Formulario de Salida disponible para <b>'.$beneficiaryDetails.'</b>. No se puede editar este contacto'), 'warning');
+		$form['actions']['cancel'] = array(
+				'#markup' => l(t('Volver a Lista de Beneficiarios'), 'mis-beneficiarios'),
+		);
+		return $form;
+	}
 
 	$label = '<p> Estás creando una Encuesta de Participantes para <b>'.$beneficiaryDetails.'</b></p>';
 	$form['welcome'] = array(
@@ -133,7 +141,7 @@ function ajsurvey_form($form, &$form_state) {
 	$YesNoOptions = array(
 		1 => t('Sí'),
 		2 => t('No'),
-		3 => 'No responde',
+		3 => t('No responde'),
 	);
 
 	$YesNoOptionsRadios = array(
@@ -634,6 +642,7 @@ $form['education']['18'] = array(
 		'#states' => array(
       		'visible' => array(
         		array('select[name="16"]' => array('value' => 'Escuela')),
+      			array('select[name="16"]' => array('value' => 'Ninguno')),
       		),
     	),
 	);
@@ -656,6 +665,10 @@ $form['education']['19'] = array(
 		'#states' => array(
       		'visible' => array(
         		array('select[name="16"]' => array('value' => 'Escuela')),
+      			array('select[name="16"]' => array('value' => 'Ninguno')),
+      			array('select[name="16"]' => array('value' => 'No responde')),
+      				
+      				
       		),
     	),
 	);
@@ -1153,6 +1166,7 @@ $twentyfourOptions = array(
 			8 => t('8'),
 			9 => t('9'),
 			10 => t('10'),
+			11 => t('No Responde'),
 	);
 	
 	$form['security']['43'] = array(

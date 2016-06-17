@@ -39,6 +39,8 @@ function ajexit_help($path, $arg) {
   *  Page callback: Current users settings
   *  @see current_users_menu()
   */
+
+ 
 function ajexit_form($form, &$form_state) {
 
 	$urlParams = drupal_get_query_parameters();
@@ -54,25 +56,49 @@ function ajexit_form($form, &$form_state) {
  		 );
 		return $form;
 	}
+	if (! _aj_survey_ ($uuid)) {
+	
+		drupal_set_message(t('No existe una Encuesta de Participante disponible para <b>'.$beneficiaryDetails.'</b>'), 'warning');
+		$form['actions']['cancel'] = array(
+				'#markup' => l(t('Volver a Lista de Beneficiarios'), 'mis-beneficiarios'),
+		);
+		return $form;
+	}
 
 	$label = '<p>Estás creando un Formulario de Salida para <b>'.$beneficiaryDetails.'</b></p>';
 	$form['welcome'] = array(
 	  '#markup' => $label,
 	);
 
+	if (_aj_activities_ ($uuid)){
 	// Vertical tabs container
 	$form['group_tabs'] = array(
 		'#type'     => 'vertical_tabs',
 		'#attached' => array('library' => array(array('field_group', 'vertical_tabs'))), // Converts fieldsets into tabs
 	);
-
+	// Tab 4
+	$form['programs'] = array(
+			'#type'  => 'fieldset',
+			'#title' => t('Programas'),
+			'#group' => 'group_tabs',
+	);
+	// Tab 7
+	$form['exit'] = array(
+			'#type'  => 'fieldset',
+			'#title' => t('Estatus de Salida'),
+			'#group' => 'group_tabs',
+	);
+	
 	// Tab 1
 	$form['documentation'] = array(
     	'#type'  => 'fieldset',
     	'#title' => t('Documentación'),
     	'#collapsible' => TRUE,
     	'#collapsed' => FALSE,
-    	'#group' => 'group_tabs',
+					
+		
+		'#group' => 'group_tabs',
+			
 	);
 
 	// Tab 2
@@ -89,12 +115,7 @@ function ajexit_form($form, &$form_state) {
     	'#group' => 'group_tabs',
 	);
 
-	// Tab 4
-	$form['programs'] = array(
-    	'#type'  => 'fieldset',
-    	'#title' => t('Programas'),
-    	'#group' => 'group_tabs',
-	);
+
 
 	// Tab 5
 	$form['violence'] = array(
@@ -110,24 +131,37 @@ function ajexit_form($form, &$form_state) {
     	'#group' => 'group_tabs',
 	);
 
-	// Tab 7
-	$form['exit'] = array(
-    	'#type'  => 'fieldset',
-    	'#title' => t('Cierre'),
-    	'#group' => 'group_tabs',
-	);
 
+	
+	
 	$YesNoOptions = array(
 		1 => t('Sí'),
 		2 => t('No'),
 	);
 
+	$YesNoOptionsselect = array(
+			1 => t('Sí'),
+			2 => t('No'),
+			3 => t('Ya Tenia'),
+	);	
+	
+
+	
+	
+	
 	$form['documentation']['9'] = array(
 		'#type' => 'radios',
 		'#title' => t('9. ¿Conseguiste tu acta de nacimiento luego de entrar a Alerta Joven?'),
-		'#options' => drupal_map_assoc($YesNoOptions),
-		'#required' => TRUE,
+		'#options' => drupal_map_assoc($YesNoOptionsselect),
+		'#required' => FALSE,
 		'#group' => 'documentation',
+		'#states' => array(
+		'invisible' => array(
+							':input[name="23"]' => array('value' => t('No pudo comunicarse o encontrar al participante / pérdida de contacto'),
+								
+							),
+					),
+		),
 	);
 
 	$NineAOptions = array(
@@ -153,10 +187,9 @@ function ajexit_form($form, &$form_state) {
 		'#empty_option' => t('- Select -'),
 		'#required' => FALSE,
 		 '#states' => array(
-      		'visible' => array(
+      	'visible' => array(
         		'input[name="9"]' => array('value' => 'No'),
-      		),
-    	),
+      		),),
 		'#group' => 'documentation',
 	);
 
@@ -177,16 +210,37 @@ function ajexit_form($form, &$form_state) {
 		'#type' => 'radios',
 		'#title' => t('10. ¿Tienes cédula?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
-		'#required' => TRUE,
+		'#required' => FALSE,
 		'#group' => 'documentation',
+			'#states' => array(
+					'invisible' => array(
+							':input[name="23"]' => array('value' => t('No pudo comunicarse o encontrar al participante / pérdida de contacto'),
+							),), 
+					'visible'=> array(
+							 ':input[name="9"]'=> array (
+									array ('value' => t('Sí')),
+									array ('value' => t('Ya Tenia')),
+							),
+					),
+			),
+	);
+	
+	$StudyOptions = array(
+			1 => t('Escuela'),
+			2 => t('Universidad'),
+			3 => t('Ninguno'),
 	);
 
 	$form['education']['11'] = array(
 		'#type' => 'radios',
 		'#title' => t('11. ¿Estas actualmente asistiendo a una escuela o universidad?'),
-		'#options' => drupal_map_assoc($YesNoOptions),
-		'#required' => TRUE,
+		'#options' => drupal_map_assoc($StudyOptions),
+		'#required' => FALSE,
 		'#group' => 'education',
+		'#states' => array(
+					'invisible' => array(
+							':input[name="23"]' => array('value' => t('No pudo comunicarse o encontrar al participante / pérdida de contacto'),
+							),),),
 	);
 
 	$form['education']['11A'] = array(
@@ -196,7 +250,10 @@ function ajexit_form($form, &$form_state) {
 		'#maxlength' => 50,
 		'#states' => array(
       		'visible' => array(
-        		'input[name="11"]' => array('value' => 'Sí'),
+        		':input[name="11"]' => array(
+        				array('value' => t('Escuela')),
+      					array('value' => t('Universidad')),
+      				),
       			),
     		),
 		'#group' => 'education',
@@ -216,46 +273,66 @@ function ajexit_form($form, &$form_state) {
 		'#required' => FALSE,
 		 '#states' => array(
       		'visible' => array(
-        		'input[name="11"]' => array('value' => 'Sí'),
-      		),
-    	),
+        		':input[name="11"]' => array(
+        				array('value' => t('Escuela')),
+      			        array('value' => t('Universidad')),
+      		),),),
+      		
+    	
 		'#group' => 'education',
 	);
 
-	$form['labor']['12'] = array(
-		'#type' => 'radios',
-		'#title' => t('12. ¿Has completado algún curso técnico luego de entrar a Alerta Joven?'),
-		'#options' => drupal_map_assoc($YesNoOptions),
-		'#required' => TRUE,
-		'#group' => 'labor',
-	);
+	$activities = _ajbeneficiaryprofile_getBeneficiaryActivitiesType($uuid);
+	
+		$rows = array();
+		foreach ($activities as $activity) {
+				$rows[$activity->entity_id] = array(
+				'activity_name' => $activity->field_activity_name_value,
+				);
+			};
+		
+		$form['labor']['12'] = array(
+				'#title' => t('12. Cursos Tecnicos Realizados'),
+				'#markup' => theme('table', array(
+									'header' => array('12. Cursos Tecnicos en las que ha Participado'),
+									'rows' => $rows,
+									'empty' => 'Este beneficiario no ha participado ningún curso',
+									'attributes' =>  array('style' => 'width: 70%'))),
+				'#states' => array(
+						'invisible' => array(
+								':input[name="23"]' => array('value' => t('No pudo comunicarse o encontrar al participante / pérdida de contacto')
+										
+								),
+		),
+				),
+				
+		);
+	
+	
 
-	$form['labor']['12A'] = array(
-		'#type' => 'textfield',
-		'#title' => t('12A. Si la respuesta es afirmativa, ¿cuáles cursos?'),
-		'#required' => FALSE,
-		'#maxlength' => 50,
-		'#states' => array(
-      		'visible' => array(
-        		'input[name="12"]' => array('value' => 'Sí'),
-      			),
-    	),
-		'#group' => 'labor',
-	);
+
 
 	$form['labor']['13'] = array(
 		'#type' => 'radios',
 		'#title' => t('13. ¿Actualmente tienes un trabajo en que te paguen?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
-		'#required' => TRUE,
+		'#required' => FALSE,
 		'#group' => 'labor',
+		'#states' => array(
+					'invisible' => array(
+							':input[name="23"]' => 
+									array('value' => t('No pudo comunicarse o encontrar al participante / pérdida de contacto'),
+									
+							),
+					),
+			),
 	);
 
 	$form['labor']['13A'] = array(
 		'#type' => 'date',
 		'#title' => t('13A. ¿Cuándo empezaste en este trabajo?'),
 		'#required' => FALSE,
-		'#description' => t('Puedes seleccionar un día proximado.'),
+		'#description' => t('Favor seleccionar un día aproximado.'),
 		'#default_value' =>	array('year' => 1990, 'month' => null, 'day' => null),
 		'#states' => array(
       		'visible' => array(
@@ -307,31 +384,93 @@ function ajexit_form($form, &$form_state) {
 		19 => t('Reducción de Crimen y Violencia'),
 		20 => t('Incidencia en Políticas Públicas'),
 	);
-
-	$form['programs']['14A'] = array(
-		'#type' => 'checkboxes',
-		'#title' => t('14. ¿Has --PARTICIPADO-- en algún o algunos de estos programas estando en Alerta Joven? Marca todas las que apliquen.'),
-		'#options' => $FourteenOptions,
-		'#required' => TRUE,
+	
+	
+	$completeprograms = _getBeneficiaryExitActivitiesCount($uuid);
+	
+	$rows_ = array();
+	foreach ($completeprograms as $programm) {
+		$rows_[$programm ->activity_id] = array(
+				'program_name'  => $programm->field_programname_name_value,
+				'cantidad' => $programm->cantidad,
+		);
+	}
+	
+	
+	$form['programs'] ['program_info']['14A']= array(
+			'#markup' => theme('table', array(
+					'header' => array('Programas en los que ha Participado', 'Cantidad de Servicios'),
+					'rows' => $rows_,
+					'empty' => 'Este beneficiario no ha completado ningun programa',
+					'attributes' =>  array('style' => 'width: 70%')))
 	);
-
-	$form['programs']['14B'] = array(
-		'#type' => 'checkboxes',
-		'#title' => t('14. ¿Has --COMPLETADO-- en algún o algunos de estos programas estando en Alerta Joven? Marca todas las que apliquen.'),
-		'#options' => $FourteenOptions,
-		'#required' => TRUE,
-	);
-
-	$form['violence']['15'] = array(
-	  '#markup' => '<p><b>15. Desde que empezaste en Alerta Joven, hasta la fecha:</b></p>'
-	);
+	
+	
+	/*
+	$activities = _ajbeneficiaryprofile_getBeneficiaryActivities($uuid);
+	
+		$rows = array();
+		foreach ($activities as $activity) {
+				$rows[$activity->entity_id] = array(
+				'program_name' => $activity->field_programname_name_value,
+				);
+			};
+		
+		$form['programs']['program_info']['14B'] = array(
+				'#markup' => theme('table', array(
+				'header' => array('Programas en los que ha Participado'),
+				'rows' => $rows,
+				'empty' => 'Este beneficiario no ha participado ningún programa',
+				'attributes' =>  array('style' => 'width: 70%'))));
+		
+		
+		*/
+		
+		
+	$completeprograms_ = _getBeneficiaryExitActivities($uuid);
+	
+	$rows_ = array();
+	foreach ($completeprograms_ as $programm) {
+		$rows_[$programm->activity_id] = array(
+				'program_name' => $programm->field_activity_name_value
+		);
+	};
+	
+	$form['programs']['program_info']['14B'] = array(
+			'#markup' => theme('table', array(
+					'header' => array('Programas que ha Completado'),
+					'rows' => $rows_,
+					'empty' => 'Este beneficiario no ha completado ningun programa',
+					'attributes' =>  array('style' => 'width: 70%'))));
+	
+		
+		
+		$form['violence']['15'] = array(
+				'#type'=>'item',
+				'#title'=> t('Desde que empezaste en Alerta Joven, hasta la fecha:'),
+				'#required' => False,
+				'#states' => array(
+						'invisible'=>array(
+								':input[name="23"]' =>
+									array('value' => t('No pudo comunicarse o encontrar al participante / pérdida de contacto')),
+										
+						),
+			),		
+		);
+	
 
 	$form['violence']['15A'] = array(
 		'#type' => 'textfield',
 		'#title' => t('15A. ¿Cuántas veces has sido transportado por la policía?'),
 		'#maxlength' => 4,
 		'#size' => 5,
-		'#required' => TRUE,
+		'#required' => FALSE,
+		'#states' => array(
+					'invisible' => array(
+							':input[name="23"]' => array('value' => t('No pudo comunicarse o encontrar al participante / pérdida de contacto')),
+									
+							),
+					),
 	);
 
 	$form['violence']['15B'] = array(
@@ -339,7 +478,13 @@ function ajexit_form($form, &$form_state) {
 		'#title' => t('15B. ¿Cuántas veces has sido arrestado por la policía?'),
 		'#maxlength' => 4,
 		'#size' => 5,
-		'#required' => TRUE,
+		'#required' => FALSE,
+			'#states' => array(
+					'invisible' => array(
+							':input[name="23"]' =>array('value' => t('No pudo comunicarse o encontrar al participante / pérdida de contacto')),
+									
+					),
+			),
 	);
 
 	$form['violence']['15C'] = array(
@@ -347,7 +492,14 @@ function ajexit_form($form, &$form_state) {
 		'#title' => t('15C. ¿Cuántas veces has sido acusado de cometer algún delito en la fiscalía o policía?'),
 		'#maxlength' => 4,
 		'#size' => 5,
-		'#required' => TRUE,
+		'#required' => FALSE,
+			'#states' => array(
+					'invisible' => array(
+							':input[name="23"]' => 
+									array('value' => t('No pudo comunicarse o encontrar al participante / pérdida de contacto')),
+						
+					),
+			),
 	);
 
 	$form['violence']['15D'] = array(
@@ -355,7 +507,14 @@ function ajexit_form($form, &$form_state) {
 		'#title' => t('15D. ¿Cuántas veces has sido enviado a un centro de atención integral?'),
 		'#maxlength' => 4,
 		'#size' => 5,
-		'#required' => TRUE,
+		'#required' => FALSE,
+		'#states' => array(
+					'invisible' => array(
+							':input[name="23"]' => 
+									array('value' => t('No pudo comunicarse o encontrar al participante / pérdida de contacto')),
+				
+					),
+			),
 	);
 
 	$SixteenOptions = array(
@@ -375,28 +534,44 @@ function ajexit_form($form, &$form_state) {
 		'#type' => 'select',
 		'#title' => t('16. ¿En qué medida tu vida ha sido afectada por la delincuencia? '),
 		'#description' => t('En una puntuación de 1 al 10, donde 1 es NINGUN IMPACTO Y 10 es IMPACTO TOTAL'),
-		'#options' => drupal_map_assoc($SixteenOptions),
-		'#required' => TRUE,
+		'#options' => drupal_map_assoc($SixteenOptions),			
+		'#required' => FALSE,
+		'#states' => array(
+					'invisible' => array(
+							':input[name="23"]' =>
+									array('value' => t('No pudo comunicarse o encontrar al participante / pérdida de contacto')),
+								
+					),
+			),
 	);
 
 	$form['sexual']['17'] = array(
 		'#type' => 'radios',
 		'#title' => t('17. ¿Alguna vez has tenido relaciones sexuales?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
-		'#required' => TRUE,
+		'#required' => FALSE,
+		'#states' => array(
+					'invisible' => array(
+							':input[name="23"]' => 
+									array('value' => t('No pudo comunicarse o encontrar al participante / pérdida de contacto')),
+							
+					),
+			),
 	);
 
 	$form['sexual']['18'] = array(
 		'#type' => 'radios',
 		'#title' => t('18. La última vez que tuviste relaciones sexuales, ¿tú o tu compañero/a utilizó condón? '),
 		'#options' => drupal_map_assoc($YesNoOptions),
-		'#empty_option' => t('- Select '),
 		'#required' => FALSE,
-		'#states' => array(
-      		'visible' => array(
-        		'input[name="17"]' => array('value' => 'Sí'),
-      		),
-    	),
+'#states' => array(
+					'invisible' => array(
+					':input[name="23"]' => 	array('value' => t('No pudo comunicarse o encontrar al participante / pérdida de contacto')),
+			),
+					
+			        'visible'=> array(':input[name="17"]'=> array ('value' => t('Sí')),
+			),
+		),
 	);
 
 	$NineteenOptions = array(
@@ -422,11 +597,12 @@ function ajexit_form($form, &$form_state) {
 		'#options' => drupal_map_assoc($NineteenOptions),
 		'#empty_option' => t('- Select '),
 		'#required' => FALSE,
-		'#states' => array(
-      		'visible' => array(
-        		'input[name="17"]' => array('value' => 'Sí'),
-      		),
-    	),
+			'#states' => array(
+					'invisible' => array(
+							':input[name="23"]' => 
+									array('value' => t('No pudo comunicarse o encontrar al participante / pérdida de contacto')),
+									
+							),'visible'=> array(':input[name="17"]'=> array ('value' => t('Sí')),		),			),
 	);
 
 	$form['sexual']['19Otro'] = array(
@@ -437,68 +613,168 @@ function ajexit_form($form, &$form_state) {
 		'#states' => array(
       		'visible' => array(
         		'input[name="19"]' => array('value' => 'Otro (favor especificar)'),
-      			),
-    	),
+      			),    	),
 	);
-
 	$form['sexual']['20'] = array(
 		'#type' => 'radios',
 		'#title' => t('20. Si quisieras comprar un condón, ¿crees que podrías encontrarlo?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
-		'#required' => TRUE,
+		'#required' => FALSE,
+		'#states' => array(
+					'invisible' => array(
+							':input[name="23"]' => 	array('value' => t('No pudo comunicarse o encontrar al participante / pérdida de contacto')),
+								
+					),'visible' => array('input[name="17"]' => array('value' => 'No'),
+      			),
+			),
 	);
 
 	$form['sexual']['21'] = array(
 		'#type' => 'select',
 		'#title' => t('21. Si quisieras tener sexo, ¿crees que serías capaz de convencer a tu pareja que use un condón en caso que él/ella no quiera?'),
 		'#options' => drupal_map_assoc($YesNoOptions),
-		'#required' => TRUE,
+		'#empty_option' => t('- Select -'),
+		'#required' => FALSE,
+			'#states' => array(
+					'invisible' => array(
+							':input[name="23"]' => 
+									array('value' => t('No pudo comunicarse o encontrar al participante / pérdida de contacto')),
+									
+					),
+			),
+			
+			
 	);
 
-	$form['exit']['22'] = array(
-		'#type' => 'date',
-		'#title' => t('22. Fecha de Revisión:'),
-		'#default_value' =>	array('year' => 2005, 'month' => null, 'day' => null),
-		'#required' => TRUE,
-	);
+	
 
 	$TwentythirdOptions = array(
 		1 => t('Completó asistencia a servicios o programa en que participó'),
-		2 => t('Voluntariamente dejó de asistir a los servicios o programas/pérdida de contacto con participante'),
+		2 => t('Voluntariamente dejó de asistir a los servicios o programas'),
+		10 =>t('No pudo comunicarse o encontrar al participante / pérdida de contacto'),	
 		3 => t('Terminó por violar las reglas o requisitos del programa'),
 		4 => t('Abandonó debido a que reincidió en crimen o delincuencia'),
 		5 => t('Las necesidades del participante exceden los servicios del proyecto/ no elegible'),
 		6 => t('Vive o se mudó fuera del área de servicio/se refirió a otro programa de Alerta Joven'),
 		7 => t('Vive o se mudó fuera del área de servicio/no referido a otro programa'),
-		8 => t('Falleció'),
+		8 => t('Voluntariamente dejó de asistir a los servicios o programas'),
 		9 => t('Otro (favor especificar)'),
 	);
 
+
+	$form['exit']['22'] = array(
+			'#type' => 'date',
+			'#title' => t('Fecha de Revisión:'),
+			'#default_value' =>	array('year' => 2012, 'month' => null, 'day' => null),
+			'#required' => TRUE,
+	);
+	
+	$TwentythirdOptions = array(
+
+			10 =>t('No pudo comunicarse o encontrar al participante / pérdida de contacto'),
+			1 => t('Completó asistencia a servicios o programa en que participó'),
+			2 => t('Voluntariamente dejó de asistir a los servicios o programas'),
+			3 => t('Terminó por violar las reglas o requisitos del programa'),
+			4 => t('Abandonó debido a que reincidió en crimen o delincuencia'),
+			5 => t('Las necesidades del participante exceden los servicios del proyecto/ no elegible'),
+			6 => t('Vive o se mudó fuera del área de servicio/se refirió a otro programa de Alerta Joven'),
+			7 => t('Vive o se mudó fuera del área de servicio/no referido a otro programa'),
+			9 => t('Otro (favor especificar)'),
+	);
 	$form['exit']['23'] = array(
 		'#type' => 'radios',
-		'#title' => t('23. Estatus de Salida. Selecciona la situación en que se encuentra el participante:'),
+		'#title' => t('Estatus de Salida. Selecciona la situación en que se encuentra el participante:'),
 		'#options' => drupal_map_assoc($TwentythirdOptions),
 		'#required' => TRUE,
 	);
 
+	/*
+	if (['23'] === 'Otro (favor especificar)') {
+	
+	
+	
+		$form['documentation'] = array(
+				'#access' =>FALSE
+	
+		);
+	}*/
+	
+	
+	
 	$form['exit']['23Otro'] = array(
 		'#type' => 'textfield',
-		'#title' => t('23.Otro (favor especificar).'),
+		'#title' => t('Favor especificar:'),
 		'#required' => FALSE,
 		'#maxlength' => 50,
-		'#states' => array(
-      		'visible' => array(
-        		'input[name="23"]' => array('value' => 'Otro (favor especificar)'),
-      		),
-    	),
+			'#states' => array(
+					'visible' => array(
+							'input[name="23"]' => array('value' => 'Otro (favor especificar)'),
+					),
+			),
+		
 	);
 
+	
+	
+	
+	
 	$form['exit']['24'] = array(
 		'#type' => 'textarea',
-		'#title' => t('24. Comentarios:'),
+		'#title' => t('Comentarios:'),
 		'#required' => FALSE,
+			'#states' => array(
+					'visible' => array(
+							'input[name="23"]' => array (
+												array('value' => t('Completó asistencia a servicios o programa en que participó')),
+												array('value' => t('Terminó por violar las reglas o requisitos del programa')),
+												array('value' => t('No pudo comunicarse o encontrar al participante / pérdida de contacto')),
+												array('value' => t('Abandonó debido a que reincidió en crimen o delincuencia')),
+												array('value' => t('Las necesidades del participante exceden los servicios del proyecto/ no elegible')),
+												array('value' => t('Vive o se mudó fuera del área de servicio/se refirió a otro programa de Alerta Joven')),
+												array('value' => t('Vive o se mudó fuera del área de servicio/no referido a otro programa')),
+												array('value' => t('Voluntariamente dejó de asistir a los servicios o programas')),
+												array('value' => t('Otro (favor especificar)')),
+					),
+			),),
+		
 	);
+ 
 
+	
+	if (! _aj_activities_ ($uuid)) {
+	
+		$form['exit']['25'] = array(
+				'#type'=>'item',
+				'#title'=> t('Esta opcion no debe ser seleccionada. El participante no tiene servicios recibidos, registrados en plataforma. Si continua, no podra guardar el formulario.'),
+				'#required' => False,
+				'#states' => array(
+						'visible'=>array(
+								'input[name="23"]'=> array ('value'=> t('Completó asistencia a servicios o programa en que participó'),
+										
+									
+						),
+				),
+						),
+		);
+				
+				
+				$form['exit']['26'] = array(
+						'#type'=>'item',
+						'#title'=> t('Esta opcion no debe ser seleccionada. El participante no tiene servicios recibidos, registrados en plataforma. Si continua, no podra agregar ningun otro servicio a este beneficiario.'),
+						'#required' => False,
+						'#states' => array(
+								'visible'=>array(
+										'input[name="23"]'=> array ('value'=> t('Voluntariamente dejó de asistir a los servicios o programas'),
+													
+										),
+							),
+						
+								),
+						);
+	//	return $form; 
+	}
+	
+	
 	$form['actions'] = array('#type' => 'actions');
 
 	$form['actions']['cancel'] = array(
@@ -521,14 +797,208 @@ function ajexit_form($form, &$form_state) {
 	);
 
 	return $form;
-}
+	}
+	if (!_aj_activities_ ($uuid)){
+		
+		// Vertical tabs container
+		$form['group_tabs'] = array(
+				'#type'     => 'vertical_tabs',
+				'#attached' => array('library' => array(array('field_group', 'vertical_tabs'))), // Converts fieldsets into tabs
+		);
+		// Tab 4
+		$form['programs'] = array(
+				'#type'  => 'fieldset',
+				'#title' => t('Programas'),
+				'#group' => 'group_tabs',
+		);
+		// Tab 7
+		$form['exit'] = array(
+				'#type'  => 'fieldset',
+				'#title' => t('Estatus de Salida'),
+				'#group' => 'group_tabs',
+		);
+	
+		$activities = _ajbeneficiaryprofile_getBeneficiaryActivities($uuid);
+		
+		$rows = array();
+		foreach ($activities as $activity) {
+			$rows[$activity->entity_id] = array(
+					'program_name' => $activity->field_programname_name_value,
+			);
+		};
+		
+		$form['programs']['program_info']['14A'] = array(
+				'#markup' => theme('table', array(
+						'header' => array('Programas en los que ha Participado'),
+						'rows' => $rows,
+						'empty' => 'Este beneficiario no ha participado ningún programa',
+						'attributes' =>  array('style' => 'width: 70%'))));
+		
+		$completeprograms = _getBeneficiaryExitActivities($uuid);
+		
+		$rows_ = array();
+		foreach ($completeprograms as $programm) {
+			$rows_[$programm->uuid] = array(
+					'program_name' => $programm->field_programname_name_value
+			);
+		};
+		
+		$form['programs']['program_info']['14B'] = array(
+				'#markup' => theme('table', array(
+						'header' => array('Programas que ha Completado'),
+						'rows' => $rows_,
+						'empty' => 'Este beneficiario no ha completado ningun programa',
+						'attributes' =>  array('style' => 'width: 70%'))));
+	
 
+		$TwentythirdOptions = array(
+				1 => t('Completó asistencia a servicios o programa en que participó'),
+				2 => t('Voluntariamente dejó de asistir a los servicios o programas'),
+				10 =>t('No pudo comunicarse o encontrar al participante / pérdida de contacto'),
+				3 => t('Terminó por violar las reglas o requisitos del programa'),
+				4 => t('Abandonó debido a que reincidió en crimen o delincuencia'),
+				5 => t('Las necesidades del participante exceden los servicios del proyecto/ no elegible'),
+				6 => t('Vive o se mudó fuera del área de servicio/se refirió a otro programa de Alerta Joven'),
+				7 => t('Vive o se mudó fuera del área de servicio/no referido a otro programa'),
+				8 => t('Voluntariamente dejó de asistir a los servicios o programas'),
+				9 => t('Otro (favor especificar)'),
+		);
+		
+		
+		$form['exit']['22'] = array(
+				'#type' => 'date',
+				'#title' => t('Fecha de Revisión:'),
+				'#default_value' =>	array('year' => 2012, 'month' => null, 'day' => null),
+				'#required' => TRUE,
+		);
+		
+		$TwentythirdOptions = array(
+		
+				10 =>t('No pudo comunicarse o encontrar al participante / pérdida de contacto'),
+				2 => t('Voluntariamente dejó de asistir a los servicios o programas'),
+				3 => t('Terminó por violar las reglas o requisitos del programa'),
+				4 => t('Abandonó debido a que reincidió en crimen o delincuencia'),
+				5 => t('Las necesidades del participante exceden los servicios del proyecto/ no elegible'),
+				6 => t('Vive o se mudó fuera del área de servicio/se refirió a otro programa de Alerta Joven'),
+				7 => t('Vive o se mudó fuera del área de servicio/no referido a otro programa'),
+				9 => t('Otro (favor especificar)'),
+		);
+		$form['exit']['23'] = array(
+				'#type' => 'radios',
+				'#title' => t('Estatus de Salida. Selecciona la situación en que se encuentra el participante:'),
+				'#options' => drupal_map_assoc($TwentythirdOptions),
+				'#required' => TRUE,
+		);
+		
+		/*
+		 if (['23'] === 'Otro (favor especificar)') {
+		
+		
+		
+		 $form['documentation'] = array(
+		 '#access' =>FALSE
+		
+		 );
+		}*/
+		
+		
+		
+		$form['exit']['23Otro'] = array(
+				'#type' => 'textfield',
+				'#title' => t('Favor especificar:'),
+				'#required' => FALSE,
+				'#maxlength' => 50,
+				'#states' => array(
+						'visible' => array(
+								'input[name="23"]' => array('value' => 'Otro (favor especificar)'),
+						),
+				),
+		
+		);
+		
+		
+		
+		
+		
+		$form['exit']['24'] = array(
+				'#type' => 'textarea',
+				'#title' => t('Comentarios:'),
+				'#required' => FALSE,
+				'#states' => array(
+						'visible' => array(
+								'input[name="23"]' => array (
+										array('value' => t('Completó asistencia a servicios o programa en que participó')),
+										array('value' => t('Terminó por violar las reglas o requisitos del programa')),
+										array('value' => t('No pudo comunicarse o encontrar al participante / pérdida de contacto')),
+										array('value' => t('Abandonó debido a que reincidió en crimen o delincuencia')),
+										array('value' => t('Las necesidades del participante exceden los servicios del proyecto/ no elegible')),
+										array('value' => t('Vive o se mudó fuera del área de servicio/se refirió a otro programa de Alerta Joven')),
+										array('value' => t('Vive o se mudó fuera del área de servicio/no referido a otro programa')),
+										array('value' => t('Voluntariamente dejó de asistir a los servicios o programas')),
+										array('value' => t('Otro (favor especificar)')),
+								),
+						),),
+		
+		);
+		
+		
+		
+		if (! _aj_activities_ ($uuid)) {
+		
+			$form['exit']['25'] = array(
+					'#type'=>'item',
+					'#title'=> t('Esta opcion no debe ser seleccionada. El participante no tiene servicios recibidos, registrados en plataforma. Si continua, no podra guardar el formulario.'),
+					'#required' => False,
+					'#states' => array(
+							'visible'=>array(
+									'input[name="23"]'=> array ('value'=> t('Completó asistencia a servicios o programa en que participó'),
+		
+												
+									),
+							),
+					),
+			);
+		
+		
+		}
+		
+		
+		$form['actions'] = array('#type' => 'actions');
+		
+		$form['actions']['cancel'] = array(
+				'#type' => 'submit',
+				'#prefix' => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<div style="display: inline-block; width: 200px;" class = "remove"><br>',
+				'#sufix' => '</div> <br>',
+				'#value' => t('Cancelar'),
+				'#limit_validation_errors' => array(),
+				'#submit' => array('ajregistration_form_submit'),
+				'#weight' => 100,
+		);
+		
+		$form['actions']['submit'] = array(
+				'#type' => 'submit',
+				'#prefix' => '',
+				'#sufix' => '',
+				'#value' => t('Guardar'),
+				'#weight' => 100,
+		);
+		
+		return $form;
+	}
+}
 /**
  * This is the hook implementation for _form_submit
  * @param unknown $form
  * @param unknown $form_state
  */
-function ajexit_form_submit($form, &$form_state) {
+/* 
+$urlParams = drupal_get_query_parameters();
+$uuid = $urlParams['uuid'];
+*/
+
+
+	function ajexit_form_submit($form, &$form_state) {
 
 	if ( $form_state['clicked_button']['#value'] === 'Cancelar' ) {
 		drupal_set_message('Formulario descartado', 'warning');
@@ -546,6 +1016,9 @@ function ajexit_form_submit($form, &$form_state) {
  	$_22 = $form_state['values']['22'];
     $_22_date = $_22['year'].'-'. (strlen($_22['month']) === 1? '0'.$_22['month']:$_22['month']).'-'.(strlen($_22['day']) === 1? '0'.$_22['day']:$_22['day']);
 
+   
+    if (_aj_activities_ ($uuid)){
+    
 	_ajexit_insert_data(
 			$form_state['values']['9'],
 			$form_state['values']['9A'],
@@ -554,13 +1027,13 @@ function ajexit_form_submit($form, &$form_state) {
 			$form_state['values']['11'],
 			$form_state['values']['11A'],
 			$form_state['values']['11B_1'],
-			$form_state['values']['12'],
-			$form_state['values']['12A'],
+			//$form_state['values']['12'],
+			//$form_state['values']['12A'],
 			$form_state['values']['13'],
 			$form_state['values']['13A'],
-			$form_state['values']['13B'],
+			$form_state['values']['13B'],/*
 			$form_state['values']['14A'],
-			$form_state['values']['14B'],
+			$form_state['values']['14B']*/
 			$form_state['values']['15A'],
 			$form_state['values']['15B'],
 			$form_state['values']['15C'],
@@ -582,7 +1055,23 @@ function ajexit_form_submit($form, &$form_state) {
 	drupal_set_message('El Formulario de Salida ha sido guardado satisfactoriamente para <b>'.$beneficiaryDetails.'</b>!');
 
 	$form_state['redirect'] = 'mis-beneficiarios';
-
+    }
+    else if (!_aj_activities_ ($uuid)){
+    	
+    	_ajexit_insert_data_short(
+    				
+    			$_22_date,
+    			$form_state['values']['23'],
+    			$form_state['values']['23Otro'],
+    			$form_state['values']['24'],
+    			$uuid,
+    			$provider_id);
+    	
+    	drupal_set_message('El Formulario de Salida ha sido guardado satisfactoriamente para <b>'.$beneficiaryDetails.'</b>!');
+    	
+    	$form_state['redirect'] = 'mis-beneficiarios';
+    	 
+    }
 }
 
 /**
@@ -596,36 +1085,11 @@ function ajexit_form_submit($form, &$form_state) {
  */
  function ajexit_form_validate($form, &$form_state) {
 
- 	if (!isset($form['documentation']['9'])) {
- 		return;
- 	}
-
- 	$_9 = $form_state['values']['9'];
-    $_9A = $form_state['values']['9A'];
-    $_9AOtro = $form_state['values']['9AOtro'];
- 	$_11 = $form_state['values']['11'];
-    $_11A = $form_state['values']['11A'];
-    $_11B_1 = $form_state['values']['11B_1'];
- 	$_12 = $form_state['values']['12'];
-    $_12A = $form_state['values']['12A'];
- 	$_13 = $form_state['values']['13'];
-    $_13A = $form_state['values']['13A'];
-    $_13A_date = $_13A['year'].'-'. (strlen($_13A['month']) === 1? '0'.$_13A['month']:$_13A['month']).'-'.(strlen($_13A['day']) === 1? '0'.$_13A['day']:$_13A['day']);
-    $_13B = $form_state['values']['13B'];
- 	$_15A = $form_state['values']['15A'];
- 	$_15B = $form_state['values']['15B'];
- 	$_15C = $form_state['values']['15C'];
- 	$_15D = $form_state['values']['15D'];
- 	$_17 = $form_state['values']['17'];
- 	$_18 = $form_state['values']['18'];
- 	$_19 = $form_state['values']['19'];
- 	$_19Otro = $form_state['values']['19Otro'];
- 	$_22 = $form_state['values']['22'];
-    $_22_date = $_22['year'].'-'. (strlen($_22['month']) === 1? '0'.$_22['month']:$_22['month']).'-'.(strlen($_22['day']) === 1? '0'.$_22['day']:$_22['day']);
- 	$_23 = $form_state['values']['23'];
- 	$_23Otro = $form_state['values']['23Otro'];
-
+ 	 	
 	$now = date('Y-m-d', time());
+
+	$urlParams = drupal_get_query_parameters();
+	$uuid = $urlParams['uuid'];
 
 // 	watchdog('claudia', $_22_date);
 // 	var_dump($_22_date);
@@ -633,6 +1097,79 @@ function ajexit_form_submit($form, &$form_state) {
 // 	form_error($form, t('heyyyyy'));
 
 	// QUESTION 9A AND 9AOtros --------------------------------------------------------------
+	//if(!$_23=='Completó asistencia a servicios o programa en que participó'){
+
+	if (_aj_activities_ ($uuid)){
+		
+		if (!isset($form['documentation']['9'])) {
+			return;
+		}
+		
+		$_9 = $form_state['values']['9'];
+		$_9A = $form_state['values']['9A'];
+		$_9AOtro = $form_state['values']['9AOtro'];
+		$_11 = $form_state['values']['11'];
+		$_11A = $form_state['values']['11A'];
+		$_11B_1 = $form_state['values']['11B_1'];
+		//	$_12 = $form_state['values']['12'];
+		//  $_12A = $form_state['values']['12A'];
+		$_13 = $form_state['values']['13'];
+		$_13A = $form_state['values']['13A'];
+		$_13A_date = $_13A['year'].'-'. (strlen($_13A['month']) === 1? '0'.$_13A['month']:$_13A['month']).'-'.(strlen($_13A['day']) === 1? '0'.$_13A['day']:$_13A['day']);
+		$_13B = $form_state['values']['13B'];
+		$_15A = $form_state['values']['15A'];
+		$_15B = $form_state['values']['15B'];
+		$_15C = $form_state['values']['15C'];
+		$_15D = $form_state['values']['15D'];
+		$_17 = $form_state['values']['17'];
+		$_18 = $form_state['values']['18'];
+		$_19 = $form_state['values']['19'];
+		$_19Otro = $form_state['values']['19Otro'];
+		$_21 = $form_state['values']['21'];
+		$_22 = $form_state['values']['22'];
+		$_22_date = $_22['year'].'-'. (strlen($_22['month']) === 1? '0'.$_22['month']:$_22['month']).'-'.(strlen($_22['day']) === 1? '0'.$_22['day']:$_22['day']);
+		$_23 = $form_state['values']['23'];
+		$_23Otro = $form_state['values']['23Otro'];
+		
+	/*	
+	if (empty($_9)) {
+		form_error($form['documentation']['9'], t('9.¿Conseguiste tu acta de nacimiento luego de entrar a Alerta Joven?: Estos campos son requeridos'));
+	}
+	*/
+	if ($_23==='Completó asistencia a servicios o programa en que participó' or $_23==='Terminó por violar las reglas o requisitos del programa' or $_23==='No pudo comunicarse o encontrar al participante / pérdida de contacto' or $_23==='Abandonó debido a que reincidió en crimen o delincuencia' or
+		$_23==='Las necesidades del participante exceden los servicios del proyecto/ no elegible' or $_23==='Vive o se mudó fuera del área de servicio/se refirió a otro programa de Alerta Joven' or  $_23==='Vive o se mudó fuera del área de servicio/no referido a otro programa' or $_23==='Voluntariamente dejó de asistir a los servicios o programas' or
+		$_23==='Otro (favor especificar)'){ 
+		if (empty($_9)) {
+			form_error($form['documentation']['9'], t('9.¿Conseguiste tu acta de nacimiento luego de entrar a Alerta Joven?: Estos campos son requeridos'));
+		}	
+		if (empty($_11)) {
+			form_error($form['education']['11'], t('11. ¿Estas actualmente asistiendo a una escuela o universidad?'));
+		}
+		if (empty($_13)) {
+			form_error($form['labor']['13'], t('13. ¿Actualmente tienes un trabajo en que te paguen?'));
+		}
+		// QUESTION 15A, 15B, 15C, 15D -------------------------------------------------------------------------------------
+		if (!empty($_15A) && !is_numeric($_15A)) {
+			form_error($form['violence']['15A'], t('15A. ¿Cuántas veces has sido transportado por la policía?: Debe ser un valor numérico'));
+		}
+		if (!empty($_15B) && !is_numeric($_15B)) {
+			form_error($form['violence']['15B'], t('15B. ¿Cuántas veces has sido arrestado por la policía?:  Debe ser un valor numérico'));
+		}
+		if (!empty($_15C) && !is_numeric($_15C)) {
+			form_error($form['violence']['15C'], t('15C. ¿Cuántas veces has sido acusado de cometer algún delito en la fiscalía o policía?: Debe ser un valor numérico'));
+		}
+		if (!empty($_15D) && !is_numeric($_15D)) {
+			form_error($form['violence']['15D'], t('15D. ¿Cuántas veces has sido enviado a un centro de atención integral?: Debe ser un valor numérico'));
+		}
+		if (empty($_17)) {
+			form_error($form['sexual']['17'], t('17. ¿Alguna vez has tenido relaciones sexuales?'));
+		}	
+		if (empty($_21)) {
+			form_error($form['sexual']['21'], t('21.Si quisieras tener sexo, ¿crees que serías capaz de convencer a tu pareja que use un condón en caso que él/ella no quiera?'));
+		}
+		
+	}	
+		
 	if($_9 === 'No') {
 	 	if (empty($_9A)) {
 			form_error($form['documentation']['9A'], t('9A. Si no, ¿cuál es la razón principal por la que no tienes un acta? Marca sólo una opción: Campo requerido'));
@@ -642,9 +1179,18 @@ function ajexit_form_submit($form, &$form_state) {
 			}
 		}
 	}
-
+	//}
 	// QUESTION 11A and 11B.1 --------------------------------------------------------------
-	if ($_11 === 'Sí') {
+	if ($_11 === 'Escuela') {
+		if (empty($_11A)) {
+			form_error($form['education']['11A'], t('11A. ¿Qué grado estás cursando actualmente?: Campo requerido'));
+		}
+		if (empty($_11B_1)) {
+			form_error($form['education']['11B_1'], t('11B.1 ¿Cuál nivel?: Campo requerido'));
+		}
+	}
+	
+	if ($_11 === 'Universidad') {
 		if (empty($_11A)) {
 			form_error($form['education']['11A'], t('11A. ¿Qué grado estás cursando actualmente?: Campo requerido'));
 		}
@@ -653,12 +1199,12 @@ function ajexit_form_submit($form, &$form_state) {
 		}
 	}
 
-	// QUESTION 12A -------------------------------------------------------------------------------------
+	/*/ QUESTION 12A -------------------------------------------------------------------------------------
 	if ($_12 === 'Sí') {
 		if (empty($_12A)) {
 			form_error($form['labor']['12A'], t('12A. Si la respuesta es afirmativa, ¿cuáles cursos?: Campo requerido'));
 		}
-	}
+	} */
 
 	// QUESTION 13A and 13B -------------------------------------------------------------------------------------
 	if ($_13 === 'Sí') {
@@ -707,31 +1253,82 @@ function ajexit_form_submit($form, &$form_state) {
 			}
 		}
 	}
-
+/*
+	if (empty($_21)) {
+		form_error($form['sexual']['21'], t('21. Si quisieras tener sexo, ¿crees que serías capaz de convencer a tu pareja que use un condón en caso que él/ella no quiera?: Campo requerido'));
+	}*/
 	// QUESTION 22 --------------------------------------------------------------
- 	// Check if the date is empty
- 	if (empty($_22_date)) {
+	// Check if the date is empty
+	if (empty($_22_date)) {
 		form_error($form['exit']['22'], t('22. Fecha de Revisión: Estos campo son requeridos'));
 	}
 	// 	Check if date is no later than today
 	if (is_string($_22_date) && strncmp($_22_date, $now, 10) > 0  ) {
 		form_error($form['exit']['22'], t('22. Fecha de Revisión: Esta fecha no puede ser después del día de hoy'));
 	}
- 	// Check if the date is valid and has the right format
-//  	watchdog('claduia', strlen($_22['month']) );
+	// Check if the date is valid and has the right format
+	//  	watchdog('claduia', strlen($_22['month']) );
 	if (is_string($_22_date) && strtotime($_22_date) === FALSE || ((int)$_22['year']) < 2012) {
 		form_error($form['exit']['22'], t('22. Fecha de Revisión: Esta fecha no es válida'));
 	}
-
+	if (is_string($_22_date) && strtotime($_22_date) === FALSE || ((int)$_22['month']) < 10 and ((int)$_22['year']) == 2012) {
+		form_error($form['exit']['22'], t('22. Fecha de Revisión: Este año Mes no es válido'));
+	}
+	
 	// QUESTION 23Otro --------------------------------------------------------------
 	if ($_23 === 'Otro (favor especificar)') {
 		if (empty($_23Otro)) {
-				form_error($form['exit']['23Otro'], t('23.Otro (favor especificar): Campo requerido'));
+			form_error($form['exit']['23Otro'], t('23.Otro (favor especificar): Campo requerido'));
 		}
 	}
+	
+	if (($_23 === 'Completó asistencia a servicios o programa en que participó')and(!_aj_activities_ ($uuid))) {
+	
+		form_error($form['exit']['25'], t('Este Formulario no puede ser guardado. El participante no tiene servicios recibidos, registrados en plataforma.'));
+	
+	}
+	
+		/*if (!_aj_activities_ ($uuid))
+	{
+		form_error($form['exit']['25'], t('<font size="3" color="#FF0000"> Este Formulario no puede ser guardado. El participante no tiene servicios recibidos, registrados en plataforma. </font>'));
+	}*/
+  
  }
-
-
+else if (!_aj_activities_ ($uuid)){
+	
+	$_22 = $form_state['values']['22'];
+	$_22_date = $_22['year'].'-'. (strlen($_22['month']) === 1? '0'.$_22['month']:$_22['month']).'-'.(strlen($_22['day']) === 1? '0'.$_22['day']:$_22['day']);
+	$_23 = $form_state['values']['23'];
+	$_23Otro = $form_state['values']['23Otro'];
+	
+	// QUESTION 22 --------------------------------------------------------------
+	// Check if the date is empty
+	if (empty($_22_date)) {
+		form_error($form['exit']['22'], t('22. Fecha de Revisión: Estos campo son requeridos'));
+	}
+	// 	Check if date is no later than today
+	if (is_string($_22_date) && strncmp($_22_date, $now, 10) > 0  ) {
+		form_error($form['exit']['22'], t('22. Fecha de Revisión: Esta fecha no puede ser después del día de hoy'));
+	}
+	// Check if the date is valid and has the right format
+	//  	watchdog('claduia', strlen($_22['month']) );
+	if (is_string($_22_date) && strtotime($_22_date) === FALSE || ((int)$_22['year']) < 2012) {
+		form_error($form['exit']['22'], t('22. Fecha de Revisión: Esta fecha no es válida'));
+	}
+	if (is_string($_22_date) && strtotime($_22_date) === FALSE || ((int)$_22['month']) < 10 and ((int)$_22['year']) == 2012) {
+		form_error($form['exit']['22'], t('22. Fecha de Revisión: Este año Mes no es válido'));
+	}
+	
+	// QUESTION 23Otro --------------------------------------------------------------
+	if ($_23 === 'Otro (favor especificar)') {
+		if (empty($_23Otro)) {
+			form_error($form['exit']['23Otro'], t('23.Otro (favor especificar): Campo requerido'));
+		}
+	 }	
+	
+   }
+ }
+ 
  /**
   * Implements the hook_permissions
   */
@@ -763,14 +1360,15 @@ function _ajexit_insert_data(
 			$_11,
 			$_11A,
 			$_11B_1,
-			$_12,
-			$_12A,
+		//	$_12,
+		//	$_12A,
 			$_13,
 			$_13A,
 			$_13B,
+		/*
 			$_14A,
 			$_14B,
-			$_15A,
+*/			$_15A,
 			$_15B,
 			$_15C,
 			$_15D,
@@ -804,8 +1402,8 @@ function _ajexit_insert_data(
 		'11Estasactualmente' => $_11,
 		'11AQuégradoestascursandoactualmente' => $_11A,
 		'11B1Cuálnivel' => $_11B_1,
-		'12Hascompletadoa' => $_12,
-		'12ASilarespuestaesafirmativacuálescursos' => $_12A,
+	//	'12Hascompletadoa' => $_12,
+	//	'12ASilarespuestaesafirmativacuálescursos' => $_12A,
 		'13Actualmentetienesuntrabajoenquetepaguen' => $_13,
 		'13AMes' => $_13A['month'],
 		'13AAño' => $_13A['year'],
@@ -831,33 +1429,40 @@ function _ajexit_insert_data(
 	->fields($tableFields);
 	$exit_entry->execute();
 
-	$tableFieldsPrograms = array(
-		'created' => $currentDate,
-		'uuid' => $uuid,
-		'provider_id' => $provider_id,
-		'answer' => 'Participado',
-	);
 
-	foreach ($_14A as $programParticipation) {
-		if ($programParticipation !== 0) {
-			$tableFieldsPrograms['program_id'] = $programParticipation;
-			$exit_programs_entry = db_insert('aj_exit_programs')
-			->fields($tableFieldsPrograms);
-			$exit_programs_entry->execute();
-		}
 	}
 
-	$tableFieldsPrograms['answer'] = 'Completado';
-	foreach ($_14B as $programCompleted) {
-		if ($programCompleted !== 0) {
-			$tableFieldsPrograms['program_id'] = $programCompleted;
-			$exit_programs_entry = db_insert('aj_exit_programs')
-			->fields($tableFieldsPrograms);
-			$exit_programs_entry->execute();
-		}
-	}
-}
 
+	function _ajexit_insert_data_short(
+			$_22,
+			$_23,
+			$_23Otro,
+			$_24,
+			$uuid,
+			$provider_id) {
+		global $user;
+		$currentDate = format_date(time(), 'custom', 'Y-m-d H:i:s');
+	
+		$tableFields =  array(
+				'createdAt' => $currentDate,
+				'lastModifiedAt' => $currentDate,
+				'created' => $currentDate,
+				'uuid' => $uuid,
+				'provider_id' => $provider_id,
+				'user_name' => $user->name,
+				'22FechadeRevisión' => $_22,
+				'23EstatusdeSalida' => $_23,
+				'23AOtro' => $_23Otro,
+				'24Comentarios' => $_24,
+		);
+	
+		$exit_entry = db_insert('aj_exit')
+		->fields($tableFields);
+		$exit_entry->execute();
+	
+	
+	}
+	
 
 /**
  * Get the beneficiary info
@@ -891,3 +1496,167 @@ function _ajexit_alreadyExist($uuid) {
 
 	return !empty($entry);
 }
+function _ajexit_programs($uuid){
+	
+	
+}
+
+function _getBeneficiaryExitActivities($uuid) {
+	
+		$query = db_query(
+						"SELECT field_activity_name_value,
+				field_programname_name_value,activity_id
+FROM
+    aj_attendance
+        JOIN
+    field_data_field_activity_name ON aj_attendance.activity_id = field_data_field_activity_name.entity_id
+    join 
+    field_data_field_activity_program on field_data_field_activity_program.entity_id=field_data_field_activity_name.entity_id
+    join
+    field_data_field_program_name on field_data_field_program_name.entity_id=field_data_field_activity_program.field_activity_program_target_id
+    join
+    field_data_field_programname_name on field_data_field_programname_name.entity_id=field_data_field_program_name.field_program_name_target_id
+WHERE
+    (field_data_field_activity_name.field_activity_name_value LIKE 'Obtienen documentación -%'
+        OR field_data_field_activity_name.field_activity_name_value LIKE 'Obtienen empleo%'
+        OR field_data_field_activity_name.field_activity_name_value LIKE 'Terminan capacitación%'
+        OR field_data_field_activity_name.field_activity_name_value LIKE 'Reinsertados en la escuela%'
+        OR field_data_field_activity_name.field_activity_name_value LIKE 'Graduados de EPC%') and 
+				uuid=:uuid",
+						array(
+										':uuid' => $uuid
+								));
+		/*
+		$result = $query->execute();
+		$Exitactivity=  $result->fetchAll();
+		return !empty($Exitactivity);
+		*/
+		return $query->fetchAll();
+	
+	}
+	// Count the activities per uuid 
+	function _getBeneficiaryExitActivitiesCount($uuid) {
+	
+		$query = db_query(
+				"SELECT activity_id,
+				field_programname_name_value,count(aj_attendance.uuid) as cantidad
+FROM
+    aj_attendance
+        JOIN
+    field_data_field_activity_name ON aj_attendance.activity_id = field_data_field_activity_name.entity_id
+    join
+    field_data_field_activity_program on field_data_field_activity_program.entity_id=field_data_field_activity_name.entity_id
+    join
+    field_data_field_program_name on field_data_field_program_name.entity_id=field_data_field_activity_program.field_activity_program_target_id
+    join
+    field_data_field_programname_name on field_data_field_programname_name.entity_id=field_data_field_program_name.field_program_name_target_id
+WHERE
+   		uuid=:uuid  group by field_data_field_programname_name.entity_id",
+				array(
+						':uuid' => $uuid
+				));
+		/*
+			$result = $query->execute();
+			$Exitactivity=  $result->fetchAll();
+			return !empty($Exitactivity);
+		*/
+		return $query->fetchAll();
+	
+	}
+	
+	function _getBeneficiaryExitActivitiesType($uuid) {
+	
+		$query = db_query(
+				"SELECT
+				field_programname_name_value
+FROM
+    aj_attendance
+        JOIN
+    field_data_field_activity_name ON aj_attendance.activity_id = field_data_field_activity_name.entity_id
+    join
+    field_data_field_activity_program on field_data_field_activity_program.entity_id=field_data_field_activity_name.entity_id
+    join
+    field_data_field_program_name on field_data_field_program_name.entity_id=field_data_field_activity_program.field_activity_program_target_id
+    join
+    field_data_field_programname_name on field_data_field_programname_name.entity_id=field_data_field_program_name.field_program_name_target_id
+WHERE
+     field_data_field_programname_name.entity_id in (2,3,18) and
+				uuid=:uuid",
+				array(
+						':uuid' => $uuid
+				));
+		/*
+			$result = $query->execute();
+			$Exitactivity=  $result->fetchAll();
+			return !empty($Exitactivity);
+		*/
+		return $query->fetchAll();
+	
+	}
+	
+	
+	
+	/**
+	 * Checks if a given uuid already has a survey entry in the database
+	 */
+	function _aj_survey_ ($uuid) {
+	
+		$query = db_select('aj_survey', 'ajsurvey');
+		$query->fields('ajsurvey', array('uuid'));
+		$query->condition('uuid', $uuid);
+		$query->range(0,1);
+	
+		$result = $query->execute();
+		$entry =  $result->fetchAssoc();
+	
+		return !empty($entry);
+	}
+	
+	
+	/**
+	 * Checks if a given uuid already has a activities entries in the database
+	 */
+	function _aj_activities_ ($uuid) {
+	
+		$query = db_select('aj_attendance', 'ajattendance');
+		$query->fields('ajattendance', array('uuid'));
+		$query->condition('uuid', $uuid);
+		$query->range(0,1);
+	
+		$result = $query->execute();
+		$entry =  $result->fetchAssoc();
+	
+		return !empty($entry);
+	}
+	
+	function _ajbeneficiaryprofile_getBeneficiaryActivitiesType($uuid) {
+	
+		$query = db_query(
+				'SELECT field_data_field_program_name.entity_id, activity_id, field_programname_name_value, field_activity_name_value, field_activity_date_value
+			FROM {aj_attendance}
+		join {field_data_field_activity_name} on (activity_id = field_data_field_activity_name.entity_id)
+		join {field_data_field_activity_date} on (activity_id = field_data_field_activity_date.entity_id)
+		join {field_data_field_activity_program} on (activity_id = field_data_field_activity_program.entity_id)
+		join {field_data_field_program_name} on (field_data_field_activity_program.field_activity_program_target_id = field_data_field_program_name.entity_id)
+		join {field_data_field_programname_name} on (field_data_field_programname_name.entity_id = field_data_field_program_name.field_program_name_target_id)
+			WHERE field_data_field_programname_name.entity_id in (2,3,18) and uuid = :uuid
+			order by field_programname_name_value',
+				array(
+						':uuid' => $uuid
+				));
+		return $query->fetchAllAssoc('activity_id');
+	}
+	
+	function _aj_exit_ ($uuid) {
+	
+		$query = db_select('aj_exit', 'ajexit');
+		$query->fields('ajexit', array('uuid'));
+		$query->condition('uuid', $uuid);
+		$query->range(0,1);
+	
+		$result = $query->execute();
+		$entry =  $result->fetchAssoc();
+	
+		return !empty($entry);
+	}
+	

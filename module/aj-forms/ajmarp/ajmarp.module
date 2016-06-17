@@ -56,6 +56,15 @@ function ajmarp_form($form, &$form_state) {
 		return $form;
 	}
 
+	
+	if (_aj_exit_($uuid)) {
+		
+		drupal_set_message(t('Ya existe un Formulario de Salida disponible para <b>'.$beneficiaryDetails.'</b>. No se puede editar este contacto'), 'warning');
+		$form['actions']['cancel'] = array(
+				'#markup' => l(t('Volver a Lista de Beneficiarios'), 'mis-beneficiarios'),
+		);
+		return $form;
+	}
 	$radioOptions = array(
 			1 => t('Hombres que tienen sexo con Hombres'),
 			2 => t('Los/as trabajadores/as del sexo'),
