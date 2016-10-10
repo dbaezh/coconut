@@ -34,17 +34,17 @@ require_once "./lib/couchDocument.php";
 // open client connection with couchDB
 $client = new couchClient($couch_dsn,$couch_db);
 
-$uuidsCSVFileName = 'input/a_completar_sur_futuro_5_oct_2015.csv';
+$uuidsCSVFileName = 'input/encuestas_para_completar_IDDI_Octubre_2016.csv';
 
-$outputCSVFileName = 'output/a_completar_sur_futuro_5_oct_2015_processed.csv';
-$outputCSVFileNameMissing = 'output/a_completar_sur_futuro_5_oct_2015_incomplete.csv';
+$outputCSVFileName = 'output/encuestas_para_completar_IDDI_Octubre_2016_processed.csv';
+$outputCSVFileNameMissing = 'output/encuestas_para_completar_IDDI_Octubre_2016_incomplete.csv';
 
 $uuidsAry = loadUUIDs($uuidsCSVFileName);
 
 $updatedUUIDs = array();
 $missingUUIDs = array();
 
-update2CompleteRegistration($uuidsAry);
+update2CompleteSurvey($uuidsAry);
 
 print2file($outputCSVFileName, $updatedUUIDs);
 print2file($outputCSVFileNameMissing, $missingUUIDs);
@@ -94,7 +94,7 @@ function loadUUIDs($uuidsCSVFileName){
 /**
  * @param $uuidsAry
  */
-function update2CompleteRegistration($uuidsAry) {
+function update2CompleteSurvey($uuidsAry) {
     global $missingUUIDs;
 
     foreach($uuidsAry as $uuid) {
@@ -104,7 +104,7 @@ function update2CompleteRegistration($uuidsAry) {
         //echo "The docID is ".$docId."\n";
         if ($docId != null) {
         	echo ". To update\n";
-//            updateCouchDoc($docId);
+           updateCouchDoc($docId);
         } else{
             echo " NOT PROCESSED.\n";
             array_push($missingUUIDs, $uuid);
@@ -118,12 +118,12 @@ function getDocIdByUUID($uuid)
 {
     $docId = null;
     // DEV
-//     $req_url = 'http://54.204.20.212:5984/coconut/_design/coconut/_view/byUUID?key=%22'.$uuid.'%22&include_docs=true';
-//     $req_url_if_exits = 'http://54.204.20.212:5984/coconut/_design/coconut/_view/byUUIDForReportActions?key=%22'.$uuid.'%22&include_docs=true';
+    $req_url = 'http://54.204.20.212:5984/coconut/_design/coconut/_view/byUUID?key=%22'.$uuid.'%22&include_docs=true';
+    $req_url_if_exits = 'http://54.204.20.212:5984/coconut/_design/coconut/_view/byUUIDForReportActions?key=%22'.$uuid.'%22&include_docs=true';
 
     // PROD
-    $req_url = 'http://107.20.181.244:5984/coconut/_design/coconut/_view/byUUID?key=%22'.$uuid.'%22&include_docs=true';
-    $req_url_if_exits = 'http://107.20.181.244:5984/coconut/_design/coconut/_view/byUUIDForReportActions?key=%22'.$uuid.'%22&include_docs=true';
+//     $req_url = 'http://107.20.181.244:5984/coconut/_design/coconut/_view/byUUID?key=%22'.$uuid.'%22&include_docs=true';
+//     $req_url_if_exits = 'http://107.20.181.244:5984/coconut/_design/coconut/_view/byUUIDForReportActions?key=%22'.$uuid.'%22&include_docs=true';
 
     $request = new Http_Request($req_url_if_exits); // Create request object
     $request->setMethod(Http_Request_Data::METHOD_GET);
@@ -178,13 +178,6 @@ function getDocIdByUUID($uuid)
    	 	return $lastRecentlyUpdatedSurvey['id'];
     }
 
-
-//     if ( isset($rows[0]) && array_key_exists('id', $rows[0])) {
-//         // assume the first row is the registration
-//         $docId = $rows[0]['id'];
-//     }
-
-
 }
 
 /**
@@ -207,7 +200,6 @@ function getCouchCurrentDate() {
 
 function updateCouchDoc($docId) {
     global $client, $updatedUUIDs;
-
     try {
         $doc = $client->getDoc($docId);
 
