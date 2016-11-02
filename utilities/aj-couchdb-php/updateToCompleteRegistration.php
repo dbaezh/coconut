@@ -19,10 +19,10 @@ spl_autoload_register('autoLoader');
 
 
 /****** PRODUCTION **************/
-// $couch_dsn = "http://107.20.181.244:5984/";
+$couch_dsn = "http://107.20.181.244:5984/";
 
 /****** DEVELOPMENT *****************/
-$couch_dsn = "http://54.204.20.212:5984/";
+// $couch_dsn = "http://54.204.20.212:5984/";
 
 date_default_timezone_set("America/Santo_Domingo");
 $couch_db = "coconut";
@@ -34,10 +34,10 @@ require_once "./lib/couchDocument.php";
 // open client connection with couchDB
 $client = new couchClient($couch_dsn,$couch_db);
 
-$uuidsCSVFileName = 'input/a_completar_sur_futuro_5_oct_2015.csv';
+$uuidsCSVFileName = 'input/a_completar_encuestas_sin_registro_2016.csv';
 
-$outputCSVFileName = 'output/a_completar_sur_futuro_5_oct_2015_processed.csv';
-$outputCSVFileNameMissing = 'output/a_completar_sur_futuro_5_oct_2015_missingUUIDs.csv';
+$outputCSVFileName = 'output/a_completar_encuestas_sin_registro_2016_processed.csv';
+$outputCSVFileNameMissing = 'output/a_completar_encuestas_sin_registro_2016_missingUUIDs.csv';
 
 $uuidsAry = loadUUIDs($uuidsCSVFileName);
 
@@ -104,7 +104,7 @@ function update2CompleteRegistration($uuidsAry) {
         //echo "The docID is ".$docId."\n";
         if ($docId != null) {
         	echo ". To update \n";
-//           updateCouchDoc($docId);
+             updateCouchDoc($docId);
         } else{
             echo " NOT PROCESSED.\n";
             array_push($missingUUIDs, $uuid);

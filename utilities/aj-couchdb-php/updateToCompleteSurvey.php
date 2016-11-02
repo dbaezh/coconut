@@ -19,10 +19,10 @@ spl_autoload_register('autoLoader');
 
 
 /****** PRODUCTION **************/
-// $couch_dsn = "http://107.20.181.244:5984/";
+$couch_dsn = "http://107.20.181.244:5984/";
 
 /****** DEVELOPMENT *****************/
-$couch_dsn = "http://54.204.20.212:5984/";
+// $couch_dsn = "http://54.204.20.212:5984/";
 
 date_default_timezone_set("America/Santo_Domingo");
 $couch_db = "coconut";
@@ -34,10 +34,10 @@ require_once "./lib/couchDocument.php";
 // open client connection with couchDB
 $client = new couchClient($couch_dsn,$couch_db);
 
-$uuidsCSVFileName = 'input/encuestas_para_completar_IDDI_Octubre_2016.csv';
+$uuidsCSVFileName = 'input/encuestas_para_completar_Casa_Abierta_Nov1_2016.csv';
 
-$outputCSVFileName = 'output/encuestas_para_completar_IDDI_Octubre_2016_processed.csv';
-$outputCSVFileNameMissing = 'output/encuestas_para_completar_IDDI_Octubre_2016_incomplete.csv';
+$outputCSVFileName = 'output/encuestas_para_completar_Casa_Abierta_Nov1_2016_complete.csv';
+$outputCSVFileNameMissing = 'output/encuestas_para_completar_ICasa_Abierta_Nov1_2016_incomplete.csv';
 
 $uuidsAry = loadUUIDs($uuidsCSVFileName);
 
