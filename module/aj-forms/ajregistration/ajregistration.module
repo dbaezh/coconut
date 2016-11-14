@@ -2198,7 +2198,7 @@ function _ajregistration_possibleDuplicate($names, $lastname, $dateOfBirth, $pro
 	$query = db_query(
 			'SELECT uuid, nombre, apellido, dob
 			FROM {aj_registration}
-			WHERE año = :year and mes = :month and día = :day and provider_id = :provider_id
+			WHERE CAST(año AS UNSIGNED) = :year and CAST(mes AS UNSIGNED) = :month and CAST(día AS UNSIGNED) = :day and provider_id = :provider_id
 			and nombre REGEXP :name and apellido like :lastname',
 			array(':year' => ($dateOfBirth['year']),
 				  ':month' => ($dateOfBirth['month']),
