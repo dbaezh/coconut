@@ -12,7 +12,7 @@
 function ajparticipants_help($path, $arg) {
 	switch ($path) {
 		case "admin/help#ajparticipants":
-			return '<p>' . t("Implementation of the List of Participants") . '</p>';
+			return '<p>' . t("Implementation of List of Participants") . '</p>';
 			break;
 	}
 }
@@ -95,7 +95,8 @@ function ajparticipants_form($form, &$form_state) {
 	$form['table_fieldset']['table_init'] = array(
 			'#markup' => '<table>'
 	);
-	 $form['table_fieldset']['header_check'] = array(
+	
+	$form['table_fieldset']['header_check'] = array(
 	 			'#type' => 'item',
 	 			'#title' => t('¿Cotejar?'),
 	 			'#prefix' => '<tr><th>',
@@ -729,7 +730,7 @@ function ajparticipants_form($form, &$form_state) {
   	}
   	if(!isset($form['checked_table_fieldset']['hidden_checked_options'])) {
 		if (isset($form_state['values']['hidden_checked_options'])) {
-			watchdog('claudia', 'nothing for add-to-db ('.count(explode(';',$form_state['values']['hidden_checked_options'])).'): '.$form_state['values']['hidden_checked_options']);
+// 			watchdog('claudia', 'nothing for add-to-db ('.count(explode(';',$form_state['values']['hidden_checked_options'])).'): '.$form_state['values']['hidden_checked_options']);
   			$form['checked_table_fieldset']['hidden_checked_options'] = array(
 	   			'#type' => 'hidden',
 	   			'#value' => $form_state['values']['hidden_checked_options'],
@@ -803,8 +804,8 @@ function ajparticipants_form($form, &$form_state) {
 			<div style="display: inline-block; width: 200px;" class = "remove"><br>',
 		'#sufix' => '</div> <br>',
 		'#value' => t('Cancelar'),
-		'#limit_validation_errors' => array(),
-		'#submit' => array('ajregistration_form_submit'),
+// 		'#limit_validation_errors' => array(),
+// 		'#submit' => array('ajregistration_form_submit'),
 		'#weight' => 100,
 	);
 
@@ -843,35 +844,47 @@ function ajax_checked_table_callback($form, $form_state) {
  */
 function ajparticipants_form_submit($form, &$form_state) {
 
-	if ( $form_state['clicked_button']['#value'] === 'Cancelar' ) {
-		drupal_set_message('Formulario descartado', 'warning');
-		$form_state['redirect'] = 'mis-actividades';
-		return;
-	}
+    global $user;
+    $urlParams = drupal_get_query_parameters();
+    $activity_id = $urlParams['activity_id'];
 
-	$urlParams = drupal_get_query_parameters();
-	$activity_id = $urlParams['activity_id'];
-	$provider_id = $urlParams['provider_id'];
-	$activity = _ajparticipants_getActivityInfo($activity_id);
-	$activityDetails = $activity['field_activity_name_value'].' ('.$activity_id.')';
+    if ( $form_state['clicked_button']['#value'] === 'Cancelar' ) {
+      watchdog('ajparticipants', $user->name . ' cancelled editing activityID [' . $activity_id . ']');
+      drupal_set_message('Formulario descartado', 'warning');
+      $form_state['redirect'] = 'mis-actividades';
+      return;
+    }
 
-	$to_be_added = array();
-	$to_be_removed = array();
-	if (isset($form_state['values']['hidden_checked_options'])) {
-		$to_be_added = explode(';', $form_state['values']['hidden_checked_options']);
-	}
-	if (isset($form_state['values']['hidden_to_remove_options'])) {
-		$to_be_removed = explode(';', $form_state['values']['hidden_to_remove_options']);
-	}
-	_ajparticipants_insert_data(
-			$to_be_added,
-			$to_be_removed,
-			$activity_id,
-			$provider_id);
+  else if ( $form_state['clicked_button']['#value'] === 'Guardar' ) {
 
-	drupal_set_message(t('The List of Participants has been submited succesfully for '.$activityDetails.'!'));
+    $provider_id = $urlParams['provider_id'];
+    $activity = _ajparticipants_getActivityInfo($activity_id);
+    $activityDetails = $activity['field_activity_name_value'].' ('.$activity_id.')';
 
-	$form_state['redirect'] = 'mis-actividades';
+    $to_be_added = array();
+    $to_be_removed = array();
+    if (isset($form_state['values']['hidden_checked_options'])) {
+           $to_be_added = explode(';', $form_state['values']['hidden_checked_options']);
+    }
+    
+    if (isset($form_state['values']['hidden_to_remove_options'])) {
+      $to_be_removed = explode(';', $form_state['values']['hidden_to_remove_options']);
+    }
+    
+    
+    _ajparticipants_insert_data(
+                        $to_be_added,
+                        $to_be_removed,
+                        $activity_id,
+                        $provider_id);
+
+    drupal_set_message(t('The List of Participants has been submited succesfully for '.$activityDetails.'!'));
+
+    $form_state['redirect'] = 'mis-actividades';
+      return;
+    }
+
+    watchdog('ajparticipants', 'ERROR: ' . $user->name . '  did nothing for [' . $activity_id . ']');
 
 }
 
@@ -930,8 +943,8 @@ function _ajparticipants_insert_data(
 		'user_name' => $user->name,
 	);
 
-	watchdog('claudia', implode(';', $to_be_removed));
-	// Adding to db
+	// Adding to db, table = aj_attendance
+	watchdog('ajparticipans',  $user->name . ' is updating activity [' . $activity_id . '] by adding UUIDs: ' . implode(';', $to_be_added));
 	foreach ($to_be_added as $newEntry) {
 		$data = explode('_!_', $newEntry);
 		$tableFields['uuid'] = $data[0];
@@ -940,10 +953,10 @@ function _ajparticipants_insert_data(
 		$attendance_entry->execute();
 	}
 
-	// Removing from db
+	// Adding to db, table = aj_attendance_unckecked
+	watchdog('ajparticipans',  $user->name . ' is updating activity [' . $activity_id . '] by removing UUIDs: ' . implode(';', $to_be_removed));
 	foreach ($to_be_removed as $newEntry) {
 		$data = explode('_!_', $newEntry);
-		watchdog('claudia', $data[0]);
 		$entry_in_db = _ajparticipants_uuidAttendanceEntry($data[0], $activity_id);
 		$tableFields_for_checked = array (
 			'uuid' => $data[0],
@@ -956,16 +969,16 @@ function _ajparticipants_insert_data(
 			'lastModifiedAt' => $currentDate,
 			'created' => $entry_in_db['created'],
 			'changed' => $entry_in_db['changed'],
-			'user_name' => $entry_in_db['user_name']
+			'user_name' => 'Added by: ' . $entry_in_db['user_name'] . '. Removed by: ' . $user->name
 		);
 		$checked_entry = db_insert('aj_attendance_unchecked')
 			->fields($tableFields_for_checked);
 		$checked_entry->execute();
 	}
 
+	// Removing from db, table = aj_attendance
 	foreach ($to_be_removed as $newEntry) {
 		$data = explode ('_!_', $newEntry);
-		watchdog('claudia', $data[0]);
 		$attendance_to_delete_entry =
 				db_delete('aj_attendance')
 					->condition('uuid', $data[0])
