@@ -24,11 +24,10 @@ SELECT distinct
     reg.sexo,
     reg.dob,
     reg.provider_id,
-    reg.provider_name
+    field_agency_name_value as provider_name
 FROM
-    bitnami_drupal7.aj_survey sur
-        JOIN
-    bitnami_drupal7.aj_registration reg ON sur.uuid = reg.uuid
+    bitnami_drupal7.aj_survey sur JOIN bitnami_drupal7.aj_registration reg ON sur.uuid = reg.uuid
+    join bitnami_drupal7.field_data_field_agency_name agencyName on reg.provider_id = agencyName.entity_id
 WHERE
   1 = 1 
 --SWITCH=:collateral
@@ -45,6 +44,8 @@ and reg.Fecha >= :from_date
 --IF=:to_date
 and reg.Fecha <= :to_date
 --END
+
+and reg.provider_id in (:provider_id) 
 
 AND 10Tienesunactadenacimientodominicana = 'No'
 	) uniqueRecords

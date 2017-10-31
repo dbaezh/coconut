@@ -10,4 +10,3 @@ UNION ALL
 SELECT 'Reinsertados en la escuela - ', 'Jóvenes reinsertados en la escuela'
 UNION ALL 
 SELECT 'Graduados de EPC - ', 'Jóvenes graduados de EPC'
-
