@@ -123,6 +123,9 @@ function ajregistration_form($form, &$form_state) {
 	    10 => t('SAMANÁ'),
 	    11 => t('PEDERNALES'),
 	    12 => t('HAITÍ'),
+
+		13 => t('MONTECRISTI'),
+
 	);
 	
 	$HaitiOptions = array(
@@ -147,6 +150,20 @@ function ajregistration_form($form, &$form_state) {
 	    2 => t('EL PINO'),
 	    3 => t('MANUEL BUENO'),
 	    4 => t('JUANA MÉNDEZ'),
+		5 => t('LOS MICHES'),
+		6 => t('RESTAURACIÓN'),
+		7 => t('LOS LOCUTORES'),
+		8 => t('BENITO MONCION'),
+		9 => t('LAS PALMAS'),
+		10 => t('BELLER'),
+		11 => t('NORTE'),
+		12 => t('LA MANICERA'),
+		13 => t('LOS MINA'),
+		14 => t('LA MARA'),
+		15 => t('BRISA DEL MASACRE'),
+		16 => t('LOS ARROYOS'),
+		17 => t('EL ASILO'),
+		18 => t('BRISA DE LOYOLA'),
 	);
 	
 	$DajabonLomaDeCabreraOptions = array(
@@ -245,6 +262,19 @@ function ajregistration_form($form, &$form_state) {
 		42 => t('ENSANCHE MELLA 1'),
 		43 => t('EL INGENIO ARRIBA'),
 		44 => t('PADRE LAS CASA'),
+		45 => t('LA PIÑA'),
+		46 => t('VILLA GLORIA'),
+		47 => t('SAN ANTONIO'),
+		48 => t('LA UNION PRIMAVERA'),
+		49 => t('VILLA ROSA'),
+		50 => t('ALTO BONITO'),
+		51 => t('LA UNION SEGUNDO'),
+		52 => t('INGENIO ARRIBA'),
+		53 => t('CERRO DE GURABO'),
+		54 => t('VILLA GLORIA'),
+		55 => t('LA PAZ'),
+		56 => t('INCA 2'),
+		57 => t('ENSUEÑO'),
 );
 
 	$SantiagoVillaBisonoOptions = array(
@@ -311,6 +341,10 @@ function ajregistration_form($form, &$form_state) {
 	    9 => t('SABANETA DE CANGREJOS'),
 	    10 => t('EL SAMÁN'),
 	    11 => t('LOS CARTONES'),
+		12 => t('VILLAS CAROLINA'),
+		13 => t('PALM VILLAGE'),
+		14 => t('BARRIO ESPAÑA'),
+		15 => t('SOSUA MAR'),
 	);
 
 	$PuertoPlataCabareteOptions = array(
@@ -489,6 +523,11 @@ function ajregistration_form($form, &$form_state) {
 	    10 => t('EL INVI'),
 	    11 => t('BELLA VISTA'),
 	    12 => t('VIETNAM'),
+		13 => t('VILLA LISA'),
+		14 => t('DON GELO'),
+		15 => t('BARCEQUILLO'),
+		16 => t('SAN JOSE'),
+		17 => t('LA ROSA'),
 	);
 
 	$SanCristobalVillaAltagraciaOptions = array(
@@ -531,6 +570,15 @@ function ajregistration_form($form, &$form_state) {
 	    21 => t('LA AGUSTINA'),
 	    22 => t('EL GALA'),
 	    23 => t('EL CALICHE'),
+		24 => t('VILLA CAROLINA'),
+		25 => t('VILLA CAROLINA'),
+		26 => t('LOS PINOS'),
+		27 => t('BUENAS NOCHES'),
+		28 => t('LA ESPERANZA'),
+		29 => t('SAN RAFAEL'),
+		30 => t('AZUL'),
+		31 => t('LA ALTAGRACIA'),
+		32 => t('EL AGUACATE'),
 	);
 
 	$SantoDomingoBocaChicaOptions = array(
@@ -561,6 +609,7 @@ function ajregistration_form($form, &$form_state) {
 	    25 => t('MI PROGRESO'),
 	    26 => t('BRISAS DEL NORTE (LOS BOTAOS)'),
 	    26 => t('LA VICTORIA'),
+		27 => t('VISTA ALEGRE'),
 	);
 
 	$SantoDomingoLaVictoriaOptions = array(
@@ -592,6 +641,7 @@ function ajregistration_form($form, &$form_state) {
 		3 => t('ALTOS DE CHAVON'),
 		4 => t('BARRIO LANDIA'),
 	  	5 => t('ZONA FRANCA'),
+		6 => t('EL PLAY'),
 	);
 
 	$SantoDomingoOesteOptions = array(
