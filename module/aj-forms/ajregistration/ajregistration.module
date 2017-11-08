@@ -208,6 +208,7 @@ function ajregistration_form($form, &$form_state) {
 	    4 => t('LOS MAJINOS'),
 	    5 => t('SANTA ANA'),
 	    6 => t('VILLA OCOA'),
+	    7 => t('BARRIO NUEVO'),
 	);
 
 	$SantiagoOptions = array(
@@ -532,6 +533,7 @@ function ajregistration_form($form, &$form_state) {
 		19 => t('BARRIO CHINO'),
 		20 => t('LOS COQUITOS'),
 		21 => t('LOS BARRANCONES'),
+		22 => t('BOCA DE BURRO'),
 	);
 
 	$SanCristobalVillaAltagraciaOptions = array(
