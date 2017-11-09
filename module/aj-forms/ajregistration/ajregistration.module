@@ -534,6 +534,10 @@ function ajregistration_form($form, &$form_state) {
 		20 => t('LOS COQUITOS'),
 		21 => t('LOS BARRANCONES'),
 		22 => t('BOCA DE BURRO'),
+		23 => t('EL DISTRITO'),
+		24 => t('FLAMBOYAN'),
+		25 => t('EL CALDERITO'),
+		26 => t('LA LOMA'),
 	);
 
 	$SanCristobalVillaAltagraciaOptions = array(
