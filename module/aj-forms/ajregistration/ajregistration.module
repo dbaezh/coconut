@@ -538,6 +538,7 @@ function ajregistration_form($form, &$form_state) {
 		24 => t('FLAMBOYAN'),
 		25 => t('EL CALDERITO'),
 		26 => t('LA LOMA'),
+		27 => t('BAJADA DEL MUELLE'),
 	);
 
 	$SanCristobalVillaAltagraciaOptions = array(
