@@ -1,5 +1,6 @@
 SELECT 
     bitnami_drupal7.aj_registration.*,
+    field_agency_name_value AS Provider,
     GROUP_CONCAT(CASE
             WHEN bitnami_drupal7.field_data_field_programname_name.entity_id = 1 THEN bitnami_drupal7.field_data_field_programname_name.field_programname_name_value
         END) AS 'Alfabetización Adultos',
@@ -182,4 +183,4 @@ and aj_registration.Fecha >= :from_date
 and aj_registration.Fecha <= :to_date
 --END
 
-GROUP BY bitnami_drupal7.aj_registration.uuid WITH ROLLUP
+GROUP BY bitnami_drupal7.aj_registration.uuid
