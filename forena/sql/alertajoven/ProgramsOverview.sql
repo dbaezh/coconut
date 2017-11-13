@@ -37,18 +37,18 @@ join bitnami_drupal7.field_data_field_program_name pname on pname.entity_id=pp.e
 join bitnami_drupal7.field_data_field_programname_name pnamename on pnamename.entity_id=pname.field_program_name_target_id
 where 1 = 1 
 and reg.uuid in (select distinct(atten.uuid) from bitnami_drupal7.aj_attendance atten)
-and atten.provider_id = :provider_id
+and atten.provider_id in (:provider_id) 
 
 --SWITCH=:collateral
 -- estecolateralparticipante can have 1 of 4 values: No, Si, No Sabe (which means Don't know), blank (which means no value, not set)
 --CASE=collateral
-and reg.Estecolateralparticipante = 'Sí'
+and reg.Estecolateralparticipante = 'Sí' 
 --CASE=nonCollateral
-and reg.Estecolateralparticipante != 'Sí'
+and reg.Estecolateralparticipante != 'Sí' 
 --END
 
 --IF=:program_id
-and aprog.field_activity_program_target_id = :program_id  
+and pnamename.entity_id in (:program_id)  
 --END
 
 --IF=:from_date

@@ -27,6 +27,7 @@ SUM(case when pnamename.entity_id = 19 then 1 else 0 end) as 'Reduccion de Crime
 SUM(case when pnamename.entity_id = 11 then 1 else 0 end) as 'Retencion escolar',
 SUM(case when pnamename.entity_id = 14 then 1 else 0 end) as 'Servicios de Salud',
 SUM(case when pnamename.entity_id = 15 then 1 else 0 end) as 'Servicios terapeuticos',
+case when reg.uuid in (select aj_survey.uuid from bitnami_drupal7.aj_survey) then 'Si' else 'No' end as 'Encuesta',
 
 COUNT(atten.uuid) as "Total"
 FROM
@@ -42,7 +43,7 @@ join bitnami_drupal7.field_data_field_programname_name pnamename on pnamename.en
 
 where 1 = 1 
 -- and pp.field_program_provider_target_id = 24
-and pp.field_program_provider_target_id = :provider_id  
+and pp.field_program_provider_target_id in (:provider_id)  
 
 
  

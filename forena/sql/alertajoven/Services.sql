@@ -13,7 +13,8 @@ SUM(case when (cast((datediff( NOW(), DOB) / 365) AS SIGNED) is null) then 1 els
 count(Sexo) as 'Gender', 
 count(uuid) as 'TotalUUID',
 field_programname_name_value as 'Program', 
-field_program_provider_target_id as 'provider_id'
+field_program_provider_target_id as 'provider_id',
+field_agency_name_value AS 'provider'
 from
 (select distinct
         aname.field_activity_name_value,
@@ -23,7 +24,8 @@ from
 		pnamename.field_programname_name_value,
 		pp.field_program_provider_target_id,
 		reg.uuid,
-		activity_id
+		activity_id,
+		field_agency_name_value
 FROM bitnami_drupal7.aj_registration reg
 join bitnami_drupal7.aj_attendance atten on atten.uuid=reg.uuid
 join bitnami_drupal7.field_data_field_agency_name provider on provider.entity_id=atten.provider_id
@@ -39,7 +41,7 @@ where 1 = 1
 -- don't really need the 1 = 1 but if the other where's go away, it IS needed.
 -- 
 --IF=:provider_id
-and pp.field_program_provider_target_id = :provider_id  
+and pp.field_program_provider_target_id in (:provider_id)  
 --END
 
 --SWITCH=:collateral
@@ -51,8 +53,9 @@ and reg.Estecolateralparticipante != 'Sí'
 --END
 
 --IF=:program_id
-and aprog.field_activity_program_target_id = :program_id  
+and pnamename.entity_id in (:program_id)  
 --END
+
 --IF=:from_date
 and adate.field_activity_date_value >= :from_date
 --END
