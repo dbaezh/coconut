@@ -205,10 +205,12 @@ function ajregistration_form($form, &$form_state) {
 	    1 => t('BUENA VISTA'),
 	    2 => t('LIMA'),
 	    3 => t('LOS INDIOS'),
-	    4 => t('LOS MAJINOS'),
+	    4 => t('LOS MAGINOS'),
 	    5 => t('SANTA ANA'),
 	    6 => t('VILLA OCOA'),
 	    7 => t('BARRIO NUEVO'),
+	    8 => t('LAS MONJAS'),
+	    9 => t('SAN MIGUEL'),
 	);
 
 	$SantiagoOptions = array(
