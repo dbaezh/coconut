@@ -164,6 +164,7 @@ function ajregistration_form($form, &$form_state) {
 		16 => t('LOS ARROYOS'),
 		17 => t('EL ASILO'),
 		18 => t('BRISA DE LOYOLA'),
+		19 => t('El ABANICO'),
 	);
 	
 	$DajabonLomaDeCabreraOptions = array(
@@ -211,6 +212,10 @@ function ajregistration_form($form, &$form_state) {
 	    7 => t('BARRIO NUEVO'),
 	    8 => t('LAS MONJAS'),
 	    9 => t('SAN MIGUEL'),
+	    10 => t('LAS YAYAS'),
+	    11 => t('LA TUNITA'),
+	    12 => t('LA CAÑA'),
+	    13 => t('LOS MULTIS'),
 	);
 
 	$SantiagoOptions = array(
