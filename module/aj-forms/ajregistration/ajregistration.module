@@ -631,6 +631,7 @@ function ajregistration_form($form, &$form_state) {
 	    26 => t('LA VICTORIA'),
 	    27 => t('VISTA ALEGRE'),
 	    28 => t('PARAISO II'),
+	    29 => t('LOS BOTAO'),
 	);
 
 	$SantoDomingoLaVictoriaOptions = array(
