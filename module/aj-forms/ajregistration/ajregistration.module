@@ -712,6 +712,7 @@ function ajregistration_form($form, &$form_state) {
 	    9 => t('LAS FLORES'),
 	    10 => t('JOSE FRANCISCO PEÑA GOMEZ'),
 	    11 => t('VERDE'),
+	    12 => t('LOS CAYUCOS'),
 	);
 	
 	$PedernalesJoseFranciscoPenaGomezOptions = array(
