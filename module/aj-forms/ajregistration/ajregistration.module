@@ -549,6 +549,9 @@ function ajregistration_form($form, &$form_state) {
 		28 => t('CAMBOYA'),
 		29 => t('ESMERALDA '),
 		30 => t('EL MOLINO'),
+		31 => t('LAS ACACIAS'),
+		32 => t('VILLA CAITIN'),
+		33 => t('NARANJAL'),
 	);
 
 	$SanCristobalVillaAltagraciaOptions = array(
