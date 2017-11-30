@@ -283,6 +283,8 @@ function ajregistration_form($form, &$form_state) {
 		55 => t('LA PAZ'),
 		56 => t('INCA 2'),
 		57 => t('ENSUEÑO'),
+		58 => t('LAS COLINAS'),
+		59 => t('LAS MERCEDES'),
 );
 
 	$SantiagoVillaBisonoOptions = array(
