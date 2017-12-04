@@ -294,7 +294,6 @@ function ajregistration_form($form, &$form_state) {
 		67 => t('VILLA GLORIA'),
 		68 => t('VILLA PROGRESO'),
 		69 => t('VILLA ROSA'),
-		70 => t('REVISANDO...'),
 );
 
 	$SantiagoVillaBisonoOptions = array(
