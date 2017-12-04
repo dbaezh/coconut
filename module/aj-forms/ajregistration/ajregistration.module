@@ -292,9 +292,8 @@ function ajregistration_form($form, &$form_state) {
 		65 => t('TAMBORIL'),
 		66 => t('URBANIZACION REAL'),
 		67 => t('VILLA GLORIA'),
-		68 => t('VILLA GLORIA'),
-		69 => t('VILLA PROGRESO'),
-		70 => t('VILLA ROSA'),
+		68 => t('VILLA PROGRESO'),
+		69 => t('VILLA ROSA'),
 );
 
 	$SantiagoVillaBisonoOptions = array(
