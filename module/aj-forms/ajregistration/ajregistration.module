@@ -123,9 +123,24 @@ function ajregistration_form($form, &$form_state) {
 	    10 => t('SAMANÁ'),
 	    11 => t('PEDERNALES'),
 	    12 => t('HAITÍ'),
-
 		13 => t('MONTECRISTI'),
-
+	    14 => t('ELIAS PIÑA')
+	);
+	
+	$EliasPinaOptions = array(
+	    1 => t('PEDRO SANTANA'),
+	);
+	
+	$EliasPinaPedroSantanaOptions = array(
+	    1 => t('LOS COCOS'),
+	);
+	
+	$MontecristiOptions = array(
+	    1 => t('PEPILLO SALCEDO'),
+	);
+	
+	$MontecristiPepilloSalcedoOptions = array(
+	    1 => t('COPEY')
 	);
 	
 	$HaitiOptions = array(
@@ -209,13 +224,13 @@ function ajregistration_form($form, &$form_state) {
 	    4 => t('LOS MAGINOS'),
 	    5 => t('SANTA ANA'),
 	    6 => t('VILLA OCOA'),
-	    7 => t('BARRIO NUEVO'),
-	    8 => t('LAS MONJAS'),
-	    9 => t('SAN MIGUEL'),
-	    10 => t('LAS YAYAS'),
-	    11 => t('LA TUNITA'),
-	    12 => t('LA CAÑA'),
-	    13 => t('LOS MULTIS'),
+		7 => t('BARRIO NUEVO'),
+		8 => t('LAS MONJAS'),
+		9 => t('SAN MIGUEL'),
+		10 => t('LAS YAYAS'),
+		11 => t('LA TUNITA'),
+		12 => t('LA CAÑA'),
+		13 => t('LOS MULTIS'),
 	);
 
 	$SantiagoOptions = array(
@@ -225,66 +240,76 @@ function ajregistration_form($form, &$form_state) {
 	);
 
 	$SantiagoSantiagoOptions = array(
-		1 => t('GUAYABAL AL MEDIO'),
-		2 => t('PUÑAL ADENTRO'),
-		3 => t('CIENFUEGOS'),
-		4 => t('MONTE RICO'),
-		5 => t('LOS SALADOS'),
-		6 => t('ALTOS DE VIREYA'),
-		7 => t('ESPAILLAT'),
-		8 => t('BERMUDEZ'),
-		9 => t('LA OTRA BANDA'),
-		10 => t('BARACOA'),
-		11 => t('LA JOYA'),
-		12 => t('BELLA VISTA'),
-		13 => t('LA YAGUITA DE PASTOR'),
-		14 => t('LOS JAZMINES'),
-		15 => t('NIBAJE'),
-		16 => t('LOS PEPINES'),
-		17 => t('BUENOS AIRES'),
-		18 => t('HATO DEL YAQUE'),
-		19 => t('CAMBOYA'),
-		20 => t('LOS CIRUELITOS'),
-		21 => t('EL HOYO DE LIA'),
-		22 => t('LA CANELA'),
-		23 => t('PEKIN'),
-		24 => t('ARROYO HONDO'),
-		25 => t('TAMBORIL'),
-		26 => t('GURABO'),
-		27 => t('SABANA IGLESIA'),
-		28 => t('EL EJIDO'),
-		28 => t('ENSANCHE HERMANAS MIRABAL'),
-		29 => t('LOS PLATANITOS'),
-		30 => t('GURABITO'),
-		31 => t('BARRIO LINDO'),
-		32 => t('LA HERREDURA'),
-		33 => t('HATO MAYOR'),
-		34 => t('ENSANCHE LIBERTAD'),
-		35 => t('LA CIENAGA'),
-		36 => t('URBANIZACION REAL'),
-		37 => t('SAN FERNANDO'),
-		38 => t('VILLA PROGRESO'),
-		39 => t('HOYO DE LIMA'),
-		40 => t('CECARA'),
-		41 => t('LOS SANTOS ARRIBA'),
-		42 => t('ENSANCHE MELLA 1'),
-		43 => t('EL INGENIO ARRIBA'),
-		44 => t('PADRE LAS CASA'),
-		45 => t('LA PIÑA'),
-		46 => t('VILLA GLORIA'),
-		47 => t('SAN ANTONIO'),
-		48 => t('LA UNION PRIMAVERA'),
-		49 => t('VILLA ROSA'),
-		50 => t('ALTO BONITO'),
-		51 => t('LA UNION SEGUNDO'),
-		52 => t('INGENIO ARRIBA'),
-		53 => t('CERRO DE GURABO'),
-		54 => t('VILLA GLORIA'),
-		55 => t('LA PAZ'),
-		56 => t('INCA 2'),
-		57 => t('ENSUEÑO'),
-		58 => t('LAS COLINAS'),
-		59 => t('LAS MERCEDES'),
+		1 => t('ALTO BONITO'),
+		2 => t('ALTOS DE VIREYA'),
+		3 => t('ARROYO HONDO'),
+		4 => t('BARACOA'),
+		5 => t('BARRIO LINDO'),
+		6 => t('BELLA VISTA'),
+		7 => t('BERMUDEZ'),
+		8 => t('BUENOS AIRES'),
+		9 => t('CAMBOYA'),
+		10 => t('CAROLINA'),
+		11 => t('CECARA'),
+		12 => t('CERRO DE GURABO'),
+		13 => t('CIENFUEGOS'),
+		14 => t('EL EJIDO'),
+		15 => t('EL HOYO DE LIA'),
+		16 => t('ENSANCHE HERMANAS MIRABAL'),
+		17 => t('ENSANCHE LIBERTAD'),
+		18 => t('ENSANCHE MELLA I'),
+		19 => t('ENSANCHE MELLA II'),
+		20 => t('ENSUEÑO'),
+		21 => t('ESPAILLAT'),
+		22 => t('FRANCISCO DEL ROSARIO'),
+		23 => t('GUAYABAL AL MEDIO'),
+		24 => t('GURABITO'),
+		25 => t('GURABO'),
+		26 => t('HATO DEL YAQUE'),
+		27 => t('HATO MAYOR'),
+		28 => t('HOYO DE LIMA'),
+		29 => t('INCA 2'),
+		30 => t('INGENIO ARRIBA'),
+		31 => t('JACAGUA'),
+		32 => t('JUANA INFANTE'),
+		33 => t('LA CANELA'),
+		34 => t('LA CIENAGA'),
+		35 => t('LA HERREDURA'),
+		36 => t('LA JOYA'),
+		37 => t('LA OTRA BANDA'),
+		38 => t('LA PAZ'),
+		39 => t('LA PIÑA'),
+		40 => t('LA REAL'),
+		41 => t('LA TORRE'),
+		42 => t('LA UNION PRIMAVERA'),
+		43 => t('LA UNION SEGUNDO'),
+		44 => t('LA YAGUITA DE PASTOR'),
+		45 => t('LAS COLINAS'),
+		46 => t('LAS MERCEDES'),
+		47 => t('LOS CIRUELITOS'),
+		48 => t('LOS JAZMINES'),
+		49 => t('LOS PEPINES'),
+		50 => t('LOS PLATANITOS'),
+		51 => t('LOS PRADOS'),
+		52 => t('LOS ROBLES'),
+		53 => t('LOS SALADOS'),
+		54 => t('LOS SANTOS ARRIBA'),
+		55 => t('LOS SOLARES'),
+		56 => t('MONTE RICO'),
+		57 => t('NIBAJE'),
+		58 => t('PADRE LAS CASA'),
+		59 => t('PEKIN'),
+		60 => t('PUÑAL ADENTRO'),
+		61 => t('SABANA IGLESIA'),
+		62 => t('SAN ANTONIO'),
+		63 => t('SAN FERNANDO'),
+		64 => t('SAN LORENZO'),
+		65 => t('TAMBORIL'),
+		66 => t('URBANIZACION REAL'),
+		67 => t('VILLA GLORIA'),
+		68 => t('VILLA GLORIA'),
+		69 => t('VILLA PROGRESO'),
+		70 => t('VILLA ROSA'),
 );
 
 	$SantiagoVillaBisonoOptions = array(
@@ -634,9 +659,9 @@ function ajregistration_form($form, &$form_state) {
 	    25 => t('MI PROGRESO'),
 	    26 => t('BRISAS DEL NORTE (LOS BOTAOS)'),
 	    26 => t('LA VICTORIA'),
-	    27 => t('VISTA ALEGRE'),
-	    28 => t('PARAISO II'),
-	    29 => t('LOS BOTAO'),
+		27 => t('VISTA ALEGRE'),
+		28 => t('PARAISO II'),
+		29 => t('LOS BOTAO'),
 	);
 
 	$SantoDomingoLaVictoriaOptions = array(
@@ -711,13 +736,13 @@ function ajregistration_form($form, &$form_state) {
 	    3 => t('LOS COCUYOS'),
 	    4 => t('LOS ROBLES'),
 	    5 => t('LOS ALTAGRACIANOS'),
-	    6 => t('CAMPO DE AVIACION'),	    
-	    7 => t('NICOLAS FELIZ'),
-	    8 => t('NUEVO AMANECER'),	    
-	    9 => t('LAS FLORES'),
-	    10 => t('JOSE FRANCISCO PEÑA GOMEZ'),
-	    11 => t('VERDE'),
-	    12 => t('LOS CAYUCOS'),
+		6 => t('CAMPO DE AVIACION'),
+		7 => t('NICOLAS FELIZ'),
+		8 => t('NUEVO AMANECER'),
+		9 => t('LAS FLORES'),
+		10 => t('JOSE FRANCISCO PEÑA GOMEZ'),
+		11 => t('VERDE'),
+		12 => t('LOS CAYUCOS'),
 	);
 	
 	$PedernalesJoseFranciscoPenaGomezOptions = array(
@@ -735,6 +760,38 @@ function ajregistration_form($form, &$form_state) {
 		'#empty_option' => t('- Select -'),
 		'#required' => true,
 		'#maxlength' => 70,
+	);
+	
+	$form['2C_elias_pina'] = array(
+	    '#type' => 'select',
+	    '#title' => t('2. Municipio:'),
+	    '#required' => false,
+	    '#options' => drupal_map_assoc($EliasPinaOptions),
+	    '#empty_option' => t('- Select -'),
+	    '#states' => array(
+	        'visible' => array(
+	            'select[name="2D"]' => array('value' => 'ELIAS PIÑA'),
+	        ),
+	        'required' => array (
+	            'select[name="2D"]' => array('value' => 'ELIAS PIÑA'),
+	        )
+	    ),
+	);
+	
+	$form['2C_montecristi'] = array(
+	    '#type' => 'select',
+	    '#title' => t('2. Municipio:'),
+	    '#required' => false,
+	    '#options' => drupal_map_assoc($MontecristiOptions),
+	    '#empty_option' => t('- Select -'),
+	    '#states' => array(
+	        'visible' => array(
+	            'select[name="2D"]' => array('value' => 'MONTECRISTI'),
+	        ),
+	        'required' => array (
+	            'select[name="2D"]' => array('value' => 'MONTECRISTI'),
+	        )
+	    ),
 	);
 	
 	$form['2C_haiti'] = array(
@@ -929,19 +986,36 @@ function ajregistration_form($form, &$form_state) {
 	    ),
 	);
 	
-	$form['2B_dajabon_dajabon'] = array(
+	$form['2B_elias_pina_pedro_santana'] = array(
 	    '#type' => 'select',
 	    '#title' => t('2. Barrio/Comunidad:'),
 	    '#required' => FALSE,
-	    '#options' => drupal_map_assoc($DajabonDajabonOptions),
+	    '#options' => drupal_map_assoc($EliasPinaPedroSantanaOptions),
 	    '#empty_option' => t('- Select -'),
 	    '#states' => array(
 	        'visible' => array(
-	            'select[name="2C_dajabon"]' => array('value' => 'DAJABÓN'),
-	            'select[name="2D"]' => array('value' => 'DAJABÓN'),
+	            'select[name="2C_elias_pina"]' => array('value' => 'PEDRO SANTANA'),
+	            'select[name="2D"]' => array('value' => 'ELIAS PIÑA'),
 	        ),
 	        'required' => array (
-	            'select[name="2D"]' => array('value' => 'DAJABÓN'),
+	            'select[name="2D"]' => array('value' => 'ELIAS PIÑA'),
+	        )
+	    ),
+	);
+	
+	$form['2B_montecristi_pepillo_salcedo'] = array(
+	    '#type' => 'select',
+	    '#title' => t('2. Barrio/Comunidad:'),
+	    '#required' => FALSE,
+	    '#options' => drupal_map_assoc($MontecristiPepilloSalcedoOptions),
+	    '#empty_option' => t('- Select -'),
+	    '#states' => array(
+	        'visible' => array(
+	            'select[name="2C_montecristi"]' => array('value' => 'PEPILLO SALCEDO'),
+	            'select[name="2D"]' => array('value' => 'MONTECRISTI'),
+	        ),
+	        'required' => array (
+	            'select[name="2D"]' => array('value' => 'MONTECRISTI'),
 	        )
 	    ),
 	);
@@ -959,6 +1033,23 @@ function ajregistration_form($form, &$form_state) {
 	        ),
 	        'required' => array (
 	            'select[name="2D"]' => array('value' => 'HAITÍ'),
+	        )
+	    ),
+	);
+	
+	$form['2B_dajabon_dajabon'] = array(
+	    '#type' => 'select',
+	    '#title' => t('2. Barrio/Comunidad:'),
+	    '#required' => FALSE,
+	    '#options' => drupal_map_assoc($DajabonDajabonOptions),
+	    '#empty_option' => t('- Select -'),
+	    '#states' => array(
+	        'visible' => array(
+	            'select[name="2C_dajabon"]' => array('value' => 'DAJABÓN'),
+	            'select[name="2D"]' => array('value' => 'DAJABÓN'),
+	        ),
+	        'required' => array (
+	            'select[name="2D"]' => array('value' => 'DAJABÓN'),
 	        )
 	    ),
 	);
@@ -1822,6 +1913,18 @@ function ajregistration_form_submit($form, &$form_state) {
   	           case 'CABRERA':  $_2B = ($form_state['values']['2B_samana_las_terrenas'] === 'OTRO'? $form_state['values']['2B_Otro']:$form_state['values']['2B_samana_las_terrenas']); break;
   	         }
   	         break;
+         case 'MONTECRISTI':
+           $_2C = $form_state['values']['2C_montecristi'];
+           switch ($_2C) {
+             case 'PEPILLO SALCEDO':  $_2B = ($form_state['values']['2B_montecristi_pepillo_salcedo'] === 'OTRO'? $form_state['values']['2B_Otro']:$form_state['values']['2B_montecristi_pepillo_salcedo']); break;
+           }
+           break;
+         case 'ELIAS PIÑA':
+           $_2C = $form_state['values']['2C_elias_pina'];
+           switch ($_2C) {
+             case 'PEDRO SANTANA':  $_2B = ($form_state['values']['2B_elias_pina_pedro_santana'] === 'OTRO'? $form_state['values']['2B_Otro']:$form_state['values']['2B_elias_pina_pedro_santana']); break;
+           }
+           break;
 		}
 
  		$_regDate = $form_state['values']['registration_date'];
@@ -2043,6 +2146,38 @@ function ajregistration_form_submit($form, &$form_state) {
 
 	// Municipios and Barrios
  		switch($form_state['values']['2D']) {
+ 		  case 'ELIAS PIÑA':
+ 		    $_2C = $form_state['values']['2C_elias_pina'];
+ 		    switch ($_2C) {
+ 		      case 'PEDRO SANTANA':
+ 		        if(empty($form_state['values']['2B_elias_pina_pedro_santana']))
+ 		          form_error($form['2B_elias_pina_pedro_santana'], t('2. Barrio/Comunidad: Campo obligatorio'));
+ 		          else if ($form_state['values']['2B_elias_pina_pedro_santana'] === 'OTRO') {
+ 		            if(empty($form_state['values']['2B_Otro'])){
+ 		              form_error($form['2B_Otro'], t('2. Barrio/Comunidad Otro: Campo obligatorio'));
+ 		            }
+ 		          }
+ 		          break;
+ 		      default:
+ 		        form_error($form['2C_elias_pina'], t('2. Municipio: Campo obligatorio')); break;
+ 		    }
+ 		    break;
+ 		  case 'MONTECRISTI':
+ 		    $_2C = $form_state['values']['2C_montecristi'];
+ 		    switch ($_2C) {
+ 		      case 'PEPILLO SALCEDO':
+ 		        if(empty($form_state['values']['2B_montecristi_pepillo_salcedo']))
+ 		          form_error($form['2B_montecristi_pepillo_salcedo'], t('2. Barrio/Comunidad: Campo obligatorio'));
+ 		          else if ($form_state['values']['2B_montecristi_pepillo_salcedo'] === 'OTRO') {
+ 		            if(empty($form_state['values']['2B_Otro'])){
+ 		              form_error($form['2B_Otro'], t('2. Barrio/Comunidad Otro: Campo obligatorio'));
+ 		            }
+ 		          }
+ 		          break;
+ 		      default:
+ 		        form_error($form['2C_montecristi'], t('2. Municipio: Campo obligatorio')); break;
+ 		    }
+ 		    break;
  		  case 'HAITÍ':
  		    $_2C = $form_state['values']['2C_haiti'];
  		    switch ($_2C) {
