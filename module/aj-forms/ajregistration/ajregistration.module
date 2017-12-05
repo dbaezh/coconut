@@ -294,6 +294,16 @@ function ajregistration_form($form, &$form_state) {
 		67 => t('VILLA GLORIA'),
 		68 => t('VILLA PROGRESO'),
 		69 => t('VILLA ROSA'),
+		70 => t('AVENIDA HATUEY'),
+		71 => t('BARRIO NUEVO'),
+		72 => t('JARDINES DEL NORTE'),
+		73 => t('JARDINES MUNICIPALES'),
+		74 => t('LA TERRAZA'),
+		75 => t('LAS AMERICAS'),
+		76 => t('LAS TRES CRUCES'),
+		77 => t('LOS HOYOS'),
+		78 => t('LOS REYES II'),
+		79 => t('TOLENTINO'),
 );
 
 	$SantiagoVillaBisonoOptions = array(
