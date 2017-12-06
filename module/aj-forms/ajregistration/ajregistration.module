@@ -165,6 +165,13 @@ function ajregistration_form($form, &$form_state) {
 		17 => t('EL ASILO'),
 		18 => t('BRISA DE LOYOLA'),
 		19 => t('El ABANICO'),
+		20 => t('BARRIO NORTE'),
+		21 => t('CLAVELLIDA'),
+		22 => t('LA SANGRE'),
+		23 => t('LAS FLORES'),
+		24 => t('LA FE'),
+		25 => t('LOS MEDICOS'),
+		26 => t('LA GLORIA'),
 	);
 	
 	$DajabonLomaDeCabreraOptions = array(
