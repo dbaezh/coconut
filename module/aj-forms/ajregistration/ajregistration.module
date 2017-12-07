@@ -583,6 +583,8 @@ function ajregistration_form($form, &$form_state) {
 		34 => t('PROYECTO'),
 		35 => t('CALLE EL MEDIO'),
 		36 => t('PRADO REAL'),
+		37 => t('LAS CAOBAS'),
+		38 => t('LOS PLATANITOS'),
 	);
 
 	$SanCristobalVillaAltagraciaOptions = array(
