@@ -635,6 +635,10 @@ function ajregistration_form($form, &$form_state) {
 		29 => t('SAN RAFAEL'),
 		30 => t('AZUL'),
 		31 => t('LA ALTAGRACIA'),
+		32 => t('27 DE FEBRERO'),
+		33 => t('ENSANCHE ESPAILLAT'),
+		34 => t('LA FUENTE'),
+		35 => t('LA RISA'),
 	);
 
 	$SantoDomingoBocaChicaOptions = array(
