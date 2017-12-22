@@ -14,7 +14,8 @@ count(Sexo) as 'Gender',
 count(uuid) as 'TotalUUID',
 field_programname_name_value as 'Program', 
 field_program_provider_target_id as 'provider_id',
-field_agency_name_value AS 'provider'
+field_agency_name_value AS 'provider',
+activity_id
 from
 (select distinct
         aname.field_activity_name_value,
