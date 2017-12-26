@@ -201,19 +201,21 @@ function ajregistration_form($form, &$form_state) {
 	);
 	
 	$SamanaLasTerrenasOptions = array(
-	    1 => t('EL CACAO'),
-	    2 => t('ABRA GRANDE'),
-	    3 => t('BARRIO DEL HOSPITAL'),
-	    4 => t('BARRIO FINO'),
-	    5 => t('LOS PUENTES'),
-	    6 => t('LA GRANJA'),
-		7 => t('EL PUEBLECITO'),
-		8 => t('CAÑO SECO'),
-		9 => t('COME PAN '),
-		10 => t('MONTE ADENTRO'),
-		11 => t('DEL HOSPITAL'),
-		12 => t('CABARETE'),
-	);
+		1 => t('ABRA GRANDE'),
+		2 => t('BARRIO DEL HOSPITAL'),
+		3 => t('BARRIO FINO'),
+		4 => t('CABARETE'),
+		5 => t('CAÑO SECO'),
+		6 => t('COME PAN '),
+		7 => t('DEL HOSPITAL'),
+		8 => t('EL CACAO'),
+		9 => t('EL PUEBLECITO'),
+		10 => t('LA GRANJA'),
+		11 => t('LA SELVA'),
+		12 => t('LOS PAULINOS'),
+		13 => t('LOS PUENTES'),
+		14 => t('MONTE ADENTRO'),
+);
 	
 	$MariaTrinidadSanchezOptions = array(
 	    1 => t('CABRERA'),
