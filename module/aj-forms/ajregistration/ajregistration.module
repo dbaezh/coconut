@@ -1889,7 +1889,7 @@ function ajregistration_form_submit($form, &$form_state) {
   	       case 'SAMANÁ':
   	         $_2C = $form_state['values']['2C_samana'];
   	         switch ($_2C) {
-  	           case 'CABRERA':  $_2B = ($form_state['values']['2B_samana_las_terrenas'] === 'OTRO'? $form_state['values']['2B_Otro']:$form_state['values']['2B_samana_las_terrenas']); break;
+  	           case 'LAS TERRENAS':  $_2B = ($form_state['values']['2B_samana_las_terrenas'] === 'OTRO'? $form_state['values']['2B_Otro']:$form_state['values']['2B_samana_las_terrenas']); break;
   	         }
   	         break;
          case 'MONTECRISTI':
@@ -2201,7 +2201,7 @@ function ajregistration_form_submit($form, &$form_state) {
  		  case 'SAMANÁ':
  		    $_2C = $form_state['values']['2C_samana'];
  		    switch ($_2C) {
- 		      case 'CABRERA':
+ 		      case 'LAS TERRENAS':
  		        if(empty($form_state['values']['2B_samana_las_terrenas']))
  		          form_error($form['2B_samana_las_terrenas'], t('2. Barrio/Comunidad: Campo obligatorio'));
  		          else if ($form_state['values']['2B_samana_las_terrenas'] === 'OTRO') {
