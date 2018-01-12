@@ -673,6 +673,7 @@ function ajregistration_form($form, &$form_state) {
 		33 => t('ENSANCHE ESPAILLAT'),
 		34 => t('LA FUENTE'),
 		35 => t('LA RISA'),
+		36 => t('MARIA AUXILIADORA'),
 	);
 
 	$SantoDomingoBocaChicaOptions = array(
