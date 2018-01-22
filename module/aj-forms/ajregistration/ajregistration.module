@@ -756,6 +756,10 @@ function ajregistration_form($form, &$form_state) {
 		6 => t('LOYOLA'),
 		7 => t('LAS PALMAS DE HERRERA'),
 		8 => t('LA ROSA'),
+		9 => t('ENSANCHE ALTAGRACIA'),
+		10 => t('LOS ALCARRIZOS'),
+		11 => t('CABALLONA'),
+		12 => t('PALAVE'),
 	);
 
 	$SantoDomingoEsteOptions = array(
