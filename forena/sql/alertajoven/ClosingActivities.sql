@@ -11,16 +11,28 @@ provider,
         sum(case when age is null then 1 else 0 end) as unk_age_Total,
         sum(case when sexo = 'F' and age <11 then 1 else 0 end) as Fem_less_11_Total,
         sum(case when sexo = 'F' and age >=11 and age <=14 then 1 else 0 end) as Fem_11_14_Total,
+        sum(case when sexo = 'F' and age >=11 and age <=17 then 1 else 0 end) as Fem_11_17_Total,
+        sum(case when sexo = 'F' and age >=18 and age <=24 then 1 else 0 end) as Fem_18_24_Total,
+        sum(case when sexo = 'F' and age >=15 and age <=19 then 1 else 0 end) as Fem_15_19_Total,
+        sum(case when sexo = 'M' and age >=15 and age <=19 then 1 else 0 end) as Mas_15_19_Total,
+        SUM(CASE WHEN sexo = 'F' AND age >= 20 AND age <= 25 THEN 1 ELSE 0 END) AS fem_20_25_total,
+        SUM(CASE WHEN sexo = 'M' AND age >= 20 AND age <= 25 THEN 1 ELSE 0 END) AS mas_20_25_total,
+        SUM(CASE WHEN sexo = 'F' AND age >= 25 AND age <= 29 THEN 1 ELSE 0 END) AS fem_25_29_total,
+        SUM(CASE WHEN sexo = 'M' AND age >= 25 AND age <= 29 THEN 1 ELSE 0 END) AS mas_25_29_total,
         sum(case when sexo = 'F' and age > 14 then 1 else 0 end) as Fem_great_14_Total,
         sum(case when sexo = 'M' and age < 11 then 1 else 0 end) as Mas_less_11_Total,
         sum(case when sexo = 'M' and age >= 11 and age <= 14 then 1 else 0 end) as Mas_11_14_Total,
         sum(case when sexo = 'M' and age > 14 then 1 else 0 end) as Mas_great_14_Total,
+        SUM(CASE WHEN 9Dóndenaciste = 'República Dominicana' THEN 1 ELSE 0 END) AS rep_dom_total,
+        SUM(CASE WHEN 9Dóndenaciste = 'Haití' THEN 1 ELSE 0 END) AS haiti_total,
+        SUM(CASE WHEN 9Dóndenaciste = 'Otro' THEN 1 ELSE 0 END) AS otro_total,   
         count(uuid) as Total
 FROM
     (SELECT DISTINCT
         sexo,
             DATE_FORMAT(FROM_DAYS(DATEDIFF(DATE_FORMAT(NOW(), '%Y-%m-%d'), regs.dob)), '%Y') + 0 AS age,
             regs.uuid,
+            survey.9Dóndenaciste,
             program_name,
             provider
     FROM
@@ -63,6 +75,7 @@ and field_data_field_programname_name.entity_id in (:program_id)
 ) AS allActivities
     JOIN bitnami_drupal7.aj_attendance atten ON atten.activity_id = allActivities.activity_id
     JOIN bitnami_drupal7.aj_registration regs ON regs.uuid = atten.uuid
+    JOIN bitnami_drupal7.aj_survey survey ON survey.uuid = regs.uuid
     where
     1 = 1
     

@@ -9,6 +9,14 @@ select * from (
     Fem_Total,
     Mas_Total,
     Unk_Total,
+    fem_11_17_total,
+    fem_18_24_total,
+    fem_15_19_total,
+    mas_15_19_total,
+    fem_20_25_total,
+    mas_20_25_total,
+    fem_25_29_total,
+    mas_25_29_total,
     Grand_Total
 FROM
     (select
@@ -17,6 +25,14 @@ FROM
     sum(case when sexo = 'F' then 1 else 0 end) as Fem_Total,
 	sum(case when sexo = 'M' then 1 else 0 end) as Mas_Total,
 	SUM(case when Sexo != 'M' and Sexo != 'F' then 1 else 0 end) as Unk_Total,
+	SUM(CASE WHEN sexo = 'F' AND age >= 11 AND age <= 17 THEN 1 ELSE 0 END) AS fem_11_17_total,
+	SUM(CASE WHEN sexo = 'F' AND age >= 18 AND age <= 24 THEN 1 ELSE 0 END) AS fem_18_24_total,
+	SUM(CASE WHEN sexo = 'F' AND age >= 15 AND age <= 19 THEN 1 ELSE 0 END) AS fem_15_19_total,
+	SUM(CASE WHEN sexo = 'M' AND age >= 15 AND age <= 19 THEN 1 ELSE 0 END) AS mas_15_19_total,
+    SUM(CASE WHEN sexo = 'F' AND age >= 20 AND age <= 25 THEN 1 ELSE 0 END) AS fem_20_25_total,
+    SUM(CASE WHEN sexo = 'M' AND age >= 20 AND age <= 25 THEN 1 ELSE 0 END) AS mas_20_25_total,
+    SUM(CASE WHEN sexo = 'F' AND age >= 25 AND age <= 29 THEN 1 ELSE 0 END) AS fem_25_29_total,
+    SUM(CASE WHEN sexo = 'M' AND age >= 25 AND age <= 29 THEN 1 ELSE 0 END) AS mas_25_29_total,    
     count(distinct uuid) as Grand_Total
     from
 (
@@ -24,6 +40,7 @@ SELECT distinct
     reg.uuid,
     reg.sexo,
     reg.dob,
+    DATE_FORMAT(FROM_DAYS(DATEDIFF(DATE_FORMAT(NOW(), '%Y-%m-%d'), reg.dob)), '%Y') + 0 AS age,
     reg.provider_id,
     agency.field_agency_name_value as provider_name
 FROM

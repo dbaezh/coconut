@@ -59,7 +59,7 @@ and adate.field_activity_date_value <= :to_date
 --END
 
 group by reg.uuid, pnamename.field_programname_name_value ) sub
-group by sub.ProgramName
+group by sub.provider_id, sub.ProgramName
 
 
 
