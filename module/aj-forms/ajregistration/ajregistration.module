@@ -634,6 +634,9 @@ function ajregistration_form($form, &$form_state) {
 		38 => t('LOS PLATANITOS'),
 		39 => t('LA UNION'),
 		40 => t('LAS COLINAS'),
+		41 => t('VILLA MARIA I'),
+		42 => t('EL KILOMBO'),
+		43 => t('LOS RIELES'),
 	);
 
 	$SanCristobalVillaAltagraciaOptions = array(
