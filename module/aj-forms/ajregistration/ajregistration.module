@@ -337,6 +337,13 @@ function ajregistration_form($form, &$form_state) {
 		77 => t('LOS HOYOS'),
 		78 => t('LOS REYES II'),
 		79 => t('TOLENTINO'),
+		80 => t('LOS REYES'),
+		81 => t('LA FE'),
+		82 => t('LA GLORIA'),
+		83 => t('MELLA I'),
+		84 => t('MELLAII'),
+		85 => t('SECTOR 9'),
+		86 => t('SEMILLERO I'),	
 );
 
 	$SantiagoVillaBisonoOptions = array(
