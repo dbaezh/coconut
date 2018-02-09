@@ -645,6 +645,10 @@ function ajregistration_form($form, &$form_state) {
 		42 => t('EL KILOMBO'),
 		43 => t('LOS RIELES'),
 		44 => t('CABON'),
+		45 => t('BROOBLIN'),
+		46 => t('CAJUILITO'),
+		47 => t('KEMA'),
+		48 => t('LIBERTADA'),
 	);
 
 	$SanCristobalVillaAltagraciaOptions = array(
