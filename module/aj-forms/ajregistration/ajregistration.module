@@ -649,6 +649,9 @@ function ajregistration_form($form, &$form_state) {
 		46 => t('CAJUILITO'),
 		47 => t('KEMA'),
 		48 => t('LIBERTADA'),
+		49 => t('EL JENGIBRE'),
+		50 => t('EL HOYO'),
+		51 => t('PROGRESO'),
 	);
 
 	$SanCristobalVillaAltagraciaOptions = array(
