@@ -141,14 +141,11 @@ function ajsurvey_form($form, &$form_state) {
 	$YesNoOptions = array(
 		1 => t('Sí'),
 		2 => t('No'),
-		3 => t('No responde'),
 	);
 
 	$YesNoOptionsRadios = array(
 			'Si' => 'Si', 
-			'No' => 'No', 
-			'No Responde'=> 'No Responde'
-			
+			'No' => 'No', 			
 	);
 		
 	$form['documentation']['registration_date'] = array(
@@ -163,7 +160,6 @@ function ajsurvey_form($form, &$form_state) {
 		1 => t('República Dominicana'),
 		2 => t('Haití'),
 		3 => t('Otro'),
-		4 => 'No responde',
 	);
 
 	$form['documentation']['9'] = array(
@@ -208,7 +204,6 @@ function ajsurvey_form($form, &$form_state) {
 		1 => t('Español'),
 		2 => t('Creole'),
 		3 => t('Otro'),
-		4 => 'No responde',
 	);
 
 	$form['documentation']['11'] = array(
@@ -238,7 +233,6 @@ function ajsurvey_form($form, &$form_state) {
 		3 => t('Casado(a)'),
 		4 => t('Divorciado(a)'),
 		5 => t('Viudo(a)'),
-		6 => 'No responde',
 	);
 
 	$form['documentation']['12'] = array(
@@ -503,7 +497,6 @@ $fifteenOptions = array(
 	'Universitario',
 	'Post grado',
 	'Ninguno',
-	'No responde'
 );
 
 $form['education']['15'] = array(
@@ -518,7 +511,6 @@ $sixteenOptions = array(
 	'Escuela',
 	'Universidad',
 	'Ninguno',
-	'No responde'
 );
 
 $form['education']['16'] = array(
@@ -551,7 +543,6 @@ $sixteenBOptions = array(
 	'6to',
 	'7mo',
 	'8vo',
-	'No responde'
 );
 
 $form['education']['16B'] = array(
@@ -571,7 +562,6 @@ $form['education']['16B'] = array(
 $sixteenCOptions = array(
 	'Básica',
 	'Bachillerato',
-	'No responde'
 );
 
 $form['education']['16C'] = array(
@@ -593,7 +583,6 @@ $sixteenDOptions = array(
 	'Tarde',
 	'Mañana y tarde',
 	'Noche',
-	'No responde'
 );
 
 $form['education']['16D'] = array(
@@ -615,7 +604,6 @@ $seventeenOptions = array(
 	'1 a 2 veces',
 	'3 a 10 veces',
 	'Más de 10 veces',
-	'No responde'
 );
 
 $form['education']['17'] = array(
@@ -652,7 +640,6 @@ $nineteenOptions = array(
 	'Educación Básica para Adultos (EBA)',
 	'Educación Secundaria para Adultos (PREPARA)',
 	'No estoy inscrito en ninguno de estos',
-	'No responde'
 );
 
 $form['education']['19'] = array(
@@ -720,7 +707,6 @@ $twentytwoOptions = array(
 	'Solo estudiar',
 	'Solo trabajar',
 	'No estudio y no trabajo',
-	'No responde'
 );
 
 // $form['education']['22'] = array(
@@ -766,7 +752,6 @@ $twentyfourOptions = array(
 	'Me gustaría mejorar mis calificaciones',
 	'No tengo ninguna meta',
 	'Otra meta',
-	'No responde'
 );
 
 	$form['education']['24'] = array(
@@ -851,7 +836,6 @@ $twentyfourOptions = array(
 			'Colmado/Tienda/Mercado/Kiosco/Almacén',
 			'Sitio de cantera/una mina',
 			'Otros (especifica)',
-			'No responde'
 	);
 	
 	$form['labor']['28'] = array(
@@ -937,7 +921,6 @@ $twentyfourOptions = array(
 			'Ayudante general',
 			'Por cuenta propia',
 			'Otros (especifica)',
-			'No responde'
 	);
 	
 	$form['labor']['32'] = array(
@@ -1015,7 +998,6 @@ $twentyfourOptions = array(
 			'Sitio de construcción',
 			'Sitio de cantera/una mina',
 			'Otros (especifica)',
-			'No responde'
 	);
 	
 	$form['labor']['35'] = array(
@@ -1079,7 +1061,6 @@ $twentyfourOptions = array(
 			'Ayudante general',
 			'Por cuenta propia',
 			'Otros (especifica)',
-			'No responde'
 	);
 	
 	$form['labor']['38'] = array(
@@ -1134,7 +1115,6 @@ $twentyfourOptions = array(
 			'Rara vez',
 			'Nunca',
 			'No sé',
-			'No responde'
 	);
 	
 	$form['security']['41'] = array(
@@ -1166,7 +1146,6 @@ $twentyfourOptions = array(
 			8 => t('8'),
 			9 => t('9'),
 			10 => t('10'),
-			11 => t('No Responde'),
 	);
 	
 	$form['security']['43'] = array(
@@ -1356,7 +1335,6 @@ $twentyfourOptions = array(
 			'Casa',
 			'Escuela',
 			'Barrio',
-			'No responde'
 	);
 	
 	$form['justice']['54A'] = array(
@@ -1763,7 +1741,6 @@ $twentyfourOptions = array(
 			'Heroína',
 			'Éxtasis/MDMA',
 			'Otros (especifica)',
-			'No responde'
 	);
 	$form['drugs']['79'] = array(
 			'#type' => 'checkboxes',
@@ -1952,7 +1929,6 @@ $twentyfourOptions = array(
 			t('Sólo hombres'),
 			t('Hombres y mujeres'),
 			t('Hombres y mujeres juntos'),
-			t('No responde'),
 	);
 	$form['sexual']['84'] = array(
 			'#type' => 'select',
@@ -1974,7 +1950,6 @@ $twentyfourOptions = array(
 			t('8 a 10'),
 			t('11 a 13'),
 			t('14 o más personas'),
-			t('No responde'),
 	);
 	$form['sexual']['85'] = array(
 			'#type' => 'select',
@@ -2073,7 +2048,6 @@ $twentyfourOptions = array(
 			2 => t('En los últimos 6 meses'),
 			3 => t('En los últimos 12 meses'),
 			4 => t('Hace más de 1 año'),
-			5 => t('No responde'),
 	);
 	$form['sexual']['89B'] = array(
 			'#type' => 'select',
@@ -2162,7 +2136,6 @@ $twentyfourOptions = array(
 			'Internet',
 			'Promotor(a) de Salud',
 			'Otro (especifica)',
-			'No responde'
 	);
 	$form['sexual']['94A'] = array(
 			'#type' => 'checkboxes',

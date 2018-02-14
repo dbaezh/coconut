@@ -5,11 +5,11 @@ DATE_FORMAT(field_activity_date_value,'%m-%d-%Y')  as 'ActivityDate',
 SUM(case when Sexo = 'M' then 1 else 0 end) as 'Male', 
 SUM(case when Sexo = 'F' then 1 else 0 end) as 'Female',
 SUM(case when Sexo = 'M' then 0 when Sexo = 'F' then 0 else 1 end) as 'Unknown',
-SUM(case when (cast((datediff( NOW(), DOB) / 365) AS SIGNED) < 11) and (cast((datediff( NOW(), DOB) / 365) AS SIGNED) <= 17) then 1 else 0 end) as 'lessthan11',
-SUM(case when (cast((datediff( NOW(), DOB) / 365) AS SIGNED) >= 11) and (cast((datediff( NOW(), DOB) / 365) AS SIGNED) <= 17) then 1 else 0 end) as 'age11to17',
-SUM(case when (cast((datediff( NOW(), DOB) / 365) AS SIGNED) >= 18) and (cast((datediff( NOW(), DOB) / 365) AS SIGNED) <= 24) then 1 else 0 end) as 'age18to24',
-SUM(case when (cast((datediff( NOW(), DOB) / 365) AS SIGNED) > 24)  then 1 else 0 end) as 'morethan24',
-SUM(case when (cast((datediff( NOW(), DOB) / 365) AS SIGNED) is null) then 1 else 0 end) as 'UnknownAge',
+SUM(case when (cast((datediff( Fecha, DOB) / 365) AS SIGNED) < 11) and (cast((datediff( Fecha, DOB) / 365) AS SIGNED) <= 17) then 1 else 0 end) as 'lessthan11',
+SUM(case when (cast((datediff( Fecha, DOB) / 365) AS SIGNED) >= 11) and (cast((datediff( Fecha, DOB) / 365) AS SIGNED) <= 17) then 1 else 0 end) as 'age11to17',
+SUM(case when (cast((datediff( Fecha, DOB) / 365) AS SIGNED) >= 18) and (cast((datediff( Fecha, DOB) / 365) AS SIGNED) <= 24) then 1 else 0 end) as 'age18to24',
+SUM(case when (cast((datediff( Fecha, DOB) / 365) AS SIGNED) > 24)  then 1 else 0 end) as 'morethan24',
+SUM(case when (cast((datediff( Fecha, DOB) / 365) AS SIGNED) is null) then 1 else 0 end) as 'UnknownAge',
 count(Sexo) as 'Gender', 
 count(uuid) as 'TotalUUID',
 field_programname_name_value as 'Program', 
@@ -26,7 +26,8 @@ from
 		pp.field_program_provider_target_id,
 		reg.uuid,
 		activity_id,
-		field_agency_name_value
+		field_agency_name_value,
+		reg.Fecha
 FROM bitnami_drupal7.aj_registration reg
 join bitnami_drupal7.aj_attendance atten on atten.uuid=reg.uuid
 join bitnami_drupal7.field_data_field_agency_name provider on provider.entity_id=atten.provider_id

@@ -42,7 +42,7 @@ SELECT
 		reg.Apellido,
 		reg.sexo,
 		reg.dob,
-		DATE_FORMAT(FROM_DAYS(DATEDIFF(DATE_FORMAT(NOW(), '%Y-%m-%d'), reg.dob)), '%Y')+0 AS age,
+		DATE_FORMAT(FROM_DAYS(DATEDIFF(reg.Fecha, reg.dob)), '%Y')+0 AS age,
 		provider.entity_id as provider_id,
 		provider.field_agency_name_value as provider_name,
 		pname.entity_id as program_id,

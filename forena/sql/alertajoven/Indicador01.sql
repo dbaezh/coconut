@@ -19,13 +19,13 @@ FROM
          --    END) AS Les_15_Total,
              SUM(CASE
                  WHEN age >= 15 AND age <= 35 THEN 1
-		      ELSE 0
+              ELSE 0
              END) AS Bet_15_35_Total,
           --   SUM(CASE
            --      WHEN age > 24 THEN 1
           --       ELSE 0
        --      END) AS Gre_24_Total,
-	-- 		SUM(CASE
+    --      SUM(CASE
          --       WHEN age is null THEN 1
         --        ELSE 0
        --     END) AS Unk_Total,
@@ -35,7 +35,7 @@ FROM
         reg.provider_id,
             field_agency_name_value as provider_name,
             reg.uuid,
-            DATE_FORMAT(FROM_DAYS(DATEDIFF(DATE_FORMAT(NOW(), '%Y-%m-%d'), reg.dob)), '%Y') + 0 AS age
+            DATE_FORMAT(FROM_DAYS(DATEDIFF(reg.Fecha, reg.dob)), '%Y') + 0 AS age
     FROM
         bitnami_drupal7.aj_survey sur
     JOIN bitnami_drupal7.aj_registration reg ON sur.uuid = reg.uuid 
@@ -57,14 +57,22 @@ and reg.Estecolateralparticipante != 'Sí'
 --IF=:to_date
  and SUBSTRING(sur.createdAt, 1, 10) <= :to_date
 --END
+
+--IF=:from_date_reg
+ and reg.Fecha= :from_date_reg
+--END
+--IF=:to_date_reg
+ and reg.Fecha <= :to_date_reg
+--END
+
 and reg.provider_id != ''
 and field_agency_active_value = 1  
 and field_data_field_agency_name.entity_id != 12              
 
 AND ( 52Enlosúlt= 'Sí' || 
-	62Enlosúlt = 'Sí' ||
+    62Enlosúlt = 'Sí' ||
     63Enlosúlt = 'Sí' ||
-	67Algunavezhasatacadoorobadoaalguien= 'Sí' ||
+    67Algunavezhasatacadoorobadoaalguien= 'Sí' ||
     71Algunave = 'Sí' ||
     72Algunavezhasvendidooayudadoavenderdrogas = 'Sí') 
     
@@ -93,7 +101,7 @@ AND ( 52Enlosúlt= 'Sí' ||
             reg.provider_id,
                 field_agency_name_value as provider_name,
                 reg.uuid,
-                DATE_FORMAT(FROM_DAYS(DATEDIFF(DATE_FORMAT(NOW(), '%Y-%m-%d'), reg.dob)), '%Y') + 0 AS age
+                DATE_FORMAT(FROM_DAYS(DATEDIFF(reg.Fecha, reg.dob)), '%Y') + 0 AS age
         FROM
             bitnami_drupal7.aj_survey sur
         JOIN bitnami_drupal7.aj_registration reg ON sur.uuid = reg.uuid join bitnami_drupal7.field_data_field_agency_name on (sur.provider_id = field_data_field_agency_name.entity_id) join bitnami_drupal7.field_data_field_agency_active on (sur.provider_id = field_data_field_agency_active.entity_id)
@@ -113,6 +121,15 @@ and SUBSTRING(sur.createdAt, 1, 10) >= :from_date
 --IF=:to_date
  and SUBSTRING(sur.createdAt, 1, 10) <= :to_date
 --END
+
+
+--IF=:from_date_reg
+ and reg.Fecha= :from_date_reg
+--END
+--IF=:to_date_reg
+ and reg.Fecha <= :to_date_reg
+--END
+
 and reg.provider_id != ''
 and field_agency_active_value = 1
 and field_data_field_agency_name.entity_id != 12

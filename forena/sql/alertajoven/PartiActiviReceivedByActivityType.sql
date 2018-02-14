@@ -1,14 +1,14 @@
 -- ACCESS=access content
 SELECT
-		reg.uuid,
-		reg.Nombre, 
-		reg.Apellido,
-		reg.Sexo,
-		reg.Provincia,
-		DATE_FORMAT(FROM_DAYS(DATEDIFF(DATE_FORMAT(NOW(), '%Y-%m-%d'), reg.DOB)), '%Y')+0 AS age,
-		COUNT(atten.uuid) as "Services Received"
+        reg.uuid,
+        reg.Nombre, 
+        reg.Apellido,
+        reg.Sexo,
+        reg.Provincia,
+        DATE_FORMAT(FROM_DAYS(DATEDIFF(DATE_FORMAT(fecha, '%Y-%m-%d'), reg.DOB)), '%Y')+0 AS age,
+        COUNT(atten.uuid) as "Services Received"
 FROM
-	bitnami_drupal7.aj_attendance atten 
+    bitnami_drupal7.aj_attendance atten 
 join bitnami_drupal7. aj_registration reg ON reg.uuid = atten.uuid
 join bitnami_drupal7.field_data_field_agency_name provider on provider.entity_id=atten.provider_id
 join bitnami_drupal7.field_data_field_activity_name aname on aname.entity_id=atten.activity_id
@@ -46,6 +46,14 @@ and adate.field_activity_date_value >= :from_date
 
 --IF=:to_date
 and adate.field_activity_date_value <= :to_date
+--END
+
+--IF=:from_date_reg
+and reg.Fecha >= :from_date_reg
+--END
+
+--IF=:to_date_reg
+and reg.Fecha <= :to_date_reg
 --END
 
 GROUP BY atten.uuid

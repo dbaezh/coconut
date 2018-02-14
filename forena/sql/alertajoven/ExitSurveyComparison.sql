@@ -6,7 +6,7 @@ SELECT
     reg.apellido,
     reg.provincia,
     reg.sexo,
-    DATE_FORMAT(FROM_DAYS(DATEDIFF(DATE_FORMAT(NOW(), '%Y-%m-%d'), reg.dob)),
+    DATE_FORMAT(FROM_DAYS(DATEDIFF(reg.fecha, reg.dob)),
             '%Y') + 0 AS age,
     survey.10Tienesunactadenacimientodominicana as '(E)P10-ActaDeNacimiento',
     exi.9Conseguistetuactade as '(S)P9-ActaDeNacimiento',

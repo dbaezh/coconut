@@ -30,7 +30,7 @@ provider,
 FROM
     (SELECT DISTINCT
         sexo,
-            DATE_FORMAT(FROM_DAYS(DATEDIFF(DATE_FORMAT(NOW(), '%Y-%m-%d'), regs.dob)), '%Y') + 0 AS age,
+            DATE_FORMAT(FROM_DAYS(DATEDIFF(regs.Fecha, regs.dob)), '%Y') + 0 AS age,
             regs.uuid,
             survey.9Dóndenaciste,
             program_name,

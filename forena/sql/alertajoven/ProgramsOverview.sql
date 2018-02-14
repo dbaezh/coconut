@@ -6,21 +6,21 @@ SUM(case when sub.Sexo = 'M' then 0 when sub.Sexo = 'F' then 0 else 1 end) as 'U
 SUM(case when sub.Sexo = 'M' then 1 else 0 end)  +
 SUM(case when sub.Sexo = 'F' then 1 else 0 end) +
 SUM(case when sub.Sexo = 'M' then 0 when sub.Sexo = 'F' then 0 else 1 end) as 'TotalGender',
-SUM(case when (cast((datediff( NOW(), sub.DOB) / 365) AS SIGNED) < 11) then 1 else 0 end) as 'lessThan11',
-SUM(case when (cast((datediff( NOW(), sub.DOB) / 365) AS SIGNED) >= 11) and (cast((datediff( NOW(), sub.DOB) / 365) AS SIGNED) < 18) then 1 else 0 end) as 'age11to17',
-SUM(case when (cast((datediff( NOW(), sub.DOB) / 365) AS SIGNED) >= 18) and (cast((datediff( NOW(), sub.DOB) / 365) AS SIGNED) < 25) then 1 else 0 end) as 'age18to24',
-SUM(case when (cast((datediff( NOW(), sub.DOB) / 365) AS SIGNED) >= 25)  then 1 else 0 end) as 'moreThan24',
+SUM(case when (cast((datediff( fecha, sub.DOB) / 365) AS SIGNED) < 11) then 1 else 0 end) as 'lessThan11',
+SUM(case when (cast((datediff( fecha, sub.DOB) / 365) AS SIGNED) >= 11) and (cast((datediff( fecha, sub.DOB) / 365) AS SIGNED) < 18) then 1 else 0 end) as 'age11to17',
+SUM(case when (cast((datediff( fecha, sub.DOB) / 365) AS SIGNED) >= 18) and (cast((datediff( fecha, sub.DOB) / 365) AS SIGNED) < 25) then 1 else 0 end) as 'age18to24',
+SUM(case when (cast((datediff( fecha, sub.DOB) / 365) AS SIGNED) >= 25)  then 1 else 0 end) as 'moreThan24',
 SUM(case when sub.DOB is null then 1 else 0 end) as 'UnknownAge',
-SUM(case when (cast((datediff( NOW(), sub.DOB) / 365) AS SIGNED) < 11) then 1 else 0 end) +
-SUM(case when (cast((datediff( NOW(), sub.DOB) / 365) AS SIGNED) >= 11) and (cast((datediff( NOW(), sub.DOB) / 365) AS SIGNED) < 18) then 1 else 0 end) +
-SUM(case when (cast((datediff( NOW(), sub.DOB) / 365) AS SIGNED) >= 18) and (cast((datediff( NOW(), sub.DOB) / 365) AS SIGNED) < 25) then 1 else 0 end) +
-SUM(case when (cast((datediff( NOW(), sub.DOB) / 365) AS SIGNED) >= 25)  then 1 else 0 end) +
+SUM(case when (cast((datediff( fecha, sub.DOB) / 365) AS SIGNED) < 11) then 1 else 0 end) +
+SUM(case when (cast((datediff( fecha, sub.DOB) / 365) AS SIGNED) >= 11) and (cast((datediff( fecha, sub.DOB) / 365) AS SIGNED) < 18) then 1 else 0 end) +
+SUM(case when (cast((datediff( fecha, sub.DOB) / 365) AS SIGNED) >= 18) and (cast((datediff( fecha, sub.DOB) / 365) AS SIGNED) < 25) then 1 else 0 end) +
+SUM(case when (cast((datediff( fecha, sub.DOB) / 365) AS SIGNED) >= 25)  then 1 else 0 end) +
 SUM(case when sub.DOB is null then 1 else 0 end) as 'TotalAge',
 sub.ProgramName as 'ProgramName', 
 sub.provider_id as 'provider_id',
 sub.Provider as 'Provider'
 FROM (
-SELECT reg.SEXO, reg.DOB,
+SELECT reg.SEXO, reg.DOB, reg.fecha,
 pnamename.field_programname_name_value as 'ProgramName', 
 pp.field_program_provider_target_id as 'provider_id',
 provider.field_agency_name_value as 'Provider',

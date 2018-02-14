@@ -3,7 +3,7 @@ SELECT DISTINCT
     nombre,
     apellido,
     sexo,
-    DATE_FORMAT(FROM_DAYS(DATEDIFF(DATE_FORMAT(NOW(), '%Y-%m-%d'), regs.dob)), '%Y') + 0 AS age,
+    DATE_FORMAT(FROM_DAYS(DATEDIFF(regs.fecha, regs.dob)), '%Y') + 0 AS age,
     9Dóndenaciste,
     provider,
     program_name,
