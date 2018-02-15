@@ -236,19 +236,23 @@ function ajregistration_form($form, &$form_state) {
 	);
 	
 	$AzuaPadreLasCasasOptions = array(
-	    1 => t('BUENA VISTA'),
-	    2 => t('LIMA'),
-	    3 => t('LOS INDIOS'),
-	    4 => t('LOS MAGINOS'),
-	    5 => t('SANTA ANA'),
-	    6 => t('VILLA OCOA'),
-		7 => t('BARRIO NUEVO'),
-		8 => t('LAS MONJAS'),
-		9 => t('SAN MIGUEL'),
-		10 => t('LAS YAYAS'),
-		11 => t('LA TUNITA'),
-		12 => t('LA CAÑA'),
+		1 => t('BARRIO NUEVO'),
+		2 => t('BUENA VISTA'),
+		3 => t('CAONABO'),
+		4 => t('LA CAÑA'),
+		5 => t('LA TUNITA'),
+		6 => t('LAS MESETAS'),
+		7 => t('LAS MONJAS'),
+		8 => t('LAS YAYAS'),
+		9 => t('LIMA'),
+		10 => t('LO SUBURBIO'),
+		11 => t('LOS INDIOS'),
+		12 => t('LOS MAGINOS'),
 		13 => t('LOS MULTIS'),
+		14 => t('SAN MIGUEL'),
+		15 => t('SANTA ANA'),
+		16 => t('VILLA LOS INDIOS'),
+		17 => t('VILLA OCOA'),
 	);
 
 	$SantiagoOptions = array(
