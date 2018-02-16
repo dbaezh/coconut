@@ -258,6 +258,8 @@ function ajregistration_form($form, &$form_state) {
 		20 => t('LAS MESETAS'),
 		21 => t('VILLA LOS INDIOS'),
 		22 => t('LAS YAYAS'),
+		23 => t('LA CANCHA'),
+		24 => t('PUEBLO ABAJO'),
 	);
 
 	$SantiagoOptions = array(
