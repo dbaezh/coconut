@@ -253,6 +253,11 @@ function ajregistration_form($form, &$form_state) {
 		15 => t('SANTA ANA'),
 		16 => t('VILLA LOS INDIOS'),
 		17 => t('VILLA OCOA'),
+		18 => t('LO SUBURBIO'),
+		19 => t('CAONABO'),
+		20 => t('LAS MESETAS'),
+		21 => t('VILLA LOS INDIOS'),
+		22 => t('LAS YAYAS'),
 	);
 
 	$SantiagoOptions = array(
