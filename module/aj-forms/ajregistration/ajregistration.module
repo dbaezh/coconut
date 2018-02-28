@@ -412,7 +412,7 @@ function ajregistration_form($form, &$form_state) {
 		3 => t('LOS RAMONES'),
 	);
 
-	$PuertoPlataSosuaOptions = array(
+		$PuertoPlataSosuaOptions = array(
 		1 => t('SAN ANTONIO'),
 		2 => t('LOS CHARAMICOS'),
 		3 => t('EL BATEY'),
@@ -428,9 +428,14 @@ function ajregistration_form($form, &$form_state) {
 		13 => t('PALM VILLAGE'),
 		14 => t('BARRIO ESPAÑA'),
 		15 => t('SOSUA MAR'),
-		16 => t('EL FRAMBROYAN'),
-		17 => t('LA ROTONDO'),
-		18 => t('CABARETE'),
+		16 => t('LA GRUA'),
+		17 => t('ALTOS DE CHAVON'),
+		18 => t('VILLA ENMANUEL'),
+		19 => t('PERLA MARINA'),
+		20 => t('LOMA BAJITA'),
+		21 => t('EL CHOCO'),
+		22 => t('ENTRADA JIMENEZ'),
+		23 => t('VILLA NAZARETH'),
 	);
 
 	$PuertoPlataCabareteOptions = array(
@@ -454,6 +459,12 @@ function ajregistration_form($form, &$form_state) {
 		4 => t('SEBERET'),
 		5 => t('LOS CARTONES'),
 		6 => t('VILLA DE MONTELLANO'),
+		7 => t('EL MANGO'),
+		8 => t('JUAN LOCKWARD'),
+		9 => t('MATERNIDAD'),
+		10 => t('LA CABALLERIZA'),
+		11 => t('CARABALLO'),
+		12 => t('BOCA NUEVA'),
 	);
 
 	$DuarteOptions = array(
