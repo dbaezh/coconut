@@ -465,6 +465,7 @@ function ajregistration_form($form, &$form_state) {
 		10 => t('LA CABALLERIZA'),
 		11 => t('CARABALLO'),
 		12 => t('BOCA NUEVA'),
+		13 => t('EL SILENCIO'),
 	);
 
 	$DuarteOptions = array(
