@@ -8,34 +8,42 @@ FROM
             Bet_15_35_Total,
        --     Gre_24_Total,
         --    Unk_Total,
-            Grand_Total
+        Fem_Total,
+        Mas_Total,
+        fem_15_19_total,
+        mas_15_19_total,
+        fem_20_24_total,
+        mas_20_24_total,
+        rep_dom_total,
+        haiti_total,
+        otro_total,
+        Grand_Total
     FROM
         (SELECT 
         IFNULL(provider_id, 'ALL_PROVIDERS') AS provider_id,
             provider_name,
-           --  SUM(CASE
-           --      WHEN age < 15 THEN 1
-           --      ELSE 0
-         --    END) AS Les_15_Total,
-             SUM(CASE
-                 WHEN age >= 15 AND age <= 35 THEN 1
-              ELSE 0
-             END) AS Bet_15_35_Total,
-          --   SUM(CASE
-           --      WHEN age > 24 THEN 1
-          --       ELSE 0
-       --      END) AS Gre_24_Total,
-    --      SUM(CASE
-         --       WHEN age is null THEN 1
-        --        ELSE 0
-       --     END) AS Unk_Total,
+            --  SUM(CASE WHEN age < 15 THEN 1 ELSE 0 END) AS Les_15_Total,
+            SUM(CASE WHEN age >= 15 AND age <= 35 THEN 1 ELSE 0 END) AS Bet_15_35_Total,
+            --   SUM(CASE WHEN age > 24 THEN 1 ELSE 0 END) AS Gre_24_Total,
+            --   SUM(CASE WHEN age is null THEN 1 ELSE 0 END) AS Unk_Total,
+            sum(CASE WHEN sexo = 'F' THEN 1 ELSE 0 END) AS Fem_Total,
+            sum(CASE WHEN sexo = 'M' THEN 1 ELSE 0 END) AS Mas_Total,
+            SUM(CASE WHEN sexo = 'F' AND age >= 15 AND age <= 19 THEN 1 ELSE 0 END) AS fem_15_19_total,
+            SUM(CASE WHEN sexo = 'M' AND age >= 15 AND age <= 19 THEN 1 ELSE 0 END) AS mas_15_19_total,
+            SUM(CASE WHEN sexo = 'F' AND age >= 20 AND age <= 24 THEN 1 ELSE 0 END) AS fem_20_24_total,
+            SUM(CASE WHEN sexo = 'M' AND age >= 20 AND age <= 24 THEN 1 ELSE 0 END) AS mas_20_24_total,
+            SUM(CASE WHEN 9Dóndenaciste = 'República Dominicana' THEN 1 ELSE 0 END) AS rep_dom_total,
+            SUM(CASE WHEN 9Dóndenaciste = 'Haití' THEN 1 ELSE 0 END) AS haiti_total,
+            SUM(CASE WHEN 9Dóndenaciste = 'Otro' THEN 1 ELSE 0 END) AS otro_total,       
             COUNT(uuid) AS Grand_Total
     FROM
         (SELECT DISTINCT
-        reg.provider_id,
+            reg.provider_id,
             field_agency_name_value as provider_name,
             reg.uuid,
-            DATE_FORMAT(FROM_DAYS(DATEDIFF(reg.Fecha, reg.dob)), '%Y') + 0 AS age
+            sexo,
+            DATE_FORMAT(FROM_DAYS(DATEDIFF(reg.Fecha, reg.dob)), '%Y') + 0 AS age,
+            9Dóndenaciste
     FROM
         bitnami_drupal7.aj_survey sur
     JOIN bitnami_drupal7.aj_registration reg ON sur.uuid = reg.uuid 

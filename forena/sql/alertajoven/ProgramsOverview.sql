@@ -2,25 +2,23 @@
 SELECT
 SUM(case when sub.Sexo = 'M' then 1 else 0 end) as 'Male', 
 SUM(case when sub.Sexo = 'F' then 1 else 0 end) as 'Female',
-SUM(case when sub.Sexo = 'M' then 0 when sub.Sexo = 'F' then 0 else 1 end) as 'UnknownGender',
-SUM(case when sub.Sexo = 'M' then 1 else 0 end)  +
-SUM(case when sub.Sexo = 'F' then 1 else 0 end) +
-SUM(case when sub.Sexo = 'M' then 0 when sub.Sexo = 'F' then 0 else 1 end) as 'TotalGender',
-SUM(case when (cast((datediff( fecha, sub.DOB) / 365) AS SIGNED) < 11) then 1 else 0 end) as 'lessThan11',
-SUM(case when (cast((datediff( fecha, sub.DOB) / 365) AS SIGNED) >= 11) and (cast((datediff( fecha, sub.DOB) / 365) AS SIGNED) < 18) then 1 else 0 end) as 'age11to17',
-SUM(case when (cast((datediff( fecha, sub.DOB) / 365) AS SIGNED) >= 18) and (cast((datediff( fecha, sub.DOB) / 365) AS SIGNED) < 25) then 1 else 0 end) as 'age18to24',
-SUM(case when (cast((datediff( fecha, sub.DOB) / 365) AS SIGNED) >= 25)  then 1 else 0 end) as 'moreThan24',
-SUM(case when sub.DOB is null then 1 else 0 end) as 'UnknownAge',
-SUM(case when (cast((datediff( fecha, sub.DOB) / 365) AS SIGNED) < 11) then 1 else 0 end) +
-SUM(case when (cast((datediff( fecha, sub.DOB) / 365) AS SIGNED) >= 11) and (cast((datediff( fecha, sub.DOB) / 365) AS SIGNED) < 18) then 1 else 0 end) +
-SUM(case when (cast((datediff( fecha, sub.DOB) / 365) AS SIGNED) >= 18) and (cast((datediff( fecha, sub.DOB) / 365) AS SIGNED) < 25) then 1 else 0 end) +
-SUM(case when (cast((datediff( fecha, sub.DOB) / 365) AS SIGNED) >= 25)  then 1 else 0 end) +
-SUM(case when sub.DOB is null then 1 else 0 end) as 'TotalAge',
+SUM(CASE WHEN sexo = 'F' AND age >= 11 AND age <= 14 THEN 1 ELSE 0 END) AS fem_11_14_total,
+SUM(CASE WHEN sexo = 'M' AND age >= 11 AND age <= 14 THEN 1 ELSE 0 END) AS mas_11_14_total,
+SUM(CASE WHEN sexo = 'F' AND age >= 15 AND age <= 19 THEN 1 ELSE 0 END) AS fem_15_19_total,
+SUM(CASE WHEN sexo = 'M' AND age >= 15 AND age <= 19 THEN 1 ELSE 0 END) AS mas_15_19_total,
+SUM(CASE WHEN sexo = 'F' AND age >= 20 AND age <= 24 THEN 1 ELSE 0 END) AS fem_20_24_total,
+SUM(CASE WHEN sexo = 'M' AND age >= 20 AND age <= 24 THEN 1 ELSE 0 END) AS mas_20_24_total,
+SUM(CASE WHEN 9Dóndenaciste = 'República Dominicana' THEN 1 ELSE 0 END) AS rep_dom_total,
+SUM(CASE WHEN 9Dóndenaciste = 'Haití' THEN 1 ELSE 0 END) AS haiti_total,
+SUM(CASE WHEN 9Dóndenaciste = 'Otro' THEN 1 ELSE 0 END) AS otro_total, 
+count(distinct uuid) as Grand_Total,  
 sub.ProgramName as 'ProgramName', 
 sub.provider_id as 'provider_id',
 sub.Provider as 'Provider'
 FROM (
-SELECT reg.SEXO, reg.DOB, reg.fecha,
+SELECT distinct reg.uuid, reg.SEXO, reg.DOB, reg.fecha, 
+DATE_FORMAT(FROM_DAYS(DATEDIFF(reg.Fecha, reg.dob)), '%Y') + 0 AS age,
+9Dóndenaciste,
 pnamename.field_programname_name_value as 'ProgramName', 
 pp.field_program_provider_target_id as 'provider_id',
 provider.field_agency_name_value as 'Provider',
@@ -28,6 +26,7 @@ aprog.field_activity_program_target_id as 'Program_id'
 
 FROM bitnami_drupal7.aj_registration reg
 join bitnami_drupal7.aj_attendance atten on atten.uuid=reg.uuid
+LEFT JOIN bitnami_drupal7.aj_survey sur ON sur.uuid = reg.uuid
 join bitnami_drupal7.field_data_field_agency_name provider on provider.entity_id=atten.provider_id
 join bitnami_drupal7.field_data_field_activity_name aname on aname.entity_id=atten.activity_id
 join bitnami_drupal7.field_data_field_activity_date adate on adate.entity_id=atten.activity_id

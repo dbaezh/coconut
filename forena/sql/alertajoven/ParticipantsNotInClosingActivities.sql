@@ -36,6 +36,8 @@ WHEN :exit_activity_name = 'Terminan capacitación técnica - ' THEN pnamename.e
 WHEN :exit_activity_name = 'Obtienen documentación - ' THEN pnamename.entity_id in (4) 
 WHEN :exit_activity_name = 'Graduados de EPC - ' THEN pnamename.entity_id in (7)
 WHEN :exit_activity_name = 'Reinsertados en la escuela - ' THEN pnamename.entity_id in (17)
+WHEN :exit_activity_name = 'Terminan Estrella Jóvenes - ' THEN pnamename.entity_id in (21)
+WHEN :exit_activity_name = 'Terminan QLS - ' THEN pnamename.entity_id in (23)
 END
 
 AND reg.uuid NOT IN (SELECT DISTINCT
@@ -51,11 +53,13 @@ FROM
     WHERE
      field_activity_name_value REGEXP
 CASE 
-WHEN :exit_activity_name = 'all' THEN  '.*((Terminan capacitación técnica -)|(Obtienen documentación -)|(Graduados de EPC -)|(Reinsertados en la escuela -)).*'
+WHEN :exit_activity_name = 'all' THEN  '.*((Terminan capacitación técnica -)|(Obtienen documentación -)|(Graduados de EPC -)|(Reinsertados en la escuela -)|(Terminan Estrella Jóvenes - )|(Terminan QLS - )).*'
 WHEN :exit_activity_name = 'Terminan capacitación técnica - ' THEN '.*Terminan capacitación técnica -.*' 
 WHEN :exit_activity_name = 'Obtienen documentación - ' THEN '.*Obtienen documentación -.*' 
 WHEN :exit_activity_name = 'Graduados de EPC - ' THEN '.*Graduados de EPC -.*'
 WHEN :exit_activity_name = 'Reinsertados en la escuela - ' THEN '.*Reinsertados en la escuela -.*'
+when :exit_activity_name = 'Terminan Estrella Jóvenes - ' then '.*Terminan Estrella Jóvenes - .*'
+when :exit_activity_name = 'Terminan QLS - ' then '.*Terminan QLS - .*'
 END
 
 --IF=:provider_id

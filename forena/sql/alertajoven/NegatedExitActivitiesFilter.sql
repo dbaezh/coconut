@@ -8,3 +8,7 @@ UNION ALL
 SELECT 'Reinsertados en la escuela - ', 'Jóvenes que no fueron reinsertados en la escuela'
 UNION ALL 
 SELECT 'Graduados de EPC - ', 'Jóvenes que no se graduaron de EPC'
+UNION ALL 
+SELECT 'Terminan Estrella Jóvenes - ', 'Jóvenes que no han completado Estrella Jóvenes'
+UNION ALL 
+SELECT 'Terminan QLS - ', 'Jóvenes que no han completado QLS'

@@ -18,12 +18,12 @@ select provider_id,
 		sum(case when age >= 11 and age <=17 then 1 else 0 end) as Bet_11_17_Total,
 		sum(case when age >= 18 and age <= 24 then 1 else 0 end) as Bet_18_24_Total,
 	--	sum(case when age > 24 then 1 else 0 end) as greater_24_Total,
-	--	sum(case when age is null then 1 else 0 end) as unk_age_Total,
-	--	sum(case when sexo = 'F' and age <11 then 1 else 0 end) as Fem_less_11_Total,
-		sum(case when sexo = 'F' and age >=11 and age <=14 then 1 else 0 end) as Fem_11_14_Total,
+		sum(case when age is null then 1 else 0 end) as unk_age_Total,
+		sum(case when sexo = 'F' and age <11 then 1 else 0 end) as Fem_less_11_Total,
+		sum(case when sexo = 'F' and age <=14 then 1 else 0 end) as Fem_11_14_Total, -- INCLUYE MENORES DE 11!!!
 	--	sum(case when sexo = 'F' and age > 14 then 1 else 0 end) as Fem_great_14_Total,
-	--	sum(case when sexo = 'M' and age < 11 then 1 else 0 end) as Mas_less_11_Total,
-		sum(case when sexo = 'M' and age >= 11 and age <= 14 then 1 else 0 end) as Mas_11_14_Total,
+		sum(case when sexo = 'M' and age < 11 then 1 else 0 end) as Mas_less_11_Total,
+		sum(case when sexo = 'M' and age <= 14 then 1 else 0 end) as Mas_11_14_Total, -- INCLUYE MENORES DE 11!!!
 	--	sum(case when sexo = 'M' and age > 14 then 1 else 0 end) as Mas_great_14_Total,
 	    sum(case when sexo = 'F' and age >=15 and age <=19 then 1 else 0 end) as Fem_15_19_Total,
         sum(case when sexo = 'M' and age >=15 and age <=19 then 1 else 0 end) as mas_15_19_Total,
@@ -31,10 +31,13 @@ select provider_id,
         SUM(CASE WHEN sexo = 'M' AND age >= 20 AND age <= 24 THEN 1 ELSE 0 END) AS mas_20_24_total,
         SUM(CASE WHEN sexo = 'F' AND age >= 25 AND age <= 29 THEN 1 ELSE 0 END) AS fem_25_29_total,
         SUM(CASE WHEN sexo = 'M' AND age >= 25 AND age <= 29 THEN 1 ELSE 0 END) AS mas_25_29_total,
+        SUM(CASE WHEN 9Dóndenaciste = 'República Dominicana' THEN 1 ELSE 0 END) AS rep_dom_total,
+        SUM(CASE WHEN 9Dóndenaciste = 'Haití' THEN 1 ELSE 0 END) AS haiti_total,
+        SUM(CASE WHEN 9Dóndenaciste = 'Otro' THEN 1 ELSE 0 END) AS otro_total,   
 		count(uuid) as Total
 from
 (
-Select 	distinct provider_id, provider_name, uuid, sexo, age
+Select distinct provider_id, provider_name, uuid, sexo, age, 9Dóndenaciste
 from (
 SELECT 
 		reg.uuid,
@@ -42,6 +45,7 @@ SELECT
 		reg.Apellido,
 		reg.sexo,
 		reg.dob,
+		9Dóndenaciste,
 		DATE_FORMAT(FROM_DAYS(DATEDIFF(reg.Fecha, reg.dob)), '%Y')+0 AS age,
 		provider.entity_id as provider_id,
 		provider.field_agency_name_value as provider_name,
@@ -55,7 +59,8 @@ SELECT
 		aname.field_activity_name_value as activity_name
 FROM
 	bitnami_drupal7.aj_attendance atten 
-join bitnami_drupal7. aj_registration reg ON reg.uuid = atten.uuid
+join bitnami_drupal7.aj_registration reg ON reg.uuid = atten.uuid
+LEFT JOIN bitnami_drupal7.aj_survey sur ON sur.uuid = reg.uuid
 join bitnami_drupal7.field_data_field_agency_name provider on provider.entity_id=atten.provider_id
 join bitnami_drupal7.field_data_field_activity_name aname on aname.entity_id=atten.activity_id
 join bitnami_drupal7.field_data_field_activity_type atype on atten.activity_id=atype.entity_id
