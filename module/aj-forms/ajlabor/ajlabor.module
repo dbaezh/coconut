@@ -103,7 +103,6 @@ function ajlabor_form($form, &$form_state) {
 		'#states' => array(
 				'visible' => array(
 						array('select[name="1"]' => array('value' => 'Sí')),
-						array('select[name="1"]' => array('value' => 'No')),
 				),
 		),
 	);
@@ -384,7 +383,8 @@ function ajlabor_form($form, &$form_state) {
 			'#required' => FALSE,
 			'#states' => array(
 					'visible' => array (
-							array('select[name="1"]' => array('value' => 'No')),
+					    array('select[name="1"]' => array('value' => 'Sí'), array('select[name="4"]' => array('value' => 'Sí'))),
+					    array('select[name="1"]' => array('value' => 'Sí'), array('select[name="4"]' => array('value' => 'No'))),
 					),
 					),
 	);
@@ -398,7 +398,8 @@ function ajlabor_form($form, &$form_state) {
 	    '#required' => FALSE,
 	    '#states' => array(
 	        'visible' => array (
-	            array('select[name="1"]' => array('value' => 'Sí'), array('select[name="4"]' => array('value' => 'Sí')), 'select[name="8"]' => array('value' => 'Sí')),
+	            array('select[name="1"]' => array('value' => 'Sí'), array('select[name="4"]' => array('value' => 'Sí'))),
+	            array('select[name="1"]' => array('value' => 'Sí'), array('select[name="4"]' => array('value' => 'No'))),
 	        ),
 	    ),
 	);
@@ -418,7 +419,8 @@ function ajlabor_form($form, &$form_state) {
 			'#required' => FALSE,
 			'#states' => array(
 					'visible' => array (
-							array('select[name="1"]' => array('value' => 'Sí'), array('select[name="4"]' => array('value' => 'Sí')), 'select[name="8"]' => array('value' => 'Sí')),
+					    array('select[name="1"]' => array('value' => 'Sí'), array('select[name="4"]' => array('value' => 'Sí'))),
+					    array('select[name="1"]' => array('value' => 'Sí'), array('select[name="4"]' => array('value' => 'No'))),
 					),
 			),
 	);
@@ -442,7 +444,8 @@ function ajlabor_form($form, &$form_state) {
 	    '#required' => FALSE,
 	    '#states' => array(
 	        'visible' => array (
-	            array('select[name="1"]' => array('value' => 'Sí'), array('select[name="4"]' => array('value' => 'Sí')), 'select[name="8"]' => array('value' => 'Sí')),
+	            array('select[name="1"]' => array('value' => 'Sí'), array('select[name="4"]' => array('value' => 'Sí'))),
+	            array('select[name="1"]' => array('value' => 'Sí'), array('select[name="4"]' => array('value' => 'No'))),
 	        ),
 	    ),
 	);
@@ -717,15 +720,7 @@ function ajlabor_form_submit($form, &$form_state) {
  	$_15 = $form_state['values']['15'];
  	$_16 = $form_state['values']['16'];
  	$_17 = $form_state['values']['17'];
- 	
- 	if($_1 === 'No') {
- 	  if (empty($_8)) {
- 	    form_error($form['laboral']['8'], t('10. ¿Ya estabas trabajando antes de la capacitación de Alerta Joven?: Campo requerido'));
- 	  }
- 	} else {
- 	  $form_state['values']['8'] = ''; 
- 	}
- 	
+ 	 	
 	if($_1 === 'Sí') {
 	  if (empty($_4_3)) {
 	    form_error($form['laboral']['4_3'], t('2.1. ¿Cuál curso realizaste?: Campo requerido'));
@@ -793,7 +788,16 @@ function ajlabor_form_submit($form, &$form_state) {
 			$form_state['values']['7'] = '';
 		}
 		
-		if ($_8 === 'Sí') {
+		if($_4 === 'Sí'|| $_4 === 'No') {
+		  if (empty($_8)) {
+		    form_error($form['laboral']['8'], t('10. ¿Ya estabas trabajando antes de la capacitación de Alerta Joven?: Campo requerido'));
+		  }
+		} else {
+		  $form_state['values']['8'] = '';
+		}
+		
+		
+		if($_4 === 'Sí'|| $_4 === 'No') {
 		  if (empty($_8_0)) {
 		    form_error($form['laboral']['8_0'], t('11. ¿Cambiaste de lugar de trabajo después de la capacitación de Alerta Joven?: Campo requerido'));
 		  }
@@ -801,7 +805,7 @@ function ajlabor_form_submit($form, &$form_state) {
 		  $form_state['values']['8_0'] = '';
 		}
 		
-		if ($_8 === 'Sí') {
+		if($_4 === 'Sí'|| $_4 === 'No') {
 		  if (empty($_8_1)) {
 		    form_error($form['laboral']['8_1'], t('12. ¿Consideras que tu trabajo actual es mejor que el anterior?: Campo requerido'));
 		  }
@@ -809,7 +813,7 @@ function ajlabor_form_submit($form, &$form_state) {
 		  $form_state['values']['8_1'] = '';
 		}
 		
-		if ($_8 === 'Sí') {
+		if($_4 === 'Sí'|| $_4 === 'No') {
 		  if (empty($_8_2)) {
 		    form_error($form['laboral']['8_2'], t('13. ¿Por qué considera que es un mejor empleo?: Campo requerido'));
 		  }

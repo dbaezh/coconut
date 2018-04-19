@@ -66,10 +66,12 @@ and SUBSTRING(labor.created, 1, 10) >= :from_date
 and SUBSTRING(labor.created, 1, 10) <= :to_date
 --END
 
-AND (4_Actualmentetienesuntrabajoenel = 'Sí'
-|| 9_Enlosultimos12meseshashecho = 'Sí'
-|| 13_Hasrecibidounprestamoatravesdelproyecto = 'Sí'
-|| 14_Tienesunnegociopropio = 'Sí')
+AND (
+(1_HasparticipadoenalguncursodelproyectoAlerta = 'Sí' AND 4_Actualmentetienesuntrabajoenel = 'Sí')
+OR (8_Cuandoiniciasteelcursotecnicoyaestabas = 'Sí' AND 8_3Cambiastedelugardetrabajodespues = 'Sí' AND 13_Hasrecibidounprestamoatravesdelproyecto = 'Sí')
+OR (13_Hasrecibidounprestamoatravesdelproyecto = 'Sí' AND 14_Tienesunnegociopropio = 'Sí')
+OR (13_Hasrecibidounprestamoatravesdelproyecto = 'Sí' AND 14_Tienesunnegociopropio = 'Ya tenía un negocio' AND 16_Siyateniasunnegocioconsiderasquedespuesdel = 'Sí')
+)
 GROUP BY UUID) uniqueRecords
 group by provider_id WITH ROLLUP) rollUP)  as tb1
 

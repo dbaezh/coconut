@@ -10,11 +10,14 @@ select distinct provider.entity_id, provider.field_agency_name_value, activeProv
 	and userRoles.uid =  :current_user
 	and IF(userRoles.rid = 4, -- provider admin
 				if(provider.entity_id = userProvider.field_user_provider_target_id, 1, 0), 
-				if(userRoles.rid = 8, -- case manager
-					if(provider.entity_id = userProvider.field_user_provider_target_id, 1, 0),
-					if(userRoles.rid = 9, -- data entry
-						if(provider.entity_id = userProvider.field_user_provider_target_id, 1, 0),
-						1
+				    if(userRoles.rid = 8, -- case manager
+					   if(provider.entity_id = userProvider.field_user_provider_target_id, 1, 0),
+					       if(userRoles.rid = 9, -- data entry
+						      if(provider.entity_id = userProvider.field_user_provider_target_id, 1, 0),
+						          if(userRoles.rid = 10, -- Provider Consulta
+                                    if(provider.entity_id = userProvider.field_user_provider_target_id, 1, 0),
+						          1    
+						) 
 					)
 				)
 			) 
