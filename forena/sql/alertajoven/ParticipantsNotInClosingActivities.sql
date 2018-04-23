@@ -28,7 +28,16 @@ AND reg.provider_id IN (:provider_id)
 AND reg.Estecolateralparticipante = 'Sí'
 --CASE=nonCollateral
 AND reg.Estecolateralparticipante != 'Sí'
---END    
+--END   
+
+--IF=:from_date
+and reg.Fecha >= :from_date
+--END
+
+--IF=:to_date
+and reg.Fecha <= :to_date
+--END
+ 
 
 AND CASE 
 WHEN :exit_activity_name = 'all' THEN pnamename.entity_id in (3,4,7,17)

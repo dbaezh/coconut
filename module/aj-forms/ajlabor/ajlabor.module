@@ -407,7 +407,6 @@ function ajlabor_form($form, &$form_state) {
 	$_8_1Options = array(
 	    1 => t('Sí'),
 	    2 => t('No'),
-	    3 => t('Es mi primer trabajo'),
 	);
 	
 	$form['laboral']['8_1'] = array(
@@ -432,7 +431,8 @@ function ajlabor_form($form, &$form_state) {
 	    4 => t('Seguridad laboral'),
 	    5 => t('Mejor horario laboral'),
 	    6 => t('Crecimiento profesional'),
-	    7 => t('Estabilidad en el puesto'),	     
+	    7 => t('Estabilidad en el puesto'),
+	    8 => t('Otro'),
 	);
 	
 	$form['laboral']['8_2'] = array(
@@ -446,6 +446,20 @@ function ajlabor_form($form, &$form_state) {
 	        'visible' => array (
 	            array('select[name="1"]' => array('value' => 'Sí'), array('select[name="4"]' => array('value' => 'Sí'))),
 	            array('select[name="1"]' => array('value' => 'Sí'), array('select[name="4"]' => array('value' => 'No'))),
+	        ),
+	    ),
+	);
+	
+	$form['laboral']['8_2Otro'] = array(
+	    '#type' => 'textfield',
+	    '#title' => t('13.Otro (favor especificar):'),
+	    '#default_value' => (isset($existingLaborForm)? $existingLaborForm['8_2Otrofavorespecificar']:null),
+	    '#required' => FALSE,
+	    '#maxlength' => 30,
+	    '#states' => array(
+	        'visible' => array (
+	            array('select[name="1"]' => array('value' => 'Sí'), 'select[name="4"]' => array('value' => 'Sí'), 'select[name="8_2"]' => array('value' => 'Otro')),
+	            array('select[name="1"]' => array('value' => 'Sí'), 'select[name="4"]' => array('value' => 'No'), 'select[name="8_2"]' => array('value' => 'Otro')),
 	        ),
 	    ),
 	);
@@ -661,6 +675,7 @@ function ajlabor_form_submit($form, &$form_state) {
 			$form_state['values']['8'],
 			$form_state['values']['8_1'],
 	        $form_state['values']['8_2'],
+	        $form_state['values']['8_2Otro'],
 	        $form_state['values']['8_0'],
 			$form_state['values']['13'],
 	        $form_state['values']['13_1'],
@@ -711,6 +726,7 @@ function ajlabor_form_submit($form, &$form_state) {
     $_8 = $form_state['values']['8'];
  	$_8_1 = $form_state['values']['8_1'];
  	$_8_2 = $form_state['values']['8_2'];
+ 	$_8_2Otro = $form_state['values']['8_2Otro'];
  	$_8_0 = $form_state['values']['8_0'];
  	$_13 = $form_state['values']['13'];
  	$_13_1 = $form_state['values']['13_1'];
@@ -813,13 +829,13 @@ function ajlabor_form_submit($form, &$form_state) {
 		  $form_state['values']['8_1'] = '';
 		}
 		
-		if($_4 === 'Sí'|| $_4 === 'No') {
-		  if (empty($_8_2)) {
-		    form_error($form['laboral']['8_2'], t('13. ¿Por qué considera que es un mejor empleo?: Campo requerido'));
-		  }
-		} else {
-		  $form_state['values']['8_2'] = '';
-		}
+// 		if($_4 === 'Sí'|| $_4 === 'No') {
+// 		  if (empty($_8_2)) {
+// 		    form_error($form['laboral']['8_2'], t('13. ¿Por qué considera que es un mejor empleo?: Campo requerido'));
+// 		  }
+// 		} else {
+// 		  $form_state['values']['8_2'] = '';
+// 		}
 		
 		if (empty($_13)) {
 			form_error($form['credits']['13'], t('14. ¿Has recibido algún apoyo del proyecto Alerta Joven para montar un negocio/emprender?: Campo requerido'));
@@ -896,6 +912,7 @@ function ajlabor_form_submit($form, &$form_state) {
 		$form_state['values']['8'] = '';
 		$form_state['values']['8_1'] = '';
 		$form_state['values']['8_2'] = '';
+		$form_state['values']['8_2Otro'] = '';
 		$form_state['values']['8_0'] = '';
 		$form_state['values']['13'] = '';
 		$form_state['values']['13_1'] = '';
@@ -929,6 +946,14 @@ function ajlabor_form_submit($form, &$form_state) {
 		}
 	} else {
 		$form_state['values']['6Otro'] = '';
+	}
+	
+	if ($_8_2 === 'Otro') {
+	  if (empty($_8_2Otro)) {
+	    form_error($form['laboral']['8_2Otro'], t('13.Otro (favor especificar): Campo requerido'));
+	  }
+	} else {
+	  $form_state['values']['8_2Otro'] = '';
 	}
 	
  }
@@ -973,6 +998,7 @@ function _ajlabor_insert_data(
 			$_8,
 			$_8_1,
             $_8_2,
+            $_8_2Otro,
             $_8_0,
 			$_13,
             $_13_1,
@@ -1009,6 +1035,7 @@ function _ajlabor_insert_data(
 		'8_Cuandoiniciasteelcursotecnicoyaestabas' => $_8,
 		'8_1Considerasquetutrabajoactual' => $_8_1,
 	    '8_2Porqueconsideraqueesunmejorempleo' => $_8_2,
+	    '8_2Otrofavorespecificar' => $_8_2Otro,
 	    '8_3Cambiastedelugardetrabajodespues' => $_8_0,	   
 		'13_Hasrecibidounprestamoatravesdelproyecto' => $_13,
 	    '13_1Quemontorecibiste' => $_13_1,
