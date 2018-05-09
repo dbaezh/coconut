@@ -512,11 +512,17 @@ function ajlabor_form($form, &$form_state) {
 	    ),
 	);
 	
+	$StablishNewBusiness = array(
+	    1 => t('Sí'),
+	    2 => t('No'),
+	    3 => t('Ya tenía un negocio'),
+	);
+	
 	$form['credits']['14'] = array(
 	    '#type' => 'select',
 	    '#title' => t('16. ¿Pudiste montar tu negocio después del apoyo recibido de Alerta Joven?'),
 	    '#default_value' => (isset($existingLaborForm)? $existingLaborForm['14_Tienesunnegociopropio']:null),
-	    '#options' => drupal_map_assoc($YesNoOptions),
+	    '#options' => drupal_map_assoc($StablishNewBusiness),
 	    '#empty_option' => t('- Select -'),
 	    '#required' => FALSE,
 	    '#states' => array(
@@ -542,7 +548,7 @@ function ajlabor_form($form, &$form_state) {
 	    '#required' => FALSE,
 	    '#states' => array(
 	        'visible' => array(
-	            array('select[name="1"]' => array('value' => 'Sí'), array('select[name="13"]' => array('value' => 'Sí'))),
+	            array('select[name="1"]' => array('value' => 'Sí'), array('select[name="13"]' => array('value' => 'Sí')), 'select[name="14"]' => array('value' => 'Sí')),
 	        ),
 	    ),
 	);
@@ -565,7 +571,7 @@ function ajlabor_form($form, &$form_state) {
 	    '#required' => FALSE,
 	    '#states' => array(
 	        'visible' => array(
-	            array('select[name="1"]' => array('value' => 'Sí'), array('select[name="13"]' => array('value' => 'Sí')), 'select[name="16"]' => array('value' => 'Sí')),
+	            array('select[name="1"]' => array('value' => 'Sí'), array('select[name="13"]' => array('value' => 'Sí')), 'select[name="14"]' => array('value' => 'Sí'), 'select[name="16"]' => array('value' => 'Sí')),
 	        ),
 	    ),
 	);
@@ -579,7 +585,7 @@ function ajlabor_form($form, &$form_state) {
 	    '#required' => FALSE,
 	    '#states' => array(
 	        'visible' => array(
-	            array('select[name="1"]' => array('value' => 'Sí'), array('select[name="13"]' => array('value' => 'Sí'))),
+	            array('select[name="1"]' => array('value' => 'Sí'), array('select[name="13"]' => array('value' => 'Sí')), 'select[name="14"]' => array('value' => 'Sí'), 'select[name="16"]' => array('value' => 'Sí')),
 	        ),
 	    ),
 	);
@@ -600,7 +606,7 @@ function ajlabor_form($form, &$form_state) {
 	    '#required' => FALSE,
 	    '#states' => array(
 	        'visible' => array(
-	            array('select[name="1"]' => array('value' => 'Sí'), array('select[name="13"]' => array('value' => 'Sí'))),
+	            array('select[name="1"]' => array('value' => 'Sí'), array('select[name="13"]' => array('value' => 'Sí')), 'select[name="14"]' => array('value' => 'Sí'), 'select[name="16"]' => array('value' => 'Sí')),
 	            ),
 	    ),
 	);
@@ -865,9 +871,21 @@ function ajlabor_form_submit($form, &$form_state) {
 		  }
 		} else {
 		  $form_state['values']['14'] = '';
+		  $form_state['values']['16'] = '';
+		  $form_state['values']['17'] = '';
+		  $form_state['values']['13_2'] = '';
+		  $form_state['values']['14_1'] = '';
+		}
+		print($form_state['values']['16']);
+		
+		if (empty($_14) || $_14 === 'No' || $_14 === '' || $_14 === 'Ya tenía un negocio') {		  
+		  $form_state['values']['16'] = '';
+		  $form_state['values']['17'] = '';
+		  $form_state['values']['13_2'] = '';
+		  $form_state['values']['14_1'] = '';		  
 		}
 		
-		if ($_13 === 'Sí') {
+		if ($_13 === 'Sí' && $_14 === 'Sí') {
 		  if (empty($_16)) {
 		    form_error($form['credits']['16'], t('17. ¿Si ya tenías un negocio, consideras que después del soporte de Alerta Joven ha mejorado?: Campo requerido'));
 		  }
@@ -875,7 +893,7 @@ function ajlabor_form_submit($form, &$form_state) {
 		  $form_state['values']['16'] = '';
 		}
 		
-		if ($_16 === 'Sí') {
+		if ($_14 === 'Sí' && $_16 === 'Sí') {
 		  if (empty($_17)) {
 		    form_error($form['credits']['17'], t('18. ¿Cómo ha mejorado?: Campo requerido'));
 		  }
@@ -883,7 +901,7 @@ function ajlabor_form_submit($form, &$form_state) {
 		  $form_state['values']['17'] = '';
 		}
 		
-		if ($_13 === 'Sí') {
+		if ($_13 === 'Sí' && $_14 === 'Sí' &&$_16 === 'Sí') {
 		  if (empty($_13_2)) {
 		    form_error($form['credits']['13_2'], t('19. ¿Qué monto genera tu negocio mensualmente?: Campo requerido'));
 		  }
@@ -891,7 +909,7 @@ function ajlabor_form_submit($form, &$form_state) {
 		  $form_state['values']['13_2'] = '';
 		}
 		
-		if ($_13 === 'Sí') {
+		if ($_13 === 'Sí' && $_14 === 'Sí' && $_16 === 'Sí') {
 		  if (empty($_14_1)) {
 		    form_error($form['credits']['14_1'], t('20. ¿A qué se dedica tu negocio?: Campo requerido'));
 		  }
@@ -955,6 +973,7 @@ function ajlabor_form_submit($form, &$form_state) {
 	} else {
 	  $form_state['values']['8_2Otro'] = '';
 	}
+	print($form_state['values']['16']);
 	
  }
 

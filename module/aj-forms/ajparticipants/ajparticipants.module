@@ -295,7 +295,7 @@ function ajparticipants_form($form, &$form_state) {
 		);
 	$form['table_fieldset']['header_casa_search'] = array(
 	 			'#type' => 'textfield',
-				'#sufix' => '</th></tr>',
+				'#sufix' => '</th>',
 				'#size' => 10,
 // 				'#ajax' => array(
 //       				'callback' => 'ajax_table_fieldset_callback',
@@ -305,10 +305,33 @@ function ajparticipants_form($form, &$form_state) {
 // 				),
 		);
 	
+	$form['table_fieldset']['header_fecha_sort'] = array(
+	    '#type' => 'select',
+	    '#title' => t('Registro'),
+	    '#options' => array('asc' => 'asc', 'desc' => 'desc'),
+	    '#prefix' => '<th>',
+	    '#ajax' => array(
+	        'callback' => 'ajax_table_fieldset_callback',
+	        'wrapper' => 'table_beneficiaries',
+	        'method' => 'replace',
+	    )
+	);
+	$form['table_fieldset']['header_fecha_search'] = array(
+	    '#type' => 'textfield',
+	    '#sufix' => '</th></tr>',
+	    '#size' => 10,
+	    // 				'#ajax' => array(
+	        //       				'callback' => 'ajax_table_fieldset_callback',
+	        //       				'wrapper' => 'table_beneficiaries',
+	        //       				'method' => 'replace',
+	        //       				'effect' => 'fade',
+	        // 				),
+	);
+	
 	$form['table_fieldset']['search_button'] = array(
 			'#type' => 'button',
 			'#value' => t('Buscar'),
-			'#prefix' => '<tr><th colspan="4"></th><th colspan="6">',
+			'#prefix' => '<tr><th colspan="5"></th><th colspan="6">',
 			'#sufix' => '</th></tr>',
 			'#name' => 'search_button',
 			'#ajax' => array(
@@ -322,7 +345,7 @@ function ajparticipants_form($form, &$form_state) {
 // 	global $user;
 	$query = db_select('aj_registration', 'reg');
   	$query
-    ->fields('reg', array('uuid', 'nombre', 'apellido', 'apodo','sexo', 'dob', 'barriocomunidad', 'casa', 'Estecolateralparticipante'))
+    ->fields('reg', array('uuid', 'nombre', 'apellido', 'apodo','sexo', 'dob', 'barriocomunidad', 'casa', 'Estecolateralparticipante', 'Fecha'))
 	->condition('provider_id', $provider_id);
 	$db_or_uuid = db_or()->isNull('uuid')->condition('uuid', '%'.(!empty($form_state['values']['header_uuid_search'])? $form_state['values']['header_uuid_search']:'').'%','like');
 	$query->condition($db_or_uuid);
@@ -342,8 +365,10 @@ function ajparticipants_form($form, &$form_state) {
   	$query->condition($db_or_barriocomunidad);
   	$db_or_casa = db_or()->isNull('casa')->condition('casa', '%'.(!empty($form_state['values']['header_casa_search'])? $form_state['values']['header_casa_search']:'').'%','like');
   	$query->condition($db_or_casa);
+  	$db_or_fecha = db_or()->isNull('Fecha')->condition('Fecha', '%'.(!empty($form_state['values']['header_fecha_search'])? $form_state['values']['header_fecha_search']:'').'%','like');
+  	$query->condition($db_or_fecha);
 // 	->condition('NombredeusuariodeFacebook', '%'.(!empty($form_state['values']['header_facebook_search'])? $form_state['values']['header_facebook_search']:'').'%','like');
-
+  	
   	if (isset($form_state['triggering_element']['#name']) && $form_state['triggering_element']['#name']=== 'header_uuid_sort') {
 		$query->orderBy('uuid', !empty($form_state['values']['header_uuid_sort'])? $form_state['values']['header_uuid_sort']:'asc');
   	}
@@ -367,6 +392,9 @@ function ajparticipants_form($form, &$form_state) {
   	}
   	if (isset($form_state['triggering_element']['#name']) && $form_state['triggering_element']['#name']=== 'header_casa_sort') {
     	$query->orderBy('casa', !empty($form_state['values']['header_casa_sort'])? $form_state['values']['header_casa_sort']:'asc');
+  	}
+  	if (isset($form_state['triggering_element']['#name']) && $form_state['triggering_element']['#name']=== 'header_fecha_sort') {
+  	  $query->orderBy('Fecha', !empty($form_state['values']['header_fecha_sort'])? $form_state['values']['header_fecha_sort']:'asc');
   	}
   	if (isset($form_state['triggering_element']['#name']) && $form_state['triggering_element']['#name']=== 'header_colateral_sort') {
     	$query->orderBy('Estecolateralparticipante', !empty($form_state['values']['header_colateral_sort'])? $form_state['values']['header_colateral_sort']:'asc');
@@ -420,8 +448,12 @@ function ajparticipants_form($form, &$form_state) {
 				'#markup' => '<td>'.$entry->barriocomunidad.'</td>'
 		);
 		$form['table_fieldset']['casa'.$entry->uuid] = array(
-				'#markup' => '<td>'.$entry->casa.'</td></tr>'
+				'#markup' => '<td>'.$entry->casa.'</td>'
 		);
+		$form['table_fieldset']['fecha'.$entry->uuid] = array(
+		    '#markup' => '<td>'.$entry->Fecha.'</td></tr>'
+		);
+		
 // 		$form['table_fieldset']['facebook'.$entry->uuid] = array(
 // 				'#markup' => '<td>'.$entry->NombredeusuariodeFacebook.'</td></tr>'
 // 		);
@@ -468,8 +500,12 @@ function ajparticipants_form($form, &$form_state) {
   			'#markup' => '<td>'.$entry->barriocomunidad.'</td>'
   	);
   	$form['table_fieldset']['casa'.$entry->uuid] = array(
-  			'#markup' => '<td>'.$entry->casa.'</td></tr>'
+  			'#markup' => '<td>'.$entry->casa.'</td>'
   	);
+  	$form['table_fieldset']['fecha'.$entry->uuid] = array(
+  	    '#markup' => '<td>'.$entry->Fecha.'</td></tr>'
+  	);
+  	
   	// 		$form['table_fieldset']['facebook'.$entry->uuid] = array(
   	// 				'#markup' => '<td>'.$entry->NombredeusuariodeFacebook.'</td></tr>'
   	// 		);
@@ -560,6 +596,14 @@ function ajparticipants_form($form, &$form_state) {
 	 			'#prefix' => '<th>',
 				'#sufix' => '</th>',
 		);
+	
+	$form['checked_table_fieldset']['checked_header_fecha_sort'] = array(
+	    '#type' => 'item',
+	    '#title' => t('Fecha'),
+	    '#prefix' => '<th>',
+	    '#sufix' => '</th>',
+	);
+	
 
 // 	$form['checked_table_fieldset']['checked_header_facebook_sort'] = array(
 // 	 			'#type' => 'item',
@@ -572,7 +616,7 @@ function ajparticipants_form($form, &$form_state) {
 
 		$query = db_select('aj_registration', 'reg');
 		$query->join('aj_attendance', 'atten', 'reg.uuid = atten.uuid AND atten.activity_id = :activity_id', array(':activity_id' => $activity_id));
-	  	$query->fields('reg', array('uuid', 'nombre', 'apellido', 'apodo','sexo', 'dob', 'barriocomunidad', 'casa', 'Estecolateralparticipante'));
+	  	$query->fields('reg', array('uuid', 'nombre', 'apellido', 'apodo','sexo', 'dob', 'barriocomunidad', 'casa', 'Fecha', 'Estecolateralparticipante'));
 	 	$query->condition('atten.provider_id', $provider_id);
 	 	$result_query = $query->execute();
 	 	$result_array = $result_query->fetchAllAssoc('uuid');
@@ -587,7 +631,8 @@ function ajparticipants_form($form, &$form_state) {
 			$value->dob.'_!_'.
 			$value->barriocomunidad.'_!_'.
 			$value->casa.'_!_'.
-			$value->Estecolateralparticipante.'_!_';
+			$value->Estecolateralparticipante.'_!_'.
+			$value->Fecha.'_!_';
 // 			$value->NombredeusuariodeFacebook;
 	 	}
 // 	 	watchdog('claudia', 'first'.implode(';', $checked_entries));
@@ -614,7 +659,7 @@ function ajparticipants_form($form, &$form_state) {
   	if (isset($_POST['_triggering_element_name']) && preg_match('/^checkbox-.*/', $_POST['_triggering_element_name'])) {
   		$uuid = explode('-', $_POST['_triggering_element_name'])[1];
   		$query = db_select('aj_registration', 'reg');
-	  	$query->fields('reg', array('uuid', 'nombre', 'apellido', 'apodo','sexo', 'dob', 'barriocomunidad', 'casa', 'Estecolateralparticipante'));
+	  	$query->fields('reg', array('uuid', 'nombre', 'apellido', 'apodo','sexo', 'dob', 'barriocomunidad', 'casa', 'Fecha','Estecolateralparticipante'));
   		$query->condition('reg.uuid', $uuid);
 		$result = $query->execute()->fetchObject();
 
@@ -626,7 +671,8 @@ function ajparticipants_form($form, &$form_state) {
 			$result->dob.'_!_'.
 			$result->barriocomunidad.'_!_'.
 			$result->casa.'_!_'.
-			$result->Estecolateralparticipante.'_!_';
+			$result->Estecolateralparticipante.'_!_'.
+			$result->Fecha.'_!_';
 // 			$result->NombredeusuariodeFacebook;
 
   		///////////////////// Updating new elements to be added to the database ///////////////////////////
@@ -669,7 +715,7 @@ function ajparticipants_form($form, &$form_state) {
   		else if (isset($_POST['_triggering_element_name']) && preg_match('/^removecheck-.*/', $_POST['_triggering_element_name'])) {
   		$uuid = explode('-', $_POST['_triggering_element_name'])[1];
   		$query = db_select('aj_registration', 'reg');
-	  	$query->fields('reg', array('uuid', 'nombre', 'apellido', 'apodo','sexo', 'dob', 'barriocomunidad', 'casa', 'Estecolateralparticipante'));
+	  	$query->fields('reg', array('uuid', 'nombre', 'apellido', 'apodo','sexo', 'dob', 'barriocomunidad', 'casa', 'Fecha','Estecolateralparticipante'));
   		$query->condition('reg.uuid', $uuid);
 		$result = $query->execute()->fetchObject();
 
@@ -681,7 +727,8 @@ function ajparticipants_form($form, &$form_state) {
 			$result->dob.'_!_'.
 			$result->barriocomunidad.'_!_'.
 			$result->casa.'_!_'.
-			$result->Estecolateralparticipante.'_!_';
+			$result->Estecolateralparticipante.'_!_'.
+			$result->Fecha.'_!_';
 // 			$result->NombredeusuariodeFacebook;
 
   		////////// Updating new elements to be added to the database ////////////////////////
@@ -785,7 +832,10 @@ function ajparticipants_form($form, &$form_state) {
 				'#markup' => '<td>'.$data[6].'</td>'
 		);
 		$form['checked_table_fieldset']['casa'.$data[0]] = array(
-				'#markup' => '<td>'.$data[7].'</td></tr>'
+				'#markup' => '<td>'.$data[7].'</td>'
+		);
+		$form['checked_table_fieldset']['fecha'.$data[0]] = array(
+		    '#markup' => '<td>'.$data[9].'</td></tr>'
 		);
 // 		$form['checked_table_fieldset']['facebook'.$data[0]] = array(
 // 				'#markup' => '<td>'.$data[9].'</td></tr>'

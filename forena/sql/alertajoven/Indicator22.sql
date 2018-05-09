@@ -66,6 +66,10 @@ and SUBSTRING(labor.created, 1, 10) >= :from_date
 and SUBSTRING(labor.created, 1, 10) <= :to_date
 --END
 
+--IF=:provider_id
+and reg.provider_id in (:provider_id) 
+--END
+
 AND (
 (1_HasparticipadoenalguncursodelproyectoAlerta = 'Sí' AND 4_Actualmentetienesuntrabajoenel = 'Sí')
 OR (8_Cuandoiniciasteelcursotecnicoyaestabas = 'Sí' AND 8_3Cambiastedelugardetrabajodespues = 'Sí' AND 13_Hasrecibidounprestamoatravesdelproyecto = 'Sí')
@@ -125,6 +129,10 @@ and SUBSTRING(labor.created, 1, 10) >= :from_date
 --END
 --IF=:to_date
 and SUBSTRING(labor.created, 1, 10) <= :to_date
+--END
+
+--IF=:provider_id
+and reg.provider_id in (:provider_id) 
 --END
 
 GROUP BY UUID) uniqueRecords

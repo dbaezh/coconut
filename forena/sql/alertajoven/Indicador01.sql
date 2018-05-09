@@ -12,6 +12,8 @@ FROM
         Mas_Total,
         fem_15_19_total,
         mas_15_19_total,
+        fem_11_14_total,
+        mas_11_14_total,
         fem_20_24_total,
         mas_20_24_total,
         rep_dom_total,
@@ -30,6 +32,8 @@ FROM
             sum(CASE WHEN sexo = 'M' THEN 1 ELSE 0 END) AS Mas_Total,
             SUM(CASE WHEN sexo = 'F' AND age >= 15 AND age <= 19 THEN 1 ELSE 0 END) AS fem_15_19_total,
             SUM(CASE WHEN sexo = 'M' AND age >= 15 AND age <= 19 THEN 1 ELSE 0 END) AS mas_15_19_total,
+            SUM(CASE WHEN sexo = 'F' AND age >= 11 AND age <= 14 THEN 1 ELSE 0 END) AS fem_11_14_total,
+            SUM(CASE WHEN sexo = 'M' AND age >= 11 AND age <= 14 THEN 1 ELSE 0 END) AS mas_11_14_total,
             SUM(CASE WHEN sexo = 'F' AND age >= 20 AND age <= 24 THEN 1 ELSE 0 END) AS fem_20_24_total,
             SUM(CASE WHEN sexo = 'M' AND age >= 20 AND age <= 24 THEN 1 ELSE 0 END) AS mas_20_24_total,
             SUM(CASE WHEN 9Dóndenaciste = 'República Dominicana' THEN 1 ELSE 0 END) AS rep_dom_total,
@@ -51,6 +55,9 @@ FROM
     join bitnami_drupal7.field_data_field_agency_active on (sur.provider_id = field_data_field_agency_active.entity_id)
     WHERE
      1 = 1 
+     
+       and reg.provider_id in (:provider_id) 
+     
 --SWITCH=:collateral
 -- estecolateralparticipante can have 1 of 4 values: No, Si, No Sabe (which means Don't know), blank (which means no value, not set)
 --CASE=collateral
@@ -115,6 +122,9 @@ AND ( 52Enlosúlt= 'Sí' ||
         JOIN bitnami_drupal7.aj_registration reg ON sur.uuid = reg.uuid join bitnami_drupal7.field_data_field_agency_name on (sur.provider_id = field_data_field_agency_name.entity_id) join bitnami_drupal7.field_data_field_agency_active on (sur.provider_id = field_data_field_agency_active.entity_id)
         WHERE
    1 = 1 
+   
+     and reg.provider_id in (:provider_id) 
+   
 --SWITCH=:collateral
 -- estecolateralparticipante can have 1 of 4 values: No, Si, No Sabe (which means Don't know), blank (which means no value, not set)
 --CASE=collateral
