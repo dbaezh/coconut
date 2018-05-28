@@ -818,6 +818,7 @@ function ajregistration_form($form, &$form_state) {
 		13 => t('BRISA DE ESTE'),
 		14 => t('CHAVON'),
 		15 => t('EL CHUCHO'),
+		16 => t('LA VENTA'),
 	);
 
 	$SantoDomingoEsteOptions = array(
